@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "homepage": "https://YOUR-GITHUB-USERNAME.github.io/mount-lavinia-dashboard",
+  "homepage": "https://BronXTJ.github.io/mount-lavinia-dashboard",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
