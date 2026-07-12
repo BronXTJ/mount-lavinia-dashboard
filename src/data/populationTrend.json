@@ -1,0 +1,35 @@
+{
+  "divisions": [
+    "Mount Lavinia",
+    "Kawdana West",
+    "Watarappala",
+    "Wathumulla",
+    "Wedikanda"
+  ],
+  "trend": [
+    {
+      "year": "2001",
+      "Mount Lavinia": 11188,
+      "Kawdana West": 7024,
+      "Watarappala": 7002,
+      "Wathumulla": 6130,
+      "Wedikanda": 8733
+    },
+    {
+      "year": "2012",
+      "Mount Lavinia": 8373,
+      "Kawdana West": 6624,
+      "Watarappala": 6311,
+      "Wathumulla": 4608,
+      "Wedikanda": 7585
+    },
+    {
+      "year": "2024",
+      "Mount Lavinia": 8086,
+      "Kawdana West": 6643,
+      "Watarappala": 6185,
+      "Wathumulla": 4259,
+      "Wedikanda": 6843
+    }
+  ]
+}

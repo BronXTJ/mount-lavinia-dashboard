@@ -1,0 +1,19 @@
+ID,ID
+LConn,Line Connectivity
+LLen,Line Length
+LFrac,Link Fraction
+LAC,Line Ang Curvature
+LSin,Line Sinuosity
+LBear,Line Bearing
+MAD2000,Mean Ang Dist R2000
+NQPDA2000,NetQuantPD Ang R2000
+BtA2000,Betweenness Ang R2000
+TPBtA2000,TPBetweenness Ang R2000
+TPD2000,TPDestination R2000
+Lnk2000,Links R2000
+Len2000,Length R2000
+AngD2000,Ang Dist R2000
+Wt2000,Weight R2000
+MGLA2000,MeanGeoLen Ang R2000
+MCF2000,Mean Crow Flight R2000
+DivA2000,Diversion Ratio Ang R2000

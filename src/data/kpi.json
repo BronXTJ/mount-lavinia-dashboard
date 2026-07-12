@@ -1,0 +1,11 @@
+{
+  "gnDivisions": 5,
+  "totalLandAreaKm2": 3.192,
+  "totalPopulation": 32016,
+  "populationDensityPerKm2": 10030,
+  "populationDensityLabel": "10030 per km2",
+  "builtUpAreaKm2": 0.92,
+  "totalHousingUnits": 9433,
+  "housingDensityPerM2": 2210,
+  "housingDensityLabel": "2210 per m²"
+}

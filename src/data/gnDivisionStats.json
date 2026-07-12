@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Mount Lavinia",
+    "gnCode": "541",
+    "areaKm2": 1.096,
+    "population2024": 8086,
+    "populationDensityPerKm2": 7377,
+    "housingUnits": 2497,
+    "housingDensityPerKm2": 2278
+  },
+  {
+    "name": "Kawdana West",
+    "gnCode": "539/42C",
+    "areaKm2": 0.5153,
+    "population2024": 6643,
+    "populationDensityPerKm2": 12893,
+    "housingUnits": 1850,
+    "housingDensityPerKm2": 3590
+  },
+  {
+    "name": "Watarappala",
+    "gnCode": "544",
+    "areaKm2": 0.3859,
+    "population2024": 6185,
+    "populationDensityPerKm2": 16030,
+    "housingUnits": 1747,
+    "housingDensityPerKm2": 4527
+  },
+  {
+    "name": "Wathumulla",
+    "gnCode": "5444A",
+    "areaKm2": 0.5373,
+    "population2024": 4259,
+    "populationDensityPerKm2": 7926,
+    "housingUnits": 1362,
+    "housingDensityPerKm2": 2535
+  },
+  {
+    "name": "Wedikanda",
+    "gnCode": "546A",
+    "areaKm2": 0.6575,
+    "population2024": 6843,
+    "populationDensityPerKm2": 10408,
+    "housingUnits": 1977,
+    "housingDensityPerKm2": 3007
+  }
+]

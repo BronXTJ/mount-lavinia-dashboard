@@ -1,0 +1,410 @@
+{
+  "roadsProcessed": 65,
+  "totalProperties": 7137,
+  "defaultSplit": {
+    "residential": 85.72,
+    "commercial": 4.16,
+    "bareLand": 8.36
+  },
+  "roads": [
+    {
+      "name": "Hotel Road Left",
+      "slug": "hotel-road-left",
+      "residential": 66.97,
+      "commercial": 24.77,
+      "bareLand": 7.34,
+      "total": 109,
+      "isEstimate": false,
+      "lat": 6.837071,
+      "lng": 79.866224
+    },
+    {
+      "name": "Hotel Road Right",
+      "slug": "hotel-road-right",
+      "residential": 71.52,
+      "commercial": 13.94,
+      "bareLand": 10.91,
+      "total": 165,
+      "isEstimate": false,
+      "lat": 6.837071,
+      "lng": 79.866224
+    },
+    {
+      "name": "D.J.Wijesiriwardhana Mw. Left",
+      "slug": "d-j-wijesiriwardhana-mw-left",
+      "residential": 70.83,
+      "commercial": 16.67,
+      "bareLand": 12.5,
+      "total": 24,
+      "isEstimate": false,
+      "lat": 6.832936,
+      "lng": 79.868339
+    },
+    {
+      "name": "De Soysa Avenue LHS",
+      "slug": "de-soysa-avenue-lhs",
+      "residential": 38.46,
+      "commercial": 15.38,
+      "bareLand": 46.15,
+      "total": 13,
+      "isEstimate": false,
+      "lat": 6.835267,
+      "lng": 79.864532
+    },
+    {
+      "name": "De Soysa Avenue RHS",
+      "slug": "de-soysa-avenue-rhs",
+      "residential": 80.77,
+      "commercial": 7.69,
+      "bareLand": 11.54,
+      "total": 52,
+      "isEstimate": false,
+      "lat": 6.835267,
+      "lng": 79.864532
+    },
+    {
+      "name": "Old Quarry Road Left",
+      "slug": "old-quarry-road-left",
+      "residential": 82.91,
+      "commercial": 9.49,
+      "bareLand": 6.96,
+      "total": 158,
+      "isEstimate": false,
+      "lat": 6.831633,
+      "lng": 79.865925
+    },
+    {
+      "name": "Dakshinarama Rd Left",
+      "slug": "dakshinarama-rd-left",
+      "residential": 84.52,
+      "commercial": 8.33,
+      "bareLand": 7.14,
+      "total": 84,
+      "isEstimate": false,
+      "lat": 6.835499,
+      "lng": 79.869224
+    },
+    {
+      "name": "Beach Road Left",
+      "slug": "beach-road-left",
+      "residential": 72.57,
+      "commercial": 7.43,
+      "bareLand": 2.29,
+      "total": 175,
+      "isEstimate": false,
+      "lat": 6.842567,
+      "lng": 79.864773
+    },
+    {
+      "name": "Templers Place Left",
+      "slug": "templers-place-left",
+      "residential": 86.96,
+      "commercial": 7.25,
+      "bareLand": 4.35,
+      "total": 69,
+      "isEstimate": false,
+      "lat": 6.832121,
+      "lng": 79.868996
+    },
+    {
+      "name": "Liliyan Mawatha LHS",
+      "slug": "liliyan-mawatha-lhs",
+      "residential": 71.43,
+      "commercial": 7.14,
+      "bareLand": 4.76,
+      "total": 42,
+      "isEstimate": false,
+      "lat": 6.833184,
+      "lng": 79.864285
+    },
+    {
+      "name": "Hena Rd Left",
+      "slug": "hena-rd-left",
+      "residential": 84.8,
+      "commercial": 4.41,
+      "bareLand": 10.29,
+      "total": 204,
+      "isEstimate": false,
+      "lat": 6.828651,
+      "lng": 79.872187
+    },
+    {
+      "name": "Templers Mw Right",
+      "slug": "templers-mw-right",
+      "residential": 70.93,
+      "commercial": 1.16,
+      "bareLand": 27.91,
+      "total": 86,
+      "isEstimate": false,
+      "lat": 6.831209,
+      "lng": 79.871019
+    },
+    {
+      "name": "Templers Rd 1st Cross Lane Rt",
+      "slug": "templers-rd-1st-cross-lane-rt",
+      "residential": 80.83,
+      "commercial": 4.15,
+      "bareLand": 14.51,
+      "total": 193,
+      "isEstimate": false,
+      "lat": 6.830692,
+      "lng": 79.86912
+    },
+    {
+      "name": "Watarappola Rd",
+      "slug": "watarappola-rd",
+      "residential": 80.82,
+      "commercial": 4.11,
+      "bareLand": 15.07,
+      "total": 73,
+      "isEstimate": false,
+      "lat": 6.838819,
+      "lng": 79.870337
+    },
+    {
+      "name": "Wedikanda Rd Left",
+      "slug": "wedikanda-rd-left",
+      "residential": 80,
+      "commercial": 6.67,
+      "bareLand": 13.33,
+      "total": 90,
+      "isEstimate": false,
+      "lat": 6.821824,
+      "lng": 79.865067
+    },
+    {
+      "name": "Aponso Mawatha Left",
+      "slug": "aponso-mawatha-left",
+      "residential": 87.5,
+      "commercial": 0,
+      "bareLand": 12.5,
+      "total": 8,
+      "isEstimate": false,
+      "lat": 6.848249,
+      "lng": 79.864105
+    },
+    {
+      "name": "Hena Rd 1st Lane Right",
+      "slug": "hena-rd-1st-lane-right",
+      "residential": 100,
+      "commercial": 0,
+      "bareLand": 0,
+      "total": 27,
+      "isEstimate": false,
+      "lat": 6.828876,
+      "lng": 79.873453
+    },
+    {
+      "name": "Templers Rd 2nd Lane Right",
+      "slug": "templers-rd-2nd-lane-right",
+      "residential": 100,
+      "commercial": 0,
+      "bareLand": 0,
+      "total": 3,
+      "isEstimate": false,
+      "lat": 6.830757,
+      "lng": 79.869527
+    },
+    {
+      "name": "Vishaka Road Left",
+      "slug": "vishaka-road-left",
+      "residential": 100,
+      "commercial": 0,
+      "bareLand": 0,
+      "total": 16,
+      "isEstimate": false,
+      "lat": 6.830862,
+      "lng": 79.865122
+    },
+    {
+      "name": "Vishaka Road Right",
+      "slug": "vishaka-road-right",
+      "residential": 100,
+      "commercial": 0,
+      "bareLand": 0,
+      "total": 17,
+      "isEstimate": false,
+      "lat": 6.830862,
+      "lng": 79.865122
+    },
+    {
+      "name": "Samudra Mawatha Right",
+      "slug": "samudra-mawatha-right",
+      "residential": 100,
+      "commercial": 0,
+      "bareLand": 0,
+      "total": 8,
+      "isEstimate": false,
+      "lat": 6.84191,
+      "lng": 79.863678
+    },
+    {
+      "name": "Menerigama Place Right",
+      "slug": "menerigama-place-right",
+      "residential": 98.57,
+      "commercial": 0,
+      "bareLand": 1.43,
+      "total": 70,
+      "isEstimate": false,
+      "lat": 6.834217,
+      "lng": 79.868978
+    },
+    {
+      "name": "Liliyan Mawatha RHS",
+      "slug": "liliyan-mawatha-rhs",
+      "residential": 97.73,
+      "commercial": 0,
+      "bareLand": 2.27,
+      "total": 44,
+      "isEstimate": false,
+      "lat": 6.833184,
+      "lng": 79.864285
+    },
+    {
+      "name": "Sri Gunarathana Mw Right",
+      "slug": "sri-gunarathana-mw-right",
+      "residential": 96.43,
+      "commercial": 1.79,
+      "bareLand": 1.79,
+      "total": 56,
+      "isEstimate": false,
+      "lat": 6.837226,
+      "lng": 79.870735
+    },
+    {
+      "name": "Fernando Rd Left",
+      "slug": "fernando-rd-left",
+      "residential": 95.45,
+      "commercial": 0,
+      "bareLand": 4.55,
+      "total": 44,
+      "isEstimate": false,
+      "lat": 6.830006,
+      "lng": 79.86709
+    },
+    {
+      "name": "Wijaya Road Right",
+      "slug": "wijaya-road-right",
+      "residential": 94.4,
+      "commercial": 4,
+      "bareLand": 1.6,
+      "total": 125,
+      "isEstimate": false,
+      "lat": 6.853287,
+      "lng": 79.864274
+    }
+  ],
+  "top5": {
+    "residential": [
+      {
+        "rank": 1,
+        "name": "Hena Rd 1st Lane Right",
+        "percentage": 100,
+        "total": 27,
+        "inRoadList": true
+      },
+      {
+        "rank": 2,
+        "name": "Templers Rd 2nd Lane Right",
+        "percentage": 100,
+        "total": 3,
+        "inRoadList": true
+      },
+      {
+        "rank": 3,
+        "name": "Vishaka Road Left",
+        "percentage": 100,
+        "total": 16,
+        "inRoadList": true
+      },
+      {
+        "rank": 4,
+        "name": "Vishaka Road Right",
+        "percentage": 100,
+        "total": 17,
+        "inRoadList": true
+      },
+      {
+        "rank": 5,
+        "name": "Samudra Mawatha Right",
+        "percentage": 100,
+        "total": 8,
+        "inRoadList": true
+      }
+    ],
+    "commercial": [
+      {
+        "rank": 1,
+        "name": "Hotel Road Left",
+        "percentage": 24.77,
+        "total": 109,
+        "inRoadList": true
+      },
+      {
+        "rank": 2,
+        "name": "D.J.Wijesiriwardhana Mw. Left",
+        "percentage": 16.67,
+        "total": 24,
+        "inRoadList": true
+      },
+      {
+        "rank": 3,
+        "name": "De Soysa Avenue LHS",
+        "percentage": 15.38,
+        "total": 13,
+        "inRoadList": true
+      },
+      {
+        "rank": 4,
+        "name": "Hotel Road Right",
+        "percentage": 13.94,
+        "total": 165,
+        "inRoadList": true
+      },
+      {
+        "rank": 5,
+        "name": "Old Quarry Road Left",
+        "percentage": 9.49,
+        "total": 158,
+        "inRoadList": true
+      }
+    ],
+    "vacant": [
+      {
+        "rank": 1,
+        "name": "De Soysa Avenue LHS",
+        "percentage": 46.15,
+        "total": 13,
+        "inRoadList": true
+      },
+      {
+        "rank": 2,
+        "name": "Templers Mw Right",
+        "percentage": 27.91,
+        "total": 86,
+        "inRoadList": true
+      },
+      {
+        "rank": 3,
+        "name": "Hena Rd Left",
+        "percentage": 20.88,
+        "total": 91,
+        "inRoadList": true
+      },
+      {
+        "rank": 4,
+        "name": "Templers Place. Right",
+        "percentage": 19.57,
+        "total": 46,
+        "inRoadList": false
+      },
+      {
+        "rank": 5,
+        "name": "De Alwis Rd Left",
+        "percentage": 16.05,
+        "total": 81,
+        "inRoadList": false
+      }
+    ]
+  }
+}

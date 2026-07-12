@@ -1,0 +1,52 @@
+{
+  "source": "Census of Population and Housing 2024 — GN Division Level Population by Sex and Age Group (Provisional)",
+  "dsDivision": "Ratmalana",
+  "ageBands": [
+    { "id": "0_14", "label": "0–14" },
+    { "id": "15_59", "label": "15–59" },
+    { "id": "60_64", "label": "60–64" },
+    { "id": "65_plus", "label": "65+" }
+  ],
+  "divisions": [
+    {
+      "name": "Mount Lavinia",
+      "gnCode": "541",
+      "total": 8086,
+      "male": 4154,
+      "female": 3932,
+      "age": { "0_14": 1207, "15_59": 5139, "60_64": 497, "65_plus": 1243 }
+    },
+    {
+      "name": "Kawdana West",
+      "gnCode": "539/42C",
+      "total": 6643,
+      "male": 3298,
+      "female": 3345,
+      "age": { "0_14": 1061, "15_59": 4202, "60_64": 432, "65_plus": 948 }
+    },
+    {
+      "name": "Watarappala",
+      "gnCode": "544",
+      "total": 6185,
+      "male": 2982,
+      "female": 3203,
+      "age": { "0_14": 1002, "15_59": 3942, "60_64": 395, "65_plus": 846 }
+    },
+    {
+      "name": "Wathumulla",
+      "gnCode": "5444A",
+      "total": 4259,
+      "male": 1998,
+      "female": 2261,
+      "age": { "0_14": 566, "15_59": 2518, "60_64": 334, "65_plus": 841 }
+    },
+    {
+      "name": "Wedikanda",
+      "gnCode": "546A",
+      "total": 6843,
+      "male": 3220,
+      "female": 3623,
+      "age": { "0_14": 1064, "15_59": 4244, "60_64": 406, "65_plus": 1129 }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Residential",
+    "value": 62.46
+  },
+  {
+    "name": "Commercial",
+    "value": 11.94
+  },
+  {
+    "name": "Industrial",
+    "value": 0.34
+  },
+  {
+    "name": "Institutional",
+    "value": 3.48
+  },
+  {
+    "name": "Cultural",
+    "value": 2.17
+  },
+  {
+    "name": "Public Space",
+    "value": 2.47
+  },
+  {
+    "name": "Transport",
+    "value": 9.81
+  },
+  {
+    "name": "Agriculture",
+    "value": 0.29
+  },
+  {
+    "name": "Coastal area",
+    "value": 3.09
+  },
+  {
+    "name": "Water",
+    "value": 0.05
+  },
+  {
+    "name": "Barren Land",
+    "value": 2.18
+  },
+  {
+    "name": "Under Construction",
+    "value": 0.56
+  }
+]

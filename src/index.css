@@ -1,0 +1,859 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* GN division name labels rendered as permanent Leaflet tooltips — plain
+   text (no glow/shadow on the letters), just a bordered box around it. */
+.gn-label {
+  background: rgba(15, 25, 35, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 4px;
+  box-shadow: none;
+  padding: 2px 6px;
+  font-weight: 700;
+  font-size: 11px;
+  color: #ffffff;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.gn-label::before {
+  display: none;
+}
+
+/* Shared dark card chrome for hex / segment cell info popups */
+.leaflet-popup.cell-info-popup .leaflet-popup-content-wrapper {
+  background: #141d2b;
+  color: #e2e8f0;
+  border: 1px solid rgba(0, 180, 216, 0.28);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+  padding: 2px 4px;
+}
+.leaflet-popup.cell-info-popup .leaflet-popup-content {
+  margin: 12px 14px;
+  color: #e2e8f0;
+}
+.leaflet-popup.cell-info-popup .leaflet-popup-tip {
+  background: #141d2b;
+  border: 1px solid rgba(0, 180, 216, 0.28);
+  box-shadow: none;
+}
+.leaflet-popup.cell-info-popup a.leaflet-popup-close-button {
+  color: #94a3b8;
+}
+.leaflet-popup.cell-info-popup a.leaflet-popup-close-button:hover {
+  color: #e2e8f0;
+}
+
+/* Minimalist road name labels on the Centrality Analysis map.
+   Override Leaflet's default .leaflet-tooltip white-box style with
+   higher-specificity selectors. Labels float transparently over the basemap;
+   double text-shadow provides contrast on the dark tiles. */
+.leaflet-tooltip.centrality-road-label {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+  white-space: nowrap;
+  text-shadow:
+    0 0 4px rgba(0, 0, 0, 1),
+    0 0 8px rgba(0, 0, 0, 0.8);
+}
+.leaflet-tooltip.centrality-road-label::before {
+  display: none !important;
+}
+
+/* Behaviour map road labels — same floating style as Centrality, lower opacity */
+.leaflet-tooltip.behaviour-road-label {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+  white-space: nowrap;
+  text-shadow:
+    0 0 4px rgba(0, 0, 0, 1),
+    0 0 8px rgba(0, 0, 0, 0.8);
+}
+.leaflet-tooltip.behaviour-road-label::before {
+  display: none !important;
+}
+
+/* Staggered second pulse ring for selected Behaviour junction */
+.poi-pulse-ring-delay {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: poi-pulse 2.4s ease-out 0.8s infinite;
+}
+
+/* Pulsing halo behind the selected road on the Focus Area map */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    stroke-opacity: 0.35;
+    stroke-width: 16;
+  }
+  50% {
+    stroke-opacity: 0.7;
+    stroke-width: 22;
+  }
+}
+.road-highlight-glow {
+  animation: pulse-glow 1.8s ease-in-out infinite;
+}
+
+/* Study-area live indicator on sidebar city identity card */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .city-identity-pulse-dot {
+    animation: none !important;
+  }
+}
+
+/* Pulsing teal glow behind the selected road segment on the Centrality Analysis map.
+   Animates stroke-opacity and stroke-width so the wide glow layer breathes. */
+@keyframes centrality-pulse {
+  0%,
+  100% {
+    stroke-opacity: 0.3;
+    stroke-width: 18;
+  }
+  50% {
+    stroke-opacity: 0.65;
+    stroke-width: 26;
+  }
+}
+.centrality-highlight-glow {
+  animation: centrality-pulse 1.6s ease-in-out infinite;
+}
+
+/* Pulsing cyan glow around a focused Density Analysis hex cell. */
+@keyframes density-hex-pulse {
+  0%,
+  100% {
+    stroke-opacity: 0.35;
+    stroke-width: 6;
+  }
+  50% {
+    stroke-opacity: 0.85;
+    stroke-width: 12;
+  }
+}
+.density-hex-highlight-pulse {
+  animation: density-hex-pulse 1.6s ease-in-out infinite;
+}
+
+/* Subtle "radar ping" pulse behind every POI marker on the Focus Area map.
+   Leaflet's SVG renderer draws CircleMarkers as <path> elements (arc
+   commands), not native <circle> elements, so the SVG "r" geometry property
+   can't be animated directly — scale via transform instead, anchored to the
+   shape's own bounding box so it grows from its center regardless of where
+   it sits on the map. */
+@keyframes poi-pulse {
+  0% {
+    transform: scale(1);
+    stroke-opacity: 0.6;
+  }
+  70%,
+  100% {
+    transform: scale(2.6);
+    stroke-opacity: 0;
+  }
+}
+.poi-pulse-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: poi-pulse 2.4s ease-out infinite;
+}
+
+/* Density Analysis map FAB — staggered ripple rings when the panel is closed */
+@keyframes fab-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+.density-fab-pulse {
+  animation: fab-pulse 1.8s ease-out infinite;
+}
+.density-fab-pulse-delay {
+  animation: fab-pulse 1.8s ease-out 0.6s infinite;
+}
+
+@keyframes density-fab-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.density-fab-panel-enter {
+  animation: density-fab-panel-in 200ms ease forwards;
+}
+
+/* Urban Typology Distribution info modal */
+@keyframes typology-info-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes typology-info-overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes typology-info-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes typology-info-modal-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+.typology-info-overlay-enter {
+  animation: typology-info-overlay-in 150ms ease forwards;
+}
+.typology-info-overlay-exit {
+  animation: typology-info-overlay-out 150ms ease forwards;
+}
+.typology-info-modal-enter {
+  animation: typology-info-modal-in 150ms ease forwards;
+}
+.typology-info-modal-exit {
+  animation: typology-info-modal-out 150ms ease forwards;
+}
+
+/* Urban Typology info icon — teal ring pulse + icon breathe */
+@keyframes typology-info-icon-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+@keyframes typology-info-icon-breathe {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.typology-info-icon-pulse {
+  animation: typology-info-icon-pulse 2s ease-out infinite;
+}
+.typology-info-icon-breathe {
+  animation: typology-info-icon-breathe 2s ease-in-out infinite;
+}
+
+/* Issues & Potentials — staggered fade-up for cards */
+@keyframes issuesFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Selected network node glow ring pulse */
+@keyframes issuesNodePulse {
+  0%,
+  100% {
+    stroke-opacity: 0.55;
+    r: inherit;
+  }
+  50% {
+    stroke-opacity: 1;
+  }
+}
+.issues-node-pulse {
+  animation: issuesNodePulse 1.6s ease-in-out infinite;
+}
+
+/* Synthesis — All findings chip soft amber ring pulse (closed only) */
+@keyframes synth-findings-chip-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
+  }
+}
+.synth-findings-chip-pulse {
+  animation: synth-findings-chip-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes synth-findings-bulb-ping {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+}
+.synth-findings-bulb-ping {
+  animation: synth-findings-bulb-ping 2s ease-out infinite;
+}
+
+/* Chart value labels — fade in after entrance animation completes.
+   Base opacity stays 1 so SVG text never sticks invisible if the animation
+   fails to run (animation-fill-mode: both was stranding opacity at 0). */
+@keyframes chart-label-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.chart-value-label {
+  opacity: 1;
+  animation: chart-label-fade-in 180ms ease-out forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chart-value-label {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Live weather panel — left-to-right fetch indicator */
+@keyframes weather-load-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(200%);
+  }
+}
+.weather-load-bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 55%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 180, 216, 0.35),
+    rgba(56, 189, 248, 1),
+    rgba(0, 180, 216, 0.35),
+    transparent
+  );
+  animation: weather-load-sweep 0.9s ease-in-out infinite;
+  box-shadow: 0 0 12px rgba(0, 180, 216, 0.65);
+}
+@media (prefers-reduced-motion: reduce) {
+  .weather-load-bar {
+    animation: none;
+    width: 100%;
+    background: rgba(0, 180, 216, 0.7);
+    box-shadow: none;
+  }
+}
+
+/* User Guide — section pane + staggered bullets */
+@keyframes user-guide-pane-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes user-guide-bullet-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.user-guide-pane-in {
+  animation: user-guide-pane-in 180ms ease both;
+}
+.user-guide-bullet-in {
+  animation: user-guide-bullet-in 220ms ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .user-guide-pane-in,
+  .user-guide-bullet-in,
+  .user-guide-sidebar-pulse .typology-info-icon-pulse,
+  .user-guide-sidebar-pulse .typology-info-icon-breathe {
+    animation: none !important;
+  }
+  .user-guide-pane-in,
+  .user-guide-bullet-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Developer world — immersive coding backdrop */
+.dev-world-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #05080c;
+  pointer-events: auto;
+}
+
+.dev-world-parallax {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  will-change: transform;
+  transition: transform 0.35s ease-out;
+  pointer-events: none;
+}
+
+.dev-world-sphere {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(56px);
+}
+
+.dev-world-sphere-1 {
+  width: 50%;
+  height: 50%;
+  top: -16%;
+  left: -12%;
+  background: linear-gradient(40deg, rgba(0, 180, 216, 0.45), rgba(52, 211, 153, 0.15));
+  animation: dev-world-float-1 16s ease-in-out infinite alternate;
+}
+
+.dev-world-sphere-2 {
+  width: 55%;
+  height: 55%;
+  bottom: -20%;
+  right: -12%;
+  background: linear-gradient(240deg, rgba(6, 182, 212, 0.4), rgba(14, 165, 233, 0.18));
+  animation: dev-world-float-2 19s ease-in-out infinite alternate;
+}
+
+.dev-world-sphere-3 {
+  width: 36%;
+  height: 36%;
+  top: 48%;
+  left: 22%;
+  background: linear-gradient(120deg, rgba(52, 211, 153, 0.28), rgba(0, 180, 216, 0.12));
+  animation: dev-world-float-3 21s ease-in-out infinite alternate;
+}
+
+.dev-world-glow {
+  position: absolute;
+  width: 50%;
+  height: 45%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0, 180, 216, 0.14), transparent 70%);
+  filter: blur(30px);
+  z-index: 1;
+  animation: dev-world-pulse 9s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.dev-world-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-size: 32px 32px;
+  background-image:
+    linear-gradient(to right, rgba(0, 180, 216, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 180, 216, 0.04) 1px, transparent 1px);
+  pointer-events: none;
+  animation: dev-world-grid-glitch 5.5s steps(1) infinite;
+}
+
+.dev-world-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  opacity: 0.35;
+  animation: dev-world-scan-flicker 4.2s steps(1) infinite;
+}
+
+.dev-world-glitch {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 6px,
+      rgba(0, 180, 216, 0.07) 6px,
+      rgba(0, 180, 216, 0.07) 7px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(236, 72, 153, 0.12),
+      transparent 40%,
+      transparent 60%,
+      rgba(34, 211, 238, 0.14)
+    );
+  animation: dev-world-glitch 3.8s steps(1) infinite;
+}
+
+.dev-world-snippet {
+  position: absolute;
+  z-index: 4;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  color: rgba(125, 211, 252, 0.35);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: dev-world-snippet-drift 12s ease-in-out infinite alternate;
+}
+
+.dev-world-ambient-layer,
+.dev-world-trail-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.dev-world-ambient {
+  position: absolute;
+  background: #a5f3fc;
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: 0 0 5px rgba(0, 180, 216, 0.4);
+}
+
+.dev-world-trail-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: #67e8f9;
+  opacity: 0;
+  box-shadow: 0 0 8px rgba(103, 232, 249, 0.7);
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.dev-world-hud {
+  position: absolute;
+  z-index: 6;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: rgba(100, 116, 139, 0.85);
+  pointer-events: none;
+  text-transform: uppercase;
+}
+
+.dev-world-hud-tl {
+  top: 12px;
+  left: 14px;
+}
+.dev-world-hud-tr {
+  top: 12px;
+  right: 48px;
+}
+.dev-world-hud-bl {
+  bottom: 36px;
+  left: 14px;
+}
+.dev-world-hud-br {
+  bottom: 36px;
+  right: 14px;
+  text-transform: none;
+}
+
+.dev-world-cursor {
+  animation: dev-world-blink 1s steps(1) infinite;
+}
+
+@keyframes dev-world-float-1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(7%, 7%) scale(1.06);
+  }
+}
+@keyframes dev-world-float-2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-7%, -4%) scale(1.08);
+  }
+}
+@keyframes dev-world-float-3 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(-4%, 7%) scale(1.04);
+    opacity: 0.7;
+  }
+}
+@keyframes dev-world-pulse {
+  0% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+  100% {
+    opacity: 0.65;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+}
+@keyframes dev-world-snippet-drift {
+  0% {
+    transform: translateY(0);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(-10px);
+    opacity: 0.45;
+  }
+}
+@keyframes dev-world-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes dev-world-glitch {
+  0%,
+  88%,
+  100% {
+    opacity: 0;
+    transform: none;
+    clip-path: inset(0 0 100% 0);
+  }
+  89% {
+    opacity: 0.55;
+    transform: translateX(2px) skewX(-0.4deg);
+    clip-path: inset(12% 0 68% 0);
+  }
+  90% {
+    opacity: 0.4;
+    transform: translateX(-3px) skewX(0.6deg);
+    clip-path: inset(48% 0 28% 0);
+  }
+  91% {
+    opacity: 0.7;
+    transform: translateX(1px);
+    clip-path: inset(72% 0 8% 0);
+  }
+  92% {
+    opacity: 0.25;
+    transform: translateX(-1px) skewX(-0.3deg);
+    clip-path: inset(22% 0 55% 0);
+  }
+  93% {
+    opacity: 0;
+    transform: none;
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@keyframes dev-world-scan-flicker {
+  0%,
+  86%,
+  100% {
+    opacity: 0.35;
+  }
+  87% {
+    opacity: 0.55;
+  }
+  88% {
+    opacity: 0.22;
+  }
+  89% {
+    opacity: 0.48;
+  }
+  90% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes dev-world-grid-glitch {
+  0%,
+  90%,
+  100% {
+    filter: none;
+    transform: none;
+  }
+  91% {
+    filter: drop-shadow(-2px 0 rgba(236, 72, 153, 0.35))
+      drop-shadow(2px 0 rgba(34, 211, 238, 0.4));
+    transform: translateX(1px);
+  }
+  92% {
+    filter: drop-shadow(2px 0 rgba(236, 72, 153, 0.28))
+      drop-shadow(-2px 0 rgba(34, 211, 238, 0.32));
+    transform: translateX(-1px);
+  }
+  93% {
+    filter: none;
+    transform: none;
+  }
+}
+
+/* Developer sidebar icon — unique RGB glitch (not User Guide pulse) */
+.dev-sidebar-icon-glitch {
+  animation: dev-sidebar-icon-glitch 4.5s steps(1) infinite;
+}
+
+.dev-sidebar-icon-glitch svg {
+  animation: dev-sidebar-icon-rgb 4.5s steps(1) infinite;
+}
+
+@keyframes dev-sidebar-icon-glitch {
+  0%,
+  84%,
+  100% {
+    transform: none;
+  }
+  85% {
+    transform: translateX(1px) skewX(-2deg);
+  }
+  86% {
+    transform: translateX(-1px) skewX(2deg);
+  }
+  87% {
+    transform: translateX(0.5px);
+  }
+  88% {
+    transform: none;
+  }
+}
+
+@keyframes dev-sidebar-icon-rgb {
+  0%,
+  84%,
+  100% {
+    filter: none;
+  }
+  85% {
+    filter: drop-shadow(-1.5px 0 #ec4899) drop-shadow(1.5px 0 #22d3ee);
+  }
+  86% {
+    filter: drop-shadow(1.5px 0 #ec4899) drop-shadow(-1.5px 0 #22d3ee);
+  }
+  87% {
+    filter: drop-shadow(-1px 0 rgba(236, 72, 153, 0.7))
+      drop-shadow(1px 0 rgba(34, 211, 238, 0.7));
+  }
+  88% {
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dev-world-sphere-1,
+  .dev-world-sphere-2,
+  .dev-world-sphere-3,
+  .dev-world-glow,
+  .dev-world-snippet,
+  .dev-world-cursor,
+  .dev-world-glitch,
+  .dev-world-grid,
+  .dev-world-scanlines,
+  .dev-sidebar-icon-glitch,
+  .dev-sidebar-icon-glitch svg {
+    animation: none !important;
+  }
+  .dev-world-parallax {
+    transition: none;
+  }
+  .dev-world-snippet {
+    opacity: 0.3;
+  }
+  .dev-world-scanlines {
+    opacity: 0.15;
+  }
+  .dev-world-glitch {
+    opacity: 0;
+  }
+}

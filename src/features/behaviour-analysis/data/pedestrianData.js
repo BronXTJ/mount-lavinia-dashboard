@@ -1,0 +1,28 @@
+/** Pedestrian clustering — total pedestrian count per time period. */
+
+export const pedestrianData = [
+  { junctionId: 1, day: 'weekday', period: 'morning', count: 210 },
+  { junctionId: 1, day: 'weekday', period: 'midday', count: 280 },
+  { junctionId: 1, day: 'weekday', period: 'evening', count: 130 },
+  { junctionId: 1, day: 'weekend', period: 'morning', count: 130 },
+  { junctionId: 1, day: 'weekend', period: 'midday', count: 80 },
+  { junctionId: 1, day: 'weekend', period: 'evening', count: 210 },
+  { junctionId: 2, day: 'weekday', period: 'morning', count: 430 },
+  { junctionId: 2, day: 'weekday', period: 'midday', count: 360 },
+  { junctionId: 2, day: 'weekday', period: 'evening', count: 390 },
+  { junctionId: 2, day: 'weekend', period: 'morning', count: 260 },
+  { junctionId: 2, day: 'weekend', period: 'midday', count: 230 },
+  { junctionId: 2, day: 'weekend', period: 'evening', count: 310 },
+  { junctionId: 3, day: 'weekday', period: 'morning', count: 280 },
+  { junctionId: 3, day: 'weekday', period: 'midday', count: 330 },
+  { junctionId: 3, day: 'weekday', period: 'evening', count: 170 },
+  { junctionId: 3, day: 'weekend', period: 'morning', count: 180 },
+  { junctionId: 3, day: 'weekend', period: 'midday', count: 200 },
+  { junctionId: 3, day: 'weekend', period: 'evening', count: 150 },
+  { junctionId: 4, day: 'weekday', period: 'morning', count: 260 },
+  { junctionId: 4, day: 'weekday', period: 'midday', count: 320 },
+  { junctionId: 4, day: 'weekday', period: 'evening', count: 170 },
+  { junctionId: 4, day: 'weekend', period: 'morning', count: 180 },
+  { junctionId: 4, day: 'weekend', period: 'midday', count: 290 },
+  { junctionId: 4, day: 'weekend', period: 'evening', count: 220 },
+]

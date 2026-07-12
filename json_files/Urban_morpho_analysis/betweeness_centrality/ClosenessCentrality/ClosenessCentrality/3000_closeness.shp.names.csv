@@ -1,0 +1,13 @@
+ID,ID
+LConn,Line Connectivity
+LLen,Line Length
+LFrac,Link Fraction
+LAC,Line Ang Curvature
+LSin,Line Sinuosity
+LBear,Line Bearing
+MAD3000,Mean Ang Dist R3000
+NQPDA3000,NetQuantPD Ang R3000
+Lnk3000,Links R3000
+Len3000,Length R3000
+AngD3000,Ang Dist R3000
+Wt3000,Weight R3000
