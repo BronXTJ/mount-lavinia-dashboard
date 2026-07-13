@@ -90,7 +90,7 @@ export const USER_GUIDE_SECTIONS = [
     title: 'Environmental Analysis',
     icon: 'Thermometer',
     bullets: [
-      'Open the FAB to toggle the 800 m analysis boundary, thermal metrics, SVF points, buildings, and roads.',
+      'Open the FAB to toggle the 800 m analysis boundary, thermal metrics, and SVF points.',
       'Turn on one main metric at a time (UTCI, UHI, air temperature, Tmrt, or shadow) to keep the map readable.',
       'Click a grid cell to see its values; gauges and charts summarise the wider study area.',
       'Use teal “i” help on gauges and charts when you need to interpret a panel.',

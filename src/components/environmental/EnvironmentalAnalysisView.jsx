@@ -16,8 +16,7 @@ import ThermalComfortPanel from './ThermalComfortPanel.jsx'
 export default function EnvironmentalAnalysisView() {
   const [visibleLayers, setVisibleLayers] = useState(DEFAULT_ENV_VISIBLE)
   const [focusedCellId, setFocusedCellId] = useState(null)
-  const { grid, svfPoints, boundary, buildings, roads, stats, loading } =
-    useEnvironmentalLayers()
+  const { grid, svfPoints, boundary, stats, loading } = useEnvironmentalLayers()
 
   useEffect(() => {
     if (!hasEnvSelectableLayer(visibleLayers)) setFocusedCellId(null)
@@ -61,8 +60,6 @@ export default function EnvironmentalAnalysisView() {
             grid={grid}
             svfPoints={svfPoints}
             boundary={boundary}
-            buildings={buildings}
-            roads={roads}
             stats={stats}
             loading={loading}
             focusedCellId={focusedCellId}

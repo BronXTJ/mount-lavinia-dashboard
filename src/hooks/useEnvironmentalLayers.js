@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { densityGeoUrl } from '../constants/density.js'
 import { environmentalGeoUrl } from '../constants/environmental.js'
 import { buildEnvironmentalStats } from '../utils/environmentalStats.js'
 
@@ -40,8 +39,6 @@ export function useEnvironmentalLayers() {
   const [grid, setGrid] = useState(null)
   const [svfPoints, setSvfPoints] = useState(null)
   const [boundary, setBoundary] = useState(null)
-  const [buildings, setBuildings] = useState(null)
-  const [roads, setRoads] = useState(null)
   const [stats, setStats] = useState(EMPTY_STATS)
   const [loading, setLoading] = useState(true)
 
@@ -54,17 +51,13 @@ export function useEnvironmentalLayers() {
       fetchJson(environmentalGeoUrl('svf_points.geojson')),
       fetchJson(environmentalGeoUrl('boundary_800m.geojson')),
       fetchJson(environmentalGeoUrl('environmental_summary.json')),
-      fetchJson(densityGeoUrl('buildings_500m.geojson')),
-      fetchJson(densityGeoUrl('roads_clipped_500m.geojson')),
-    ]).then(([gridData, svfData, boundaryData, summary, buildingsData, roadsData]) => {
+    ]).then(([gridData, svfData, boundaryData, summary]) => {
       if (cancelled) return
 
       const features = gridData?.features ?? []
       setGrid(features.length ? gridData : null)
       setSvfPoints(svfData)
       setBoundary(boundaryData)
-      setBuildings(buildingsData)
-      setRoads(roadsData)
       setStats(
         features.length
           ? buildEnvironmentalStats(features, svfData, summary)
@@ -78,5 +71,5 @@ export function useEnvironmentalLayers() {
     }
   }, [])
 
-  return { grid, svfPoints, boundary, buildings, roads, stats, loading }
+  return { grid, svfPoints, boundary, stats, loading }
 }

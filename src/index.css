@@ -782,50 +782,76 @@
 
 /* Developer sidebar icon — unique RGB glitch (not User Guide pulse) */
 .dev-sidebar-icon-glitch {
-  animation: dev-sidebar-icon-glitch 4.5s steps(1) infinite;
+  animation: dev-sidebar-icon-glitch 2.4s steps(1) infinite;
 }
 
 .dev-sidebar-icon-glitch svg {
-  animation: dev-sidebar-icon-rgb 4.5s steps(1) infinite;
+  animation: dev-sidebar-icon-rgb 2.4s steps(1) infinite;
 }
 
 @keyframes dev-sidebar-icon-glitch {
   0%,
-  84%,
+  7%,
+  12%,
+  41%,
+  46%,
+  75%,
+  80%,
   100% {
     transform: none;
   }
-  85% {
+  8%,
+  42%,
+  76% {
     transform: translateX(1px) skewX(-2deg);
   }
-  86% {
+  9%,
+  43%,
+  77% {
     transform: translateX(-1px) skewX(2deg);
   }
-  87% {
+  10%,
+  44%,
+  78% {
     transform: translateX(0.5px);
   }
-  88% {
+  11%,
+  45%,
+  79% {
     transform: none;
   }
 }
 
 @keyframes dev-sidebar-icon-rgb {
   0%,
-  84%,
+  7%,
+  12%,
+  41%,
+  46%,
+  75%,
+  80%,
   100% {
     filter: none;
   }
-  85% {
+  8%,
+  42%,
+  76% {
     filter: drop-shadow(-1.5px 0 #ec4899) drop-shadow(1.5px 0 #22d3ee);
   }
-  86% {
+  9%,
+  43%,
+  77% {
     filter: drop-shadow(1.5px 0 #ec4899) drop-shadow(-1.5px 0 #22d3ee);
   }
-  87% {
+  10%,
+  44%,
+  78% {
     filter: drop-shadow(-1px 0 rgba(236, 72, 153, 0.7))
       drop-shadow(1px 0 rgba(34, 211, 238, 0.7));
   }
-  88% {
+  11%,
+  45%,
+  79% {
     filter: none;
   }
 }

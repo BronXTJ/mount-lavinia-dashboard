@@ -198,8 +198,6 @@ export default function EnvironmentalMap({
   grid,
   svfPoints,
   boundary,
-  buildings,
-  roads,
   stats,
   loading,
   focusedCellId = null,
@@ -310,24 +308,6 @@ export default function EnvironmentalMap({
           enabled={Boolean(visibleLayers.svfPoints)}
           data={svfPoints}
         />
-
-        {visibleLayers.buildings && buildings && (
-          <GeoJSON
-            key="env-buildings"
-            data={buildings}
-            style={ENV_CONTEXT_STYLES.buildings}
-            interactive={false}
-          />
-        )}
-
-        {visibleLayers.roads && roads && (
-          <GeoJSON
-            key="env-roads"
-            data={roads}
-            style={ENV_CONTEXT_STYLES.roads}
-            interactive={false}
-          />
-        )}
 
         {grid && (
           <GeoJSON

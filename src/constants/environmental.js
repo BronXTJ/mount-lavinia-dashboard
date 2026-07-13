@@ -52,8 +52,6 @@ export const ENV_CELL_HIGHLIGHT = {
 }
 
 export const ENV_CONTEXT_STYLES = {
-  buildings: { color: '#64748b', fillColor: '#64748b', fillOpacity: 0.45, weight: 0.4, opacity: 0.7 },
-  roads: { color: '#f77f00', weight: 1.5, opacity: 0.85, fill: false },
   svf: {
     radius: 5,
     weight: 1,
@@ -85,8 +83,6 @@ export const ENV_FAB_LAYERS = [
   { id: 'tmrt', label: 'Mean Radiant Temp', dot: '#b12a90', group: 'metric' },
   { id: 'shadow', label: 'Shadow Exposure', dot: SHADOW_COLOR, group: 'metric' },
   { id: 'svfPoints', label: 'SVF Sample Points', dot: '#0284c7', group: 'independent' },
-  { id: 'buildings', label: 'Buildings', dot: '#64748b', group: 'independent' },
-  { id: 'roads', label: 'Roads', dot: '#f77f00', group: 'independent' },
 ]
 
 export const DEFAULT_ENV_VISIBLE = {
@@ -97,8 +93,6 @@ export const DEFAULT_ENV_VISIBLE = {
   tmrt: false,
   shadow: false,
   svfPoints: true,
-  buildings: false,
-  roads: false,
 }
 
 export const ENV_METRIC_IDS = ['utci', 'uhi', 'airTemp', 'tmrt', 'shadow']
