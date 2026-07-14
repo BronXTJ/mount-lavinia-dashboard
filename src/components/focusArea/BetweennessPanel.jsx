@@ -95,9 +95,12 @@ export default function BetweennessPanel({
         infoTitle="Betweenness Zone Distribution"
         infoAria="What does the Betweenness Zone Distribution show?"
         infoPoints={[
-          'Shows the share of road segments in High, Medium, and Low betweenness zones for the active scale.',
-          'Percentages update when you change the scale buttons on the map.',
-          'High zones are the strongest through-movement corridors.',
+          'Shows the share of road segments in High, Medium, and Low betweenness tiers for the active scale.',
+          'Tiers are relative, not fixed planning zones: each segment is ranked against the min–max range for this scale.',
+          'High = top third of the value range (normalized ≥ ⅔), Medium = middle third (⅓–⅔), Low = bottom third (< ⅓).',
+          'Segment counts are not forced to 33% each — skewed networks can show more Low or more High segments.',
+          'Percentages update when you change the scale on the map; the same logic is used in segment popups (shown as Moderate there).',
+          'High tiers are the strongest through-movement corridors at this scale.',
         ]}
       />
 
