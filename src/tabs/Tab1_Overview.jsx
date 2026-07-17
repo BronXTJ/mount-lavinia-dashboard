@@ -10,6 +10,7 @@ import {
   Users,
 } from 'lucide-react'
 import KPICard from '../components/KPICard.jsx'
+import GnDivisionSelect from '../components/GnDivisionSelect.jsx'
 import LiveDataPanel from '../components/LiveDataPanel.jsx'
 import PopulationTrendChart from '../components/PopulationTrendChart.jsx'
 import AgeStructurePyramid from '../components/AgeStructurePyramid.jsx'
@@ -192,6 +193,13 @@ export default function Tab1_Overview() {
     setActiveLayers((prev) => (checked ? [...prev, layerId] : prev.filter((id) => id !== layerId)))
   }
 
+  const selectGnFromUi = (name) => {
+    setSelectedGnName(name)
+    if (name) {
+      setActiveLayers((prev) => (prev.includes('gn5') ? prev : [...prev, 'gn5']))
+    }
+  }
+
   const handleGnSelect = ({ name, lat, lng, forceSelect = false }) => {
     if (forceSelect) {
       setSelectedGnName(name)
@@ -249,20 +257,34 @@ export default function Tab1_Overview() {
                 Showing division data for{' '}
                 <strong className="font-semibold text-primary-300">{selectedGnStats.name}</strong>
               </span>
-              <button
-                type="button"
-                onClick={() => setSelectedGnName(null)}
-                className="rounded-md border border-primary-400/50 px-2.5 py-1 text-xs font-medium text-primary-300 transition hover:bg-primary-500/20"
-              >
-                ← Back to overview
-              </button>
+              <div className="flex flex-wrap items-center gap-2">
+                <GnDivisionSelect
+                  value={selectedGnName}
+                  onChange={selectGnFromUi}
+                  className="min-w-[11rem]"
+                />
+                <button
+                  type="button"
+                  onClick={() => selectGnFromUi(null)}
+                  className="rounded-md border border-primary-400/50 px-2.5 py-1 text-xs font-medium text-primary-300 transition hover:bg-primary-500/20"
+                >
+                  ← Back to overview
+                </button>
+              </div>
             </div>
           )}
 
           <div className="grid grid-cols-12 gap-3">
             {kpiCards.map((card, index) => (
               <div key={card.label} className={kpiSpanClass(index)}>
-                <KPICard {...card} />
+                <KPICard
+                  {...card}
+                  footer={
+                    !selectedGnStats && card.label === 'GN Divisions' ? (
+                      <GnDivisionSelect value={selectedGnName} onChange={selectGnFromUi} />
+                    ) : undefined
+                  }
+                />
               </div>
             ))}
           </div>
@@ -275,6 +297,7 @@ export default function Tab1_Overview() {
             <PopulationTrendChart
               divisions={populationTrendData.divisions}
               trend={populationTrendData.trend}
+              selectedGnName={selectedGnName}
             />
           </SectionCard>
 
@@ -316,6 +339,7 @@ export default function Tab1_Overview() {
                 <AgeDependencyBeams
                   data={gnPopulationStructure2024}
                   selectedGnName={selectedGnName}
+                  onSelectGn={selectGnFromUi}
                 />
               </div>
             </div>

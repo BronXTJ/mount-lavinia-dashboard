@@ -194,7 +194,8 @@ export default function AgeStructurePyramid({ data, selectedGnName }) {
       </div>
       {!selectedGnName && (
         <p className="mt-1 text-center text-[11px] text-surface-400">
-          Select a GN on the map to compare its age structure with the primary study area average
+          Select a GN from the dropdown or on the map to compare its age structure with the
+          primary study area average
         </p>
       )}
     </div>

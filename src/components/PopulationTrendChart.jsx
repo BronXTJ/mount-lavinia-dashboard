@@ -25,10 +25,12 @@ function renderTooltip({ active, payload, label }) {
 
 /**
  * Population trend line chart — one line per GN division across census years.
- * Props: divisions (string[]), trend ([{ year, [division]: number }])
+ * When selectedGnName is set, that division's line and legend item are emphasized.
  */
-export default function PopulationTrendChart({ divisions, trend }) {
+export default function PopulationTrendChart({ divisions, trend, selectedGnName = null }) {
   const { isAnimationActive, animationDuration } = useChartAnimation()
+  const hasSelection = Boolean(selectedGnName)
+
   return (
     <div>
       <ResponsiveContainer width="100%" height={280}>
@@ -43,35 +45,53 @@ export default function PopulationTrendChart({ divisions, trend }) {
           />
           <YAxis tick={{ fill: '#9fadb9', fontSize: 11 }} axisLine={{ stroke: '#2a3a4a' }} tickLine={false} />
           <Tooltip content={renderTooltip} />
-          {divisions.map((division) => (
-            <Line
-              key={division}
-              type="monotone"
-              dataKey={division}
-              stroke={DIVISION_COLORS[division] ?? '#9fadb9'}
-              strokeWidth={2.5}
-              dot={{ r: 3 }}
-              activeDot={{ r: 5 }}
-              isAnimationActive={isAnimationActive}
-              animationDuration={animationDuration}
-            />
-          ))}
+          {divisions.map((division) => {
+            const isSelected = selectedGnName === division
+            const isMuted = hasSelection && !isSelected
+            return (
+              <Line
+                key={division}
+                type="monotone"
+                dataKey={division}
+                stroke={DIVISION_COLORS[division] ?? '#9fadb9'}
+                strokeWidth={isSelected ? 3.5 : isMuted ? 1.5 : 2.5}
+                strokeOpacity={isMuted ? 0.28 : 1}
+                dot={{ r: isSelected ? 5 : isMuted ? 2 : 3, fillOpacity: isMuted ? 0.28 : 1 }}
+                activeDot={{ r: isSelected ? 7 : 5 }}
+                isAnimationActive={isAnimationActive}
+                animationDuration={animationDuration}
+              />
+            )
+          })}
         </LineChart>
       </ResponsiveContainer>
 
       {/* Custom legend — Recharts' built-in <Legend> silently re-sorts items
           alphabetically, which breaks the intentional division ordering. */}
       <ul className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1.5">
-        {divisions.map((division) => (
-          <li key={division} className="flex items-center gap-1.5 text-xs text-surface-200">
-            <span
-              className="inline-block h-2.5 w-2.5 rounded-full"
-              style={{ backgroundColor: DIVISION_COLORS[division] ?? '#9fadb9' }}
-              aria-hidden="true"
-            />
-            {division}
-          </li>
-        ))}
+        {divisions.map((division) => {
+          const isSelected = selectedGnName === division
+          const isMuted = hasSelection && !isSelected
+          return (
+            <li
+              key={division}
+              className={`flex items-center gap-1.5 text-xs transition ${
+                isSelected
+                  ? 'rounded-md bg-primary-500/15 px-2 py-0.5 font-semibold text-primary-300 ring-1 ring-primary-500/40'
+                  : isMuted
+                    ? 'text-surface-400 opacity-40'
+                    : 'text-surface-200'
+              }`}
+            >
+              <span
+                className="inline-block h-2.5 w-2.5 rounded-full"
+                style={{ backgroundColor: DIVISION_COLORS[division] ?? '#9fadb9' }}
+                aria-hidden="true"
+              />
+              {division}
+            </li>
+          )
+        })}
       </ul>
     </div>
   )

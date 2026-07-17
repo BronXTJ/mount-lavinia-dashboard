@@ -9,6 +9,7 @@
  * - trend: optional string shown as a small badge (e.g. "+3.2% since 2012")
  * - trendDirection: "up" | "down" | "neutral"
  * - accent: "primary" (teal) | "accent" (orange) - controls the top border + icon chip color
+ * - footer: optional React node rendered under the value (e.g. a select control)
  */
 export default function KPICard({
   label,
@@ -18,6 +19,7 @@ export default function KPICard({
   trend,
   trendDirection = 'neutral',
   accent = 'primary',
+  footer,
 }) {
   const accentBorder = accent === 'accent' ? 'border-t-accent-500' : 'border-t-primary-500'
   const accentChip = accent === 'accent' ? 'bg-accent-500/10 text-accent-400' : 'bg-primary-500/10 text-primary-400'
@@ -52,6 +54,8 @@ export default function KPICard({
           {trend}
         </span>
       )}
+
+      {footer ? <div className="mt-3">{footer}</div> : null}
     </div>
   )
 }

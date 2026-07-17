@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { MousePointerClick } from 'lucide-react'
 import useChartAnimation from '../hooks/useChartAnimation.js'
 import { dependencyRatios, studyAreaTotals } from '../utils/populationStructure.js'
+import GnDivisionSelect from './GnDivisionSelect.jsx'
 
 const CHILD_COLOR = '#38bdf8'
 const ELDERLY_COLOR = '#fbbf24'
@@ -152,9 +153,9 @@ function SelectedDependencyCard({
 
 /**
  * Single-GN age dependency panel — child / elderly bars grow from zero
- * when the selected GN changes (map click).
+ * when the selected GN changes (dropdown or map click).
  */
-export default function AgeDependencyBeams({ data, selectedGnName }) {
+export default function AgeDependencyBeams({ data, selectedGnName, onSelectGn }) {
   const { animationDuration, showLabels, onAnimationEnd } = useChartAnimation(
     selectedGnName ?? 'none',
   )
@@ -182,6 +183,23 @@ export default function AgeDependencyBeams({ data, selectedGnName }) {
 
   return (
     <div className="flex h-full min-h-[16rem] flex-col">
+      {onSelectGn ? (
+        <div className="mb-3 rounded-md border border-primary-500/30 bg-primary-500/5 p-2">
+          <label
+            htmlFor="age-dependency-gn-select"
+            className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wide text-primary-300"
+          >
+            GN division
+          </label>
+          <GnDivisionSelect
+            id="age-dependency-gn-select"
+            value={selectedGnName}
+            onChange={onSelectGn}
+            emphasized
+          />
+        </div>
+      ) : null}
+
       <div className="mb-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs font-semibold text-surface-100">
         <span className="flex items-center gap-2">
           <span className="inline-block h-3 w-3 rounded-sm" style={{ background: CHILD_COLOR }} />
@@ -208,7 +226,7 @@ export default function AgeDependencyBeams({ data, selectedGnName }) {
             </span>
             <div>
               <p className="text-sm font-medium text-surface-100">
-                Select a GN on the map to view dependency balance
+                Select a GN from the dropdown or on the map to view dependency balance
               </p>
               <p className="mt-1 text-xs text-surface-400">
                 Child and elderly dependency for that division will appear here.

@@ -291,7 +291,12 @@ export default function FocusAreaMap({
         {isOn('roadNetwork') && layers.railways && <GeoJSON data={layers.railways} style={railwaysStyle} />}
 
         {isOn('gn5') && layers.gn5 && (
-          <GeoJSON data={layers.gn5} style={gn5StyleFn} onEachFeature={onEachGn5} />
+          <GeoJSON
+            key={selectedGnName ?? 'all'}
+            data={layers.gn5}
+            style={gn5StyleFn}
+            onEachFeature={onEachGn5}
+          />
         )}
         {isOn('boundary') && layers.boundary && <GeoJSON data={layers.boundary} style={boundaryStyle} />}
 
