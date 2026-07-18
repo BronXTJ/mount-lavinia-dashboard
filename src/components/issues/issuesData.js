@@ -48,7 +48,7 @@ export const nodes = [
     label: 'Institutional Failures',
     category: 'Root Cause',
     detail:
-      'Mandatory Environmental Impact Assessments were bypassed for major coastal works through discretionary loopholes such as Coast Conservation Act Section 14. Governance is also split across UDA, CCD, and municipal bodies with no unified coastal management.',
+      'Large coastal projects sometimes go ahead without a proper environmental impact study, using legal shortcuts (e.g. Coast Conservation Act Section 14). Responsibility is also split between UDA, the Coast Conservation Department, and the municipality, with no single body managing the coast.',
     group: 1,
   },
   {
@@ -81,7 +81,7 @@ export const nodes = [
     label: 'Beach Nourishment Disaster',
     category: 'Environmental Issue',
     detail:
-      'Mismanaged beach nourishment and hard coastal works can smother reefs and block drainage. One example is the Rs. 890 million project that pumped 150,000 cubic meters of deep-sea sand onto the beach while bypassing EIAs, harming Paragala and Demadagala reefs and causing inland floods.',
+      'Mismanaged beach nourishment and hard coastal works can smother reefs and block drainage. One example is the Rs. 890 million project that pumped 150,000 cubic meters of deep-sea sand onto the beach without completing a full environmental impact assessment, harming Paragala and Demadagala reefs and causing inland floods.',
     group: 2,
   },
   {
@@ -200,10 +200,10 @@ export const nodes = [
   },
   {
     id: 'GOV2',
-    label: 'EIA Bypass (Section 14)',
+    label: 'Skipped Environmental Review',
     category: 'Governance Issue',
     detail:
-      'Mandatory Environmental Impact Assessments for major ecological works were bypassed using discretionary powers such as Coast Conservation Act Section 14.',
+      'Major coastal and beach projects were approved without a full environmental impact assessment — sometimes using Section 14 of the Coast Conservation Act as a shortcut instead of a proper study.',
     group: 4,
   },
   // POTENTIALS - TOURISM
@@ -501,7 +501,7 @@ export const pestelData = {
     icon: '🏛️',
     points: [
       'UDA forced clearances without consultation',
-      'EIA bypass enabled by discretionary loopholes (e.g. Coast Conservation Act Section 14)',
+      'Coastal projects approved without full environmental impact studies (legal shortcuts, e.g. Section 14)',
       '2018 Organic Law strengthening local governance',
       'Fragmented jurisdiction: UDA, CCD, municipal overlap',
       'Tourism-first political agenda marginalizing fisherfolk',
@@ -562,8 +562,8 @@ export const pestelData = {
     icon: '⚖️',
     points: [
       'CZ&CRMP 2024-2029: new sustainable coastal management plan',
-      'EIA bypass through discretionary loopholes (e.g. Coast Conservation Act Section 14)',
-      'Mandatory EIA requirements are frequently bypassed',
+      'Coastal projects approved without full environmental impact studies (legal shortcuts, e.g. Section 14)',
+      'Required environmental reviews are often skipped for coastal works',
       'Organic Law 2018: decentralized municipal authority',
       'No formal working coast or fishery protection legislation',
       'Urban Development Authority Act enabling forced clearances',

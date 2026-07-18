@@ -261,23 +261,24 @@ export const findings = [
   },
   {
     id: 'F11',
-    label: 'Institutional EIA Failures',
+    label: 'Coastal Projects Skipped Environmental Review',
     domains: ['governance'],
     observation: [
-      'RC3 / GOV2 document EIA bypass (e.g. Coast Conservation Act Section 14).',
+      'Major coastal projects were approved without a full environmental impact study — recorded under Institutional Failures (RC3) and Skipped Environmental Review (GOV2).',
+      'In some cases, legal shortcuts (e.g. Coast Conservation Act Section 14) were used instead of a proper assessment.',
       'Control is split across UDA, CCD, and municipal bodies.',
       'The beach nourishment episode (ENV3) is part of this pattern.',
     ],
     interpretation: [
-      'Environmental harm and flood risk are enabled by weak process, not only by climate or density.',
+      'Beach and coastal damage is not only from climate or overcrowding — it also happens when projects are approved without checking environmental harm first.',
     ],
     implication: [
-      'Require a complete environmental review before large coastal works, including cases where Coast Conservation Act shortcuts have been used before.',
-      'Coordinate UDA, CCD, and municipal clearance so split control cannot bypass EIA on beach and foreshore projects.',
+      'Require a full environmental impact study before any large beach or foreshore project — no approvals through legal shortcuts alone.',
+      'Coordinate UDA, CCD, and municipal clearance so split control cannot skip environmental review on beach and foreshore projects.',
       'Treat spatial analysis as decision support, not as a substitute for enforceable environmental process.',
     ],
     evidence: [
-      { tab: 'issues', label: 'Issues · RC3 / GOV2 / ENV3', path: '/problems', node: 'GOV2' },
+      { tab: 'issues', label: 'Issues · Skipped review (GOV2) · Beach harm (ENV3)', path: '/problems', node: 'GOV2' },
     ],
     issuesLinks: ['RC3', 'GOV2', 'ENV3'],
   },
