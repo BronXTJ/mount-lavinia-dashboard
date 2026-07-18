@@ -295,7 +295,7 @@ export const findings = [
       'Growth pressure lands on streets that are already hot and socially contested.',
     ],
     implication: [
-      'Steer tourism growth toward heritage, MICE, and niche markets that need less bulk on already hot Junction streets.',
+      'Steer tourism growth toward heritage, events and business tourism (MICE: meetings, conferences), and niche markets that need less bulk on already hot Junction streets.',
       'Fund shade and walking comfort on central corridors that carry both visitors and residents under strong UTCI.',
       'Keep schools, clinics, and other public facilities publicly accessible as commercial tourism pressure rises.',
     ],

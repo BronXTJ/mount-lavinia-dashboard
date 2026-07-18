@@ -94,10 +94,10 @@ export const nodes = [
   },
   {
     id: 'ENV5',
-    label: 'MV X-Press Pearl Disaster',
+    label: 'Ship Chemical Spill (2021)',
     category: 'Environmental Issue',
     detail:
-      'Toxic chemicals and plastics can enter coastal waters from spills, wrecks, and leakages, harming marine life and local livelihoods. The 2021 MV X-Press Pearl wreck is one documented case, releasing about 25 tons of nitric acid and large volumes of plastic nurdles onto the shore.',
+      'A cargo ship caught fire and sank off Sri Lanka’s coast in 2021, releasing toxic chemicals and millions of tiny plastic pellets onto beaches and into the sea. This harmed marine life, fishing, and coastal communities. The vessel was the MV X-Press Pearl (May 2021) — about 25 tons of nitric acid and large volumes of plastic nurdles (raw plastic pellets) reached the shore.',
     group: 2,
   },
   {
@@ -233,10 +233,10 @@ export const nodes = [
   },
   {
     id: 'PT4',
-    label: 'MICE & Niche Tourism',
+    label: 'Events & Niche Tourism',
     category: 'Potential - Tourism',
     detail:
-      'Immense potential to pivot from destructive mass 3S tourism toward MICE, wellness/Ayurveda, gastronomic tourism, and cultural festivals.',
+      'Mount Lavinia can shift away from overcrowded mass beach tourism (sun, sea, sand — often called 3S tourism) toward lower-impact types: events and business tourism (MICE: meetings, incentives, conferences, exhibitions), wellness/Ayurveda, food tourism, and cultural festivals. These need less large-scale coastal building than mass beach packages.',
     group: 5,
   },
   // POTENTIALS - ECOLOGY
@@ -470,7 +470,7 @@ export const swotData = {
     color: '#1e3a8a',
     items: [
       'CZ&CRMP 2024-2029 legal framework',
-      'MICE and niche tourism pivot',
+      'Events & business tourism pivot (MICE: meetings, conferences, exhibitions)',
       'Heritage and cultural tourism development',
       'Reef conservation and dive tourism',
       'Working coast zoning implementation',
@@ -551,7 +551,7 @@ export const pestelData = {
     points: [
       '3.8 tons of plastic waste leaking into ocean daily',
       'FC levels exceeding 150 MPN/100ml safe bathing standard',
-      'Toxic chemical and plastic pollution from spills and leakages into coastal waters (e.g. MV X-Press Pearl, 2021)',
+      'Ship chemical and plastic spills harming coastal waters (e.g. MV X-Press Pearl cargo ship, 2021)',
       'Nearshore reef ecosystems under severe threat (e.g. Paragala and Demadagala)',
       'Sand starvation from inland river mining causing erosion, shrinking beaches, and habitat loss',
       'Mismanaged beach nourishment and hard coastal works harming reefs and drainage (e.g. Rs. 890M project)',
@@ -582,7 +582,8 @@ export const sfaData = [
   },
   {
     intervention: 'Sustainable Tourism Pivot',
-    description: 'Shift from mass 3S tourism to MICE, heritage, and niche markets',
+    description:
+      'Shift from mass beach tourism (3S: sun, sea, sand) to events tourism (MICE: meetings, conferences), heritage, and niche markets',
     suitability: 8,
     feasibility: 7,
     acceptability: 8,
