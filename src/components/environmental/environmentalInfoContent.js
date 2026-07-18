@@ -70,7 +70,7 @@ export const ENV_INFO = {
     points: [
       'The centre number is the mean modelled UTCI across the analysis grid, in °C.',
       'The arc fills from a cooler reference (~26 °C) toward extreme heat (~48 °C).',
-      'Min and max below the gauge show the coolest and hottest cells in the study area.',
+      'Coolest and hottest spot cards show extreme UTCI values; click them to fly to that location on the map.',
       'This is a spatial model average, not today’s live weather.',
     ],
   },

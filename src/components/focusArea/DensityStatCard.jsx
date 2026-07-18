@@ -1,5 +1,12 @@
 /** Stat card with a custom top-border color for Density Analysis panels. */
-export default function DensityStatCard({ label, value, topBorderColor, onClick, interactive = false }) {
+export default function DensityStatCard({
+  label,
+  value,
+  topBorderColor,
+  onClick,
+  interactive = false,
+  hint,
+}) {
   const isClickable = interactive && typeof onClick === 'function'
 
   return (
@@ -26,6 +33,7 @@ export default function DensityStatCard({ label, value, topBorderColor, onClick,
     >
       <p className="text-[11px] font-medium uppercase tracking-wide text-surface-200">{label}</p>
       <p className="mt-2 font-display text-2xl font-bold text-surface-50">{value}</p>
+      {hint ? <p className="mt-1.5 text-[10px] leading-snug text-surface-400">{hint}</p> : null}
     </div>
   )
 }

@@ -114,7 +114,7 @@ function FlyToCell({ cellId, grid }) {
     const anchor = getFeaturePopupAnchor(feature)
     if (!center || !anchor) return
 
-    map.flyTo(center, 18, { animate: true, duration: 0.8 })
+    map.flyTo(center, 19, { animate: true, duration: 0.8 })
     const popup = L.popup(CELL_POPUP_OPTS)
       .setLatLng(anchor)
       .setContent(buildCellPopup(feature.properties))
@@ -185,6 +185,48 @@ const highlightFillStyle = () => ({
   fillOpacity: ENV_CELL_HIGHLIGHT.fillOpacity,
   interactive: false,
 })
+
+const ENV_FOCUS_PULSE_RADIUS = 22
+const ENV_FOCUS_DOT_RADIUS = 8
+
+function envFocusPulseStyle(color) {
+  return {
+    radius: ENV_FOCUS_PULSE_RADIUS,
+    color,
+    weight: 2,
+    opacity: 0.7,
+    fillOpacity: 0,
+    interactive: false,
+    className: 'poi-pulse-ring',
+  }
+}
+
+function envFocusPulseDelayStyle(color) {
+  return {
+    ...envFocusPulseStyle(color),
+    className: 'poi-pulse-ring-delay',
+  }
+}
+
+function envFocusDotStyle(color) {
+  return {
+    radius: ENV_FOCUS_DOT_RADIUS,
+    color: '#ffffff',
+    weight: 2,
+    fillColor: color,
+    fillOpacity: 0.95,
+    interactive: false,
+  }
+}
+
+function focusMarkerColor(feature, stats) {
+  const utci = Number(feature?.properties?.utci_c)
+  const min = stats?.utci?.min
+  const max = stats?.utci?.max
+  if (Number.isFinite(utci) && Number.isFinite(min) && utci === min) return '#4575b4'
+  if (Number.isFinite(utci) && Number.isFinite(max) && utci === max) return '#a50026'
+  return ENV_CELL_HIGHLIGHT.color
+}
 
 function svfFillColor(props) {
   const cls = props?.SVF_Class
@@ -363,6 +405,31 @@ export default function EnvironmentalMap({
               style={highlightFillStyle}
               renderer={highlightRenderer}
             />
+            {(() => {
+              const center = getFeatureCenter(selectedFeature)
+              if (!center) return null
+              const [lat, lng] = center
+              const markerColor = focusMarkerColor(selectedFeature, stats)
+              return (
+                <Fragment key={`env-focus-marker-${selectedCellId}`}>
+                  <CircleMarker
+                    center={[lat, lng]}
+                    pathOptions={envFocusPulseStyle(markerColor)}
+                    renderer={highlightRenderer}
+                  />
+                  <CircleMarker
+                    center={[lat, lng]}
+                    pathOptions={envFocusPulseDelayStyle(markerColor)}
+                    renderer={highlightRenderer}
+                  />
+                  <CircleMarker
+                    center={[lat, lng]}
+                    pathOptions={envFocusDotStyle(markerColor)}
+                    renderer={highlightRenderer}
+                  />
+                </Fragment>
+              )
+            })()}
           </>
         )}
 

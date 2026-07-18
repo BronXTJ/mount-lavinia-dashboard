@@ -112,34 +112,24 @@ export default function ThermalComfortPanel({ stats, loading, onFocusCell }) {
             ariaLabel={ENV_INFO.utci.ariaLabel}
           />
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <DensityStatCard
-            label="Min UTCI"
-            value={formatEnvValue(utci?.min, 1)}
-            topBorderColor="#74add1"
-          />
-          <DensityStatCard
-            label="Max UTCI"
-            value={formatEnvValue(utci?.max, 1)}
-            topBorderColor="#a50026"
-          />
-        </div>
       </div>
 
       <UtciComfortGauge utci={utci} />
 
       <div className="grid grid-cols-2 gap-3">
         <DensityStatCard
-          label="Coolest Cell ID"
-          value={utci?.lowestId != null ? String(utci.lowestId) : '—'}
+          label="Coolest spot"
+          value={utci?.min != null ? `${formatEnvValue(utci.min, 1)} °C` : '—'}
           topBorderColor="#4575b4"
+          hint={utci?.lowestId != null ? 'Click to locate on map' : undefined}
           interactive={utci?.lowestId != null}
           onClick={() => onFocusCell?.('utci', utci.lowestId)}
         />
         <DensityStatCard
-          label="Hottest Cell ID"
-          value={utci?.highestId != null ? String(utci.highestId) : '—'}
+          label="Hottest spot"
+          value={utci?.max != null ? `${formatEnvValue(utci.max, 1)} °C` : '—'}
           topBorderColor="#a50026"
+          hint={utci?.highestId != null ? 'Click to locate on map' : undefined}
           interactive={utci?.highestId != null}
           onClick={() => onFocusCell?.('utci', utci.highestId)}
         />
