@@ -48,11 +48,11 @@ export default function UrbanMaturationView() {
 
   return (
     <>
-      <div className="overflow-y-auto p-4">
+      <div className="order-2 overflow-y-auto p-4 lg:order-1">
         <LandUseMixPanel stats={stats} loading={loading} onFocusCell={handleFocusCell} />
       </div>
 
-      <div className="flex min-h-0 flex-col border-x border-surface-700 py-3">
+      <div className="order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
         <div className="min-h-0 flex-1">
           <MaturationMap
             visibleLayers={visibleLayers}
@@ -72,7 +72,7 @@ export default function UrbanMaturationView() {
         </div>
       </div>
 
-      <div className="overflow-y-auto p-4">
+      <div className="order-3 overflow-y-auto p-4">
         <MaturationScorePanel stats={stats} loading={loading} onFocusCell={handleFocusCell} />
       </div>
     </>

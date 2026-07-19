@@ -39,6 +39,9 @@ const FOCUS_SUBS = [
 export default function Sidebar({
   expanded,
   setExpanded,
+  isMobile = false,
+  mobileOpen = false,
+  onMobileClose,
   activeFocusSubSection,
   setActiveFocusSubSection,
 }) {
@@ -51,11 +54,21 @@ export default function Sidebar({
   const isFocusArea =
     location.pathname === '/focus-area' || location.pathname.endsWith('/focus-area')
 
-  const width = expanded ? 240 : 64
+  const width = isMobile ? 240 : expanded ? 240 : 64
+  const isVisible = !isMobile || mobileOpen
 
   function goFocusSub(id) {
     setActiveFocusSubSection(id)
     navigate('/focus-area')
+    onMobileClose?.()
+  }
+
+  function handleToggleSidebar() {
+    if (isMobile) {
+      onMobileClose?.()
+      return
+    }
+    setExpanded((v) => !v)
   }
 
   return (
@@ -63,7 +76,8 @@ export default function Sidebar({
       className="fixed left-0 top-0 z-50 flex h-screen flex-col"
       style={{
         width,
-        transition: 'width 250ms ease',
+        transform: isVisible ? 'translateX(0)' : 'translateX(-100%)',
+        transition: 'width 250ms ease, transform 250ms ease',
         background:
           'linear-gradient(180deg, rgba(0, 180, 216, 0.07) 0%, rgba(14, 22, 34, 0.55) 28%, rgba(10, 16, 26, 0.62) 100%)',
         backdropFilter: 'blur(28px) saturate(140%)',
@@ -76,8 +90,8 @@ export default function Sidebar({
       {/* Edge toggle — sits on sidebar right edge */}
       <button
         type="button"
-        onClick={() => setExpanded((v) => !v)}
-        aria-label={expanded ? 'Collapse sidebar' : 'Expand sidebar'}
+        onClick={handleToggleSidebar}
+        aria-label={isMobile ? 'Close sidebar' : expanded ? 'Collapse sidebar' : 'Expand sidebar'}
         style={{
           position: 'absolute',
           top: '50%',
@@ -345,6 +359,7 @@ export default function Sidebar({
           expanded={expanded}
           icon={LayoutDashboard}
           label="Overview"
+          onNavigate={onMobileClose}
         />
 
         {/* Focus Area — expand/collapse only; does not navigate */}
@@ -355,6 +370,7 @@ export default function Sidebar({
             onClick={() => {
               if (!expanded) {
                 navigate('/focus-area')
+                onMobileClose?.()
                 return
               }
               setFocusOpen((o) => !o)
@@ -479,12 +495,14 @@ export default function Sidebar({
           expanded={expanded}
           icon={Car}
           label="Movement & Behaviour"
+          onNavigate={onMobileClose}
         />
         <NavItem
           to="/environmental"
           expanded={expanded}
           icon={Thermometer}
           label="Environmental Analysis"
+          onNavigate={onMobileClose}
         />
         <NavItem
           to="/synthesis"
@@ -493,12 +511,14 @@ export default function Sidebar({
           label="Synthesis"
           iconColor={AMBER}
           accentColor={AMBER}
+          onNavigate={onMobileClose}
         />
         <NavItem
           to="/problems"
           expanded={expanded}
           icon={AlertTriangle}
           label="Issues & Potentials"
+          onNavigate={onMobileClose}
         />
 
         <div
@@ -513,6 +533,7 @@ export default function Sidebar({
           label="Export Maps"
           iconColor={EMERALD}
           accentColor={EMERALD}
+          onNavigate={onMobileClose}
         />
       </nav>
 
@@ -634,12 +655,14 @@ function NavItem({
   label,
   iconColor,
   accentColor = TEAL,
+  onNavigate,
 }) {
   return (
     <NavLink
       to={to}
       end={end}
       title={!expanded ? label : undefined}
+      onClick={() => onNavigate?.()}
       className={({ isActive }) =>
         [
           'mt-0.5 flex items-center transition-colors',

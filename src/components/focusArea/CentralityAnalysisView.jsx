@@ -26,7 +26,7 @@ export default function CentralityAnalysisView() {
 
   return (
     <>
-      <div className="overflow-y-auto p-4">
+      <div className="order-2 overflow-y-auto p-4 lg:order-1">
         <ClosenessPanel
           scaleLabel={currentScaleLabel}
           stats={closenessStats}
@@ -38,7 +38,7 @@ export default function CentralityAnalysisView() {
         />
       </div>
 
-      <div className="flex min-h-0 flex-col border-x border-surface-700 py-3">
+      <div className="order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
         <div className="min-h-0 flex-1">
           <CentralityMap
             scaleMeters={scaleMeters}
@@ -56,7 +56,7 @@ export default function CentralityAnalysisView() {
         </div>
       </div>
 
-      <div className="overflow-y-auto p-4">
+      <div className="order-3 overflow-y-auto p-4">
         <BetweennessPanel
           scaleLabel={currentScaleLabel}
           stats={betweennessStats}

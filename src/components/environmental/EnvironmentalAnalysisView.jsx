@@ -48,11 +48,11 @@ export default function EnvironmentalAnalysisView() {
 
   return (
     <>
-      <div className="overflow-y-auto p-4">
+      <div className="order-2 overflow-y-auto p-4 lg:order-1">
         <ThermalComfortPanel stats={stats} loading={loading} onFocusCell={handleFocusCell} />
       </div>
 
-      <div className="flex min-h-0 flex-col border-x border-surface-700 py-3">
+      <div className="order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
         <div className="min-h-0 flex-1">
           <EnvironmentalMap
             visibleLayers={visibleLayers}
@@ -67,7 +67,7 @@ export default function EnvironmentalAnalysisView() {
         </div>
       </div>
 
-      <div className="overflow-y-auto p-4">
+      <div className="order-3 overflow-y-auto p-4">
         <MicroclimatePanel stats={stats} loading={loading} onFocusCell={handleFocusCell} />
       </div>
     </>

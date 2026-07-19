@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Sidebar from './components/Sidebar.jsx'
+import useMediaQuery from './hooks/useMediaQuery.js'
 import Tab1_Overview from './tabs/Tab1_Overview.jsx'
 import Tab2_FocusArea from './tabs/Tab2_FocusArea.jsx'
 import Tab3_LandUse from './tabs/Tab3_LandUse.jsx'
@@ -15,7 +16,9 @@ const FOCUS_SUB_IDS = new Set(['centrality', 'density', 'maturation'])
 export default function App() {
   const location = useLocation()
   const { pathname, search } = location
+  const isDesktop = useMediaQuery('(min-width: 1024px)')
   const [sidebarExpanded, setSidebarExpanded] = useState(true)
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   const [activeFocusSubSection, setActiveFocusSubSection] = useState('centrality')
 
   useEffect(() => {
@@ -27,6 +30,10 @@ export default function App() {
     }
   }, [pathname, search])
 
+  useEffect(() => {
+    if (!isDesktop) setMobileSidebarOpen(false)
+  }, [pathname, isDesktop])
+
   const isFocusArea = pathname === '/focus-area' || pathname.endsWith('/focus-area')
   const isConnectivity = pathname === '/connectivity' || pathname.endsWith('/connectivity')
   const isEnvironmental = pathname === '/environmental' || pathname.endsWith('/environmental')
@@ -34,21 +41,59 @@ export default function App() {
   const isSynthesis = pathname === '/synthesis' || pathname.endsWith('/synthesis')
   const isFullBleed = isFocusArea || isConnectivity || isEnvironmental
 
-  const sidebarWidth = sidebarExpanded ? 240 : 64
+  const sidebarWidth = isDesktop ? (sidebarExpanded ? 240 : 64) : 0
 
   return (
     <div className="min-h-screen bg-surface-900 font-sans text-surface-50">
+      {!isDesktop && mobileSidebarOpen && (
+        <button
+          type="button"
+          className="fixed inset-0 z-40 bg-black/50"
+          onClick={() => setMobileSidebarOpen(false)}
+          aria-label="Close sidebar"
+        />
+      )}
+
+      {!isDesktop && !mobileSidebarOpen && (
+        <button
+          type="button"
+          className="fixed left-3 top-3 z-40 flex h-10 w-10 items-center justify-center rounded-lg border border-[rgba(0,180,216,0.55)] bg-[#0f1923] text-[#00b4d8] shadow-[0_0_14px_rgba(0,180,216,0.45)]"
+          onClick={() => setMobileSidebarOpen(true)}
+          aria-label="Open navigation menu"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <line x1="4" x2="20" y1="12" y2="12" />
+            <line x1="4" x2="20" y1="6" y2="6" />
+            <line x1="4" x2="20" y1="18" y2="18" />
+          </svg>
+        </button>
+      )}
+
       <Sidebar
-        expanded={sidebarExpanded}
+        expanded={isDesktop ? sidebarExpanded : true}
         setExpanded={setSidebarExpanded}
+        isMobile={!isDesktop}
+        mobileOpen={mobileSidebarOpen}
+        onMobileClose={() => setMobileSidebarOpen(false)}
         activeFocusSubSection={activeFocusSubSection}
         setActiveFocusSubSection={setActiveFocusSubSection}
       />
 
       <main
         style={{
-          marginLeft: sidebarWidth,
-          width: `calc(100% - ${sidebarWidth}px)`,
+          marginLeft: isDesktop ? sidebarWidth : 0,
+          width: isDesktop ? `calc(100% - ${sidebarWidth}px)` : '100%',
           transition: 'margin-left 250ms ease, width 250ms ease',
         }}
         className={
