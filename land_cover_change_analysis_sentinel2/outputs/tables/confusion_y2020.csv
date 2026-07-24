@@ -1,0 +1,6 @@
+,built_up,vegetation,open_bare,water_wetland,beach_sand
+built_up,36,0,0,0,0
+vegetation,0,35,1,0,0
+open_bare,0,0,36,0,0
+water_wetland,0,0,0,36,0
+beach_sand,0,0,0,1,19

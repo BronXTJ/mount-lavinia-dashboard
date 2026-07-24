@@ -1,0 +1,189 @@
+{
+  "project": "mount-lavinia-based-analyses",
+  "scale_m": 30,
+  "crs": "EPSG:32644",
+  "buffer_m": 300.0,
+  "bands": [
+    "blue",
+    "green",
+    "red",
+    "nir",
+    "swir1",
+    "swir2",
+    "NDVI",
+    "NDBI",
+    "MNDWI"
+  ],
+  "epochs": [
+    {
+      "epoch_id": "y2000",
+      "label": "~2000",
+      "start": "1999-12-01",
+      "end": "2001-03-31",
+      "sensors": [
+        "LANDSAT/LT05/C02/T1_L2",
+        "LANDSAT/LE07/C02/T1_L2"
+      ],
+      "months": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "image_count": 6,
+      "buffer_m": 300.0,
+      "bands": [
+        "blue",
+        "green",
+        "red",
+        "nir",
+        "swir1",
+        "swir2",
+        "NDVI",
+        "NDBI",
+        "MNDWI"
+      ],
+      "scale_m": 30,
+      "crs": "EPSG:32644",
+      "export_path": "data/raw/composites/composite_y2000.tif",
+      "preview_path": "outputs/figures/composite_y2000_rgb.png",
+      "raster": {
+        "path": "data/raw/composites/composite_y2000.tif",
+        "crs": "EPSG:32644",
+        "width": 76,
+        "height": 132,
+        "count": 9,
+        "dtypes": [
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64"
+        ],
+        "bounds": [
+          373830.0,
+          753600.0,
+          376110.0,
+          757560.0
+        ]
+      }
+    },
+    {
+      "epoch_id": "y2015",
+      "label": "~2015",
+      "start": "2014-12-01",
+      "end": "2016-03-31",
+      "sensors": [
+        "LANDSAT/LC08/C02/T1_L2"
+      ],
+      "months": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "image_count": 26,
+      "buffer_m": 300.0,
+      "bands": [
+        "blue",
+        "green",
+        "red",
+        "nir",
+        "swir1",
+        "swir2",
+        "NDVI",
+        "NDBI",
+        "MNDWI"
+      ],
+      "scale_m": 30,
+      "crs": "EPSG:32644",
+      "export_path": "data/raw/composites/composite_y2015.tif",
+      "preview_path": "outputs/figures/composite_y2015_rgb.png",
+      "raster": {
+        "path": "data/raw/composites/composite_y2015.tif",
+        "crs": "EPSG:32644",
+        "width": 76,
+        "height": 132,
+        "count": 9,
+        "dtypes": [
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64"
+        ],
+        "bounds": [
+          373830.0,
+          753600.0,
+          376110.0,
+          757560.0
+        ]
+      }
+    },
+    {
+      "epoch_id": "y2025",
+      "label": "~2025",
+      "start": "2024-12-01",
+      "end": "2026-03-31",
+      "sensors": [
+        "LANDSAT/LC08/C02/T1_L2",
+        "LANDSAT/LC09/C02/T1_L2"
+      ],
+      "months": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "image_count": 51,
+      "buffer_m": 300.0,
+      "bands": [
+        "blue",
+        "green",
+        "red",
+        "nir",
+        "swir1",
+        "swir2",
+        "NDVI",
+        "NDBI",
+        "MNDWI"
+      ],
+      "scale_m": 30,
+      "crs": "EPSG:32644",
+      "export_path": "data/raw/composites/composite_y2025.tif",
+      "preview_path": "outputs/figures/composite_y2025_rgb.png",
+      "raster": {
+        "path": "data/raw/composites/composite_y2025.tif",
+        "crs": "EPSG:32644",
+        "width": 76,
+        "height": 132,
+        "count": 9,
+        "dtypes": [
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64"
+        ],
+        "bounds": [
+          373830.0,
+          753600.0,
+          376110.0,
+          757560.0
+        ]
+      }
+    }
+  ]
+}
