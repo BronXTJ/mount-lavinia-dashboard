@@ -4,19 +4,9 @@ import { LC_CHANGE_LEGEND, LC_CLASS_LEGEND } from '../../constants/landCover.js'
 export default function LandCoverLegend({ activeOverlay }) {
   if (!activeOverlay) return null
 
-  if (activeOverlay === 'context') {
-    return (
-      <div className="pointer-events-none absolute bottom-4 left-4 z-[1000] max-w-[220px] rounded-lg border border-surface-700 bg-surface-900/90 px-3 py-2 shadow-lg backdrop-blur-sm">
-        <p className="text-[10px] font-semibold uppercase tracking-wide text-surface-400">Context</p>
-        <p className="mt-1 text-[11px] leading-snug text-surface-300">
-          ~2025 classified map with OSM roads / buildings overlay.
-        </p>
-      </div>
-    )
-  }
-
   const items = activeOverlay === 'change' ? LC_CHANGE_LEGEND : LC_CLASS_LEGEND
-  const title = activeOverlay === 'change' ? 'Change theme' : 'Land cover'
+  const title =
+    activeOverlay === 'change' ? 'Landsat change (30 m)' : 'Landsat LULC (30 m)'
 
   return (
     <div className="pointer-events-none absolute bottom-4 left-4 z-[1000] max-w-[220px] rounded-lg border border-surface-700 bg-surface-900/90 px-3 py-2 shadow-lg backdrop-blur-sm">

@@ -127,7 +127,7 @@ export default function LandCoverMapLayerFab({
               <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
               <div className="px-4 py-2">
                 <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-surface-400">
-                  Epoch
+                  Landsat epoch
                 </p>
                 <div className="flex gap-1">
                   {LC_EPOCHS.map((ep) => {
