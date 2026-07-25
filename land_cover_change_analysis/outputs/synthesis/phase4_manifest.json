@@ -1,0 +1,27 @@
+{
+  "focus": "full_5gn_plus_mount_lavinia_gn_deep_dive",
+  "galle_road_role": "map_context_only_no_statistical_split",
+  "zones": [
+    "gn5",
+    "mount_lavinia_gn",
+    "other_4gn"
+  ],
+  "n_sites": 8,
+  "site_ids": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08"
+  ],
+  "outputs": {
+    "design_synthesis": "outputs/synthesis/design_synthesis.md",
+    "zone_table": "outputs/tables/area_by_zone_y2000_y2025.csv",
+    "focal_sites": "outputs/synthesis/focal_sites.geojson",
+    "context_gn5": "outputs/maps/context_y2025_osm_overlay_gn5.png",
+    "context_ml": "outputs/maps/context_y2025_mount_lavinia_focus.png"
+  }
+}

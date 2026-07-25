@@ -1,0 +1,22 @@
+{
+  "phase": 2,
+  "output": "E:/mount-lavinia-dashboard/json_files/Primary study area final analysis 01/02_hex_grid/hex_grid_primary_100m.geojson",
+  "analysis_crs": "EPSG:3857",
+  "export_crs": "CRS84 / EPSG:4326",
+  "hex_type": "flat-top",
+  "flat_to_flat_m": 100.0,
+  "side_m": 57.73502691896258,
+  "col_spacing_m": 86.60254037844388,
+  "row_spacing_m": 100.0,
+  "theoretical_full_area_m2": 8660.254037844388,
+  "feature_count": 447,
+  "edge_count": 125,
+  "interior_count": 322,
+  "Hex_area": {
+    "min": 0.9539,
+    "max": 8660.254,
+    "mean": 7401.617150111896
+  },
+  "Hex_area_full_mean": 8660.253999999999,
+  "edge_ratio_threshold": 0.999
+}

@@ -1,9 +1,10 @@
 /** Tab 2 Focus Area — Density Analysis configuration. */
 
-export const DENSITY_MAP_CENTER = [6.8394, 79.8653]
-export const DENSITY_MAP_ZOOM = 15
+/** Primary 5-GN extent — slightly zoomed out vs old 500 m buffer. */
+export const DENSITY_MAP_CENTER = [6.8344, 79.8685]
+export const DENSITY_MAP_ZOOM = 14
 
-/** 500m analysis boundary — solid red, matches Overview study area. */
+/** Primary study area boundary — solid red. */
 export const DENSITY_BUFFER_COLOR = '#dc2626'
 
 /** Multi-stop QGIS-style ramps — Magma / Mako / Cividis / Viridis (no single-hue). */
@@ -57,17 +58,17 @@ export const DENSITY_TYPOLOGY = {
   bareInactive: { id: 'bareInactive', label: 'Bare / Inactive Land', color: '#57534e' },
 }
 
-/** FAB layer panel — order and indicator dots. */
+/** FAB layer panel — primary study area labels. */
 export const DENSITY_FAB_LAYERS = [
-  { id: 'analysisArea', label: 'Analysis Area Boundary', dot: '#dc2626', group: 'independent' },
-  { id: 'hexGrid', label: '100m Hex Grid', dot: '#2563eb', group: 'independent' },
+  { id: 'analysisArea', label: 'Primary Study Area Boundary', dot: '#dc2626', group: 'independent' },
+  { id: 'hexGrid', label: '100 m Hex Grid — Primary', dot: '#2563eb', group: 'independent' },
   { id: 'fsi', label: 'FSI — Floor Space Index', dot: '#de4968', group: 'metric' },
   { id: 'gsi', label: 'GSI — Ground Space Index', dot: '#3bbcc0', group: 'metric' },
   { id: 'osr', label: 'OSR — Open Space Ratio', dot: '#4a6c6f', group: 'metric' },
   { id: 'density', label: 'Density Value', dot: '#5ec962', group: 'metric' },
-  { id: 'buildings', label: 'Buildings', dot: '#64748b', group: 'independent' },
-  { id: 'roads', label: 'Roads', dot: '#f77f00', group: 'independent' },
-  { id: 'pois', label: 'POIs', dot: '#db2777', group: 'independent' },
+  { id: 'buildings', label: 'Buildings (Zenodo)', dot: '#64748b', group: 'independent' },
+  { id: 'roads', label: 'Roads — Primary', dot: '#f77f00', group: 'independent' },
+  { id: 'pois', label: 'POIs — Primary', dot: '#db2777', group: 'independent' },
 ]
 
 export const DEFAULT_DENSITY_VISIBLE = {

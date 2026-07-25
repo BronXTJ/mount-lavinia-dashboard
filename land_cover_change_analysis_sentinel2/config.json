@@ -1,0 +1,57 @@
+{
+  "project_name": "Mount Lavinia 5 GN land cover change (Sentinel-2 10 m)",
+  "companion_to": "../land_cover_change_analysis",
+  "gee_project_id": "mount-lavinia-based-analyses",
+  "sensor": "COPERNICUS/S2_SR_HARMONIZED",
+  "scale_m": 10,
+  "crs_area": "EPSG:32644",
+  "crs_wgs84": "EPSG:4326",
+  "aoi": {
+    "source": "../Social_media_analysis/layers_json_files/gn5_combined_area.geojson",
+    "dissolved_wgs84": "aoi/aoi_gn5_dissolved.geojson",
+    "dissolved_utm": "aoi/aoi_gn5_dissolved_32644.geojson",
+    "gn_names": [
+      "Mount Lavinia",
+      "Kawdana West",
+      "Watarappala",
+      "Wathumulla",
+      "Wedikanda"
+    ]
+  },
+  "season": {
+    "label": "dry_season_Dec_Mar",
+    "months": [12, 1, 2, 3]
+  },
+  "epochs": [
+    {
+      "id": "y2018",
+      "label": "~2018",
+      "start": "2017-12-01",
+      "end": "2019-03-31",
+      "sensors": ["COPERNICUS/S2_SR_HARMONIZED"]
+    },
+    {
+      "id": "y2020",
+      "label": "~2020",
+      "start": "2019-12-01",
+      "end": "2021-03-31",
+      "sensors": ["COPERNICUS/S2_SR_HARMONIZED"]
+    },
+    {
+      "id": "y2025",
+      "label": "~2025",
+      "start": "2024-12-01",
+      "end": "2026-03-31",
+      "sensors": ["COPERNICUS/S2_SR_HARMONIZED"]
+    }
+  ],
+  "classes": [
+    {"id": 1, "name": "built_up", "label": "Built-up / impervious", "color": "#d73027"},
+    {"id": 2, "name": "vegetation", "label": "Vegetation / tree cover", "color": "#1a9850"},
+    {"id": 3, "name": "open_bare", "label": "Open / bare / sparse vegetation", "color": "#fee08b"},
+    {"id": 4, "name": "water_wetland", "label": "Water / wetland", "color": "#4575b4"},
+    {"id": 5, "name": "beach_sand", "label": "Beach / sand", "color": "#f7f7f7"}
+  ],
+  "accuracy_target_oa": 0.85,
+  "scale_note": "10 m Sentinel-2 neighbourhood-scale analysis (2018–2025). Landsat 30 m folder covers ~2000 onward."
+}

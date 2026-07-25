@@ -1,0 +1,94 @@
+{
+  "method": "index-seeded RandomForest (sklearn), per-epoch models",
+  "features": [
+    "blue",
+    "green",
+    "red",
+    "nir",
+    "swir1",
+    "swir2",
+    "NDVI",
+    "NDBI",
+    "MNDWI"
+  ],
+  "n_estimators": 200,
+  "train_test_split": "70/30 stratified",
+  "accuracy_target_oa": 0.85,
+  "epochs": [
+    {
+      "epoch_id": "y2000",
+      "classified_path": "data/processed/classified_y2000.tif",
+      "training_path": "data/processed/training_samples_y2000.geojson",
+      "n_samples": 382,
+      "overall_accuracy": 0.9478260869565217,
+      "kappa": 0.9260846277450455,
+      "areas_ha": {
+        "1": 36.9,
+        "2": 179.37,
+        "3": 116.46,
+        "4": 2.52,
+        "5": 3.6
+      },
+      "seed_pixel_counts": {
+        "1": 342,
+        "2": 2091,
+        "3": 1213,
+        "4": 18,
+        "5": 4
+      }
+    },
+    {
+      "epoch_id": "y2015",
+      "classified_path": "data/processed/classified_y2015.tif",
+      "training_path": "data/processed/training_samples_y2015.geojson",
+      "n_samples": 390,
+      "overall_accuracy": 0.9829059829059829,
+      "kappa": 0.975878775383981,
+      "areas_ha": {
+        "1": 48.87,
+        "2": 117.63,
+        "3": 165.51,
+        "4": 4.14,
+        "5": 2.7
+      },
+      "seed_pixel_counts": {
+        "1": 531,
+        "2": 1370,
+        "3": 1632,
+        "4": 27,
+        "5": 3
+      }
+    },
+    {
+      "epoch_id": "y2025",
+      "classified_path": "data/processed/classified_y2025.tif",
+      "training_path": "data/processed/training_samples_y2025.geojson",
+      "n_samples": 377,
+      "overall_accuracy": 0.9649122807017544,
+      "kappa": 0.9492374485138595,
+      "areas_ha": {
+        "1": 62.82,
+        "2": 108.99,
+        "3": 162.72,
+        "4": 2.43,
+        "5": 1.89
+      },
+      "seed_pixel_counts": {
+        "1": 582,
+        "2": 1230,
+        "3": 1709,
+        "4": 14,
+        "5": 3
+      }
+    }
+  ],
+  "change_pairs": [
+    "y2000_y2015",
+    "y2015_y2025",
+    "y2000_y2025"
+  ],
+  "tables": {
+    "area_by_class": "outputs/tables/area_by_class.csv",
+    "accuracy_by_epoch": "outputs/tables/accuracy_by_epoch.csv"
+  }
+}

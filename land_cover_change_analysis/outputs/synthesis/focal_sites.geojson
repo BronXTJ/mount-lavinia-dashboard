@@ -1,0 +1,14 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32644" } },
+"features": [
+{ "type": "Feature", "properties": { "site_id": "01", "key": "ml_veg_to_built_1", "label": "Mount Lavinia veg→built (primary)", "focus": "mount_lavinia_gn", "row": 36, "col": 19 }, "geometry": { "type": "Point", "coordinates": [ 374415.0, 756465.0 ] } },
+{ "type": "Feature", "properties": { "site_id": "02", "key": "ml_veg_to_built_2", "label": "Mount Lavinia veg→built (secondary)", "focus": "mount_lavinia_gn", "row": 60, "col": 27 }, "geometry": { "type": "Point", "coordinates": [ 374655.0, 755745.0 ] } },
+{ "type": "Feature", "properties": { "site_id": "03", "key": "ml_open_to_built", "label": "Mount Lavinia open→built", "focus": "mount_lavinia_gn", "row": 34, "col": 28 }, "geometry": { "type": "Point", "coordinates": [ 374685.0, 756525.0 ] } },
+{ "type": "Feature", "properties": { "site_id": "04", "key": "ml_coastal_beach", "label": "Mount Lavinia coastal / beach edge", "focus": "mount_lavinia_gn", "row": 19, "col": 13 }, "geometry": { "type": "Point", "coordinates": [ 374235.0, 756975.0 ] } },
+{ "type": "Feature", "properties": { "site_id": "05", "key": "ml_stable_green", "label": "Mount Lavinia remaining green/soft", "focus": "mount_lavinia_gn", "row": 74, "col": 18 }, "geometry": { "type": "Point", "coordinates": [ 374385.0, 755325.0 ] } },
+{ "type": "Feature", "properties": { "site_id": "06", "key": "other_veg_to_built", "label": "Other GNs veg→built", "focus": "other_4gn", "row": 18, "col": 31 }, "geometry": { "type": "Point", "coordinates": [ 374775.0, 757005.0 ] } },
+{ "type": "Feature", "properties": { "site_id": "07", "key": "other_stable_green", "label": "Other GNs stable vegetation", "focus": "other_4gn", "row": 85, "col": 22 }, "geometry": { "type": "Point", "coordinates": [ 374505.0, 754995.0 ] } },
+{ "type": "Feature", "properties": { "site_id": "08", "key": "other_water_or_built", "label": "Other GNs water/wetland or densification", "focus": "other_4gn", "row": 116, "col": 27 }, "geometry": { "type": "Point", "coordinates": [ 374655.0, 754065.0 ] } }
+]
+}

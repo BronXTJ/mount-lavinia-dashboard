@@ -19,3 +19,13 @@ npm-debug.log*
 
 # env
 *.local
+
+# YouTube / scraper secrets (never commit cookies or API tokens)
+Social_media_analysis/secrets/
+**/youtube_cookies.txt
+**/apify_token.txt
+.env
+
+__pycache__/
+*.py[cod]
+

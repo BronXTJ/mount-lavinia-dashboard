@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { densityGeoUrl } from '../constants/density.js'
-import { boundaryGeoUrl } from '../constants/centrality.js'
 import { buildDensityStats, filterValidFeatures } from '../utils/densityStats.js'
 
 async function fetchGeoJson(url) {
@@ -32,7 +31,8 @@ const EMPTY_STATS = {
 
 /**
  * Loads Density Analysis hex grid + context layers once on mount.
- * Filters invalid boundary cells (FSI>0, GSI>0, OSR>=0, Hex_area>0) and precomputes panel stats.
+ * Primary 5-GN study area layers by default.
+ * Filters invalid / edge cells and precomputes panel stats.
  */
 export function useDensityLayers() {
   const [hex, setHex] = useState(null)
@@ -50,12 +50,12 @@ export function useDensityLayers() {
     setLoading(true)
 
     Promise.all([
-      fetchGeoJson(densityGeoUrl('Density_value.geojson')),
-      fetchGeoJson(densityGeoUrl('hex_grid_500m.geojson')),
-      fetchGeoJson(densityGeoUrl('buildings_500m.geojson')),
-      fetchGeoJson(densityGeoUrl('roads_clipped_500m.geojson')),
-      fetchGeoJson(densityGeoUrl('pois_clipped_500m.geojson')),
-      fetchGeoJson(boundaryGeoUrl(500)),
+      fetchGeoJson(densityGeoUrl('density_primary_hex.geojson')),
+      fetchGeoJson(densityGeoUrl('hex_grid_primary_100m.geojson')),
+      fetchGeoJson(densityGeoUrl('buildings_primary_floors.geojson')),
+      fetchGeoJson(densityGeoUrl('roads_primary.geojson')),
+      fetchGeoJson(densityGeoUrl('pois_primary.geojson')),
+      fetchGeoJson(densityGeoUrl('primary_study_area_boundary.geojson')),
     ]).then(([rawHex, hexGridData, buildingsData, roadsData, poisData, boundaryData]) => {
       if (cancelled) return
 

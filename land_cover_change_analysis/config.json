@@ -1,0 +1,56 @@
+{
+  "project_name": "Mount Lavinia 5 GN land cover change",
+  "gee_project_id": "mount-lavinia-based-analyses",
+  "gee_repo": "users/thanujals/Land_cover_analysis_GEE",
+  "crs_area": "EPSG:32644",
+  "crs_wgs84": "EPSG:4326",
+  "aoi": {
+    "source": "../Social_media_analysis/layers_json_files/gn5_combined_area.geojson",
+    "dissolved_wgs84": "aoi/aoi_gn5_dissolved.geojson",
+    "dissolved_utm": "aoi/aoi_gn5_dissolved_32644.geojson",
+    "dissolved_shp": "aoi/aoi_gn5_dissolved_32644.shp",
+    "gn_names": [
+      "Mount Lavinia",
+      "Kawdana West",
+      "Watarappala",
+      "Wathumulla",
+      "Wedikanda"
+    ]
+  },
+  "season": {
+    "label": "dry_season_Dec_Mar",
+    "months": [12, 1, 2, 3]
+  },
+  "epochs": [
+    {
+      "id": "y2000",
+      "label": "~2000",
+      "start": "1999-12-01",
+      "end": "2001-03-31",
+      "sensors": ["LANDSAT/LT05/C02/T1_L2", "LANDSAT/LE07/C02/T1_L2"]
+    },
+    {
+      "id": "y2015",
+      "label": "~2015",
+      "start": "2014-12-01",
+      "end": "2016-03-31",
+      "sensors": ["LANDSAT/LC08/C02/T1_L2"]
+    },
+    {
+      "id": "y2025",
+      "label": "~2025",
+      "start": "2024-12-01",
+      "end": "2026-03-31",
+      "sensors": ["LANDSAT/LC08/C02/T1_L2", "LANDSAT/LC09/C02/T1_L2"]
+    }
+  ],
+  "classes": [
+    {"id": 1, "name": "built_up", "label": "Built-up / impervious", "color": "#d73027"},
+    {"id": 2, "name": "vegetation", "label": "Vegetation / tree cover", "color": "#1a9850"},
+    {"id": 3, "name": "open_bare", "label": "Open / bare / sparse vegetation", "color": "#fee08b"},
+    {"id": 4, "name": "water_wetland", "label": "Water / wetland", "color": "#4575b4"},
+    {"id": 5, "name": "beach_sand", "label": "Beach / sand", "color": "#f7f7f7"}
+  ],
+  "accuracy_target_oa": 0.85,
+  "scale_note": "Neighbourhood-scale land cover change (not cadastral / plot-level)."
+}

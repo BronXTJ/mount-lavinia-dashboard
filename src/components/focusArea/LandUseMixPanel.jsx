@@ -123,12 +123,12 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
       <div className="rounded-lg border border-surface-700 bg-surface-800 p-4 shadow-card">
         <div className="flex items-center gap-1.5">
           <h3 className="font-display text-sm font-semibold text-surface-50">
-            Land Use Composition — 500m Buffer
+            Land Use Composition — Primary Study Area
           </h3>
           <MetricInfoButton
             title="Land Use Composition"
             points={[
-              'Bars show total land extent by Main_C category inside the 500m analysis buffer.',
+              'Bars show total land extent by Main_C category inside the primary study area.',
               'Percent labels are each category’s share of total Land_Exten.',
               'Colors match the Overview land-use map.',
             ]}

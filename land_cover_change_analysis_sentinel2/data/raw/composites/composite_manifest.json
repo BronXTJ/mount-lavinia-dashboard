@@ -1,0 +1,137 @@
+{
+  "project": "mount-lavinia-based-analyses",
+  "sensor": "COPERNICUS/S2_SR_HARMONIZED",
+  "scale_m": 10,
+  "crs": "EPSG:32644",
+  "buffer_m": 300.0,
+  "bands": [
+    "blue",
+    "green",
+    "red",
+    "nir",
+    "swir1",
+    "swir2",
+    "NDVI",
+    "NDBI",
+    "MNDWI"
+  ],
+  "epochs": [
+    {
+      "epoch_id": "y2018",
+      "label": "~2018",
+      "start": "2017-12-01",
+      "end": "2019-03-31",
+      "sensors": [
+        "COPERNICUS/S2_SR_HARMONIZED"
+      ],
+      "image_count": 18,
+      "buffer_m": 300.0,
+      "bands": [
+        "blue",
+        "green",
+        "red",
+        "nir",
+        "swir1",
+        "swir2",
+        "NDVI",
+        "NDBI",
+        "MNDWI"
+      ],
+      "scale_m": 10,
+      "crs": "EPSG:32644",
+      "export_path": "data/raw/composites/composite_y2018.tif",
+      "preview_path": "outputs/figures/composite_y2018_rgb.png",
+      "raster": {
+        "path": "data/raw/composites/composite_y2018.tif",
+        "crs": "EPSG:32644",
+        "width": 227,
+        "height": 394,
+        "count": 9,
+        "bounds": [
+          373840.0,
+          753620.0,
+          376110.0,
+          757560.0
+        ]
+      }
+    },
+    {
+      "epoch_id": "y2020",
+      "label": "~2020",
+      "start": "2019-12-01",
+      "end": "2021-03-31",
+      "sensors": [
+        "COPERNICUS/S2_SR_HARMONIZED"
+      ],
+      "image_count": 39,
+      "buffer_m": 300.0,
+      "bands": [
+        "blue",
+        "green",
+        "red",
+        "nir",
+        "swir1",
+        "swir2",
+        "NDVI",
+        "NDBI",
+        "MNDWI"
+      ],
+      "scale_m": 10,
+      "crs": "EPSG:32644",
+      "export_path": "data/raw/composites/composite_y2020.tif",
+      "preview_path": "outputs/figures/composite_y2020_rgb.png",
+      "raster": {
+        "path": "data/raw/composites/composite_y2020.tif",
+        "crs": "EPSG:32644",
+        "width": 227,
+        "height": 394,
+        "count": 9,
+        "bounds": [
+          373840.0,
+          753620.0,
+          376110.0,
+          757560.0
+        ]
+      }
+    },
+    {
+      "epoch_id": "y2025",
+      "label": "~2025",
+      "start": "2024-12-01",
+      "end": "2026-03-31",
+      "sensors": [
+        "COPERNICUS/S2_SR_HARMONIZED"
+      ],
+      "image_count": 35,
+      "buffer_m": 300.0,
+      "bands": [
+        "blue",
+        "green",
+        "red",
+        "nir",
+        "swir1",
+        "swir2",
+        "NDVI",
+        "NDBI",
+        "MNDWI"
+      ],
+      "scale_m": 10,
+      "crs": "EPSG:32644",
+      "export_path": "data/raw/composites/composite_y2025.tif",
+      "preview_path": "outputs/figures/composite_y2025_rgb.png",
+      "raster": {
+        "path": "data/raw/composites/composite_y2025.tif",
+        "crs": "EPSG:32644",
+        "width": 227,
+        "height": 394,
+        "count": 9,
+        "bounds": [
+          373840.0,
+          753620.0,
+          376110.0,
+          757560.0
+        ]
+      }
+    }
+  ]
+}

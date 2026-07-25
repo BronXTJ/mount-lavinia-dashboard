@@ -1,12 +1,15 @@
 import { DENSITY_METRIC_RAMPS, DENSITY_TYPOLOGY } from '../constants/density.js'
 import { interpolateColor } from './centralityStats.js'
 
-// Filter out invalid boundary cells
-// A valid cell must have: FSI > 0, GSI > 0, OSR >= 0, Hex_area > 0
+// Filter out invalid / edge boundary cells.
+// A valid cell must have: FSI > 0, GSI > 0, OSR >= 0, Hex_area > 0,
+// and must not be flagged is_edge when that property is present.
 export function filterValidFeatures(geojson) {
   const features = geojson?.features ?? []
   return features.filter((f) => {
     const p = f.properties
+    if (p?.is_edge === true || p?.is_edge === 'true') return false
+    if (p?.is_valid === false || p?.is_valid === 'false') return false
     return (
       p.FSI > 0 &&
       p.GSI > 0 &&

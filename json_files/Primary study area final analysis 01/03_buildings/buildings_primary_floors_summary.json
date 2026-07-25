@@ -1,0 +1,55 @@
+{
+  "phase": 3,
+  "output": "E:/mount-lavinia-dashboard/json_files/Primary study area final analysis 01/03_buildings/buildings_primary_floors.geojson",
+  "source": "E:/mount-lavinia-dashboard/json_files/Primary study area final analysis 01/03_buildings/zenodo_buildings_raw.geojson",
+  "analysis_crs_for_area": "EPSG:3857",
+  "export_crs": "CRS84 / EPSG:4326",
+  "floors_rule": "if Height < 3: 1 else round(Height / 3)",
+  "feature_count": 5501,
+  "Height": {
+    "min": 1.3372298,
+    "max": 81.12203,
+    "below_3m_count": 2
+  },
+  "Floors": {
+    "min": 1,
+    "max": 27,
+    "mean": 4.446100708962007,
+    "histogram": {
+      "1": 6,
+      "2": 155,
+      "3": 1088,
+      "4": 2076,
+      "5": 1302,
+      "6": 537,
+      "7": 196,
+      "8": 56,
+      "9": 30,
+      "10": 10,
+      "11": 12,
+      "12": 6,
+      "13": 8,
+      "14": 1,
+      "15": 4,
+      "16": 5,
+      "17": 2,
+      "18": 2,
+      "20": 1,
+      "23": 1,
+      "25": 2,
+      "27": 1
+    }
+  },
+  "Area_build_m2": {
+    "min": 0.3271010799637094,
+    "max": 2414.706655909285,
+    "sum": 1157961.3652371923,
+    "mean": 210.50015728725546
+  },
+  "Floor_Area_m2": {
+    "min": 1.37018128731773,
+    "max": 36015.18141056061,
+    "sum": 5972681.62055101,
+    "mean": 1085.744704699329
+  }
+}

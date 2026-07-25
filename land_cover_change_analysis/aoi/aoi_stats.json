@@ -1,0 +1,27 @@
+{
+  "source": "E:\\mount-lavinia-dashboard\\Social_media_analysis\\layers_json_files\\gn5_combined_area.geojson",
+  "feature_count_source": 5,
+  "gn_names": [
+    "Kawdana West",
+    "Mount Lavinia",
+    "Watarappala",
+    "Wathumulla",
+    "Wedikanda"
+  ],
+  "crs_wgs84": "EPSG:4326",
+  "crs_area": "EPSG:32644",
+  "area_m2": 3220787.73,
+  "area_ha": 322.0788,
+  "area_km2": 3.220788,
+  "bounds_32644": {
+    "minx": 374146.8422247005,
+    "miny": 753928.8672970802,
+    "maxx": 375806.1293391088,
+    "maxy": 757250.9402831814
+  },
+  "outputs": {
+    "wgs84_geojson": "aoi\\aoi_gn5_dissolved.geojson",
+    "utm_geojson": "aoi\\aoi_gn5_dissolved_32644.geojson",
+    "utm_shapefile": "aoi\\aoi_gn5_dissolved_32644.shp"
+  }
+}
