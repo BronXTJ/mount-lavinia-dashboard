@@ -942,8 +942,9 @@ function buildPrimaryMaturationLayers() {
     precision: 6,
     keepKeys: ['id', ' final_ent', ' final_mui'],
   })
+  // Same Overview land-use source: No1 landuse_clipped (not a stale primary-package copy).
   cleanGeoJson(
-    path.join(PRIMARY_ANALYSIS_DIR, '06_context', 'landuse_primary.geojson'),
+    path.join(SOURCE_DIR, 'No1_study_boundary_related_analysis', 'landuse_clipped', 'landuse_clipped.geojson'),
     'landuse_primary.geojson',
     {
       outDir: URBAN_MATURATION_DIR,

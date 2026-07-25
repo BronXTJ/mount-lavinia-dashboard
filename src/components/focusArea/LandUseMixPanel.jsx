@@ -128,7 +128,7 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Land Use Composition"
             points={[
-              'Bars show total land extent by Main_C category inside the primary study area.',
+              'Bars show total land extent by Main_C from the Overview land-use layer (landuse_clipped).',
               'Percent labels are each category’s share of total Land_Exten.',
               'Colors match the Overview land-use map.',
             ]}
