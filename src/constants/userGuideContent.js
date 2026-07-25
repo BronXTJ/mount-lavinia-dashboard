@@ -86,6 +86,17 @@ export const USER_GUIDE_SECTIONS = [
     ],
   },
   {
+    id: 'land-cover',
+    title: 'Land Cover Change',
+    icon: 'Trees',
+    bullets: [
+      'Use the map FAB to switch classified epochs (~2000 / ~2015 / ~2025), change theme, or OSM context.',
+      'Click a GN on the map or in the left list to load its detail panel.',
+      'Left KPIs and the stacked chart show Landsat change across all five GNs (2000→2025).',
+      'Mount Lavinia shows a Landsat deep dive; other GNs show Sentinel-2 10 m built / green / soft shares.',
+    ],
+  },
+  {
     id: 'environmental',
     title: 'Environmental Analysis',
     icon: 'Thermometer',

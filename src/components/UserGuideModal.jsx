@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   MapPin,
   Thermometer,
+  Trees,
   TrendingUp,
   X,
 } from 'lucide-react'
@@ -26,6 +27,7 @@ const ICON_MAP = {
   Grid3x3,
   TrendingUp,
   Car,
+  Trees,
   Thermometer,
   GitBranch,
   AlertTriangle,

@@ -6,6 +6,7 @@ import Tab1_Overview from './tabs/Tab1_Overview.jsx'
 import Tab2_FocusArea from './tabs/Tab2_FocusArea.jsx'
 import Tab3_LandUse from './tabs/Tab3_LandUse.jsx'
 import Tab4_Connectivity from './tabs/Tab4_Connectivity.jsx'
+import TabLandCover from './tabs/TabLandCover.jsx'
 import Tab5_Environmental from './tabs/Tab5_Environmental.jsx'
 import Tab6_Problems from './tabs/Tab6_Problems.jsx'
 import Tab7_Synthesis from './tabs/Tab7_Synthesis.jsx'
@@ -36,10 +37,11 @@ export default function App() {
 
   const isFocusArea = pathname === '/focus-area' || pathname.endsWith('/focus-area')
   const isConnectivity = pathname === '/connectivity' || pathname.endsWith('/connectivity')
+  const isLandCover = pathname === '/land-cover' || pathname.endsWith('/land-cover')
   const isEnvironmental = pathname === '/environmental' || pathname.endsWith('/environmental')
   const isIssues = pathname === '/problems' || pathname.endsWith('/problems')
   const isSynthesis = pathname === '/synthesis' || pathname.endsWith('/synthesis')
-  const isFullBleed = isFocusArea || isConnectivity || isEnvironmental
+  const isFullBleed = isFocusArea || isConnectivity || isLandCover || isEnvironmental
 
   const sidebarWidth = isDesktop ? (sidebarExpanded ? 240 : 64) : 0
 
@@ -112,6 +114,7 @@ export default function App() {
           />
           <Route path="/land-use" element={<Tab3_LandUse />} />
           <Route path="/connectivity" element={<Tab4_Connectivity />} />
+          <Route path="/land-cover" element={<TabLandCover />} />
           <Route path="/environmental" element={<Tab5_Environmental />} />
           <Route
             path="/synthesis"
