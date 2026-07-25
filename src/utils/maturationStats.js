@@ -381,7 +381,7 @@ export function buildHexFunctionalMix(hexFeatures, landuseGeojson) {
   }
 }
 
-/** Color a hex by quantile classes for continuous maturation metrics. */
+/** Color a hex by equal-interval classes for continuous maturation metrics. */
 export function colorForMaturationMetric(value, classes) {
   return colorForMetricClass(Number(value), classes)
 }

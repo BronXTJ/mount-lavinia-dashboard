@@ -1,9 +1,9 @@
 /**
- * Shared quantile classification for Density / Maturation hex metrics.
+ * Shared equal-interval classification for Density / Maturation hex metrics.
  * Class count = number of ramp color stops; maps, legends, and charts share the same bins.
  */
 
-/** Quantile edge values for n equal-count classes (length n+1). */
+/** Quantile edge values for n equal-count classes (length n+1). Kept for compatibility. */
 export function buildQuantileBreaks(values, n = 5) {
   if (!values?.length) return null
   const sorted = [...values].filter(Number.isFinite).sort((a, b) => a - b)
@@ -17,6 +17,45 @@ export function buildQuantileBreaks(values, n = 5) {
   for (let i = 1; i < breaks.length; i += 1) {
     if (breaks[i] < breaks[i - 1]) breaks[i] = breaks[i - 1]
   }
+  return breaks
+}
+
+function percentileSorted(sorted, p) {
+  if (!sorted.length) return null
+  if (sorted.length === 1) return sorted[0]
+  const rank = (p / 100) * (sorted.length - 1)
+  const lo = Math.floor(rank)
+  const hi = Math.ceil(rank)
+  if (lo === hi) return sorted[lo]
+  const t = rank - lo
+  return sorted[lo] * (1 - t) + sorted[hi] * t
+}
+
+/**
+ * Equal-width class edges (length n+1).
+ * Interval width uses [min, P98]; last edge is the true max so outliers sit in the top class.
+ */
+export function buildEqualIntervalBreaks(values, n = 5) {
+  if (!values?.length || n < 1) return null
+  const sorted = [...values].filter(Number.isFinite).sort((a, b) => a - b)
+  if (!sorted.length) return null
+
+  const vmin = sorted[0]
+  const vmax = sorted[sorted.length - 1]
+  if (vmax === vmin) {
+    return Array.from({ length: n + 1 }, (_, i) => (i === 0 ? vmin : vmax))
+  }
+
+  const p98 = percentileSorted(sorted, 98)
+  const high = Math.max(vmin, p98 ?? vmax)
+  const span = high - vmin || 1
+  const width = span / n
+
+  const breaks = [vmin]
+  for (let i = 1; i < n; i += 1) {
+    breaks.push(vmin + i * width)
+  }
+  breaks.push(vmax)
   return breaks
 }
 
@@ -36,7 +75,7 @@ function classIndexForValue(value, breaks, nClasses) {
 }
 
 /**
- * Build quantile classes with per-bin counts.
+ * Build equal-interval classes with per-bin counts.
  * @returns {{ breaks: number[]|null, colors: string[], bins: Array<{color, from, to, label, count, index}> }}
  */
 export function buildMetricClasses(values, colors) {
@@ -46,7 +85,7 @@ export function buildMetricClasses(values, colors) {
   }
 
   const finite = (values ?? []).filter(Number.isFinite)
-  const breaks = buildQuantileBreaks(finite, palette.length)
+  const breaks = buildEqualIntervalBreaks(finite, palette.length)
   if (!breaks) {
     return {
       breaks: null,
@@ -100,4 +139,3 @@ export function isPracticalMetricValue(value, metricId) {
   if (metricId === 'fsi' || metricId === 'gsi') return v > 0
   return v >= 0
 }
-

@@ -14,7 +14,7 @@ function renderTooltip({ active, payload }) {
   )
 }
 
-/** Quantile class distribution — bar colors match map / legend when bins include `color`. */
+/** Equal-interval class distribution — bar colors match map / legend when bins include `color`. */
 export default function MetricHistogram({
   title,
   data,

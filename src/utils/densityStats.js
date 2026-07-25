@@ -165,7 +165,7 @@ export function buildKeyFindings(typologyDist, medianOsr) {
   return lines
 }
 
-/** Color a hex by quantile classes for the active density metric. */
+/** Color a hex by equal-interval classes for the active density metric. */
 export function colorForDensityMetric(value, classes) {
   return colorForMetricClass(Number(value), classes)
 }

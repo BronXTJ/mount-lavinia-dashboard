@@ -2,7 +2,7 @@ import { MATURATION_METRIC_RAMPS } from '../../constants/maturation.js'
 
 /**
  * Bottom-right maturation metric legend — same size as DensityLegend.
- * Discrete quantile class ranges for every metric (shared with map + charts).
+ * Discrete equal-interval class ranges for every metric (shared with map + charts).
  */
 export default function MaturationLegend({ activeMetric, stats }) {
   const ramp = activeMetric ? MATURATION_METRIC_RAMPS[activeMetric] : null

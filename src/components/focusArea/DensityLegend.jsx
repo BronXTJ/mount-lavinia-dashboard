@@ -2,7 +2,7 @@ import { DENSITY_METRIC_RAMPS } from '../../constants/density.js'
 
 /**
  * Bottom-left density metric legend — dark card for contrast on light basemap.
- * Discrete quantile class ranges (shared with map + histograms).
+ * Discrete equal-interval class ranges (shared with map + histograms).
  */
 export default function DensityLegend({ activeMetric, stats }) {
   if (!activeMetric) return null

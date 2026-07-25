@@ -293,8 +293,8 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
             <MetricInfoButton
               title="Accessibility Distribution"
               points={[
-                'Quantile classes of normalized accessibility across valid hex cells.',
-                'Each bar matches a map / legend color range for the Accessibility layer.',
+                'Equal-interval classes of normalized accessibility across valid hex cells.',
+                'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
               ]}
               ariaLabel="What does the accessibility histogram show?"
             />
@@ -485,8 +485,8 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Urban Maturation Score Distribution"
             points={[
-              'Quantile classes of UMI across valid hex cells in the primary study area.',
-              'Each bar matches a map / legend color range; edge hexes are omitted from counts.',
+              'Equal-interval classes of UMI across valid hex cells in the primary study area.',
+              'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
               'Maturation tiers (0.15 / 0.35) are separate classification rules, not these chart bins.',
             ]}
             ariaLabel="What does the UMI histogram show?"

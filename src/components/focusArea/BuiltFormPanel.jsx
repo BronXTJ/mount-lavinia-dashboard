@@ -66,8 +66,8 @@ export default function BuiltFormPanel({ stats, loading, onFocusCell }) {
           infoTitle="FSI Value Distribution"
           infoAria="What does the FSI Value Distribution show?"
           infoPoints={[
-            'Quantile classes of valid hex cells by Floor Space Index (FSI).',
-            'Each bar matches a map / legend color range across the primary study area.',
+            'Equal-interval classes of valid hex cells by Floor Space Index (FSI).',
+            'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
             'Edge hexes are on the map only; charts use valid cells.',
           ]}
         />
@@ -120,8 +120,8 @@ export default function BuiltFormPanel({ stats, loading, onFocusCell }) {
           infoTitle="GSI Value Distribution"
           infoAria="What does the GSI Value Distribution show?"
           infoPoints={[
-            'Quantile classes of valid hex cells by Ground Space Index (GSI).',
-            'Each bar matches a map / legend color range across the primary study area.',
+            'Equal-interval classes of valid hex cells by Ground Space Index (GSI).',
+            'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
             'Edge hexes are on the map only; charts use valid cells.',
           ]}
         />
