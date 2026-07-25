@@ -23,6 +23,27 @@ export const LC_LAYER_MODES = [
   { id: 'context', label: 'OSM context (~2025)', dot: '#00b4d8' },
 ]
 
+/** FAB rows — overlay group is mutually exclusive; gnBoundaries is independent. */
+export const LC_FAB_LAYERS = [
+  { id: 'classified', label: 'Classified LULC', dot: '#1a9850', group: 'overlay' },
+  { id: 'change', label: 'Built-up gain / veg loss', dot: '#d73027', group: 'overlay' },
+  { id: 'context', label: 'OSM context (~2025)', dot: '#00b4d8', group: 'overlay' },
+  { id: 'gnBoundaries', label: 'GN boundaries', dot: '#00b4d8', group: 'independent' },
+]
+
+export const LC_OVERLAY_IDS = ['classified', 'change', 'context']
+
+export const DEFAULT_LC_VISIBLE = {
+  classified: true,
+  change: false,
+  context: false,
+  gnBoundaries: true,
+}
+
+export function getActiveLcOverlay(visibleLayers) {
+  return LC_OVERLAY_IDS.find((id) => visibleLayers?.[id]) ?? null
+}
+
 export const LC_CLASS_LEGEND = [
   { id: 'built_up', label: 'Built-up', color: '#d73027' },
   { id: 'vegetation', label: 'Vegetation', color: '#1a9850' },
@@ -196,6 +217,19 @@ export function getOverlayUrl(layerMode, epochId) {
     return `${LC_DATA_BASE}/maps/context_y2025_osm_overlay_gn5.png`
   }
   return getClassifiedMapUrl(epochId)
+}
+
+/** Georeferenced overlay URL for classified/change; null when none or context. */
+export function getOverlayUrlFromVisible(visibleLayers, epochId) {
+  const active = getActiveLcOverlay(visibleLayers)
+  if (active === 'classified' || active === 'change') {
+    return getOverlayUrl(active, epochId)
+  }
+  return null
+}
+
+export function getContextPreviewUrl() {
+  return `${LC_DATA_BASE}/maps/context_y2025_osm_overlay_gn5.png`
 }
 
 export function getEpochRow(epochId) {
