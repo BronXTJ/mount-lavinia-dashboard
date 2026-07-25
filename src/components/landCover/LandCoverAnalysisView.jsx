@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { DEFAULT_LC_VISIBLE, LC_OVERLAY_IDS } from '../../constants/landCover.js'
 import LandCoverMap from './LandCoverMap.jsx'
 import LandCoverOverviewPanel from './LandCoverOverviewPanel.jsx'
 import LandCoverDetailPanel from './LandCoverDetailPanel.jsx'
@@ -8,10 +9,21 @@ import LandCoverDetailPanel from './LandCoverDetailPanel.jsx'
  * Left: KPIs + trend + GN list · Center: map · Right: selected detail.
  */
 export default function LandCoverAnalysisView() {
-  const [layerMode, setLayerMode] = useState('classified')
+  const [visibleLayers, setVisibleLayers] = useState(DEFAULT_LC_VISIBLE)
   const [epochId, setEpochId] = useState('y2025')
-  const [showGnBoundaries, setShowGnBoundaries] = useState(true)
   const [selectedGn, setSelectedGn] = useState(null)
+
+  function handleToggleLayer(id, checked) {
+    setVisibleLayers((prev) => {
+      const next = { ...prev, [id]: checked }
+      if (checked && LC_OVERLAY_IDS.includes(id)) {
+        for (const overlayId of LC_OVERLAY_IDS) {
+          if (overlayId !== id) next[overlayId] = false
+        }
+      }
+      return next
+    })
+  }
 
   return (
     <>
@@ -22,14 +34,12 @@ export default function LandCoverAnalysisView() {
       <div className="order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
         <div className="min-h-0 flex-1">
           <LandCoverMap
-            layerMode={layerMode}
+            visibleLayers={visibleLayers}
             epochId={epochId}
-            showGnBoundaries={showGnBoundaries}
             selectedGn={selectedGn}
             onSelectGn={setSelectedGn}
-            onLayerModeChange={setLayerMode}
+            onToggleLayer={handleToggleLayer}
             onEpochChange={setEpochId}
-            onToggleGnBoundaries={setShowGnBoundaries}
           />
         </div>
       </div>

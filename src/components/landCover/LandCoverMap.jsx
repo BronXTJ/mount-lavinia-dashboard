@@ -8,7 +8,9 @@ import {
   LC_MAP_CENTER,
   LC_MAP_ZOOM,
   LC_OVERLAY_BOUNDS,
-  getOverlayUrl,
+  getActiveLcOverlay,
+  getContextPreviewUrl,
+  getOverlayUrlFromVisible,
 } from '../../constants/landCover.js'
 import LandCoverLegend from './LandCoverLegend.jsx'
 import LandCoverMapLayerFab from './LandCoverMapLayerFab.jsx'
@@ -31,22 +33,27 @@ function FlyToSelectedGn({ selectedGn, gnData }) {
 
 /**
  * Center map — Landsat PNG ImageOverlay + clickable GN polygons.
+ * Overlay visibility driven by Environmental-style visibleLayers switches.
  */
 export default function LandCoverMap({
-  layerMode,
+  visibleLayers,
   epochId,
-  showGnBoundaries,
   selectedGn,
   onSelectGn,
-  onLayerModeChange,
+  onToggleLayer,
   onEpochChange,
-  onToggleGnBoundaries,
 }) {
   const [aoi, setAoi] = useState(null)
   const [gnData, setGnData] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  const overlayUrl = useMemo(() => getOverlayUrl(layerMode, epochId), [layerMode, epochId])
+  const activeOverlay = useMemo(() => getActiveLcOverlay(visibleLayers), [visibleLayers])
+  const overlayUrl = useMemo(
+    () => getOverlayUrlFromVisible(visibleLayers, epochId),
+    [visibleLayers, epochId],
+  )
+  const showGnBoundaries = Boolean(visibleLayers?.gnBoundaries)
+  const showContext = activeOverlay === 'context'
 
   useEffect(() => {
     let cancelled = false
@@ -82,8 +89,7 @@ export default function LandCoverMap({
       weight: selected ? 3 : 1.5,
       fillColor: selected ? '#ecfeff' : '#00b4d8',
       fillOpacity: selected ? 0.18 : 0.04,
-      opacity: showGnBoundaries ? 1 : 0,
-      fill: showGnBoundaries,
+      opacity: 1,
     }
   }
 
@@ -122,7 +128,7 @@ export default function LandCoverMap({
         <FitBoundsToGeoJson data={aoi} padding={[48, 48]} maxZoom={15} />
         <FlyToSelectedGn selectedGn={selectedGn} gnData={gnData} />
 
-        {layerMode !== 'context' && (
+        {overlayUrl && (
           <ImageOverlay
             key={overlayUrl}
             url={overlayUrl}
@@ -134,7 +140,7 @@ export default function LandCoverMap({
 
         {showGnBoundaries && gnData && (
           <GeoJSON
-            key={`gn-${selectedGn ?? 'none'}-${showGnBoundaries}`}
+            key={`gn-${selectedGn ?? 'none'}`}
             data={gnData}
             style={gnStyle}
             onEachFeature={onEachGn}
@@ -142,10 +148,10 @@ export default function LandCoverMap({
         )}
       </MapContainer>
 
-      {layerMode === 'context' && (
+      {showContext && (
         <div className="pointer-events-none absolute inset-0 z-[900] flex items-center justify-center bg-surface-900/80 p-3">
           <img
-            src={`${LC_DATA_BASE}/maps/context_y2025_osm_overlay_gn5.png`}
+            src={getContextPreviewUrl()}
             alt="Classified ~2025 with OSM roads and buildings overlay"
             className="max-h-full max-w-full object-contain"
           />
@@ -153,14 +159,12 @@ export default function LandCoverMap({
       )}
 
       <LandCoverMapLayerFab
-        layerMode={layerMode}
+        visibleLayers={visibleLayers}
         epochId={epochId}
-        showGnBoundaries={showGnBoundaries}
-        onLayerModeChange={onLayerModeChange}
+        onToggle={onToggleLayer}
         onEpochChange={onEpochChange}
-        onToggleGnBoundaries={onToggleGnBoundaries}
       />
-      <LandCoverLegend layerMode={layerMode} />
+      <LandCoverLegend activeOverlay={activeOverlay} />
     </div>
   )
 }

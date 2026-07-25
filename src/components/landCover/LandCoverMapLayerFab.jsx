@@ -1,19 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { Layers, X } from 'lucide-react'
 import L from 'leaflet'
-import { LC_EPOCHS, LC_LAYER_MODES } from '../../constants/landCover.js'
+import { LC_EPOCHS, LC_FAB_LAYERS } from '../../constants/landCover.js'
 
-/** Map FAB — layer mode, epoch, and GN boundary toggle. */
+/** Map FAB — Environmental-style on/off switches for overlays + GN boundaries. */
 export default function LandCoverMapLayerFab({
-  layerMode,
+  visibleLayers,
   epochId,
-  showGnBoundaries,
-  onLayerModeChange,
+  onToggle,
   onEpochChange,
-  onToggleGnBoundaries,
 }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
+  const classifiedOn = Boolean(visibleLayers?.classified)
 
   useEffect(() => {
     const el = rootRef.current
@@ -32,6 +31,9 @@ export default function LandCoverMapLayerFab({
     document.addEventListener('mousedown', handlePointerDown)
     return () => document.removeEventListener('mousedown', handlePointerDown)
   }, [open])
+
+  const overlayLayers = LC_FAB_LAYERS.filter((l) => l.group === 'overlay')
+  const independentLayers = LC_FAB_LAYERS.filter((l) => l.group === 'independent')
 
   return (
     <div
@@ -81,36 +83,46 @@ export default function LandCoverMapLayerFab({
           </p>
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
 
-          <div className="px-4 py-2">
-            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-surface-400">
-              Layer mode
-            </p>
-            <div className="flex flex-col gap-1">
-              {LC_LAYER_MODES.map((mode) => {
-                const active = layerMode === mode.id
-                return (
-                  <button
-                    key={mode.id}
-                    type="button"
-                    onClick={() => onLayerModeChange(mode.id)}
-                    className="flex w-full items-center gap-2.5 rounded-md px-2 py-2 text-left hover:bg-white/[0.05]"
-                    style={{
-                      backgroundColor: active ? 'rgba(0,180,216,0.12)' : 'transparent',
-                    }}
+          <div className="py-1">
+            {overlayLayers.map((layer) => {
+              const checked = Boolean(visibleLayers?.[layer.id])
+              return (
+                <button
+                  key={layer.id}
+                  type="button"
+                  role="switch"
+                  aria-checked={checked}
+                  aria-label={layer.label}
+                  onClick={() => onToggle(layer.id, !checked)}
+                  className="flex w-full cursor-pointer items-center gap-2.5 px-4 py-2.5 text-left hover:bg-white/[0.05]"
+                >
+                  <span
+                    className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: layer.dot }}
+                    aria-hidden="true"
+                  />
+                  <span className="min-w-0 flex-1 text-[13px] leading-snug text-[#e0e0e0]">
+                    {layer.label}
+                  </span>
+                  <span
+                    className="relative inline-flex h-[22px] w-10 shrink-0 items-center"
+                    aria-hidden="true"
                   >
                     <span
-                      className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
-                      style={{ backgroundColor: mode.dot }}
-                      aria-hidden
+                      className="absolute inset-0 rounded-[11px] transition-colors duration-200"
+                      style={{ backgroundColor: checked ? '#00b4d8' : '#334155' }}
                     />
-                    <span className="text-[13px] text-surface-100">{mode.label}</span>
-                  </button>
-                )
-              })}
-            </div>
+                    <span
+                      className="absolute top-[2px] h-[18px] w-[18px] rounded-full bg-white transition-transform duration-200"
+                      style={{ transform: checked ? 'translateX(20px)' : 'translateX(2px)' }}
+                    />
+                  </span>
+                </button>
+              )
+            })}
           </div>
 
-          {layerMode === 'classified' && (
+          {classifiedOn && (
             <>
               <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
               <div className="px-4 py-2">
@@ -141,29 +153,44 @@ export default function LandCoverMapLayerFab({
           )}
 
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
-          <button
-            type="button"
-            role="switch"
-            aria-checked={showGnBoundaries}
-            onClick={() => onToggleGnBoundaries(!showGnBoundaries)}
-            className="flex w-full cursor-pointer items-center gap-2.5 px-4 py-2.5 text-left hover:bg-white/[0.05]"
-          >
-            <span
-              className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
-              style={{ backgroundColor: '#00b4d8' }}
-              aria-hidden
-            />
-            <span className="min-w-0 flex-1 text-[13px] text-surface-100">GN boundaries</span>
-            <span
-              className="relative h-5 w-9 shrink-0 rounded-full transition-colors"
-              style={{ backgroundColor: showGnBoundaries ? '#00b4d8' : '#475569' }}
-            >
-              <span
-                className="absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform"
-                style={{ left: showGnBoundaries ? 16 : 2 }}
-              />
-            </span>
-          </button>
+          <div className="py-1">
+            {independentLayers.map((layer) => {
+              const checked = Boolean(visibleLayers?.[layer.id])
+              return (
+                <button
+                  key={layer.id}
+                  type="button"
+                  role="switch"
+                  aria-checked={checked}
+                  aria-label={layer.label}
+                  onClick={() => onToggle(layer.id, !checked)}
+                  className="flex w-full cursor-pointer items-center gap-2.5 px-4 py-2.5 text-left hover:bg-white/[0.05]"
+                >
+                  <span
+                    className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: layer.dot }}
+                    aria-hidden="true"
+                  />
+                  <span className="min-w-0 flex-1 text-[13px] leading-snug text-[#e0e0e0]">
+                    {layer.label}
+                  </span>
+                  <span
+                    className="relative inline-flex h-[22px] w-10 shrink-0 items-center"
+                    aria-hidden="true"
+                  >
+                    <span
+                      className="absolute inset-0 rounded-[11px] transition-colors duration-200"
+                      style={{ backgroundColor: checked ? '#00b4d8' : '#334155' }}
+                    />
+                    <span
+                      className="absolute top-[2px] h-[18px] w-[18px] rounded-full bg-white transition-transform duration-200"
+                      style={{ transform: checked ? 'translateX(20px)' : 'translateX(2px)' }}
+                    />
+                  </span>
+                </button>
+              )
+            })}
+          </div>
         </div>
       )}
     </div>
