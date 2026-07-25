@@ -21,26 +21,33 @@ export const LC_EPOCHS = [
 ]
 
 export const LC_LAYER_MODES = [
-  { id: 'classified', label: 'Classified LULC', dot: '#1a9850' },
-  { id: 'change', label: 'Built-up gain / veg loss', dot: '#d73027' },
-  { id: 'context', label: 'OSM context (~2025)', dot: '#00b4d8' },
+  { id: 'classified', label: 'Landsat classified LULC (30 m)', dot: '#1a9850' },
+  { id: 'change', label: 'Landsat change 2000→2025 (30 m)', dot: '#d73027' },
 ]
 
-/** FAB rows — overlay group is mutually exclusive; gnBoundaries is independent. */
+/** FAB rows — classified/change exclusive; GN / buildings / roads independent. */
 export const LC_FAB_LAYERS = [
-  { id: 'classified', label: 'Classified LULC', dot: '#1a9850', group: 'overlay' },
-  { id: 'change', label: 'Built-up gain / veg loss', dot: '#d73027', group: 'overlay' },
-  { id: 'context', label: 'OSM context (~2025)', dot: '#00b4d8', group: 'overlay' },
+  { id: 'classified', label: 'Landsat classified LULC (30 m)', dot: '#1a9850', group: 'overlay' },
+  { id: 'change', label: 'Landsat change 2000→2025 (30 m)', dot: '#d73027', group: 'overlay' },
   { id: 'gnBoundaries', label: 'GN boundaries', dot: '#00b4d8', group: 'independent' },
+  { id: 'buildings', label: 'OSM buildings', dot: '#64748b', group: 'independent' },
+  { id: 'roads', label: 'OSM roads', dot: '#f77f00', group: 'independent' },
 ]
 
-export const LC_OVERLAY_IDS = ['classified', 'change', 'context']
+export const LC_OVERLAY_IDS = ['classified', 'change']
 
 export const DEFAULT_LC_VISIBLE = {
   classified: true,
   change: false,
-  context: false,
   gnBoundaries: true,
+  buildings: true,
+  roads: true,
+}
+
+/** Styles for OSM context vectors over the classified overlay. */
+export const LC_CONTEXT_STYLES = {
+  buildings: { color: '#64748b', fillColor: '#64748b', fillOpacity: 0.55, weight: 0.5, opacity: 0.85 },
+  roads: { color: '#f77f00', weight: 2, opacity: 0.9, fill: false },
 }
 
 export function getActiveLcOverlay(visibleLayers) {
@@ -216,23 +223,16 @@ export function getOverlayUrl(layerMode, epochId) {
   if (layerMode === 'change') {
     return landCoverUrl('maps/change_builtup_gain_veg_loss_y2000_y2025.png')
   }
-  if (layerMode === 'context') {
-    return landCoverUrl('maps/context_y2025_osm_overlay_gn5.png')
-  }
   return getClassifiedMapUrl(epochId)
 }
 
-/** Georeferenced overlay URL for classified/change; null when none or context. */
+/** Georeferenced overlay URL for classified/change; null when none active. */
 export function getOverlayUrlFromVisible(visibleLayers, epochId) {
   const active = getActiveLcOverlay(visibleLayers)
   if (active === 'classified' || active === 'change') {
     return getOverlayUrl(active, epochId)
   }
   return null
-}
-
-export function getContextPreviewUrl() {
-  return landCoverUrl('maps/context_y2025_osm_overlay_gn5.png')
 }
 
 /** Sentinel-2 KPI snapshot for a GN (~2025 levels + built-up pp change 2018→2025). */

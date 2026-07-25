@@ -90,7 +90,7 @@ export const USER_GUIDE_SECTIONS = [
     title: 'Land Cover Change',
     icon: 'Trees',
     bullets: [
-      'Use the map FAB to switch classified epochs (~2000 / ~2015 / ~2025), change theme, or OSM context.',
+      'Use the map FAB to switch Landsat 30 m classified epochs (~2000 / ~2015 / ~2025) or change theme, and toggle OSM buildings / roads / GN boundaries.',
       'Click a GN on the map or in the left list to load its detail panel.',
       'Left KPIs and the stacked chart show Landsat change across all five GNs (2000→2025).',
       'Mount Lavinia shows a Landsat deep dive; other GNs show Sentinel-2 10 m built / green / soft shares.',

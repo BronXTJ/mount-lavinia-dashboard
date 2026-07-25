@@ -4,14 +4,15 @@ import L from 'leaflet'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
 import FitBoundsToGeoJson from '../focusArea/FitBoundsToGeoJson.jsx'
 import {
+  LC_CONTEXT_STYLES,
   LC_MAP_CENTER,
   LC_MAP_ZOOM,
   LC_OVERLAY_BOUNDS,
   getActiveLcOverlay,
-  getContextPreviewUrl,
   getOverlayUrlFromVisible,
   landCoverUrl,
 } from '../../constants/landCover.js'
+import { densityGeoUrl } from '../../constants/density.js'
 import LandCoverLegend from './LandCoverLegend.jsx'
 import LandCoverMapLayerFab from './LandCoverMapLayerFab.jsx'
 
@@ -32,7 +33,7 @@ function FlyToSelectedGn({ selectedGn, gnData }) {
 }
 
 /**
- * Center map — Landsat PNG ImageOverlay + clickable GN polygons.
+ * Center map — Landsat PNG ImageOverlay + OSM buildings/roads + clickable GN polygons.
  * Overlay visibility driven by Environmental-style visibleLayers switches.
  */
 export default function LandCoverMap({
@@ -45,6 +46,8 @@ export default function LandCoverMap({
 }) {
   const [aoi, setAoi] = useState(null)
   const [gnData, setGnData] = useState(null)
+  const [buildings, setBuildings] = useState(null)
+  const [roads, setRoads] = useState(null)
   const [loading, setLoading] = useState(true)
 
   const activeOverlay = useMemo(() => getActiveLcOverlay(visibleLayers), [visibleLayers])
@@ -53,7 +56,8 @@ export default function LandCoverMap({
     [visibleLayers, epochId],
   )
   const showGnBoundaries = Boolean(visibleLayers?.gnBoundaries)
-  const showContext = activeOverlay === 'context'
+  const showBuildings = Boolean(visibleLayers?.buildings)
+  const showRoads = Boolean(visibleLayers?.roads)
 
   useEffect(() => {
     let cancelled = false
@@ -61,16 +65,22 @@ export default function LandCoverMap({
     Promise.all([
       fetch(landCoverUrl('aoi_gn5_dissolved.geojson')).then((r) => r.json()),
       fetch(landCoverUrl('gn5_divisions.geojson')).then((r) => r.json()),
+      fetch(densityGeoUrl('buildings_primary_floors.geojson')).then((r) => r.json()),
+      fetch(densityGeoUrl('roads_primary.geojson')).then((r) => r.json()),
     ])
-      .then(([aoiJson, gnJson]) => {
+      .then(([aoiJson, gnJson, buildingsJson, roadsJson]) => {
         if (cancelled) return
         setAoi(aoiJson)
         setGnData(gnJson)
+        setBuildings(buildingsJson)
+        setRoads(roadsJson)
       })
       .catch(() => {
         if (!cancelled) {
           setAoi(null)
           setGnData(null)
+          setBuildings(null)
+          setRoads(null)
         }
       })
       .finally(() => {
@@ -138,6 +148,14 @@ export default function LandCoverMap({
           />
         )}
 
+        {showBuildings && buildings && (
+          <GeoJSON data={buildings} style={() => LC_CONTEXT_STYLES.buildings} />
+        )}
+
+        {showRoads && roads && (
+          <GeoJSON data={roads} style={() => LC_CONTEXT_STYLES.roads} />
+        )}
+
         {showGnBoundaries && gnData && (
           <GeoJSON
             key={`gn-${selectedGn ?? 'none'}`}
@@ -147,16 +165,6 @@ export default function LandCoverMap({
           />
         )}
       </MapContainer>
-
-      {showContext && (
-        <div className="pointer-events-none absolute inset-0 z-[900] flex items-center justify-center bg-surface-900/80 p-3">
-          <img
-            src={getContextPreviewUrl()}
-            alt="Classified ~2025 with OSM roads and buildings overlay"
-            className="max-h-full max-w-full object-contain"
-          />
-        </div>
-      )}
 
       <LandCoverMapLayerFab
         visibleLayers={visibleLayers}
