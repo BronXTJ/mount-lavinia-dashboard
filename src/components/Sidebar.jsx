@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {
   AlertTriangle,
@@ -15,6 +15,7 @@ import {
   LayoutDashboard,
   MapPin,
   Thermometer,
+  Trees,
   TrendingUp,
 } from 'lucide-react'
 import DeveloperModal from './DeveloperModal.jsx'
@@ -48,11 +49,16 @@ export default function Sidebar({
   const location = useLocation()
   const navigate = useNavigate()
   const [focusOpen, setFocusOpen] = useState(true)
+  const [focusFlyoutOpen, setFocusFlyoutOpen] = useState(false)
   const [guideOpen, setGuideOpen] = useState(false)
   const [developerOpen, setDeveloperOpen] = useState(false)
 
   const isFocusArea =
     location.pathname === '/focus-area' || location.pathname.endsWith('/focus-area')
+
+  // Mobile overlay is full-width: use accordion. Desktop collapsed: use flyout.
+  const showFocusAccordion = isMobile || expanded
+  const showFocusFlyout = !isMobile && !expanded
 
   const width = isMobile ? 240 : expanded ? 240 : 64
   const isVisible = !isMobile || mobileOpen
@@ -60,6 +66,7 @@ export default function Sidebar({
   function goFocusSub(id) {
     setActiveFocusSubSection(id)
     navigate('/focus-area')
+    setFocusFlyoutOpen(false)
     onMobileClose?.()
   }
 
@@ -68,8 +75,22 @@ export default function Sidebar({
       onMobileClose?.()
       return
     }
+    setFocusFlyoutOpen(false)
     setExpanded((v) => !v)
   }
+
+  useEffect(() => {
+    if (!focusFlyoutOpen) return undefined
+    function onKeyDown(e) {
+      if (e.key === 'Escape') setFocusFlyoutOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [focusFlyoutOpen])
+
+  useEffect(() => {
+    setFocusFlyoutOpen(false)
+  }, [expanded, isMobile, location.pathname])
 
   return (
     <aside
@@ -351,8 +372,14 @@ export default function Sidebar({
         style={{ borderTop: '1px solid rgba(0,180,216,0.18)' }}
       />
 
-      {/* Navigation */}
-      <nav className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-2 py-3">
+      {/* Navigation — allow overflow when flyout is open so the menu isn't clipped */}
+      <nav
+        className="min-h-0 flex-1 px-2 py-3"
+        style={{
+          overflowY: focusFlyoutOpen ? 'visible' : 'auto',
+          overflowX: focusFlyoutOpen ? 'visible' : 'hidden',
+        }}
+      >
         <NavItem
           to="/"
           end
@@ -362,15 +389,25 @@ export default function Sidebar({
           onNavigate={onMobileClose}
         />
 
-        {/* Focus Area — expand/collapse only; does not navigate */}
-        <div className="mt-0.5">
+        {/* Focus Area — accordion when expanded/mobile; flyout when collapsed desktop */}
+        <div
+          className="relative mt-0.5"
+          onMouseEnter={() => {
+            if (showFocusFlyout) setFocusFlyoutOpen(true)
+          }}
+          onMouseLeave={() => {
+            if (showFocusFlyout) setFocusFlyoutOpen(false)
+          }}
+        >
           <button
             type="button"
-            title={!expanded ? 'Focus Area' : undefined}
+            title={!showFocusAccordion ? 'Focus Area' : undefined}
+            aria-haspopup={showFocusFlyout ? 'menu' : undefined}
+            aria-expanded={showFocusFlyout ? focusFlyoutOpen : showFocusAccordion ? focusOpen : undefined}
+            aria-label="Focus Area"
             onClick={() => {
-              if (!expanded) {
-                navigate('/focus-area')
-                onMobileClose?.()
+              if (showFocusFlyout) {
+                setFocusFlyoutOpen((o) => !o)
                 return
               }
               setFocusOpen((o) => !o)
@@ -378,13 +415,14 @@ export default function Sidebar({
             className="flex w-full items-center transition-colors"
             style={{
               height: 44,
-              padding: expanded ? '0 16px' : '0',
-              justifyContent: expanded ? 'flex-start' : 'center',
-              gap: expanded ? 12 : 0,
+              padding: showFocusAccordion ? '0 16px' : '0',
+              justifyContent: showFocusAccordion ? 'flex-start' : 'center',
+              gap: showFocusAccordion ? 12 : 0,
               background: isFocusArea ? 'rgba(0, 180, 216, 0.12)' : 'transparent',
-              borderLeft: expanded && isFocusArea ? `3px solid ${TEAL}` : '3px solid transparent',
+              borderLeft:
+                showFocusAccordion && isFocusArea ? `3px solid ${TEAL}` : '3px solid transparent',
               boxShadow: isFocusArea
-                ? expanded
+                ? showFocusAccordion
                   ? 'inset 0 0 24px rgba(0, 180, 216, 0.08)'
                   : 'inset 0 -2px 12px rgba(0, 180, 216, 0.15)'
                 : 'none',
@@ -412,7 +450,7 @@ export default function Sidebar({
                   : 'none',
               }}
             />
-            {expanded && (
+            {showFocusAccordion && (
               <>
                 <span className="flex-1 truncate text-left font-sans text-[13px]">
                   Focus Area
@@ -426,8 +464,91 @@ export default function Sidebar({
             )}
           </button>
 
-          {/* Light-purple glass pocket for Focus Area sub-items */}
-          {expanded && focusOpen && (
+          {/* Collapsed desktop flyout */}
+          {showFocusFlyout && focusFlyoutOpen && (
+            <div
+              role="menu"
+              aria-label="Focus Area analyses"
+              className="absolute top-0 z-[70]"
+              style={{
+                left: '100%',
+                paddingLeft: 8,
+                minWidth: 208,
+              }}
+            >
+              <div
+                className="space-y-0.5 overflow-hidden rounded-xl p-1.5"
+                style={{
+                  background: 'rgba(15, 25, 38, 0.97)',
+                  border: '1px solid rgba(167, 139, 250, 0.28)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  boxShadow:
+                    '0 12px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(167,139,250,0.12)',
+                }}
+              >
+              <p
+                className="px-2.5 pb-1 pt-1 font-sans text-[10px] font-semibold uppercase tracking-wider"
+                style={{ color: VIOLET_TEXT }}
+              >
+                Focus Area
+              </p>
+              {FOCUS_SUBS.map((sub) => {
+                const Icon = sub.icon
+                const active = isFocusArea && activeFocusSubSection === sub.id
+                return (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    role="menuitem"
+                    onClick={() => goFocusSub(sub.id)}
+                    className="flex w-full items-center gap-2.5 rounded-lg transition-colors"
+                    style={{
+                      height: 38,
+                      paddingLeft: 12,
+                      paddingRight: 12,
+                      background: active ? 'rgba(167, 139, 250, 0.16)' : 'transparent',
+                      borderLeft: active
+                        ? `3px solid ${VIOLET_SOFT}`
+                        : '3px solid transparent',
+                      boxShadow: active
+                        ? 'inset 0 0 20px rgba(167,139,250,0.12)'
+                        : 'none',
+                      color: active ? '#ddd6fe' : VIOLET_TEXT,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!active) {
+                        e.currentTarget.style.background = 'rgba(167,139,250,0.12)'
+                        e.currentTarget.style.color = '#ede9fe'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!active) {
+                        e.currentTarget.style.background = 'transparent'
+                        e.currentTarget.style.color = VIOLET_TEXT
+                      }
+                    }}
+                  >
+                    <Icon
+                      className="h-4 w-4 shrink-0"
+                      style={{
+                        color: VIOLET_SOFT,
+                        filter: active
+                          ? 'drop-shadow(0 0 6px rgba(167,139,250,0.55))'
+                          : 'none',
+                        opacity: active ? 1 : 0.85,
+                      }}
+                    />
+                    <span className="truncate font-sans text-xs">{sub.label}</span>
+                  </button>
+                )
+              })}
+              </div>
+            </div>
+          )}
+
+          {/* Expanded / mobile accordion pocket */}
+          {showFocusAccordion && focusOpen && (
             <div
               className="mx-1 mt-1 space-y-0.5 overflow-hidden rounded-xl p-1"
               style={{
@@ -475,7 +596,7 @@ export default function Sidebar({
                     <Icon
                       className="h-4 w-4 shrink-0"
                       style={{
-                        color: active ? VIOLET_SOFT : VIOLET_SOFT,
+                        color: VIOLET_SOFT,
                         filter: active
                           ? 'drop-shadow(0 0 6px rgba(167,139,250,0.55))'
                           : 'none',
@@ -495,6 +616,13 @@ export default function Sidebar({
           expanded={expanded}
           icon={Car}
           label="Movement & Behaviour"
+          onNavigate={onMobileClose}
+        />
+        <NavItem
+          to="/land-cover"
+          expanded={expanded}
+          icon={Trees}
+          label="Land Cover Change"
           onNavigate={onMobileClose}
         />
         <NavItem
