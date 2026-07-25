@@ -9,7 +9,10 @@ export const LC_OVERLAY_BOUNDS = [
   [6.852247180344691, 79.87882887533087],
 ]
 
-export const LC_DATA_BASE = '/data/land-cover-change'
+/** Public asset URL under Vite base (works on GitHub Pages). */
+export function landCoverUrl(path) {
+  return `${import.meta.env.BASE_URL}data/land-cover-change/${String(path).replace(/^\//, '')}`
+}
 
 export const LC_EPOCHS = [
   { id: 'y2000', label: '~2000', year: 2000 },
@@ -206,15 +209,15 @@ export const LC_S2_EPOCHS = [
 ]
 
 export function getClassifiedMapUrl(epochId) {
-  return `${LC_DATA_BASE}/maps/classified_${epochId}.png`
+  return landCoverUrl(`maps/classified_${epochId}.png`)
 }
 
 export function getOverlayUrl(layerMode, epochId) {
   if (layerMode === 'change') {
-    return `${LC_DATA_BASE}/maps/change_builtup_gain_veg_loss_y2000_y2025.png`
+    return landCoverUrl('maps/change_builtup_gain_veg_loss_y2000_y2025.png')
   }
   if (layerMode === 'context') {
-    return `${LC_DATA_BASE}/maps/context_y2025_osm_overlay_gn5.png`
+    return landCoverUrl('maps/context_y2025_osm_overlay_gn5.png')
   }
   return getClassifiedMapUrl(epochId)
 }
@@ -229,7 +232,22 @@ export function getOverlayUrlFromVisible(visibleLayers, epochId) {
 }
 
 export function getContextPreviewUrl() {
-  return `${LC_DATA_BASE}/maps/context_y2025_osm_overlay_gn5.png`
+  return landCoverUrl('maps/context_y2025_osm_overlay_gn5.png')
+}
+
+/** Sentinel-2 KPI snapshot for a GN (~2025 levels + built-up pp change 2018→2025). */
+export function getGnS2Kpis(gnName) {
+  const row = LC_PER_GN_S2[gnName]
+  if (!row) return null
+  const y2018 = row.epochs.y2018
+  const y2025 = row.epochs.y2025
+  return {
+    area_ha: row.area_ha,
+    built_up_pct: y2025.built_up_pct,
+    green_pct: y2025.green_pct,
+    soft_surface_pct: y2025.soft_surface_pct,
+    built_up_change_pp: y2025.built_up_pct - y2018.built_up_pct,
+  }
 }
 
 export function getEpochRow(epochId) {
