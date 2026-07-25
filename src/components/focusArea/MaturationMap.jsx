@@ -22,6 +22,7 @@ import {
   colorForMaturationMetric,
   formatMaturationValue,
 } from '../../utils/maturationStats.js'
+import { isPracticalMetricValue } from '../../utils/metricClasses.js'
 import {
   CELL_POPUP_OPTS,
   buildCellIdOnlyPopupHtml,
@@ -186,6 +187,15 @@ export default function MaturationMap({
   const hexStyle = useMemo(
     () => (feature) => {
       const value = Number(feature.properties?.[metricKey])
+      if (!isPracticalMetricValue(value, activeMetric)) {
+        return {
+          color: '#94a3b8',
+          weight: 0.6,
+          fill: true,
+          fillColor: '#94a3b8',
+          fillOpacity: 0,
+        }
+      }
       const fill =
         activeMetric === 'landUseDiversity'
           ? colorForLandUseDiversity(value, metricClasses)
@@ -198,6 +208,18 @@ export default function MaturationMap({
       }
     },
     [activeMetric, metricKey, metricClasses],
+  )
+
+  const excludedHexStyle = useMemo(
+    () => ({
+      color: '#94a3b8',
+      weight: 0.6,
+      fill: true,
+      fillColor: '#94a3b8',
+      fillOpacity: 0,
+      interactive: false,
+    }),
+    [],
   )
 
   const hexGridInteractive = Boolean(visibleLayers.hexGrid && !activeMetric)
@@ -332,7 +354,7 @@ export default function MaturationMap({
           <GeoJSON
             key={`hex-excluded-${activeMetric}`}
             data={excludedHex}
-            style={hexStyle}
+            style={excludedHexStyle}
             interactive={false}
           />
         )}

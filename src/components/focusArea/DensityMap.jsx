@@ -17,6 +17,7 @@ import {
   colorForDensityMetric,
   formatDensityValue,
 } from '../../utils/densityStats.js'
+import { isPracticalMetricValue } from '../../utils/metricClasses.js'
 import {
   CELL_POPUP_OPTS,
   buildCellIdOnlyPopupHtml,
@@ -212,6 +213,15 @@ export default function DensityMap({
   const hexStyle = useMemo(
     () => (feature) => {
       const value = Number(feature.properties?.[metricKey])
+      if (!isPracticalMetricValue(value, activeMetric)) {
+        return {
+          color: '#94a3b8',
+          weight: 0.6,
+          fill: true,
+          fillColor: '#94a3b8',
+          fillOpacity: 0,
+        }
+      }
       const fill = colorForDensityMetric(value, metricClasses)
       return {
         color: '#94a3b8',
@@ -220,7 +230,19 @@ export default function DensityMap({
         fillOpacity: 0.75,
       }
     },
-    [metricKey, metricClasses],
+    [activeMetric, metricKey, metricClasses],
+  )
+
+  const excludedHexStyle = useMemo(
+    () => ({
+      color: '#94a3b8',
+      weight: 0.6,
+      fill: true,
+      fillColor: '#94a3b8',
+      fillOpacity: 0,
+      interactive: false,
+    }),
+    [],
   )
 
   const hexGridInteractive = Boolean(visibleLayers.hexGrid && !activeMetric)
@@ -329,7 +351,7 @@ export default function DensityMap({
           <GeoJSON
             key={`hex-excluded-${activeMetric}`}
             data={excludedHex}
-            style={hexStyle}
+            style={excludedHexStyle}
             interactive={false}
           />
         )}

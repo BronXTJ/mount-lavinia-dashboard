@@ -87,3 +87,17 @@ export function colorForMetricClass(value, classes) {
   if (idx < 0) return '#9fadb9'
   return classes.colors[idx]
 }
+
+/**
+ * Whether a hex metric value is practical enough to receive ramp fill.
+ * @param {unknown} value
+ * @param {'fsi'|'gsi'|'osr'|'density'|'umi'|'entropy'|'accessibility'|'landUseDiversity'|string} metricId
+ */
+export function isPracticalMetricValue(value, metricId) {
+  if (value == null || value === '') return false
+  const v = Number(value)
+  if (!Number.isFinite(v)) return false
+  if (metricId === 'fsi' || metricId === 'gsi') return v > 0
+  return v >= 0
+}
+

@@ -32,7 +32,7 @@ Extent: full primary study area boundary (`01_boundary/primary_study_area_bounda
 | `Hex_area_full` | Unclipped hex area (m²) |
 | `is_edge` | True if hex not fully inside boundary (or area ratio &lt; 0.999) |
 
-Map geometries are the **unclipped** hex outlines. Density later uses `Hex_area`.
+Map geometries are the **boundary-clipped** hex footprints (`hex ∩ study area`). Density uses `Hex_area` (same intersection area).
 
 ## Edge cells
 

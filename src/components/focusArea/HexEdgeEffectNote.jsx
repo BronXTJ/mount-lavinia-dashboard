@@ -9,8 +9,8 @@ export default function HexEdgeEffectNote() {
         <AlertCircle className="relative h-3.5 w-3.5 text-[#f87171]" aria-hidden />
       </span>
       <p className="min-w-0 flex-1 text-[11px] leading-snug text-surface-200">
-        Edge hexes are colored by the active metric ramp for map context, but omitted from charts
-        and KPIs (edge effect).
+        Hexes are clipped to the study boundary. Edge / impractical cells (e.g. negative OSR) stay
+        unfilled and are omitted from charts and KPIs.
       </p>
     </div>
   )

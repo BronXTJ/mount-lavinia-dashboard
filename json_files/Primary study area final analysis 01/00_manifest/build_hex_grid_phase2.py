@@ -85,7 +85,8 @@ def main() -> None:
                         "Hex_area": round(hex_area, 4),
                         "Hex_area_full": round(hex_area_full, 4),
                         "is_edge": bool(is_edge),
-                        "geometry": hex_poly,
+                        # Store boundary-clipped footprint for map display.
+                        "geometry": inter if not inter.is_empty else hex_poly,
                     }
                 )
             row += 1
