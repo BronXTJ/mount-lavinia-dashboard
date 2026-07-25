@@ -129,7 +129,15 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
   const contribAnim = useChartAnimation()
   const histAnim = useChartAnimation()
   const avgUmi = stats?.umi?.avg
-  const barPct = avgUmi != null ? Math.max(0, Math.min(100, avgUmi * 100)) : 0
+  const umiStudyMax =
+    Number.isFinite(Number(stats?.umi?.max)) && Number(stats.umi.max) > 0
+      ? Number(stats.umi.max)
+      : 1
+  const umiStudyMaxLabel = formatMaturationValue(umiStudyMax)
+  const barPct =
+    avgUmi != null
+      ? Math.max(0, Math.min(100, (avgUmi / umiStudyMax) * 100))
+      : 0
   const tiers = stats?.tiers ?? []
   const contribution = stats?.componentContribution ?? []
   const histogram = stats?.umiHistogram ?? []
@@ -144,9 +152,9 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
         <MetricInfoButton
           title="Average Urban Maturation Index"
           points={[
-            'Large number is the mean UMI across all valid hex cells.',
-            'Progress bar places that average on a 0–1 scale (study max ≈ 0.57).',
-            'Emerging / Moderate / Matured markers follow the 0 / 0.35 / 0.57 reference points.',
+            'Large number is the mean UMI across all valid hex cells in the primary study area.',
+            `Progress bar places that average relative to the observed valid-cell max (≈ ${umiStudyMaxLabel}).`,
+            `Emerging / Moderate / Matured markers follow 0 / 0.35 / ${umiStudyMaxLabel} (tier cutoffs stay at 0.15 / 0.35).`,
           ]}
           ariaLabel="What does the UMI gauge show?"
         />
@@ -182,7 +190,7 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
         <div className="mt-3 flex justify-between text-xs font-semibold text-surface-200 sm:text-sm">
           <span>Emerging | 0</span>
           <span>Moderate | 0.35</span>
-          <span>Matured | 0.57</span>
+          <span>Matured | {umiStudyMaxLabel}</span>
         </div>
       </div>
 
@@ -199,9 +207,9 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
         summary={stats?.umi}
         onFocusCell={onFocusCell}
         focusMetricId="umi"
-        minLabel="Min UMI"
-        maxLabel="Max UMI"
-        avgLabel="Average UMI"
+        minLabel="Min"
+        maxLabel="Max"
+        avgLabel="Average"
       />
 
       {/* Maturation Level Distribution */}
@@ -273,9 +281,9 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           summary={stats?.accessibilityNorm}
           onFocusCell={onFocusCell}
           focusMetricId="accessibility"
-          minLabel="Min Accessibility"
-          maxLabel="Max Accessibility"
-          avgLabel="Average Accessibility"
+          minLabel="Min"
+          maxLabel="Max"
+          avgLabel="Average"
         />
         <div className="rounded-lg border border-surface-700 bg-surface-800 p-4 shadow-card">
           <div className="flex items-center gap-1.5">
@@ -285,8 +293,8 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
             <MetricInfoButton
               title="Accessibility Distribution"
               points={[
-                'Histogram of normalized accessibility scores (0–1) across valid hex cells.',
-                'Taller bars mean more cells fall in that accessibility range.',
+                'Quantile classes of normalized accessibility across valid hex cells.',
+                'Each bar matches a map / legend color range for the Accessibility layer.',
               ]}
               ariaLabel="What does the accessibility histogram show?"
             />
@@ -304,7 +312,7 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
                   angle={-25}
                   textAnchor="end"
                   label={{
-                    value: 'Accessibility (0–1)',
+                    value: 'Accessibility class range',
                     position: 'insideBottom',
                     offset: -22,
                     fill: '#9fadb9',
@@ -336,6 +344,9 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
                   animationEasing={accessAnim.animationEasing}
                   onAnimationEnd={accessAnim.onAnimationEnd}
                 >
+                  {accessHistogram.map((row, i) => (
+                    <Cell key={`access-${row.label ?? i}`} fill={row.color ?? '#0ea5e9'} />
+                  ))}
                   <DeferredLabelList
                     showLabels={accessAnim.showLabels}
                     dataKey="count"
@@ -362,9 +373,9 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
         summary={stats?.landUseNorm}
         onFocusCell={onFocusCell}
         focusMetricId="landUseDiversity"
-        minLabel="Min Diversity"
-        maxLabel="Max Diversity"
-        avgLabel="Average Diversity"
+        minLabel="Min"
+        maxLabel="Max"
+        avgLabel="Average"
       />
 
       {/* Index Components */}
@@ -414,7 +425,7 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Component Contribution to UMI"
             points={[
-              'Bars compare the average normalized value of each UMI input across the study area.',
+              'Bars compare the average normalized value of each UMI input across valid hex cells.',
               'Taller bars mean that component contributes more, on average, to the composite score.',
               'UMI itself is the mean of these three normalized components per cell.',
             ]}
@@ -474,8 +485,9 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Urban Maturation Score Distribution"
             points={[
-              'Histogram counts how many hex cells fall into each UMI value bucket (0–0.57).',
-              'Tier boundaries sit near 0.15 (moderate) and 0.35 (high).',
+              'Quantile classes of UMI across valid hex cells in the primary study area.',
+              'Each bar matches a map / legend color range; edge hexes are omitted from counts.',
+              'Maturation tiers (0.15 / 0.35) are separate classification rules, not these chart bins.',
             ]}
             ariaLabel="What does the UMI histogram show?"
           />
@@ -510,6 +522,9 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
                 animationEasing={histAnim.animationEasing}
                 onAnimationEnd={histAnim.onAnimationEnd}
               >
+                {histogram.map((row, i) => (
+                  <Cell key={`umi-${row.label ?? i}`} fill={row.color ?? '#e7c3a2'} />
+                ))}
                 <DeferredLabelList
                   showLabels={histAnim.showLabels}
                   dataKey="count"

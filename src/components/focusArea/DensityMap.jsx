@@ -35,14 +35,6 @@ const bufferStyle = {
   fill: false,
 }
 
-/** Muted fill for edge hexes excluded from calculations (visual context only). */
-const excludedHexStyle = {
-  color: '#94a3b8',
-  weight: 0.5,
-  fillColor: '#64748b',
-  fillOpacity: 0.35,
-}
-
 const POI_COLOR = DENSITY_CONTEXT_STYLES.pois.color
 const poiPulseStyle = {
   radius: DENSITY_CONTEXT_STYLES.pois.radius,
@@ -189,15 +181,15 @@ export default function DensityMap({
   const activeMetric = getActiveDensityMetric(visibleLayers)
   const hexLayersOn = hasHexSelectableLayer(visibleLayers)
   const metricKey = activeMetric ? DENSITY_METRIC_RAMPS[activeMetric]?.property : null
-  const metricSummary =
+  const metricClasses =
     activeMetric === 'fsi'
-      ? stats?.fsi
+      ? stats?.fsiClasses
       : activeMetric === 'gsi'
-        ? stats?.gsi
+        ? stats?.gsiClasses
         : activeMetric === 'osr'
-          ? stats?.osr
+          ? stats?.osrClasses
           : activeMetric === 'density'
-            ? stats?.density
+            ? stats?.densityClasses
             : null
 
   // Sync selection from parent (cell-ID card clicks)
@@ -220,12 +212,7 @@ export default function DensityMap({
   const hexStyle = useMemo(
     () => (feature) => {
       const value = Number(feature.properties?.[metricKey])
-      const fill = colorForDensityMetric(
-        value,
-        metricSummary?.min,
-        metricSummary?.max,
-        activeMetric,
-      )
+      const fill = colorForDensityMetric(value, metricClasses)
       return {
         color: '#94a3b8',
         weight: 0.6,
@@ -233,7 +220,7 @@ export default function DensityMap({
         fillOpacity: 0.75,
       }
     },
-    [activeMetric, metricKey, metricSummary],
+    [metricKey, metricClasses],
   )
 
   const hexGridInteractive = Boolean(visibleLayers.hexGrid && !activeMetric)
@@ -340,9 +327,9 @@ export default function DensityMap({
 
         {activeMetric && excludedHex && (
           <GeoJSON
-            key="hex-excluded-edge"
+            key={`hex-excluded-${activeMetric}`}
             data={excludedHex}
-            style={excludedHexStyle}
+            style={hexStyle}
             interactive={false}
           />
         )}

@@ -202,13 +202,14 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
               '💼 Working — Commercial, Industrial, Institutional',
               '🎭 Culture — Cultural, Public Space, Agriculture',
               '🚗 Movement — Transport infrastructure',
+              'Counts use valid hex cells in the primary study area (edge cells omitted from charts).',
               'Hex cells containing more than one function are classified as Mixed Use. The Live + Work combination is highlighted as it represents the most functionally mature urban condition, supporting walkability, street vitality, and reduced vehicle dependence.',
             ]}
             ariaLabel="What does Land Use Mix by Hex Cell show?"
           />
         </div>
         <p className="mt-1 text-xs text-surface-300">
-          Based on number of distinct land use types per hex cell
+          Based on distinct land-use types per valid hex cell (primary study area)
         </p>
 
         {/* Component 1 — Land Use Mix Distribution */}
@@ -266,7 +267,7 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
               points={[
                 'Live + Work mix is the most desirable urban condition. It reduces travel demand, supports street vitality, and indicates mature urban character.',
                 liveWorkPct != null
-                  ? `In this study area, Live + Work accounts for ${liveWorkPct}% (${mix?.liveWorkCount ?? 0} hexes).`
+                  ? `In the primary study area, Live + Work accounts for ${liveWorkPct}% (${mix?.liveWorkCount ?? 0} valid hexes).`
                   : 'Live + Work share will appear once maturation data loads.',
               ]}
               ariaLabel="Why is Live + Work important?"
@@ -354,17 +355,17 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
         </div>
         <div className="grid grid-cols-2 gap-3">
           <DensityStatCard
-            label="Min Entropy"
+            label="Min"
             value={formatMaturationValue(entropy?.min)}
             topBorderColor={SHANNON_ACCENT}
           />
           <DensityStatCard
-            label="Max Entropy"
+            label="Max"
             value={formatMaturationValue(entropy?.max)}
             topBorderColor={SHANNON_ACCENT}
           />
           <DensityStatCard
-            label="Average Entropy"
+            label="Average"
             value={formatMaturationValue(entropy?.avg)}
             topBorderColor={SHANNON_ACCENT}
           />
@@ -401,7 +402,7 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Entropy vs Urban Maturation Score"
             points={[
-              'Each dot is one hex cell.',
+              'Each dot is one valid hex cell in the primary study area.',
               'X axis is normalized Shannon Entropy; Y axis is Urban Maturation Index.',
               'A rising pattern suggests more diverse land-use mix tends to coincide with higher maturation.',
             ]}
@@ -471,17 +472,17 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
         </div>
         <div className="grid grid-cols-3 gap-3">
           <DensityStatCard
-            label="Min MUI"
+            label="Min"
             value={formatMaturationValue(mixedUse?.min)}
             topBorderColor="#14b8a6"
           />
           <DensityStatCard
-            label="Max MUI"
+            label="Max"
             value={formatMaturationValue(mixedUse?.max)}
             topBorderColor="#14b8a6"
           />
           <DensityStatCard
-            label="Average MUI"
+            label="Average"
             value={formatMaturationValue(mixedUse?.avg)}
             topBorderColor="#14b8a6"
           />

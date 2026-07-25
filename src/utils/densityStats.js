@@ -1,5 +1,5 @@
 import { DENSITY_METRIC_RAMPS, DENSITY_TYPOLOGY } from '../constants/density.js'
-import { interpolateColor } from './centralityStats.js'
+import { buildMetricClasses, colorForMetricClass } from './metricClasses.js'
 
 // Filter out invalid / edge boundary cells.
 // A valid cell must have: FSI > 0, GSI > 0, OSR >= 0, Hex_area > 0,
@@ -139,49 +139,6 @@ export function buildScatterPoints(features, medianFsi, medianGsi, medianOsr) {
     .filter(Boolean)
 }
 
-/**
- * Equal-width value histogram for a hex metric property.
- * OSR skips zeros (legacy); other metrics skip only non-finite values.
- */
-export function buildMetricHistogram(features, propertyKey, buckets = 6) {
-  const skipZero = propertyKey === 'OSR'
-  const values = features
-    .map((f) => Number(f.properties?.[propertyKey]))
-    .filter((v) => Number.isFinite(v) && (!skipZero || v !== 0))
-
-  if (!values.length) return []
-
-  const min = Math.min(...values)
-  const max = Math.max(...values)
-  const span = max - min || 1
-  const width = span / buckets
-  const bins = Array.from({ length: buckets }, (_, i) => {
-    const from = min + i * width
-    const to = i === buckets - 1 ? max : min + (i + 1) * width
-    return {
-      index: i,
-      from,
-      to,
-      label: `${from.toFixed(2)}–${to.toFixed(2)}`,
-      count: 0,
-    }
-  })
-
-  for (const v of values) {
-    let idx = Math.floor((v - min) / width)
-    if (idx >= buckets) idx = buckets - 1
-    if (idx < 0) idx = 0
-    bins[idx].count += 1
-  }
-
-  return bins
-}
-
-/** @deprecated Prefer buildMetricHistogram(features, 'OSR', buckets) */
-export function buildOsrHistogram(features, buckets = 6) {
-  return buildMetricHistogram(features, 'OSR', buckets)
-}
-
 function osrOpennessLabel(value) {
   if (value == null) return 'unknown'
   if (value < 0.3) return 'limited'
@@ -208,13 +165,9 @@ export function buildKeyFindings(typologyDist, medianOsr) {
   return lines
 }
 
-export function colorForDensityMetric(value, min, max, layerId) {
-  if (value == null || min == null || max == null) return '#9fadb9'
-  const ramp = DENSITY_METRIC_RAMPS[layerId]
-  if (!ramp) return '#9fadb9'
-  const span = max - min
-  const t = span === 0 ? 0.5 : (value - min) / span
-  return interpolateColor(t, ramp)
+/** Color a hex by quantile classes for the active density metric. */
+export function colorForDensityMetric(value, classes) {
+  return colorForMetricClass(Number(value), classes)
 }
 
 export function formatDensityValue(value, digits = 3) {
@@ -236,10 +189,16 @@ export function buildDensityStats(features) {
   const density = summarizeMetric(features, 'Density_V')
   const typology = computeTypologyDistribution(features, medianFsi, medianGsi, medianOsr)
   const scatter = buildScatterPoints(features, medianFsi, medianGsi, medianOsr)
-  const fsiHistogram = buildMetricHistogram(features, 'FSI', 6)
-  const gsiHistogram = buildMetricHistogram(features, 'GSI', 6)
-  const osrHistogram = buildMetricHistogram(features, 'OSR', 6)
-  const densityHistogram = buildMetricHistogram(features, 'Density_V', 6)
+
+  const densityValues = numericValues(features, 'Density_V')
+  const fsiClasses = buildMetricClasses(fsiValues, DENSITY_METRIC_RAMPS.fsi.stops)
+  const gsiClasses = buildMetricClasses(gsiValues, DENSITY_METRIC_RAMPS.gsi.stops)
+  const osrClasses = buildMetricClasses(osrValues, DENSITY_METRIC_RAMPS.osr.stops)
+  const densityClasses = buildMetricClasses(densityValues, DENSITY_METRIC_RAMPS.density.stops)
+  const fsiHistogram = fsiClasses.bins
+  const gsiHistogram = gsiClasses.bins
+  const osrHistogram = osrClasses.bins
+  const densityHistogram = densityClasses.bins
   const findings = buildKeyFindings(typology, medianOsr)
 
   return {
@@ -252,6 +211,10 @@ export function buildDensityStats(features) {
     medianOsr,
     typology,
     scatter,
+    fsiClasses,
+    gsiClasses,
+    osrClasses,
+    densityClasses,
     fsiHistogram,
     gsiHistogram,
     osrHistogram,

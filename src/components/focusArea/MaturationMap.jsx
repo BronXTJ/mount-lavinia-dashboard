@@ -38,14 +38,6 @@ const bufferStyle = {
   fill: false,
 }
 
-/** Muted fill for edge hexes excluded from calculations (visual context only). */
-const excludedHexStyle = {
-  color: '#94a3b8',
-  weight: 0.5,
-  fillColor: '#64748b',
-  fillOpacity: 0.35,
-}
-
 const POI_COLOR = MATURATION_CONTEXT_STYLES.pois.color
 const poiPulseStyle = {
   radius: MATURATION_CONTEXT_STYLES.pois.radius,
@@ -165,15 +157,15 @@ export default function MaturationMap({
   const hexLayersOn = hasMaturationHexSelectableLayer(visibleLayers)
   const metricKey = activeMetric ? MATURATION_METRIC_RAMPS[activeMetric]?.property : null
 
-  const metricSummary =
+  const metricClasses =
     activeMetric === 'umi'
-      ? stats?.umi
+      ? stats?.umiClasses
       : activeMetric === 'entropy'
-        ? stats?.entropyNorm
+        ? stats?.entropyClasses
         : activeMetric === 'accessibility'
-          ? stats?.accessibilityNorm
+          ? stats?.accessibilityClasses
           : activeMetric === 'landUseDiversity'
-            ? stats?.landUseNorm
+            ? stats?.landUseDiversityClasses
             : null
 
   useEffect(() => {
@@ -196,13 +188,8 @@ export default function MaturationMap({
       const value = Number(feature.properties?.[metricKey])
       const fill =
         activeMetric === 'landUseDiversity'
-          ? colorForLandUseDiversity(value, stats?.landUseDiversityClasses)
-          : colorForMaturationMetric(
-              value,
-              metricSummary?.min,
-              metricSummary?.max,
-              activeMetric,
-            )
+          ? colorForLandUseDiversity(value, metricClasses)
+          : colorForMaturationMetric(value, metricClasses)
       return {
         color: '#94a3b8',
         weight: 0.6,
@@ -210,7 +197,7 @@ export default function MaturationMap({
         fillOpacity: 0.75,
       }
     },
-    [activeMetric, metricKey, metricSummary, stats?.landUseDiversityClasses],
+    [activeMetric, metricKey, metricClasses],
   )
 
   const hexGridInteractive = Boolean(visibleLayers.hexGrid && !activeMetric)
@@ -343,9 +330,9 @@ export default function MaturationMap({
 
         {activeMetric && excludedHex && (
           <GeoJSON
-            key="hex-excluded-edge"
+            key={`hex-excluded-${activeMetric}`}
             data={excludedHex}
-            style={excludedHexStyle}
+            style={hexStyle}
             interactive={false}
           />
         )}

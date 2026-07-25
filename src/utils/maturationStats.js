@@ -5,7 +5,14 @@ import {
   classifyMaturationTier,
   getMaturationLandUseColor,
 } from '../constants/maturation.js'
-import { interpolateColor } from './centralityStats.js'
+import {
+  buildMetricClasses,
+  buildQuantileBreaks,
+  colorForMetricClass,
+} from './metricClasses.js'
+
+// Re-export for any callers that imported quantile helpers from maturationStats.
+export { buildQuantileBreaks }
 
 /** Skip edge / incomplete cells. Prefer is_valid_maturation when present. */
 export function filterValidMaturationFeatures(geojson) {
@@ -374,59 +381,18 @@ export function buildHexFunctionalMix(hexFeatures, landuseGeojson) {
   }
 }
 
-export function colorForMaturationMetric(value, min, max, layerId) {
-  if (value == null || min == null || max == null) return '#9fadb9'
-  const ramp = MATURATION_METRIC_RAMPS[layerId]
-  if (!ramp) return '#9fadb9'
-  const span = max - min
-  const t = span === 0 ? 0.5 : (value - min) / span
-  return interpolateColor(t, ramp)
-}
-
-/** Quantile edge values for n equal-count classes (length n+1). */
-export function buildQuantileBreaks(values, n = 5) {
-  if (!values?.length) return null
-  const sorted = [...values].filter(Number.isFinite).sort((a, b) => a - b)
-  if (!sorted.length) return null
-  const breaks = [sorted[0]]
-  for (let i = 1; i < n; i += 1) {
-    const idx = Math.min(sorted.length - 1, Math.floor((i / n) * sorted.length))
-    breaks.push(sorted[idx])
-  }
-  breaks.push(sorted[sorted.length - 1])
-  // Ensure non-decreasing edges when many ties
-  for (let i = 1; i < breaks.length; i += 1) {
-    if (breaks[i] < breaks[i - 1]) breaks[i] = breaks[i - 1]
-  }
-  return breaks
+/** Color a hex by quantile classes for continuous maturation metrics. */
+export function colorForMaturationMetric(value, classes) {
+  return colorForMetricClass(Number(value), classes)
 }
 
 export function buildLandUseDiversityClasses(features) {
-  const colors = MATURATION_METRIC_RAMPS.landUseDiversity.stops
   const values = numericValues(features, MATURATION_PROPS.landUseNorm)
-  const breaks = buildQuantileBreaks(values, colors.length)
-  if (!breaks) {
-    return { breaks: null, colors, bins: [] }
-  }
-  const bins = colors.map((color, i) => ({
-    color,
-    from: breaks[i],
-    to: breaks[i + 1],
-    label: `${breaks[i].toFixed(2)}–${breaks[i + 1].toFixed(2)}`,
-  }))
-  return { breaks, colors, bins }
+  return buildMetricClasses(values, MATURATION_METRIC_RAMPS.landUseDiversity.stops)
 }
 
 export function colorForLandUseDiversity(value, classes) {
-  if (!Number.isFinite(value) || !classes?.breaks?.length || !classes?.colors?.length) {
-    return '#9fadb9'
-  }
-  const { breaks, colors } = classes
-  const n = colors.length
-  for (let i = 0; i < n - 1; i += 1) {
-    if (value <= breaks[i + 1]) return colors[i]
-  }
-  return colors[n - 1]
+  return colorForMetricClass(Number(value), classes)
 }
 
 export function formatMaturationValue(value, digits = 3) {
@@ -457,17 +423,24 @@ export function buildMaturationStats(features, shannonFeatures, landuseGeojson) 
   const landUseComposition = buildLandUseComposition(landuseGeojson)
   const scatter = buildEntropyScatter(features)
   const hexFunctionalMix = buildHexFunctionalMix(features, landuseGeojson)
-  const landUseDiversityClasses = buildLandUseDiversityClasses(features)
-  const umiHistogram = buildMetricHistogram(features, MATURATION_PROPS.umi, 6, {
-    min: 0,
-    max: 0.57,
-  })
-  const accessibilityHistogram = buildMetricHistogram(
-    features,
-    MATURATION_PROPS.accessibilityNorm,
-    6,
-    { min: 0, max: 1 },
+
+  const umiValues = numericValues(features, MATURATION_PROPS.umi)
+  const entropyNormValues = numericValues(features, MATURATION_PROPS.entropyNorm)
+  const accessibilityNormValues = numericValues(features, MATURATION_PROPS.accessibilityNorm)
+
+  const umiClasses = buildMetricClasses(umiValues, MATURATION_METRIC_RAMPS.umi.stops)
+  const entropyClasses = buildMetricClasses(
+    entropyNormValues,
+    MATURATION_METRIC_RAMPS.entropy.stops,
   )
+  const accessibilityClasses = buildMetricClasses(
+    accessibilityNormValues,
+    MATURATION_METRIC_RAMPS.accessibility.stops,
+  )
+  const landUseDiversityClasses = buildLandUseDiversityClasses(features)
+
+  const umiHistogram = umiClasses.bins
+  const accessibilityHistogram = accessibilityClasses.bins
 
   return {
     umi,
@@ -484,6 +457,9 @@ export function buildMaturationStats(features, shannonFeatures, landuseGeojson) 
     landUseComposition,
     scatter,
     hexFunctionalMix,
+    umiClasses,
+    entropyClasses,
+    accessibilityClasses,
     landUseDiversityClasses,
     umiHistogram,
     accessibilityHistogram,

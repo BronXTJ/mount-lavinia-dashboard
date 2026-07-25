@@ -35,10 +35,10 @@ export default function BuiltFormPanel({ stats, loading, onFocusCell }) {
           />
         </div>
         <div className="grid grid-cols-3 gap-3">
-          <DensityStatCard label="Min FSI" value={formatDensityValue(fsi?.min)} topBorderColor="#fb7185" />
-          <DensityStatCard label="Max FSI" value={formatDensityValue(fsi?.max)} topBorderColor="#fb7185" />
+          <DensityStatCard label="Min" value={formatDensityValue(fsi?.min)} topBorderColor="#fb7185" />
+          <DensityStatCard label="Max" value={formatDensityValue(fsi?.max)} topBorderColor="#fb7185" />
           <DensityStatCard
-            label="Average FSI"
+            label="Average"
             value={formatDensityValue(fsi?.avg)}
             topBorderColor="#fb7185"
           />
@@ -66,9 +66,9 @@ export default function BuiltFormPanel({ stats, loading, onFocusCell }) {
           infoTitle="FSI Value Distribution"
           infoAria="What does the FSI Value Distribution show?"
           infoPoints={[
-            'Histogram of hex cells by Floor Space Index (FSI) bucket.',
-            'Taller bars mean more cells fall in that FSI range.',
-            'Use this to see how building intensity is distributed across the study area.',
+            'Quantile classes of valid hex cells by Floor Space Index (FSI).',
+            'Each bar matches a map / legend color range across the primary study area.',
+            'Edge hexes are on the map only; charts use valid cells.',
           ]}
         />
       </div>
@@ -89,10 +89,10 @@ export default function BuiltFormPanel({ stats, loading, onFocusCell }) {
           />
         </div>
         <div className="grid grid-cols-3 gap-3">
-          <DensityStatCard label="Min GSI" value={formatDensityValue(gsi?.min)} topBorderColor="#a3e635" />
-          <DensityStatCard label="Max GSI" value={formatDensityValue(gsi?.max)} topBorderColor="#a3e635" />
+          <DensityStatCard label="Min" value={formatDensityValue(gsi?.min)} topBorderColor="#a3e635" />
+          <DensityStatCard label="Max" value={formatDensityValue(gsi?.max)} topBorderColor="#a3e635" />
           <DensityStatCard
-            label="Average GSI"
+            label="Average"
             value={formatDensityValue(gsi?.avg)}
             topBorderColor="#a3e635"
           />
@@ -120,9 +120,9 @@ export default function BuiltFormPanel({ stats, loading, onFocusCell }) {
           infoTitle="GSI Value Distribution"
           infoAria="What does the GSI Value Distribution show?"
           infoPoints={[
-            'Histogram of hex cells by Ground Space Index (GSI) bucket.',
-            'Taller bars mean more cells fall in that GSI range.',
-            'Use this to see how ground coverage is distributed across the study area.',
+            'Quantile classes of valid hex cells by Ground Space Index (GSI).',
+            'Each bar matches a map / legend color range across the primary study area.',
+            'Edge hexes are on the map only; charts use valid cells.',
           ]}
         />
       </div>

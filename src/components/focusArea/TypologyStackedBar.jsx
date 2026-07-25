@@ -27,7 +27,7 @@ export default function TypologyStackedBar({ zones }) {
       <p className="mt-1.5 text-xs font-medium text-surface-200">
         {isPlaceholder
           ? 'Placeholder — awaiting GeoJSON'
-          : 'Classified by FSI / GSI / OSR median split across hex cells'}
+          : 'Classified by FSI / GSI / OSR median split across valid hex cells'}
       </p>
 
       <div className="mt-3 flex h-10 w-full overflow-hidden rounded">

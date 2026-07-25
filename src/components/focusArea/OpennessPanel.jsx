@@ -53,10 +53,10 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
           />
         </div>
         <div className="grid grid-cols-3 gap-3">
-          <DensityStatCard label="Min OSR" value={formatDensityValue(osr?.min)} topBorderColor="#e879f9" />
-          <DensityStatCard label="Max OSR" value={formatDensityValue(osr?.max)} topBorderColor="#e879f9" />
+          <DensityStatCard label="Min" value={formatDensityValue(osr?.min)} topBorderColor="#e879f9" />
+          <DensityStatCard label="Max" value={formatDensityValue(osr?.max)} topBorderColor="#e879f9" />
           <DensityStatCard
-            label="Average OSR"
+            label="Average"
             value={formatDensityValue(osr?.avg)}
             topBorderColor="#e879f9"
           />
@@ -86,9 +86,9 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
         infoTitle="OSR Value Distribution"
         infoAria="What does the OSR Value Distribution show?"
         infoPoints={[
-          'Histogram of hex cells by Open Space Ratio (OSR) bucket.',
-          'Taller bars mean more cells fall in that OSR range.',
-          'Higher OSR buckets indicate more open, less congested cells.',
+          'Quantile classes of valid hex cells by Open Space Ratio (OSR).',
+          'Each bar matches a map / legend color range across the primary study area.',
+          'Edge hexes are on the map only; charts use valid cells.',
         ]}
       />
 
@@ -101,7 +101,7 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
             points={[
               'Measures the volume/intensity of built form within each hex cell.',
               'Higher Density Value = denser development in that cell.',
-              'Min, max, and average summarise the range across the study area.',
+              'Min, max, and average summarise valid hex cells in the primary study area.',
               'Click a Minimum/Highest Cell ID card to locate that hex on the map.',
             ]}
             ariaLabel="What is Density Value?"
@@ -109,17 +109,17 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
         </div>
         <div className="grid grid-cols-3 gap-3">
           <DensityStatCard
-            label="Min Density"
+            label="Min"
             value={formatDensityValue(density?.min)}
             topBorderColor="#78716c"
           />
           <DensityStatCard
-            label="Max Density"
+            label="Max"
             value={formatDensityValue(density?.max)}
             topBorderColor="#78716c"
           />
           <DensityStatCard
-            label="Average Density"
+            label="Average"
             value={formatDensityValue(density?.avg)}
             topBorderColor="#78716c"
           />
@@ -147,9 +147,9 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
           infoTitle="Density Value Distribution"
           infoAria="What does the Density Value Distribution show?"
           infoPoints={[
-            'Histogram of hex cells by Density Value bucket.',
-            'Taller bars mean more cells fall in that density range.',
-            'Higher buckets indicate denser built form within those cells.',
+            'Quantile classes of valid hex cells by Density Value.',
+            'Each bar matches a map / legend color range across the primary study area.',
+            'Edge hexes are on the map only; charts use valid cells.',
           ]}
         />
       </div>

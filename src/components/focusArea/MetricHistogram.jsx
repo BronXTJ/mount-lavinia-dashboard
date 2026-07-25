@@ -1,4 +1,4 @@
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import DeferredLabelList from '../DeferredLabelList.jsx'
 import useChartAnimation from '../../hooks/useChartAnimation.js'
 import MetricInfoButton from './MetricInfoButton.jsx'
@@ -14,16 +14,7 @@ function renderTooltip({ active, payload }) {
   )
 }
 
-const EMPTY_BINS = [
-  { label: '—', count: 0 },
-  { label: '—', count: 0 },
-  { label: '—', count: 0 },
-  { label: '—', count: 0 },
-  { label: '—', count: 0 },
-  { label: '—', count: 0 },
-]
-
-/** Six-bucket metric value distribution — same pattern as OSR histogram. */
+/** Quantile class distribution — bar colors match map / legend when bins include `color`. */
 export default function MetricHistogram({
   title,
   data,
@@ -34,7 +25,9 @@ export default function MetricHistogram({
 }) {
   const { isAnimationActive, animationDuration, animationEasing, showLabels, onAnimationEnd } =
     useChartAnimation()
-  const chartData = data?.length ? data : EMPTY_BINS
+  const chartData = data?.length
+    ? data
+    : [{ label: '—', count: 0, color: barColor }]
 
   return (
     <div className="rounded-lg border border-surface-700 bg-surface-800 p-4 shadow-card">
@@ -74,6 +67,9 @@ export default function MetricHistogram({
               animationEasing={animationEasing}
               onAnimationEnd={onAnimationEnd}
             >
+              {chartData.map((row, i) => (
+                <Cell key={`cell-${row.label ?? i}`} fill={row.color ?? barColor} />
+              ))}
               <DeferredLabelList
                 showLabels={showLabels}
                 dataKey="count"
