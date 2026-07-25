@@ -6,7 +6,7 @@ import MetricInfoButton from './MetricInfoButton.jsx'
 import TypologyStackedBar from './TypologyStackedBar.jsx'
 
 const DENSITY_FINDINGS_FALLBACK = [
-  'Compact built form dominates much of the 500 m study fabric.',
+  'Compact built form dominates much of the primary study area fabric.',
   'Open-space ratio is limited relative to built coverage across many hex cells.',
   'Typology and OSR patterns on the density hex map show how form and openness vary together.',
 ]

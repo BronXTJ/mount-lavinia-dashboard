@@ -2,10 +2,10 @@
 
 import { getLandUseColor, LAND_USE_FALLBACK_COLOR } from './mapLayers.js'
 
-export const MATURATION_MAP_CENTER = [6.8394, 79.8653]
-export const MATURATION_MAP_ZOOM = 15
+export const MATURATION_MAP_CENTER = [6.8344, 79.8685]
+export const MATURATION_MAP_ZOOM = 14
 
-/** Analysis area boundary — solid red, matches Density Analysis. */
+/** Primary study area boundary — solid red, matches Density Analysis. */
 export const MATURATION_BUFFER_COLOR = '#dc2626'
 
 /** GeoJSON property keys (QGIS names — spaces preserved). */
@@ -100,16 +100,16 @@ export function getMaturationLandUseColor(mainClass) {
 }
 
 export const MATURATION_FAB_LAYERS = [
-  { id: 'analysisArea', label: 'Analysis Area Boundary', dot: '#dc2626', group: 'independent' },
-  { id: 'hexGrid', label: '100m Hex Grid', dot: '#2563eb', group: 'independent' },
+  { id: 'analysisArea', label: 'Primary Study Area Boundary', dot: '#dc2626', group: 'independent' },
+  { id: 'hexGrid', label: '100 m Hex Grid — Primary', dot: '#2563eb', group: 'independent' },
   { id: 'umi', label: 'Urban Maturation Index', dot: '#b45309', group: 'metric' },
   { id: 'entropy', label: 'Shannon Entropy', dot: '#10b981', group: 'metric' },
-  { id: 'accessibility', label: 'Accessibility Score', dot: '#0ea5e9', group: 'metric' },
+  { id: 'accessibility', label: 'Accessibility Score (5000 m)', dot: '#0ea5e9', group: 'metric' },
   { id: 'landUseDiversity', label: 'Land Use Diversity', dot: '#b63679', group: 'metric' },
-  { id: 'landUseMap', label: 'Land Use Map', dot: '#fa9f00', group: 'independent' },
-  { id: 'buildings', label: 'Buildings', dot: '#64748b', group: 'independent' },
-  { id: 'roads', label: 'Roads', dot: '#f77f00', group: 'independent' },
-  { id: 'pois', label: 'POIs', dot: '#db2777', group: 'independent' },
+  { id: 'landUseMap', label: 'Land Use Map — Primary', dot: '#fa9f00', group: 'independent' },
+  { id: 'buildings', label: 'Buildings (Zenodo)', dot: '#64748b', group: 'independent' },
+  { id: 'roads', label: 'Roads — Primary', dot: '#f77f00', group: 'independent' },
+  { id: 'pois', label: 'POIs — Primary', dot: '#db2777', group: 'independent' },
 ]
 
 export const DEFAULT_MATURATION_VISIBLE = {

@@ -7,11 +7,14 @@ import {
 } from '../constants/maturation.js'
 import { interpolateColor } from './centralityStats.js'
 
-/** Skip true boundary edge cells (zero UMI and zero accessibility only). */
+/** Skip edge / incomplete cells. Prefer is_valid_maturation when present. */
 export function filterValidMaturationFeatures(geojson) {
   const features = geojson?.features ?? []
   return features.filter((f) => {
     const p = f.properties ?? {}
+    if (p.is_valid_maturation === true || p.is_valid_maturation === 'true') return true
+    if (p.is_valid_maturation === false || p.is_valid_maturation === 'false') return false
+    if (p.is_edge === true || p.is_edge === 'true') return false
     const umi = Number(p[MATURATION_PROPS.umi])
     const avgC = Number(p[MATURATION_PROPS.accessibilityRaw])
     if (umi === 0 && avgC === 0) return false

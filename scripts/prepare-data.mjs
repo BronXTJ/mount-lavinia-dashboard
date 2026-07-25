@@ -737,8 +737,10 @@ async function buildUrbanMorphoLayers() {
   buildBoundary5000mGeoJson(morphoDir, URBAN_MORPHO_DIR, 6)
 }
 
-/** Tab 2 Density Analysis layers — hex grid + clipped context layers. */
-function buildDensityAnalysisLayers() {
+const PRIMARY_ANALYSIS_DIR = path.join(SOURCE_DIR, 'Primary study area final analysis 01')
+
+/** Legacy 500 m Focus Area density layers (kept for rollback / comparison). */
+function buildDensityAnalysisLayersLegacy() {
   const densityDir = path.join(SOURCE_DIR, 'Density_analysis')
 
   cleanGeoJson(
@@ -787,8 +789,81 @@ function buildDensityAnalysisLayers() {
   )
 }
 
-/** Tab 2 Urban Maturation Analysis — preserve QGIS column names with spaces. */
-function buildUrbanMaturationLayers() {
+/**
+ * Primary 5-GN study area density + context layers (dashboard defaults).
+ * Sources: json_files/Primary study area final analysis 01/
+ */
+function buildPrimaryDensityLayers() {
+  cleanGeoJson(
+    path.join(PRIMARY_ANALYSIS_DIR, '04_density', 'density_primary_hex.geojson'),
+    'density_primary_hex.geojson',
+    {
+      outDir: DENSITY_ANALYSIS_DIR,
+      precision: 6,
+      keepKeys: [
+        'id',
+        'FSI',
+        'GSI',
+        'OSR',
+        'Density_V',
+        'FSI_Norm',
+        'GSI_Norm',
+        'Area_build',
+        'Floor_Area',
+        'Hex_area',
+        'is_edge',
+        'is_valid',
+        'row_index',
+        'col_index',
+      ],
+    },
+  )
+  cleanGeoJson(
+    path.join(PRIMARY_ANALYSIS_DIR, '02_hex_grid', 'hex_grid_primary_100m.geojson'),
+    'hex_grid_primary_100m.geojson',
+    {
+      outDir: DENSITY_ANALYSIS_DIR,
+      precision: 6,
+      keepKeys: ['id', 'is_edge', 'Hex_area', 'row_index', 'col_index'],
+    },
+  )
+  cleanGeoJson(
+    path.join(PRIMARY_ANALYSIS_DIR, '03_buildings', 'buildings_primary_floors.geojson'),
+    'buildings_primary_floors.geojson',
+    {
+      outDir: DENSITY_ANALYSIS_DIR,
+      precision: 6,
+      keepKeys: ['FID_1', 'Height', 'Area_build', 'Floors', 'Floor_Area'],
+    },
+  )
+  cleanGeoJson(
+    path.join(PRIMARY_ANALYSIS_DIR, '06_context', 'roads_primary.geojson'),
+    'roads_primary.geojson',
+    { outDir: DENSITY_ANALYSIS_DIR, precision: 6, keepKeys: ['name', 'highway', 'id'] },
+  )
+  cleanGeoJson(
+    path.join(PRIMARY_ANALYSIS_DIR, '06_context', 'pois_primary.geojson'),
+    'pois_primary.geojson',
+    {
+      outDir: DENSITY_ANALYSIS_DIR,
+      precision: 6,
+      keepKeys: ['name', 'name_en', 'amenity', 'shop', 'tourism', 'man_made', 'id'],
+    },
+  )
+  cleanGeoJson(
+    path.join(PRIMARY_ANALYSIS_DIR, '01_boundary', 'primary_study_area_boundary.geojson'),
+    'primary_study_area_boundary.geojson',
+    { outDir: DENSITY_ANALYSIS_DIR, precision: 6, keepKeys: ['id'] },
+  )
+}
+
+function buildDensityAnalysisLayers() {
+  buildDensityAnalysisLayersLegacy()
+  buildPrimaryDensityLayers()
+}
+
+/** Legacy 500 m maturation layers (kept for rollback). */
+function buildUrbanMaturationLayersLegacy() {
   const maturationDir = path.join(SOURCE_DIR, 'Urban_maturation_analysis')
 
   cleanGeoJson(
@@ -827,6 +902,60 @@ function buildUrbanMaturationLayers() {
       keepKeys: ['Main_C', 'Sub_class', 'Land_Exten', 'Domain'],
     },
   )
+}
+
+/** Primary 5-GN maturation layers (dashboard defaults). */
+function buildPrimaryMaturationLayers() {
+  const maturationHex = path.join(
+    PRIMARY_ANALYSIS_DIR,
+    '05_maturation',
+    'maturation_primary_hex.geojson',
+  )
+
+  cleanGeoJson(maturationHex, 'maturation_primary_hex.geojson', {
+    outDir: URBAN_MATURATION_DIR,
+    precision: 6,
+    keepKeys: [
+      'id',
+      '1entropy_i',
+      '1average_c',
+      '1landuse_d',
+      '1normalize',
+      '1normali_1',
+      '1normali_2',
+      '1urban mat',
+      ' final_ent',
+      ' final_mui',
+      'is_edge',
+      'is_valid_maturation',
+      'tier',
+      'umi',
+      'entropy_raw',
+      'entropy_norm',
+      'accessibility',
+      'landuse_div',
+    ],
+  })
+  // Shannon panel reads a slim layer; same primary hex source.
+  cleanGeoJson(maturationHex, 'shanon_entropy_primary.geojson', {
+    outDir: URBAN_MATURATION_DIR,
+    precision: 6,
+    keepKeys: ['id', ' final_ent', ' final_mui'],
+  })
+  cleanGeoJson(
+    path.join(PRIMARY_ANALYSIS_DIR, '06_context', 'landuse_primary.geojson'),
+    'landuse_primary.geojson',
+    {
+      outDir: URBAN_MATURATION_DIR,
+      precision: 6,
+      keepKeys: ['Main_C', 'Sub_class', 'Land_Exten', 'Domain', 'Area_m2', 'NAME'],
+    },
+  )
+}
+
+function buildUrbanMaturationLayers() {
+  buildUrbanMaturationLayersLegacy()
+  buildPrimaryMaturationLayers()
 }
 
 // ---------------------------------------------------------------------------

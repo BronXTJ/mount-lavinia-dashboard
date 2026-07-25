@@ -1,0 +1,41 @@
+{
+  "phase": 4,
+  "output": "E:/mount-lavinia-dashboard/json_files/Primary study area final analysis 01/04_density/density_primary_hex.geojson",
+  "analysis_crs": "EPSG:3857",
+  "export_crs": "CRS84 / EPSG:4326",
+  "feature_count": 447,
+  "edge_count": 125,
+  "valid_count": 322,
+  "interior_count": 322,
+  "norm_basis": {
+    "FSI_max_valid": 6.254082503338463,
+    "GSI_max_valid": 0.5829940703933254,
+    "valid_rule": "FSI>0 & GSI>0 & OSR>=0 & Hex_area>0 & is_edge==false"
+  },
+  "valid_cell_stats": {
+    "FSI": {
+      "min": 0.0846,
+      "max": 6.2541,
+      "mean": 1.9205385093167702,
+      "median": 1.8523999999999998
+    },
+    "GSI": {
+      "min": 0.0206,
+      "max": 0.583,
+      "mean": 0.3692534161490684,
+      "median": 0.37975000000000003
+    },
+    "OSR": {
+      "min": 0.0763,
+      "max": 11.5752,
+      "mean": 0.4880692546583855,
+      "median": 0.3298
+    },
+    "Density_V": {
+      "min": 0.0245,
+      "max": 0.9482,
+      "mean": 0.47023105590062136,
+      "median": 0.47915
+    }
+  }
+}

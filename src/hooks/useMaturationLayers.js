@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { maturationGeoUrl } from '../constants/maturation.js'
 import { densityGeoUrl } from '../constants/density.js'
-import { boundaryGeoUrl } from '../constants/centrality.js'
 import {
   buildMaturationStats,
   filterValidMaturationFeatures,
@@ -40,7 +39,7 @@ const EMPTY_STATS = {
 
 /**
  * Loads Urban Maturation hex + shannon + landuse + Density context layers.
- * Reuses density hex grid outline, buildings/roads/pois, and 500m boundary.
+ * Primary 5-GN study area layers by default.
  */
 export function useMaturationLayers() {
   const [hex, setHex] = useState(null)
@@ -60,14 +59,14 @@ export function useMaturationLayers() {
     setLoading(true)
 
     Promise.all([
-      fetchGeoJson(maturationGeoUrl('urban_maturation_analysis.geojson')),
-      fetchGeoJson(maturationGeoUrl('shanon_entropy_index.geojson')),
-      fetchGeoJson(maturationGeoUrl('landuse_500m.geojson')),
-      fetchGeoJson(densityGeoUrl('hex_grid_500m.geojson')),
-      fetchGeoJson(densityGeoUrl('buildings_500m.geojson')),
-      fetchGeoJson(densityGeoUrl('roads_clipped_500m.geojson')),
-      fetchGeoJson(densityGeoUrl('pois_clipped_500m.geojson')),
-      fetchGeoJson(boundaryGeoUrl(500)),
+      fetchGeoJson(maturationGeoUrl('maturation_primary_hex.geojson')),
+      fetchGeoJson(maturationGeoUrl('shanon_entropy_primary.geojson')),
+      fetchGeoJson(maturationGeoUrl('landuse_primary.geojson')),
+      fetchGeoJson(densityGeoUrl('hex_grid_primary_100m.geojson')),
+      fetchGeoJson(densityGeoUrl('buildings_primary_floors.geojson')),
+      fetchGeoJson(densityGeoUrl('roads_primary.geojson')),
+      fetchGeoJson(densityGeoUrl('pois_primary.geojson')),
+      fetchGeoJson(densityGeoUrl('primary_study_area_boundary.geojson')),
     ]).then(
       ([
         rawHex,

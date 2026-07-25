@@ -1,0 +1,113 @@
+{
+  "phase": 1,
+  "package": "Primary study area final analysis 01",
+  "package_root": "E:/mount-lavinia-dashboard/json_files/Primary study area final analysis 01",
+  "geometry_crs_stored": {
+    "name": "CRS84",
+    "urn": "urn:ogc:def:crs:OGC:1.3:CRS84",
+    "note": "All locked GeoJSON geometries are lon/lat (WGS84)."
+  },
+  "analysis_crs_later_phases": {
+    "epsg": 3857,
+    "name": "Web Mercator",
+    "note": "Use EPSG:3857 for hex sizing and metric area calculations; export dashboard GeoJSON back to CRS84 (lon/lat geometries + metric attributes)."
+  },
+  "centrality_field_map": {
+    "scale_meters": 5000,
+    "closeness": "NQPDA5000",
+    "betweenness": "BtA5000",
+    "source_app_reference": "src/utils/centralityStats.js"
+  },
+  "floors_rule_later": {
+    "formula": "Floors = round(Height / 3); if Height < 3 then Floors = 1",
+    "building_source": "03_buildings/zenodo_buildings_raw.geojson",
+    "not_used_for_height": "No1_study_boundary_related_analysis/clipped_buildings (no Height field)"
+  },
+  "layers": [
+    {
+      "id": "primary_boundary",
+      "destination": "01_boundary/primary_study_area_boundary.geojson",
+      "source": "E:/mount-lavinia-dashboard/json_files/No1_study_boundary_related_analysis/studyarea01_boundary/studyarea01_boundary.geojson",
+      "byte_size": 109892,
+      "feature_count": 1,
+      "required_fields": [],
+      "bbox_crs84": [79.86102566623866, 6.819369515313779, 79.87601692176992, 6.849421056689701],
+      "role": "Primary study area extent (single polygon)"
+    },
+    {
+      "id": "gn5_divisions",
+      "destination": "01_boundary/gn5_divisions.geojson",
+      "source": "E:/mount-lavinia-dashboard/json_files/No1_study_boundary_related_analysis/GN5_combined_area/GN5_combined_area.geojson",
+      "byte_size": 81398,
+      "feature_count": 5,
+      "required_fields": ["ADM4_EN", "ADM4_PCODE"],
+      "bbox_crs84": [79.86102363400005, 6.819374452000033, 79.87601857400006, 6.849421866000057],
+      "role": "Five Grama Niladhari division polygons"
+    },
+    {
+      "id": "zenodo_buildings",
+      "destination": "03_buildings/zenodo_buildings_raw.geojson",
+      "source": "E:/mount-lavinia-dashboard/json_files/zenodo/zenodo_clipped.geojson",
+      "byte_size": 2327667,
+      "feature_count": 5501,
+      "required_fields": ["Height", "Area", "FID_1"],
+      "bbox_crs84": [79.86137293767175, 6.819372346335633, 79.87589587118725, 6.849391422376911],
+      "height_qc": {
+        "min": 1.3372298,
+        "max": 81.12203,
+        "below_3m_count": 2
+      },
+      "role": "Building footprints with height for floors / FSI"
+    },
+    {
+      "id": "landuse_primary",
+      "destination": "06_context/landuse_primary.geojson",
+      "source": "E:/mount-lavinia-dashboard/json_files/No1_study_boundary_related_analysis/landuse_clipped/landuse_clipped.geojson",
+      "byte_size": 899079,
+      "feature_count": 573,
+      "required_fields": ["Main_C", "Domain", "Area_m2"],
+      "bbox_crs84": [79.8610542558493, 6.819369515313779, 79.87601692176992, 6.849421056689701],
+      "role": "Land use for Shannon entropy / mixed-use"
+    },
+    {
+      "id": "roads_primary",
+      "destination": "06_context/roads_primary.geojson",
+      "source": "E:/mount-lavinia-dashboard/json_files/No1_study_boundary_related_analysis/clipped_roads/clipped_roads.geojson",
+      "byte_size": 379554,
+      "feature_count": 496,
+      "required_fields": ["highway", "id"],
+      "bbox_crs84": [79.862014, 6.8197273, 79.87590812746397, 6.849420649765237],
+      "role": "Primary-area roads (map context)"
+    },
+    {
+      "id": "pois_primary",
+      "destination": "06_context/pois_primary.geojson",
+      "source": "E:/mount-lavinia-dashboard/json_files/No1_study_boundary_related_analysis/clipped_POIS/clipped_POIS.geojson",
+      "byte_size": 106038,
+      "feature_count": 147,
+      "required_fields": ["id"],
+      "bbox_crs84": [79.8624088, 6.8273551, 79.8755543, 6.8490173],
+      "role": "Primary-area POIs (map context)"
+    },
+    {
+      "id": "closeness_5000m",
+      "destination": "07_centrality/closeness_5000m.geojson",
+      "source": "E:/mount-lavinia-dashboard/json_files/Urban_morpho_analysis/closeness_centrality/5000m_closeness.geojson",
+      "byte_size": 1484149,
+      "feature_count": 2115,
+      "required_fields": ["NQPDA5000"],
+      "bbox_crs84": [79.86006691857435, 6.794979596468006, 79.9013322184857, 6.867038396381314],
+      "role": "5000 m closeness centrality (accessibility input)"
+    },
+    {
+      "id": "betweenness_5000m",
+      "destination": "07_centrality/betweenness_5000m.geojson",
+      "source": "E:/mount-lavinia-dashboard/json_files/Urban_morpho_analysis/betweeness_centrality/5000m_betweenness.geojson",
+      "byte_size": 1845295,
+      "feature_count": 2115,
+      "required_fields": ["BtA5000"],
+      "bbox_crs84": [79.86006691857435, 6.794979596468006, 79.9013322184857, 6.867038396381314],
+      "role": "5000 m betweenness centrality (accessibility input)"
+    }
+  ]
+}

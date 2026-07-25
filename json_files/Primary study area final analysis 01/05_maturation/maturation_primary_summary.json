@@ -1,0 +1,52 @@
+{
+  "phase": 5,
+  "output": "E:/mount-lavinia-dashboard/json_files/Primary study area final analysis 01/05_maturation/maturation_primary_hex.geojson",
+  "analysis_crs": "EPSG:3857",
+  "export_crs": "CRS84 / EPSG:4326",
+  "feature_count": 447,
+  "edge_count": 125,
+  "valid_maturation_count": 311,
+  "norm_basis": {
+    "entropy_max_valid": 1.5598016406844204,
+    "close_max_seed": 0.0740224272,
+    "bet_max_seed": 197.57748413086,
+    "rule": "is_edge==false & entropy_raw>0 & accessibility>0"
+  },
+  "valid_cell_stats": {
+    "entropy_raw": {
+      "min": 0.05828576493007134,
+      "max": 1.5598016406844204,
+      "mean": 0.677018104106963
+    },
+    "accessibility": {
+      "min": 0.01837194529310914,
+      "max": 0.9659238709075998,
+      "mean": 0.11176856442695028
+    },
+    "umi": {
+      "min": 0.14831001385337236,
+      "max": 0.8292659847699575,
+      "mean": 0.34112864139918414
+    },
+    "landuse_div": {
+      "min": 0.0388,
+      "max": 0.9482,
+      "mean": 0.4775762057877813
+    },
+    "entropy_norm": {
+      "min": 0.03736742122190378,
+      "max": 1.0,
+      "mean": 0.4340411539828209
+    }
+  },
+  "tier_counts_all": {
+    "high": 138,
+    "medium": 263,
+    "low": 46
+  },
+  "tier_counts_valid": {
+    "high": 118,
+    "medium": 192,
+    "low": 1
+  }
+}
