@@ -162,7 +162,14 @@ export function buildLandUseComposition(landuseGeojson) {
 
   for (const f of features) {
     const cat = f.properties?.Main_C || 'Unknown'
-    const area = Number(f.properties?.Land_Exten) || 0
+    const areaM2 = Number(f.properties?.Area_m2)
+    const landExten = Number(f.properties?.Land_Exten)
+    // Prefer geometric area (m²) — Land_Exten is skewed (e.g. Transport) and hides small classes.
+    const area = Number.isFinite(areaM2) && areaM2 > 0
+      ? areaM2
+      : Number.isFinite(landExten) && landExten > 0
+        ? landExten
+        : 0
     byCategory.set(cat, (byCategory.get(cat) ?? 0) + area)
   }
 
@@ -171,9 +178,10 @@ export function buildLandUseComposition(landuseGeojson) {
     .map(([name, area]) => ({
       name,
       area,
-      pct: Math.round((area / total) * 1000) / 10,
+      pct: Math.round((area / total) * 10000) / 100,
       color: getMaturationLandUseColor(name),
     }))
+    .filter((row) => row.area > 0)
     .sort((a, b) => b.area - a.area)
 }
 

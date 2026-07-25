@@ -24,14 +24,28 @@ const SHANNON_ACCENT = '#10b981'
 function landUseTooltip({ active, payload }) {
   if (!active || !payload?.length) return null
   const row = payload[0]?.payload
+  const area = Number(row?.area ?? 0)
+  const areaLabel =
+    area >= 1e6
+      ? `${(area / 1e6).toFixed(2)} km²`
+      : area >= 1
+        ? `${area.toFixed(0)} m²`
+        : `${area.toFixed(2)} m²`
   return (
     <div className="rounded-md border border-surface-700 bg-surface-800 px-3 py-2 text-xs shadow-card">
       <p className="font-medium text-surface-50">{row?.name}</p>
       <p className="mt-1 text-surface-200">
-        {row?.pct}% · area {Number(row?.area ?? 0).toFixed(2)}
+        {row?.pct}% · {areaLabel}
       </p>
     </div>
   )
+}
+
+function formatLandUsePct(v) {
+  if (!Number.isFinite(Number(v))) return ''
+  const n = Number(v)
+  if (n > 0 && n < 0.1) return '<0.1%'
+  return `${n}%`
 }
 
 function scatterTooltip({ active, payload }) {
@@ -128,19 +142,22 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Land Use Composition"
             points={[
-              'Bars show total land extent by Main_C from the Overview land-use layer (landuse_clipped).',
-              'Percent labels are each category’s share of total Land_Exten.',
+              'Bars show total footprint area (Area_m2) by Main_C from landuse_clipped (same as Overview).',
+              'Percent labels are each category’s share of total mapped land-use area.',
               'Colors match the Overview land-use map.',
             ]}
             ariaLabel="What does Land Use Composition show?"
           />
         </div>
-        <div className="mt-3 h-72">
+        <div
+          className="mt-3"
+          style={{ height: Math.max(320, (composition.length || 8) * 32) }}
+        >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               layout="vertical"
               data={composition}
-              margin={{ top: 4, right: 48, left: 8, bottom: 28 }}
+              margin={{ top: 4, right: 56, left: 4, bottom: 28 }}
             >
               <CartesianGrid stroke="#2a3a4a" strokeDasharray="3 3" horizontal={false} />
               <XAxis
@@ -149,7 +166,7 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
                 axisLine={{ stroke: '#2a3a4a' }}
                 tickLine={false}
                 label={{
-                  value: 'Land extent',
+                  value: 'Area (m²)',
                   position: 'insideBottom',
                   offset: -16,
                   fill: '#9fadb9',
@@ -159,7 +176,8 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
               <YAxis
                 type="category"
                 dataKey="name"
-                width={96}
+                width={128}
+                interval={0}
                 tick={{ fill: '#9fadb9', fontSize: 11 }}
                 axisLine={{ stroke: '#2a3a4a' }}
                 tickLine={false}
@@ -180,7 +198,7 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
                   showLabels={barAnim.showLabels}
                   dataKey="pct"
                   position="right"
-                  formatter={(v) => `${v}%`}
+                  formatter={formatLandUsePct}
                 />
               </Bar>
             </BarChart>
