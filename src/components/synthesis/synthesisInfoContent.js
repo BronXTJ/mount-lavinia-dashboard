@@ -14,7 +14,7 @@ export const SYNTHESIS_INFO = {
     title: 'Key Argument',
     ariaLabel: 'About the key argument steps',
     points: [
-      'Six steps in order: Shannon and UMI, access lag, corridors, heat, identity, coupled response.',
+      'Six steps in order: Shannon and UMI profile, accessibility lag, corridors, heat, identity, coupled response.',
       'Previous / Next move along this path; selecting a step opens that finding.',
     ],
   },

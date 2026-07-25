@@ -139,20 +139,21 @@ export const findings = [
   },
   {
     id: 'F6',
-    label: 'Compact Built Form Dominates',
+    label: 'Split Built Form Across the Primary Area',
     domains: ['density', 'morphology'],
     observation: [
-      'Density hex analysis shows large shares of the 500 m study area in compact / dense built-form types.',
+      'Primary 5-GN density analysis uses a 100 m hex grid (447 hexes; 322 valid after edge filtering).',
+      'Typology on valid hexes is split: about 41% Dense Congested Urban and about 41% Open Underdeveloped, with smaller shares of vertical and sprawling types.',
       'See Built Form typology and median FSI–GSI on the Density tab.',
     ],
     interpretation: [
-      'A compact fabric strengthens canyon effects and shadow patterns.',
-      'It also increases competition for open space — linking form to heat findings.',
+      'The fabric is not uniformly compact: dense congested cells sit alongside large open-underdeveloped patches.',
+      'Where compact types cluster, canyon effects and competition for open space still intensify heat and enclosure.',
     ],
     implication: [
-      'In DMMC and UDA approvals, require usable open space and cross-ventilation, not floor area alone.',
-      'Refuse forms that deepen street canyons without compensating ground-level openness on the 500 m density fabric.',
-      'Align height and setback decisions with the compact typology already dominating the hex analysis so new stock does not lock in worse enclosure.',
+      'In DMMC and UDA approvals, require usable open space and cross-ventilation, not floor area alone—especially in dense congested hexes.',
+      'Refuse forms that deepen street canyons without compensating ground-level openness on the primary density fabric.',
+      'Treat open-underdeveloped hexes as opportunities for managed growth rather than leftover land for unregulated slabs.',
     ],
     evidence: [
       { tab: 'density', label: 'Density typology + FSI/GSI', path: '/focus-area', focusSub: 'density' },
@@ -164,7 +165,7 @@ export const findings = [
     label: 'Limited Open-Space Ratio',
     domains: ['density'],
     observation: [
-      'Median OSR (open-space ratio) on the density hex grid shows limited open space relative to built coverage.',
+      'Median OSR (open-space ratio) on primary valid density hexes is about 0.33 — limited open space relative to built coverage.',
       'See the Openness panel on the Density tab.',
     ],
     interpretation: [
@@ -186,19 +187,19 @@ export const findings = [
     label: 'Network Centrality Concentrates Pressure',
     domains: ['morphology', 'social', 'maturation'],
     observation: [
-      'Centrality maps (closeness / betweenness) highlight Mount Lavinia Junction and corridor links as key movement spines.',
-      'UMI accessibility averages only ~0.13 (0–1) across 113 hexes.',
+      'Centrality maps (closeness / betweenness at multiple scales) highlight Mount Lavinia Junction and corridor links as key movement spines.',
+      'UMI accessibility (from 5000 m closeness NQPDA5000 and betweenness BtA5000) averages only about 0.11 on a 0–1 scale across 311 maturation-valid hexes.',
       'Network importance is high where measured accessibility still lags.',
     ],
     interpretation: [
-      'Shannon entropy (land-use mix) is the preferred maturation lens.',
-      'Accessibility is the weak part of the UMI composite.',
+      'Shannon entropy (land-use mix) remains a strong maturation lens for reading mix.',
+      'Accessibility is the weak part of the UMI composite on the primary grid.',
       'Heat, crowding, and tourism–resident friction still pile onto the most central streets.',
       'Being on a busy spine is not the same as fair, mature access.',
     ],
     implication: [
       'Put shade, sidewalk, and cooling packages first on high betweenness and closeness links through Mount Lavinia Junction.',
-      'Improve walkable access to daily destinations so network importance is matched by real accessibility, which currently averages only about 0.13 on UMI.',
+      'Improve walkable access to daily destinations so network importance is matched by real accessibility, which currently averages only about 0.11 on UMI.',
       'Read corridor pressure through Shannon land-use mix maps and centrality together so upgrades serve both movement and maturation.',
     ],
     evidence: [
@@ -242,16 +243,16 @@ export const findings = [
     domains: ['governance', 'density', 'morphology'],
     observation: [
       'RC2 (Unregulated Development) and GOV1 (Weak Zoning) describe condo/hotel growth without clear separation from homes and the working coast.',
-      'Rapid high-rise growth is producing a denser, more commercial urban fabric compared with Mount Lavinia’s original town character (also linked to SE8 speculation).',
+      'Rapid high-rise growth is producing denser, more commercial patches compared with Mount Lavinia’s original town character (also linked to SE8 speculation), alongside still-open underdeveloped hexes on the primary grid.',
     ],
     interpretation: [
-      'Weak rules help produce the compact form and low OSR seen in density analysis.',
+      'Weak rules help produce low-OSR and congested form where towers cluster, while leaving other cells under-structured.',
       'They also intensify outdoor heat on shared streets.',
     ],
     implication: [
       'Tighten zoning, height, and setback rules for hotels and condominiums before more towers lock in canyon enclosure on the Galle Road corridor.',
       'Separate high-rise tourism stock from residential and working-coast blocks so Mount Lavinia does not lose its town grain to unregulated slabs.',
-      'Tie new bulk approvals to open-space and ventilation obligations that counter the compact, low-OSR fabric already measured in density analysis.',
+      'Tie new bulk approvals to open-space and ventilation obligations that counter low-OSR and congested fabric already measured in primary density analysis.',
     ],
     evidence: [
       { tab: 'issues', label: 'Issues · RC2 / GOV1', path: '/problems', node: 'RC2' },
@@ -310,16 +311,16 @@ export const findings = [
     label: 'Planning Must Couple Climate and Zoning',
     domains: ['governance', 'thermal', 'density', 'maturation'],
     observation: [
-      'Heat stress, uneven Shannon entropy, a still-low UMI, weak zoning, and tourism–resident conflict show up together across the analysis layers.',
+      'Heat stress, uneven Shannon entropy, mid-range UMI with weak accessibility, weak zoning, and tourism–resident conflict show up together across the analysis layers.',
       'These are linked themes, not separate problems.',
     ],
     interpretation: [
       'A single-sector response (trees only, or zoning only, or tourism marketing only) will under-perform.',
-      'Shannon-led maturation and the UMI composite both show a fabric that is not yet mature.',
+      'Primary maturation shows meaningful mix and diversity, but access still lags—so climate and zoning responses must close that gap, not chase “early UMI” myths from the old 500 m study.',
     ],
     implication: [
       'Package heat mitigation, zoning reform, and tourism management as one Mount Lavinia programme instead of separate sector projects.',
-      'Raise land-use mix, outdoor comfort, walkable access, and fair foreshore space in a shared delivery sequence.',
+      'Raise walkable access, outdoor comfort, and fair foreshore space alongside land-use mix in a shared delivery sequence.',
       'Use the SFA priorities in Issues and Potentials to order which interventions start first on the ground.',
     ],
     evidence: [
@@ -339,22 +340,22 @@ export const findings = [
     label: 'Shannon Entropy Leads the Maturation Reading',
     domains: ['maturation', 'morphology'],
     observation: [
-      'Study area: 113 hex cells, each 100 m.',
-      'Mean Shannon entropy (land-use mix): ~0.23 on a 0–1 scale.',
-      'Shannon is the preferred final signal for maturation (mix).',
-      'Mean UMI (composite of Shannon + access + diversity): ~0.16.',
-      'UMI tiers: ~51% early (under 0.15), ~42% moderate (0.15–0.35), ~7% highly matured (over 0.35).',
-      'UMI sits lower than Shannon because access and diversity are weaker.',
+      'Primary study area: 447 hex cells at 100 m (311 maturation-valid after edge / completeness filters).',
+      'Mean Shannon entropy (normalized land-use mix): about 0.43 on a 0–1 scale.',
+      'Shannon remains a strong final signal for maturation (mix).',
+      'Mean UMI (composite of Shannon + access + diversity): about 0.34.',
+      'UMI tiers on valid hexes: about 62% moderately matured (0.15–0.35), about 38% highly matured (over 0.35), and essentially no early-tier cells (under 0.15).',
+      'UMI sits below Shannon largely because accessibility is weaker than mix and diversity.',
     ],
     interpretation: [
-      'Shannon is the strongest maturation lens here — it measures mix directly.',
-      'UMI is still useful as the combined index.',
-      'Its lower mean shows access and diversity pulling the score down.',
+      'Shannon is still a strong maturation lens here — it measures mix directly.',
+      'UMI is useful as the combined index and is mid-range on the primary grid, not an early-stage mean.',
+      'The gap between Shannon and UMI points to access (and local delivery), not a lack of mix.',
     ],
     implication: [
       'Site mix and Live+Work interventions using Shannon entropy maps as the primary maturation reading across the 100 m hex fabric.',
-      'Use the lower UMI mean to flag where access and diversity fail to convert mix into everyday functional maturity.',
-      'Brief decision makers with Shannon first and UMI as the composite check, not the other way around.',
+      'Use the UMI–Shannon gap to flag where accessibility fails to convert mix into everyday functional maturity.',
+      'Brief decision makers with Shannon first for mix, then UMI as the composite check—especially the weak access component.',
     ],
     evidence: [
       {
@@ -374,24 +375,24 @@ export const findings = [
   },
   {
     id: 'F15',
-    label: 'Access and Diversity Pull UMI Below Shannon',
+    label: 'Accessibility Lags Mix and Diversity',
     domains: ['maturation', 'morphology'],
     observation: [
-      'UMI component means (0–1): Shannon entropy ~0.23.',
-      'Accessibility ~0.13.',
-      'Land-use diversity ~0.12.',
-      'Shannon is the stronger maturation reading.',
-      'Access and diversity pull the composite UMI down to ~0.16.',
+      'UMI component means on primary valid hexes (0–1): Shannon entropy about 0.43.',
+      'Land-use diversity about 0.48.',
+      'Accessibility about 0.11 (from 5000 m closeness and betweenness).',
+      'Shannon and diversity are the stronger maturation readings.',
+      'Weak accessibility pulls the composite UMI down to about 0.34—below what mix alone would suggest.',
     ],
     interpretation: [
-      'A low UMI does not mean “no mix.”',
-      'Shannon shows more mix than access and diversity deliver.',
-      'Functional maturity is thin relative to network and tourism pressure (see F8).',
+      'A mid UMI does not mean “no mix.”',
+      'Shannon and diversity show more functional variety than the accessibility layer delivers.',
+      'Functional reach is thin relative to network and tourism pressure (see F8).',
     ],
     implication: [
-      'Insert reachable shops, services, and daily destinations along main corridors so accessibility rises toward the stronger Shannon mix reading.',
-      'Prefer mixed Live+Work hexes over repeating mono-typology hotel or condo slabs that score poorly on diversity.',
-      'Target access and diversity upgrades where UMI components lag Shannon so the composite score can catch up to real land-use mix.',
+      'Insert reachable shops, services, and daily destinations along main corridors so accessibility rises toward the stronger Shannon and diversity readings.',
+      'Prefer mixed Live+Work hexes over repeating mono-typology hotel or condo slabs.',
+      'Target access upgrades where UMI lags Shannon so the composite score can catch up to real land-use mix.',
     ],
     evidence: [
       {
@@ -409,19 +410,19 @@ export const findings = [
     label: 'Uneven Shannon Fabric Meets Heat and Conflict',
     domains: ['maturation', 'thermal', 'social'],
     observation: [
-      'Mean Shannon entropy is ~0.23.',
-      'UMI composite is still early (~0.16; mostly early/moderate tiers).',
+      'Mean Shannon entropy is about 0.43 on primary valid hexes.',
+      'UMI composite averages about 0.34 (mostly moderate and highly matured tiers).',
       'On the same geography, mean UTCI is ~39 °C (strong heat stress).',
       'Issues RC1 describes tourism–resident–fisher identity mismatch on shared un-zoned space.',
     ],
     interpretation: [
-      'Read maturation first through Shannon mix, then confirm with UMI.',
-      'An incompletely matured fabric absorbs tourism and climate stress poorly.',
-      'Limited access/diversity sit alongside harsh outdoor comfort and competing place claims.',
+      'Read maturation first through Shannon mix, then confirm with UMI—especially the weak access component.',
+      'A fabric with mid UMI and uneven mix still absorbs tourism and climate stress poorly where access and comfort lag.',
+      'Limited accessibility sits alongside harsh outdoor comfort and competing place claims.',
     ],
     implication: [
-      'Run one coordinated programme that upgrades land-use mix, outdoor walking comfort, and coastal zoning on the same geography.',
-      'Treat uneven Shannon fabric, early UMI tiers, strong UTCI, and tourism–resident–fisher conflict as linked delivery problems, not separate files.',
+      'Run one coordinated programme that upgrades walkable access, outdoor walking comfort, and coastal zoning on the same geography.',
+      'Treat uneven Shannon fabric, mid UMI with weak access, strong UTCI, and tourism–resident–fisher conflict as linked delivery problems, not separate files.',
       'Sequence work with the same integrated path used for climate and zoning coupling, so heat and identity stress are not left for a later phase.',
     ],
     evidence: [
@@ -478,18 +479,18 @@ export const findingEdges = [
 
 /**
  * Six-step key argument path.
- * Shannon-first maturation: Shannon profile → components/UMI → centrality → heat → identity → coupled response.
+ * Shannon-first maturation: Shannon profile → access lag → centrality → heat → identity → coupled response.
  */
 export const storySpine = [
   {
     findingId: 'F14',
     title: 'Shannon Profile',
-    blurb: 'Shannon mix ~0.23; UMI combined score ~0.16.',
+    blurb: 'Primary grid: Shannon mix ~0.43; UMI combined score ~0.34.',
   },
   {
     findingId: 'F15',
-    title: 'Access/Diversity Lag',
-    blurb: 'Access and diversity are low, so UMI falls below Shannon.',
+    title: 'Access Lags',
+    blurb: 'Accessibility (~0.11) lags mix and diversity, holding UMI below Shannon.',
   },
   {
     findingId: 'F8',
@@ -509,7 +510,7 @@ export const storySpine = [
   {
     findingId: 'F16',
     title: 'Couple Shannon + Climate',
-    blurb: 'Raise mix, UMI, comfort, and zoning together.',
+    blurb: 'Raise access, comfort, and zoning together with mix.',
   },
 ]
 

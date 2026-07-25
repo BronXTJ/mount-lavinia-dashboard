@@ -40,7 +40,7 @@ export const nodes = [
     label: 'Unregulated Development',
     category: 'Root Cause',
     detail:
-      'Rapid high-rise condominium and hotel expansion without programmatic spatial separation from residential and working coastal zones, producing a denser and more commercial urban fabric than Mount Lavinia’s original town character.',
+      'Rapid high-rise condominium and hotel expansion without programmatic spatial separation from residential and working coastal zones, producing denser commercial patches alongside still-open underdeveloped areas—unlike Mount Lavinia’s original town character.',
     group: 1,
   },
   {
