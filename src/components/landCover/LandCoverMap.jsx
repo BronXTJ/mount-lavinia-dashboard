@@ -4,13 +4,13 @@ import L from 'leaflet'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
 import FitBoundsToGeoJson from '../focusArea/FitBoundsToGeoJson.jsx'
 import {
-  LC_DATA_BASE,
   LC_MAP_CENTER,
   LC_MAP_ZOOM,
   LC_OVERLAY_BOUNDS,
   getActiveLcOverlay,
   getContextPreviewUrl,
   getOverlayUrlFromVisible,
+  landCoverUrl,
 } from '../../constants/landCover.js'
 import LandCoverLegend from './LandCoverLegend.jsx'
 import LandCoverMapLayerFab from './LandCoverMapLayerFab.jsx'
@@ -59,8 +59,8 @@ export default function LandCoverMap({
     let cancelled = false
     setLoading(true)
     Promise.all([
-      fetch(`${LC_DATA_BASE}/aoi_gn5_dissolved.geojson`).then((r) => r.json()),
-      fetch(`${LC_DATA_BASE}/gn5_divisions.geojson`).then((r) => r.json()),
+      fetch(landCoverUrl('aoi_gn5_dissolved.geojson')).then((r) => r.json()),
+      fetch(landCoverUrl('gn5_divisions.geojson')).then((r) => r.json()),
     ])
       .then(([aoiJson, gnJson]) => {
         if (cancelled) return

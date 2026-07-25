@@ -17,6 +17,7 @@ import {
   LC_PER_GN_S2,
   LC_S2_EPOCHS,
   getEpochRow,
+  getGnS2Kpis,
 } from '../../constants/landCover.js'
 import {
   LC_DESIGN_BULLETS_MOUNT,
@@ -29,6 +30,13 @@ function formatSignedHa(n) {
   if (!Number.isFinite(v)) return '—'
   const sign = v > 0 ? '+' : ''
   return `${sign}${v.toFixed(1)} ha`
+}
+
+function formatSignedPp(n) {
+  const v = Number(n)
+  if (!Number.isFinite(v)) return '—'
+  const sign = v > 0 ? '+' : ''
+  return `${sign}${v.toFixed(1)} pp`
 }
 
 function ClassShareBars({ epochRow }) {
@@ -113,6 +121,47 @@ function S2MetricsChart({ gnName }) {
   )
 }
 
+function GnS2KpiCards({ gnName }) {
+  const kpis = getGnS2Kpis(gnName)
+  if (!kpis) return null
+
+  return (
+    <FocusAreaPanelCard>
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <h3 className="text-sm font-semibold text-surface-100">Sentinel-2 10 m snapshot (~2025)</h3>
+        <MetricInfoButton title={LC_INFO.s2Metrics.title} points={LC_INFO.s2Metrics.points} />
+      </div>
+      <p className="mb-3 text-[11px] text-surface-400">Area ≈ {kpis.area_ha} ha</p>
+      <div className="grid grid-cols-2 gap-3">
+        <DensityStatCard
+          label="Built-up"
+          value={`${kpis.built_up_pct.toFixed(1)}%`}
+          hint="Share of GN area · S2 ~2025"
+          topBorderColor="#d73027"
+        />
+        <DensityStatCard
+          label="Green"
+          value={`${kpis.green_pct.toFixed(1)}%`}
+          hint="Vegetation share · S2 ~2025"
+          topBorderColor="#1a9850"
+        />
+        <DensityStatCard
+          label="Soft surface"
+          value={`${kpis.soft_surface_pct.toFixed(1)}%`}
+          hint="Veg + open + water + beach · S2 ~2025"
+          topBorderColor="#4575b4"
+        />
+        <DensityStatCard
+          label="Built-up change"
+          value={formatSignedPp(kpis.built_up_change_pp)}
+          hint="Percentage points · S2 2018→2025"
+          topBorderColor="#fc8d59"
+        />
+      </div>
+    </FocusAreaPanelCard>
+  )
+}
+
 function DesignBullets({ items }) {
   return (
     <ul className="space-y-2">
@@ -177,83 +226,75 @@ export default function LandCoverDetailPanel({ selectedGn, epochId }) {
         </>
       )}
 
-      {isMount && (
+      {hasGn && (
         <>
-          <FocusAreaPanelCard>
-            <h3 className="mb-3 text-sm font-semibold text-surface-100">
-              Landsat deep dive (2000→2025)
-            </h3>
-            <div className="grid grid-cols-2 gap-3">
-              <DensityStatCard
-                label="Built-up"
-                value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.built_up.change)}
-                hint={`${LC_MOUNT_LAVINIA_LANDSAT.built_up.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.built_up.y2025} ha`}
-                topBorderColor="#d73027"
-              />
-              <DensityStatCard
-                label="Vegetation"
-                value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.vegetation.change)}
-                hint={`${LC_MOUNT_LAVINIA_LANDSAT.vegetation.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.vegetation.y2025} ha`}
-                topBorderColor="#1a9850"
-              />
-              <DensityStatCard
-                label="Open / bare"
-                value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.open_bare.change)}
-                hint={`${LC_MOUNT_LAVINIA_LANDSAT.open_bare.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.open_bare.y2025} ha`}
-                topBorderColor="#fdae61"
-              />
-              <DensityStatCard
-                label="Beach / sand"
-                value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.beach_sand.change)}
-                hint={`${LC_MOUNT_LAVINIA_LANDSAT.beach_sand.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.beach_sand.y2025} ha`}
-                topBorderColor="#ffffbf"
-              />
-            </div>
-          </FocusAreaPanelCard>
+          {isMount && (
+            <FocusAreaPanelCard>
+              <h3 className="mb-3 text-sm font-semibold text-surface-100">
+                Landsat deep dive (2000→2025)
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                <DensityStatCard
+                  label="Built-up"
+                  value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.built_up.change)}
+                  hint={`${LC_MOUNT_LAVINIA_LANDSAT.built_up.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.built_up.y2025} ha`}
+                  topBorderColor="#d73027"
+                />
+                <DensityStatCard
+                  label="Vegetation"
+                  value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.vegetation.change)}
+                  hint={`${LC_MOUNT_LAVINIA_LANDSAT.vegetation.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.vegetation.y2025} ha`}
+                  topBorderColor="#1a9850"
+                />
+                <DensityStatCard
+                  label="Open / bare"
+                  value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.open_bare.change)}
+                  hint={`${LC_MOUNT_LAVINIA_LANDSAT.open_bare.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.open_bare.y2025} ha`}
+                  topBorderColor="#fdae61"
+                />
+                <DensityStatCard
+                  label="Beach / sand"
+                  value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.beach_sand.change)}
+                  hint={`${LC_MOUNT_LAVINIA_LANDSAT.beach_sand.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.beach_sand.y2025} ha`}
+                  topBorderColor="#ffffbf"
+                />
+              </div>
+            </FocusAreaPanelCard>
+          )}
+
+          <GnS2KpiCards gnName={selectedGn} />
 
           <FocusAreaPanelCard>
             <div className="mb-2 flex items-center justify-between gap-2">
-              <h3 className="text-sm font-semibold text-surface-100">Sentinel-2 10 m shares</h3>
+              <h3 className="text-sm font-semibold text-surface-100">Sentinel-2 trend</h3>
               <MetricInfoButton
                 title={LC_INFO.s2Metrics.title}
                 points={LC_INFO.s2Metrics.points}
               />
             </div>
-            <S2MetricsChart gnName="Mount Lavinia" />
-          </FocusAreaPanelCard>
-
-          <FocusAreaPanelCard>
-            <h3 className="mb-3 text-sm font-semibold text-surface-100">Design focus</h3>
-            <DesignBullets items={LC_DESIGN_BULLETS_MOUNT} />
-          </FocusAreaPanelCard>
-        </>
-      )}
-
-      {hasGn && !isMount && (
-        <>
-          <FocusAreaPanelCard>
-            <div className="mb-2 flex items-center justify-between gap-2">
-              <h3 className="text-sm font-semibold text-surface-100">Sentinel-2 10 m shares</h3>
-              <MetricInfoButton
-                title={LC_INFO.s2Metrics.title}
-                points={LC_INFO.s2Metrics.points}
-              />
-            </div>
-            <p className="mb-2 text-[11px] text-surface-400">
-              Area ≈ {LC_PER_GN_S2[selectedGn]?.area_ha ?? '—'} ha · long-term (~2000) change is
-              summarised at the 5 GN / Mount Lavinia scale
-            </p>
+            {!isMount && (
+              <p className="mb-2 text-[11px] text-surface-400">
+                Long-term (~2000) change is summarised at the 5 GN / Mount Lavinia scale on the map.
+              </p>
+            )}
             <S2MetricsChart gnName={selectedGn} />
           </FocusAreaPanelCard>
 
-          <FocusAreaPanelCard>
-            <h3 className="mb-3 text-sm font-semibold text-surface-100">Reading tip</h3>
-            <p className="text-xs leading-relaxed text-surface-300">
-              Use the map epoch and change layers for the Landsat long-term story across all five
-              GNs. These Sentinel-2 bars give finer 2018–2025 built / green / soft texture for{' '}
-              {selectedGn}.
-            </p>
-          </FocusAreaPanelCard>
+          {isMount ? (
+            <FocusAreaPanelCard>
+              <h3 className="mb-3 text-sm font-semibold text-surface-100">Design focus</h3>
+              <DesignBullets items={LC_DESIGN_BULLETS_MOUNT} />
+            </FocusAreaPanelCard>
+          ) : (
+            <FocusAreaPanelCard>
+              <h3 className="mb-3 text-sm font-semibold text-surface-100">Reading tip</h3>
+              <p className="text-xs leading-relaxed text-surface-300">
+                Use the map epoch and change layers for the Landsat long-term story across all five
+                GNs. These Sentinel-2 cards and bars give finer 2018–2025 built / green / soft
+                texture for {selectedGn}.
+              </p>
+            </FocusAreaPanelCard>
+          )}
         </>
       )}
     </div>
