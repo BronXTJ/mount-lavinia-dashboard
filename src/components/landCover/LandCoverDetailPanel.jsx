@@ -115,7 +115,7 @@ function S2MetricsChart({ gnName }) {
           <Legend wrapperStyle={{ fontSize: 10 }} />
           <Bar dataKey="built" name="Built-up" fill="#d73027" radius={[2, 2, 0, 0]} />
           <Bar dataKey="green" name="Green" fill="#1a9850" radius={[2, 2, 0, 0]} />
-          <Bar dataKey="soft" name="Soft surface" fill="#4575b4" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="soft" name="Soft surface (includes Green)" fill="#4575b4" radius={[2, 2, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
@@ -145,13 +145,13 @@ function GnS2KpiCards({ gnName }) {
         <DensityStatCard
           label="Green"
           value={`${kpis.green_pct.toFixed(1)}%`}
-          hint="Vegetation share · Sentinel-2 ~2025"
+          hint="Green only · part of Soft · Sentinel-2 ~2025"
           topBorderColor="#1a9850"
         />
         <DensityStatCard
           label="Soft surface"
           value={`${kpis.soft_surface_pct.toFixed(1)}%`}
-          hint="Veg + open + water + beach · Sentinel-2 ~2025"
+          hint="Non-built (includes Green + open + water + beach) · Sentinel-2 ~2025"
           topBorderColor="#4575b4"
         />
         <DensityStatCard
@@ -161,6 +161,10 @@ function GnS2KpiCards({ gnName }) {
           topBorderColor="#fc8d59"
         />
       </div>
+      <p className="mt-3 text-[11px] leading-snug text-surface-500">
+        Green is inside Soft. Soft = all non-built. Do not add Green + Soft. Built-up + Soft ≈ 100%
+        of the GN.
+      </p>
     </FocusAreaPanelCard>
   )
 }
@@ -345,7 +349,8 @@ export default function LandCoverDetailPanel({ selectedGn, epochId }) {
               <p className="text-xs leading-relaxed text-surface-300">
                 Use the map epoch and change layers for the Landsat 30 m long-term story (~2000 /
                 ~2015 / ~2025) across all five GNs. These Sentinel-2 10 m cards and bars give finer
-                2018–2025 built / green / soft texture for {selectedGn}.
+                2018–2025 built / green / soft texture for {selectedGn}. Green is inside Soft — do
+                not add Green + Soft.
               </p>
             </FocusAreaPanelCard>
           )}

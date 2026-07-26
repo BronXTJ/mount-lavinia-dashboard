@@ -16,9 +16,9 @@ export const LC_INFO = {
     points: [
       'This section uses two different satellite products. Read each card’s title for which one applies.',
       'Landsat 30 m (~2000 / ~2015 / ~2025) drives the map overlays, left-panel headlines, and the long-term change story across all five GNs.',
-      'Sentinel-2 10 m (~2018 / ~2020 / ~2025) drives per-GN built / green / soft shares when you select a division.',
+      'Sentinel-2 10 m (~2018 / ~2020 / ~2025) drives per-GN built / green / soft shares when you select a division. Green is inside Soft.',
       'Landsat Open / bare includes yards, fields, sparse grass, and cleared land — do not read it as empty vacant land only.',
-      'Landsat classes: built-up, vegetation, open/bare, water/wetland, beach/sand. Sentinel-2 “soft surface” is broader (veg + open + water + beach) — do not mix the two % scales.',
+      'Landsat classes: built-up, vegetation, open/bare, water/wetland, beach/sand. Sentinel-2 Soft surface = all non-built (includes Green + open + water + beach) — do not mix Landsat % with Sentinel-2 %.',
       'Neighbourhood-scale only — not plot or cadastral accuracy.',
     ],
   },
@@ -56,7 +56,7 @@ export const LC_INFO = {
     points: [
       'These five colours are Landsat land-cover classes for the map and left/right Landsat panels.',
       ...LC_LANDSAT_CLASS_KEY,
-      'Sentinel-2 GN cards use different metrics (built / green / soft). Soft surface ≠ Open / bare alone.',
+      'Sentinel-2 GN cards use different metrics (built / green / soft). Soft includes Green; Soft ≠ Landsat Open / bare alone.',
     ],
   },
   landsatClassShares: {
@@ -82,10 +82,12 @@ export const LC_INFO = {
     title: 'Sentinel-2 GN metrics (2018–2025)',
     points: [
       'Per-GN metrics from Sentinel-2 10 m dry-season maps at ~2018, ~2020, and ~2025.',
-      'Built-up = hard / impervious share. Green = vegetation share. Soft surface = vegetation + open/bare + water + beach.',
-      'Soft surface is broader than Landsat “Open / bare” alone — do not treat them as the same class.',
+      'Built-up = hard / impervious share of the GN.',
+      'Green = plant / canopy share only. Soft surface = all non-built cover (includes Green + open + water + beach).',
+      'Green is inside Soft. Built-up + Soft ≈ 100% of the GN. Do not add Green + Soft.',
+      'Soft surface is a derived planning total — not a raw satellite class. It is not the same as Landsat Open / bare.',
       'Snapshot cards show ~2025 levels (% of GN area). Built-up change is percentage points from 2018→2025 (not hectares).',
-      'The trend chart plots the same three metrics across 2018 / 2020 / 2025 for this GN.',
+      'The trend chart plots Built-up, Green, and Soft (includes Green) across 2018 / 2020 / 2025.',
       'Finer than Landsat, but a shorter time span. Never mix these % values with Landsat class shares or headline ha.',
     ],
   },
