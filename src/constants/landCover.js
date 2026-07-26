@@ -240,7 +240,8 @@ export function getClassifiedMapUrl(epochId) {
 
 export function getOverlayUrl(layerMode, epochId) {
   if (layerMode === 'change') {
-    return landCoverUrl('maps/change_builtup_gain_veg_loss_y2000_y2025.png')
+    // Cache-bust so browsers reload after palette updates (built-up loss → magenta).
+    return `${landCoverUrl('maps/change_builtup_gain_veg_loss_y2000_y2025.png')}?v=magenta1`
   }
   return getClassifiedMapUrl(epochId)
 }
