@@ -223,7 +223,7 @@ def plot_change(theme: np.ndarray, title: str, path: Path) -> None:
         "#fc8d59",  # 3 open -> built
         "#fee08b",  # 4 other -> built
         "#1a9850",  # 5 veg loss other
-        "#4575b4",  # 6 built loss
+        "#c026d3",  # 6 built loss (magenta — not water/soft blue)
     ]
     labels = [
         "other/nodata",

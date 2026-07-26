@@ -297,7 +297,7 @@ def plot_site_panel(site: pd.Series, out_path: Path) -> None:
     rgb25 = stretch_rgb(rgb25)
     ch = ch[0] if ch.ndim == 3 else ch
 
-    change_colors = ["#f0f0f0", "#bdbdbd", "#d73027", "#fc8d59", "#fee08b", "#1a9850", "#4575b4"]
+    change_colors = ["#f0f0f0", "#bdbdbd", "#d73027", "#fc8d59", "#fee08b", "#1a9850", "#c026d3"]
     cmap = ListedColormap(change_colors)
 
     fig, axes = plt.subplots(1, 3, figsize=(12, 4.2), dpi=140)

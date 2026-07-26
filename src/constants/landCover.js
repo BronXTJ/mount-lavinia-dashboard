@@ -20,6 +20,25 @@ export const LC_EPOCHS = [
   { id: 'y2025', label: '~2025', year: 2025 },
 ]
 
+/** Basemap choices — satellite for present-day ground view. */
+export const LC_BASEMAPS = [
+  {
+    id: 'satellite',
+    label: 'Satellite (current)',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution:
+      'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+  },
+  {
+    id: 'streets',
+    label: 'Streets',
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  },
+]
+
+export const DEFAULT_LC_BASEMAP = 'satellite'
+
 export const LC_LAYER_MODES = [
   { id: 'classified', label: 'Landsat classified LULC (30 m)', dot: '#1a9850' },
   { id: 'change', label: 'Landsat change 2000→2025 (30 m)', dot: '#d73027' },
@@ -67,7 +86,7 @@ export const LC_CHANGE_LEGEND = [
   { id: 'open_built', label: 'Open → built-up', color: '#fc8d59' },
   { id: 'other_built', label: 'Other → built-up', color: '#fee08b' },
   { id: 'veg_loss', label: 'Veg loss (not built)', color: '#1a9850' },
-  { id: 'built_loss', label: 'Built-up loss', color: '#4575b4' },
+  { id: 'built_loss', label: 'Built-up loss', color: '#c026d3' },
   { id: 'stable', label: 'Stable', color: '#bdbdbd' },
 ]
 

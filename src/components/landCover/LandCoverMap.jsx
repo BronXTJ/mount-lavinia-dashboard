@@ -4,6 +4,8 @@ import L from 'leaflet'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
 import FitBoundsToGeoJson from '../focusArea/FitBoundsToGeoJson.jsx'
 import {
+  DEFAULT_LC_BASEMAP,
+  LC_BASEMAPS,
   LC_CONTEXT_STYLES,
   LC_MAP_CENTER,
   LC_MAP_ZOOM,
@@ -76,11 +78,16 @@ export default function LandCoverMap({
   const [buildings, setBuildings] = useState(null)
   const [roads, setRoads] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [basemapId, setBasemapId] = useState(DEFAULT_LC_BASEMAP)
 
   const activeOverlay = useMemo(() => getActiveLcOverlay(visibleLayers), [visibleLayers])
   const overlayUrl = useMemo(
     () => getOverlayUrlFromVisible(visibleLayers, epochId),
     [visibleLayers, epochId],
+  )
+  const basemap = useMemo(
+    () => LC_BASEMAPS.find((b) => b.id === basemapId) ?? LC_BASEMAPS[0],
+    [basemapId],
   )
   const showGnBoundaries = Boolean(visibleLayers?.gnBoundaries)
   const showBuildings = Boolean(visibleLayers?.buildings)
@@ -177,8 +184,9 @@ export default function LandCoverMap({
       >
         <MapInvalidateOnResize />
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          key={basemap.id}
+          attribution={basemap.attribution}
+          url={basemap.url}
         />
         <FitBoundsToGeoJson data={aoi} padding={[48, 48]} maxZoom={15} />
         <FlyToSelectedGn selectedGn={selectedGn} gnData={gnData} />
@@ -232,8 +240,10 @@ export default function LandCoverMap({
       <LandCoverMapLayerFab
         visibleLayers={visibleLayers}
         epochId={epochId}
+        basemapId={basemapId}
         onToggle={onToggleLayer}
         onEpochChange={onEpochChange}
+        onBasemapChange={setBasemapId}
       />
       <LandCoverLegend activeOverlay={activeOverlay} />
     </div>

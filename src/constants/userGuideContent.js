@@ -90,7 +90,7 @@ export const USER_GUIDE_SECTIONS = [
     title: 'Land Cover Change',
     icon: 'Trees',
     bullets: [
-      'Use the map FAB to switch Landsat 30 m classified epochs (~2000 / ~2015 / ~2025) or change theme, and toggle OSM buildings / roads / GN boundaries.',
+      'Use the map FAB to switch Landsat 30 m classified epochs (~2000 / ~2015 / ~2025) or change theme, pick Satellite (current) or Streets basemap, and toggle OSM buildings / roads / GN boundaries.',
       'Click a GN on the map or in the left list to load its detail panel.',
       'Left KPIs and the stacked chart show Landsat 30 m change across all five GNs (2000→2025).',
       'Per-GN cards use Sentinel-2 10 m (2018–2025): Built-up, Green, and Soft surface. Green is inside Soft — do not add them. Mount Lavinia also includes a Landsat 30 m deep dive (2000→2025). Do not mix Landsat % with Sentinel-2 %.',
