@@ -97,25 +97,44 @@ function buildMaturationPopup(props, activeMetric = 'umi') {
   }
   const primary = primaryByMetric[activeMetric] ?? primaryByMetric.umi
 
-  return buildCellInfoPopupHtml({
-    title: `Hex Cell #${id}`,
-    primaryLabel: primary.label,
-    primaryValue: primary.value,
-    badge:
-      activeMetric === 'umi'
-        ? { label: tier.shortLabel, color: tier.color, textColor: badgeTextColor }
-        : null,
-    metrics: [
+  // Same card chrome on every metric layer (UMI tier = classification, like Density typology).
+  const metricsByMetric = {
+    umi: [
+      { label: 'Shannon Entropy', value: formatMaturationValue(entropy), bar: entropy },
+      { label: 'Accessibility', value: formatMaturationValue(access), bar: access },
+      { label: 'Land Use Diversity', value: formatMaturationValue(landUse), bar: landUse },
+    ],
+    entropy: [
       { label: 'Shannon Entropy', value: formatMaturationValue(entropy), bar: entropy },
       { label: 'Accessibility', value: formatMaturationValue(access), bar: access },
       { label: 'Land Use Diversity', value: formatMaturationValue(landUse), bar: landUse },
       { label: 'UMI', value: formatMaturationValue(umi), bar: umi },
-      { label: 'Completeness', value: completeness, bar: null },
     ],
-    footer:
-      activeMetric === 'umi'
-        ? { label: tier.label, color: tier.color, textColor: badgeTextColor }
-        : null,
+    accessibility: [
+      { label: 'Accessibility', value: formatMaturationValue(access), bar: access },
+      { label: 'Shannon Entropy', value: formatMaturationValue(entropy), bar: entropy },
+      { label: 'Land Use Diversity', value: formatMaturationValue(landUse), bar: landUse },
+      { label: 'UMI', value: formatMaturationValue(umi), bar: umi },
+    ],
+    landUseDiversity: [
+      { label: 'Land Use Diversity', value: formatMaturationValue(landUse), bar: landUse },
+      { label: 'Shannon Entropy', value: formatMaturationValue(entropy), bar: entropy },
+      { label: 'Accessibility', value: formatMaturationValue(access), bar: access },
+      { label: 'UMI', value: formatMaturationValue(umi), bar: umi },
+    ],
+  }
+  const metrics = [
+    ...(metricsByMetric[activeMetric] ?? metricsByMetric.umi),
+    { label: 'Completeness', value: completeness, bar: null },
+  ]
+
+  return buildCellInfoPopupHtml({
+    title: `Hex Cell #${id}`,
+    primaryLabel: primary.label,
+    primaryValue: primary.value,
+    badge: { label: tier.shortLabel, color: tier.color, textColor: badgeTextColor },
+    metrics,
+    footer: { label: tier.label, color: tier.color, textColor: badgeTextColor },
   })
 }
 
@@ -133,14 +152,14 @@ function buildHexIdOnlyPopup(props) {
 function buildLandUsePopup(props) {
   const cat = props?.Main_C ?? 'Unknown'
   const sub = props?.Sub_class ?? '—'
+  const fill = getMaturationLandUseColor(cat)
   return buildCellInfoPopupHtml({
     title: 'Land use parcel',
     primaryLabel: 'Category:',
     primaryValue: String(cat),
-    metrics: [
-      { label: 'Sub-class', value: String(sub), bar: null },
-      { label: 'Main_C', value: String(cat), bar: null },
-    ],
+    badge: { label: String(cat), color: fill, textColor: '#0f172a' },
+    metrics: [{ label: 'Sub-class', value: String(sub), bar: null }],
+    footer: { label: String(cat), color: fill, textColor: '#0f172a' },
   })
 }
 
