@@ -105,34 +105,50 @@ export default function LandCoverMap({
   useEffect(() => {
     let cancelled = false
     setLoading(true)
+
+    // Core boundary data first so the map appears quickly.
     Promise.all([
       fetch(landCoverUrl('aoi_gn5_dissolved.geojson')).then((r) => r.json()),
       fetch(landCoverUrl('gn5_divisions.geojson')).then((r) => r.json()),
-      fetch(densityGeoUrl('buildings_primary_floors.geojson')).then((r) => r.json()),
-      fetch(densityGeoUrl('roads_primary.geojson')).then((r) => r.json()),
     ])
-      .then(([aoiJson, gnJson, buildingsJson, roadsJson]) => {
+      .then(([aoiJson, gnJson]) => {
         if (cancelled) return
         setAoi(aoiJson)
         setGnData(gnJson)
-        setBuildings(buildingsJson)
-        setRoads(roadsJson)
       })
       .catch(() => {
         if (!cancelled) {
           setAoi(null)
           setGnData(null)
-          setBuildings(null)
-          setRoads(null)
         }
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
       })
+
+    // OSM context can load after — large GeoJSON should not block the map.
+    Promise.all([
+      fetch(densityGeoUrl('buildings_primary_floors.geojson')).then((r) => r.json()),
+      fetch(densityGeoUrl('roads_primary.geojson')).then((r) => r.json()),
+    ])
+      .then(([buildingsJson, roadsJson]) => {
+        if (cancelled) return
+        setBuildings(buildingsJson)
+        setRoads(roadsJson)
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setBuildings(null)
+          setRoads(null)
+        }
+      })
+
     return () => {
       cancelled = true
     }
   }, [])
+
+  const overlayOpacity = basemapId === 'satellite' ? 0.55 : 0.88
 
   const gnStyle = (feature) => {
     const name = feature?.properties?.ADM4_EN
@@ -196,7 +212,7 @@ export default function LandCoverMap({
             key={overlayUrl}
             url={overlayUrl}
             bounds={LC_OVERLAY_BOUNDS}
-            opacity={0.88}
+            opacity={overlayOpacity}
             zIndex={200}
           />
         )}

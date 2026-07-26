@@ -178,6 +178,10 @@ export default function LandCoverMapLayerFab({
                 )
               })}
             </div>
+            <p className="mt-2 text-[10px] leading-snug text-surface-500">
+              Satellite shows present-day ground. Turn off Classified / Change overlays for a clear
+              photo view.
+            </p>
           </div>
 
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
