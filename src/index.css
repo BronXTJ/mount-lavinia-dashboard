@@ -161,6 +161,22 @@
   animation: density-hex-pulse 1.6s ease-in-out infinite;
 }
 
+/* Pulsing amber outline for the selected Land Cover GN boundary. */
+@keyframes lc-gn-boundary-pulse {
+  0%,
+  100% {
+    stroke-opacity: 0.4;
+    stroke-width: 8;
+  }
+  50% {
+    stroke-opacity: 0.95;
+    stroke-width: 14;
+  }
+}
+.lc-gn-boundary-pulse {
+  animation: lc-gn-boundary-pulse 1.6s ease-in-out infinite;
+}
+
 /* Subtle "radar ping" pulse behind every POI marker on the Focus Area map.
    Leaflet's SVG renderer draws CircleMarkers as <path> elements (arc
    commands), not native <circle> elements, so the SVG "r" geometry property

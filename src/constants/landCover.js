@@ -57,7 +57,7 @@ export function getActiveLcOverlay(visibleLayers) {
 export const LC_CLASS_LEGEND = [
   { id: 'built_up', label: 'Built-up', color: '#d73027' },
   { id: 'vegetation', label: 'Vegetation', color: '#1a9850' },
-  { id: 'open_bare', label: 'Open / bare', color: '#fdae61' },
+  { id: 'open_bare', label: 'Open / bare (yards, cleared, sparse)', color: '#fdae61' },
   { id: 'water_wetland', label: 'Water / wetland', color: '#4575b4' },
   { id: 'beach_sand', label: 'Beach / sand', color: '#ffffbf' },
 ]

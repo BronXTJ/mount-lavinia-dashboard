@@ -16,6 +16,33 @@ import { densityGeoUrl } from '../../constants/density.js'
 import LandCoverLegend from './LandCoverLegend.jsx'
 import LandCoverMapLayerFab from './LandCoverMapLayerFab.jsx'
 
+/** Amber highlight — readable over Landsat green/red classes. */
+const GN_SELECTED = {
+  color: '#fbbf24',
+  fillColor: '#fbbf24',
+  fillOpacity: 0.22,
+  weight: 4,
+  opacity: 1,
+}
+
+const gnHighlightGlowStyle = () => ({
+  color: '#fbbf24',
+  weight: 10,
+  opacity: 0.55,
+  fill: false,
+  className: 'lc-gn-boundary-pulse',
+  interactive: false,
+})
+
+const gnHighlightEdgeStyle = () => ({
+  color: '#fffbeb',
+  weight: 3,
+  opacity: 1,
+  fillColor: '#fbbf24',
+  fillOpacity: 0.18,
+  interactive: false,
+})
+
 function FlyToSelectedGn({ selectedGn, gnData }) {
   const map = useMap()
 
@@ -59,6 +86,15 @@ export default function LandCoverMap({
   const showBuildings = Boolean(visibleLayers?.buildings)
   const showRoads = Boolean(visibleLayers?.roads)
 
+  const highlightRenderer = useMemo(() => L.svg(), [])
+
+  const selectedGnCollection = useMemo(() => {
+    if (!selectedGn || !gnData?.features) return null
+    const feature = gnData.features.find((f) => f.properties?.ADM4_EN === selectedGn)
+    if (!feature) return null
+    return { type: 'FeatureCollection', features: [feature] }
+  }, [selectedGn, gnData])
+
   useEffect(() => {
     let cancelled = false
     setLoading(true)
@@ -94,12 +130,21 @@ export default function LandCoverMap({
   const gnStyle = (feature) => {
     const name = feature?.properties?.ADM4_EN
     const selected = selectedGn && name === selectedGn
+    if (selected) {
+      return {
+        color: GN_SELECTED.color,
+        weight: GN_SELECTED.weight,
+        fillColor: GN_SELECTED.fillColor,
+        fillOpacity: GN_SELECTED.fillOpacity,
+        opacity: GN_SELECTED.opacity,
+      }
+    }
     return {
-      color: selected ? '#67e8f9' : '#00b4d8',
-      weight: selected ? 3 : 1.5,
-      fillColor: selected ? '#ecfeff' : '#00b4d8',
-      fillOpacity: selected ? 0.18 : 0.04,
-      opacity: 1,
+      color: '#00b4d8',
+      weight: 1,
+      fillColor: '#00b4d8',
+      fillOpacity: 0.03,
+      opacity: 0.85,
     }
   }
 
@@ -158,11 +203,29 @@ export default function LandCoverMap({
 
         {showGnBoundaries && gnData && (
           <GeoJSON
-            key={`gn-${selectedGn ?? 'none'}`}
+            key={`gn-all-${selectedGn ?? 'none'}`}
             data={gnData}
             style={gnStyle}
             onEachFeature={onEachGn}
           />
+        )}
+
+        {/* Selected GN always visible (even if GN boundaries toggle is off). */}
+        {selectedGnCollection && (
+          <>
+            <GeoJSON
+              key={`gn-glow-${selectedGn}`}
+              data={selectedGnCollection}
+              style={gnHighlightGlowStyle}
+              renderer={highlightRenderer}
+            />
+            <GeoJSON
+              key={`gn-edge-${selectedGn}`}
+              data={selectedGnCollection}
+              style={gnHighlightEdgeStyle}
+              renderer={highlightRenderer}
+            />
+          </>
         )}
       </MapContainer>
 

@@ -236,11 +236,15 @@ export default function LandCoverDetailPanel({ selectedGn, epochId }) {
                 Landsat class shares ({epochRow.label})
               </h3>
               <MetricInfoButton
-                title={LC_INFO.landsatClassShares.title}
-                points={LC_INFO.landsatClassShares.points}
+                title={LC_INFO.classDefinitions.title}
+                points={LC_INFO.classDefinitions.points}
               />
             </div>
             <ClassShareBars epochRow={epochRow} />
+            <p className="mt-3 text-[11px] leading-snug text-surface-500">
+              Open / bare includes yards, fields, sparse grass, and cleared lots — not only empty
+              land. Tap the info icon for the full Landsat class key.
+            </p>
           </FocusAreaPanelCard>
 
           <FocusAreaPanelCard>
