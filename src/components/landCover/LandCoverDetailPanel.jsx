@@ -23,6 +23,7 @@ import {
   LC_DESIGN_BULLETS_MOUNT,
   LC_DESIGN_BULLETS_STUDY,
   LC_INFO,
+  LC_TRANSITION_PATHWAYS,
 } from './landCoverInfoContent.js'
 
 function formatSignedHa(n) {
@@ -177,6 +178,35 @@ function DesignBullets({ items }) {
   )
 }
 
+function TransitionPathways() {
+  return (
+    <ul className="space-y-3">
+      {LC_TRANSITION_PATHWAYS.map((row) => (
+        <li key={row.id} className="rounded-md border border-surface-700/80 bg-surface-900/40 px-2.5 py-2">
+          <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs font-medium text-surface-100">
+            <span
+              className="inline-block h-2.5 w-2.5 shrink-0 rounded-sm border border-black/20"
+              style={{ backgroundColor: row.from.color }}
+              aria-hidden
+            />
+            <span>{row.from.label}</span>
+            <span className="text-surface-500" aria-hidden>
+              →
+            </span>
+            <span
+              className="inline-block h-2.5 w-2.5 shrink-0 rounded-sm border border-black/20"
+              style={{ backgroundColor: row.to.color }}
+              aria-hidden
+            />
+            <span>{row.to.label}</span>
+          </div>
+          <p className="mt-1 text-[11px] leading-snug text-surface-400">{row.hint}</p>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 /** Right panel — study-wide or selected-GN detail. */
 export default function LandCoverDetailPanel({ selectedGn, epochId }) {
   const epochRow = getEpochRow(epochId)
@@ -215,15 +245,18 @@ export default function LandCoverDetailPanel({ selectedGn, epochId }) {
 
           <FocusAreaPanelCard>
             <div className="mb-2 flex items-center justify-between gap-2">
-              <h3 className="text-sm font-semibold text-surface-100">Main transitions</h3>
+              <h3 className="text-sm font-semibold text-surface-100">
+                Main transitions (Landsat 2000→2025)
+              </h3>
               <MetricInfoButton
                 title={LC_INFO.transitions.title}
                 points={LC_INFO.transitions.points}
               />
             </div>
-            <p className="text-xs leading-relaxed text-surface-300">
-              Vegetation loss often shifts first into open/bare ground; built-up gain concentrates
-              along corridors and densifying patches across the five GNs.
+            <TransitionPathways />
+            <p className="mt-3 text-[11px] leading-snug text-surface-500">
+              Turn on the map layer <span className="text-surface-300">Landsat change 2000→2025</span>{' '}
+              to see where these shifts concentrate.
             </p>
           </FocusAreaPanelCard>
 

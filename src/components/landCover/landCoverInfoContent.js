@@ -30,12 +30,12 @@ export const LC_INFO = {
     ],
   },
   transitions: {
-    title: 'Main transitions (Landsat change theme)',
+    title: 'Main transitions (Landsat 2000→2025)',
     points: [
-      'Summarises the typical Landsat change pattern across the five GNs from ~2000 to ~2025.',
-      'Vegetation often moves first into open/bare ground before harder built-up cover expands.',
-      'Built-up gain concentrates along corridors (e.g. Galle Road) and densifying patches.',
-      'Match this story to the map’s “Landsat change 2000→2025” layer for spatial detail.',
+      'These rows show the main from → to class pathways across the five GNs (Landsat 30 m, ~2000 to ~2025).',
+      'Read each line as: what the land was → what it commonly became.',
+      'Hectare totals for how much area changed are on the left headline cards — this box is the pathway story only.',
+      'Turn on the map layer “Landsat change 2000→2025” to see where those shifts concentrate.',
     ],
   },
   landsatClassShares: {
@@ -67,6 +67,28 @@ export const LC_INFO = {
     ],
   },
 }
+
+/** Scannable Landsat from → to pathways for the Main transitions card. */
+export const LC_TRANSITION_PATHWAYS = [
+  {
+    id: 'veg_to_open',
+    from: { label: 'Vegetation', color: '#1a9850' },
+    to: { label: 'Open / bare', color: '#fdae61' },
+    hint: 'Common first step when canopy is lost or thinned',
+  },
+  {
+    id: 'open_to_built',
+    from: { label: 'Open / bare', color: '#fdae61' },
+    to: { label: 'Built-up', color: '#d73027' },
+    hint: 'Transitional or cleared ground hardens over time',
+  },
+  {
+    id: 'veg_to_built',
+    from: { label: 'Vegetation', color: '#1a9850' },
+    to: { label: 'Built-up', color: '#d73027' },
+    hint: 'Direct conversion along corridors and dense patches',
+  },
+]
 
 export const LC_DESIGN_BULLETS_STUDY = [
   'Protect remaining tree canopy and street trees — vegetation fell by about 70 ha across the five GNs.',
