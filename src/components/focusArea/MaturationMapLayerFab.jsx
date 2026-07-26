@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { Layers, X } from 'lucide-react'
 import { MATURATION_FAB_LAYERS } from '../../constants/maturation.js'
+import BasemapChips from '../BasemapChips.jsx'
 
 /**
  * Urban Maturation map FAB — same teal pulse design as Density Analysis.
  */
-export default function MaturationMapLayerFab({ visibleLayers, onToggle }) {
+export default function MaturationMapLayerFab({ visibleLayers, onToggle, basemapId, onBasemapChange }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
 
@@ -68,6 +69,8 @@ export default function MaturationMapLayerFab({ visibleLayers, onToggle }) {
           >
             Map Layers
           </p>
+          <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
+          <BasemapChips basemapId={basemapId} onBasemapChange={onBasemapChange} />
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
 
           <div className="py-1">

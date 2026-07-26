@@ -12,6 +12,7 @@ import {
   getActiveDensityMetric,
   hasHexSelectableLayer,
 } from '../../constants/density.js'
+import { DEFAULT_APP_BASEMAP, getAppBasemap } from '../../constants/basemaps.js'
 import {
   classifyTypology,
   colorForDensityMetric,
@@ -179,6 +180,8 @@ export default function DensityMap({
   focusedHexId = null,
 }) {
   const [selectedHexId, setSelectedHexId] = useState(null)
+  const [basemapId, setBasemapId] = useState(DEFAULT_APP_BASEMAP)
+  const basemap = useMemo(() => getAppBasemap(basemapId), [basemapId])
   const activeMetric = getActiveDensityMetric(visibleLayers)
   const hexLayersOn = hasHexSelectableLayer(visibleLayers)
   const metricKey = activeMetric ? DENSITY_METRIC_RAMPS[activeMetric]?.property : null
@@ -330,8 +333,9 @@ export default function DensityMap({
         <MapInvalidateOnResize />
         {boundary && <FitBoundsToGeoJson data={boundary} />}
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          key={basemap.id}
+          attribution={basemap.attribution}
+          url={basemap.url}
         />
 
         {visibleLayers.analysisArea && boundary && (
@@ -427,7 +431,12 @@ export default function DensityMap({
         </MapContainer>
 
         <DensityLegend activeMetric={activeMetric} stats={stats} />
-        <DensityMapLayerFab visibleLayers={visibleLayers} onToggle={onToggleLayer} />
+        <DensityMapLayerFab
+          visibleLayers={visibleLayers}
+          onToggle={onToggleLayer}
+          basemapId={basemapId}
+          onBasemapChange={setBasemapId}
+        />
         <HexEdgeEffectNote />
     </div>
   )

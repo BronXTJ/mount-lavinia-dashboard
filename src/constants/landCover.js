@@ -1,5 +1,7 @@
 /** Land Cover Change section — Landsat headline story + S2 per-GN metrics. */
 
+import { APP_BASEMAPS } from './basemaps.js'
+
 export const LC_MAP_CENTER = [6.8344, 79.8685]
 export const LC_MAP_ZOOM = 14
 
@@ -20,22 +22,8 @@ export const LC_EPOCHS = [
   { id: 'y2025', label: '~2025', year: 2025 },
 ]
 
-/** Basemap choices — satellite for present-day ground view. */
-export const LC_BASEMAPS = [
-  {
-    id: 'satellite',
-    label: 'Satellite (current)',
-    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    attribution:
-      'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
-  },
-  {
-    id: 'streets',
-    label: 'Streets',
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  },
-]
+/** Basemap choices — Land Cover defaults to satellite for present-day ground view. */
+export const LC_BASEMAPS = APP_BASEMAPS
 
 export const DEFAULT_LC_BASEMAP = 'satellite'
 

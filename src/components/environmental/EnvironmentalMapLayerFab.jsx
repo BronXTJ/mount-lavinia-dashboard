@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { Layers, X } from 'lucide-react'
 import L from 'leaflet'
 import { ENV_FAB_LAYERS } from '../../constants/environmental.js'
+import BasemapChips from '../BasemapChips.jsx'
 
 /** Environmental Analysis map FAB — reliable switch rows + Leaflet DomEvent isolation. */
-export default function EnvironmentalMapLayerFab({ visibleLayers, onToggle }) {
+export default function EnvironmentalMapLayerFab({ visibleLayers, onToggle, basemapId, onBasemapChange }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
 
@@ -74,6 +75,8 @@ export default function EnvironmentalMapLayerFab({ visibleLayers, onToggle }) {
           >
             Map Layers
           </p>
+          <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
+          <BasemapChips basemapId={basemapId} onBasemapChange={onBasemapChange} />
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
 
           <div className="py-1">

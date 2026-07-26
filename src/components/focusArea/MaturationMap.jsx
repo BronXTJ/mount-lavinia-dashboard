@@ -17,6 +17,7 @@ import {
   getMaturationLandUseColor,
   hasMaturationHexSelectableLayer,
 } from '../../constants/maturation.js'
+import { DEFAULT_APP_BASEMAP, getAppBasemap } from '../../constants/basemaps.js'
 import {
   colorForLandUseDiversity,
   colorForMaturationMetric,
@@ -154,6 +155,8 @@ export default function MaturationMap({
   focusedHexId = null,
 }) {
   const [selectedHexId, setSelectedHexId] = useState(null)
+  const [basemapId, setBasemapId] = useState(DEFAULT_APP_BASEMAP)
+  const basemap = useMemo(() => getAppBasemap(basemapId), [basemapId])
   const activeMetric = getActiveMaturationMetric(visibleLayers)
   const hexLayersOn = hasMaturationHexSelectableLayer(visibleLayers)
   const metricKey = activeMetric ? MATURATION_METRIC_RAMPS[activeMetric]?.property : null
@@ -324,8 +327,9 @@ export default function MaturationMap({
         <MapInvalidateOnResize />
         {boundary && <FitBoundsToGeoJson data={boundary} />}
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          key={basemap.id}
+          attribution={basemap.attribution}
+          url={basemap.url}
         />
 
         {visibleLayers.analysisArea && boundary && (
@@ -421,7 +425,12 @@ export default function MaturationMap({
       </MapContainer>
 
         <MaturationLegend activeMetric={activeMetric} stats={stats} />
-        <MaturationMapLayerFab visibleLayers={visibleLayers} onToggle={onToggleLayer} />
+        <MaturationMapLayerFab
+          visibleLayers={visibleLayers}
+          onToggle={onToggleLayer}
+          basemapId={basemapId}
+          onBasemapChange={setBasemapId}
+        />
         <HexEdgeEffectNote />
     </div>
   )

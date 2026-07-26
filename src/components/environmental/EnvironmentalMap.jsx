@@ -16,6 +16,7 @@ import {
   getActiveEnvMetric,
   hasEnvSelectableLayer,
 } from '../../constants/environmental.js'
+import { DEFAULT_APP_BASEMAP, getAppBasemap } from '../../constants/basemaps.js'
 import { colorForEnvMetric, formatEnvValue, formatShadowPercent } from '../../utils/environmentalStats.js'
 import {
   CELL_POPUP_OPTS,
@@ -245,6 +246,8 @@ export default function EnvironmentalMap({
   focusedCellId = null,
 }) {
   const [selectedCellId, setSelectedCellId] = useState(null)
+  const [basemapId, setBasemapId] = useState(DEFAULT_APP_BASEMAP)
+  const basemap = useMemo(() => getAppBasemap(basemapId), [basemapId])
   const activeMetric = getActiveEnvMetric(visibleLayers)
   const selectableOn = hasEnvSelectableLayer(visibleLayers)
   const metricKey = activeMetric ? ENV_METRIC_RAMPS[activeMetric]?.property : null
@@ -342,8 +345,9 @@ export default function EnvironmentalMap({
       >
         <MapInvalidateOnResize />
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          key={basemap.id}
+          attribution={basemap.attribution}
+          url={basemap.url}
         />
         <FitBoundsToGeoJson data={boundary} padding={[56, 56]} maxZoom={16} />
         <FitBoundsToSvfPoints
@@ -436,7 +440,12 @@ export default function EnvironmentalMap({
         <FlyToCell cellId={focusedCellId} grid={grid} />
       </MapContainer>
 
-      <EnvironmentalMapLayerFab visibleLayers={visibleLayers} onToggle={onToggleLayer} />
+      <EnvironmentalMapLayerFab
+        visibleLayers={visibleLayers}
+        onToggle={onToggleLayer}
+        basemapId={basemapId}
+        onBasemapChange={setBasemapId}
+      />
       <EnvironmentalLegend activeMetric={activeMetric} stats={stats} />
     </div>
   )

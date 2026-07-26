@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { MAP_LAYERS } from '../constants/mapLayers.js'
 import LayerToggle from './LayerToggle.jsx'
+import BasemapChips from './BasemapChips.jsx'
 
 /**
  * Round teal floating action button (bottom-right of the map) that expands
  * into a panel listing all 6 map layers, in a fixed order, with toggle
  * switches. Props: activeLayers (string[]), onToggle(layerId, nextChecked).
  */
-export default function MapLayerFab({ activeLayers, onToggle }) {
+export default function MapLayerFab({ activeLayers, onToggle, basemapId, onBasemapChange }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -17,6 +18,11 @@ export default function MapLayerFab({ activeLayers, onToggle }) {
           <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-wide text-surface-200">
             Map Layers
           </p>
+          <div className="-mx-3 mb-1 border-t border-surface-700" />
+          <div className="-mx-3">
+            <BasemapChips basemapId={basemapId} onBasemapChange={onBasemapChange} />
+          </div>
+          <div className="-mx-3 mb-1 border-t border-surface-700" />
           <div>
             {MAP_LAYERS.map((layer) => (
               <LayerToggle

@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { Layers, X } from 'lucide-react'
 import { DENSITY_FAB_LAYERS } from '../../constants/density.js'
+import BasemapChips from '../BasemapChips.jsx'
 
 /**
  * Density Analysis map-only FAB — top-right layers control with pulse rings.
  * Panel opens downward. Does not replace Overview MapLayerFab.
  */
-export default function DensityMapLayerFab({ visibleLayers, onToggle }) {
+export default function DensityMapLayerFab({ visibleLayers, onToggle, basemapId, onBasemapChange }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
 
@@ -69,6 +70,8 @@ export default function DensityMapLayerFab({ visibleLayers, onToggle }) {
           >
             Map Layers
           </p>
+          <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
+          <BasemapChips basemapId={basemapId} onBasemapChange={onBasemapChange} />
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
 
           <div className="py-1">

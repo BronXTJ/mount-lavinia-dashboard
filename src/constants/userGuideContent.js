@@ -26,6 +26,7 @@ export const USER_GUIDE_SECTIONS = [
       'Click a GN division on the map (or related cards) to select it.',
       'Charts and demographic panels update to match the selected GN.',
       'Use the map layer button (FAB) to show or hide boundaries, land use, roads, and other context layers.',
+      'In the FAB Basemap row, switch Streets (default) or Satellite (current) to see present-day ground photos.',
       'Clear or change the selection to compare another division.',
     ],
   },
@@ -36,6 +37,7 @@ export const USER_GUIDE_SECTIONS = [
     bullets: [
       'Open Centrality, Density, or Urban Maturation from under Focus Area in the sidebar.',
       'Use the floating layer button (FAB) on the map to toggle analysis and context layers on or off.',
+      'Use the FAB Basemap chips to switch Streets (default) or Satellite (current).',
       'Click a hex cell (or street segment on Centrality) to inspect its values in the side panel.',
       'Where you see Minimum / Highest Cell ID cards, click them to fly the map to those hex cells.',
       'Teal “i” icons explain metrics in more detail when you need them.',
@@ -59,6 +61,7 @@ export const USER_GUIDE_SECTIONS = [
     bullets: [
       'Explore FSI, GSI, OSR, and density across the hex grid.',
       'Toggle map layers with the FAB (hex metrics, buildings, roads, POIs, analysis boundary).',
+      'Switch Streets / Satellite basemap in the FAB when you want present-day imagery under the hexes.',
       'Use typology charts and the scatter plot to see how built form types cluster.',
       'Open Key Findings for short takeaways, then jump to Synthesis when you are ready.',
     ],
@@ -70,7 +73,7 @@ export const USER_GUIDE_SECTIONS = [
     bullets: [
       'Switch metrics such as UMI, Shannon entropy, and accessibility on the map.',
       'Click Minimum / Highest Cell ID cards to jump to extreme hex cells.',
-      'Use the FAB to control which layers appear with the maturation choropleth.',
+      'Use the FAB to control which layers appear with the maturation choropleth, and Streets / Satellite basemap.',
       'Key Findings chips link straight into related Synthesis claims.',
     ],
   },
@@ -102,6 +105,7 @@ export const USER_GUIDE_SECTIONS = [
     icon: 'Thermometer',
     bullets: [
       'Open the FAB to toggle the 800 m analysis boundary, thermal metrics, and SVF points.',
+      'Use the FAB Basemap chips for Streets (default) or Satellite (current) under the thermal grid.',
       'Turn on one main metric at a time (UTCI, UHI, air temperature, Tmrt, or shadow) to keep the map readable.',
       'Click a grid cell to see its values; gauges and charts summarise the wider study area.',
       'Use teal “i” help on gauges and charts when you need to interpret a panel.',

@@ -6,6 +6,7 @@ import MapInvalidateOnResize from './MapInvalidateOnResize.jsx'
 import { findRoadFeature } from '../utils/roadNameMatch.js'
 import findGnAtPoint from '../utils/findGnAtPoint.js'
 import { getLandUseColor, HIGHLIGHT_COLOR, MAP_CENTER, MAP_ZOOM, SELECTED_GN_COLOR } from '../constants/mapLayers.js'
+import { DEFAULT_APP_BASEMAP, getAppBasemap } from '../constants/basemaps.js'
 import MapLayerFab from './MapLayerFab.jsx'
 import Legend from './Legend.jsx'
 
@@ -234,6 +235,8 @@ export default function FocusAreaMap({
 }) {
   const layers = useGeoLayers()
   const suppressMapClickRef = useRef(false)
+  const [basemapId, setBasemapId] = useState(DEFAULT_APP_BASEMAP)
+  const basemap = useMemo(() => getAppBasemap(basemapId), [basemapId])
 
   const onEachGn5 = useMemo(
     () => makeOnEachGn5(onGnSelect, suppressMapClickRef),
@@ -265,8 +268,9 @@ export default function FocusAreaMap({
       <MapContainer center={MAP_CENTER} zoom={MAP_ZOOM} className="h-full w-full" preferCanvas>
         <MapInvalidateOnResize />
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          key={basemap.id}
+          attribution={basemap.attribution}
+          url={basemap.url}
         />
 
         <ClickHandler
@@ -388,7 +392,12 @@ export default function FocusAreaMap({
         highlightedRoadName={highlightedFeature || showFallbackMarker ? highlightedRoadName : null}
         selectedGnName={selectedGnName}
       />
-      <MapLayerFab activeLayers={activeLayers} onToggle={onToggleLayer} />
+      <MapLayerFab
+        activeLayers={activeLayers}
+        onToggle={onToggleLayer}
+        basemapId={basemapId}
+        onBasemapChange={setBasemapId}
+      />
     </div>
   )
 }
