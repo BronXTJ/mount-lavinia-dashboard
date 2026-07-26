@@ -10,37 +10,31 @@ import {
   buildQuantileBreaks,
   colorForMetricClass,
 } from './metricClasses.js'
+import { partitionHexFeatures } from './hexCellGrade.js'
 
 // Re-export for any callers that imported quantile helpers from maturationStats.
 export { buildQuantileBreaks }
 
-/** Skip edge / incomplete cells. Prefer is_valid_maturation when present. */
+/**
+ * Analysis-grade maturation cells (≥90% complete).
+ * Does not use baked is_edge / is_valid_maturation; zero entropy/access allowed.
+ * Caller should annotate Hex_area from the hex grid first when missing.
+ */
 export function filterValidMaturationFeatures(geojson) {
-  const features = geojson?.features ?? []
-  return features.filter((f) => {
-    const p = f.properties ?? {}
-    if (p.is_valid_maturation === true || p.is_valid_maturation === 'true') return true
-    if (p.is_valid_maturation === false || p.is_valid_maturation === 'false') return false
-    if (p.is_edge === true || p.is_edge === 'true') return false
-    const umi = Number(p[MATURATION_PROPS.umi])
-    const avgC = Number(p[MATURATION_PROPS.accessibilityRaw])
-    if (umi === 0 && avgC === 0) return false
-    return true
-  })
+  return partitionHexFeatures(geojson).statsFeatures
 }
 
-/** Complete enough for min/max / Cell ID cards (not edge scraps). Map still keeps incomplete cells. */
+/** Extrema / Cell ID cards: analysis-grade cells with a finite positive metric value. */
 export function isCompleteMaturationCell(feature) {
   const p = feature?.properties ?? {}
-  const entropy = Number(p[MATURATION_PROPS.entropyRaw])
-  const avgC = Number(p[MATURATION_PROPS.accessibilityRaw])
+  const umi = Number(p[MATURATION_PROPS.umi] ?? p.umi)
+  if (Number.isFinite(umi)) return true
+  const entropy = Number(p[MATURATION_PROPS.entropyRaw] ?? p.entropy_raw)
+  const avgC = Number(p[MATURATION_PROPS.accessibilityRaw] ?? p.accessibility)
   const hasEntropy = Number.isFinite(entropy)
   const hasAcc = Number.isFinite(avgC)
-  // Shannon-only layers lack these fields — do not exclude them from extrema
   if (!hasEntropy && !hasAcc) return true
-  if (hasEntropy && hasAcc) return entropy > 0 && avgC > 0
-  if (hasEntropy) return entropy > 0
-  return avgC > 0
+  return hasEntropy || hasAcc
 }
 
 function numericValues(features, key) {
@@ -68,21 +62,20 @@ export function summarizeMetric(features, key) {
   const sum = allPairs.reduce((s, p) => s + p.value, 0)
   const avg = sum / allPairs.length
 
-  // Min/max + Cell IDs: complete cells only (entropy>0 & accessibility>0)
+  // Min/max + Cell IDs: analysis-grade cells (finite values, including 0)
   const extremaPairs = allPairs.filter((p) => isCompleteMaturationCell(p.feature))
-  const positive = extremaPairs.filter((p) => p.value > 0)
 
   let min = null
   let max = null
   let lowestId = null
   let highestId = null
 
-  if (positive.length) {
-    min = positive[0].value
-    max = positive[0].value
-    lowestId = positive[0].id
-    highestId = positive[0].id
-    for (const p of positive) {
+  if (extremaPairs.length) {
+    min = extremaPairs[0].value
+    max = extremaPairs[0].value
+    lowestId = extremaPairs[0].id
+    highestId = extremaPairs[0].id
+    for (const p of extremaPairs) {
       if (p.value < min) {
         min = p.value
         lowestId = p.id

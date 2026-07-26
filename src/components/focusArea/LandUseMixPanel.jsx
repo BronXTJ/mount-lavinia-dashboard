@@ -220,14 +220,14 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
               '💼 Working — Commercial, Industrial, Institutional',
               '🎭 Culture — Cultural, Public Space, Agriculture',
               '🚗 Movement — Transport infrastructure',
-              'Counts use valid hex cells in the primary study area (edge cells omitted from charts).',
+              'Counts use analysis-grade hex cells (≥90% complete). Partial and scrap boundary cells are omitted from charts.',
               'Hex cells containing more than one function are classified as Mixed Use. The Live + Work combination is highlighted as it represents the most functionally mature urban condition, supporting walkability, street vitality, and reduced vehicle dependence.',
             ]}
             ariaLabel="What does Land Use Mix by Hex Cell show?"
           />
         </div>
         <p className="mt-1 text-xs text-surface-300">
-          Based on distinct land-use types per valid hex cell (primary study area)
+          Based on distinct land-use types per analysis-grade hex (≥90% complete)
         </p>
 
         {/* Component 1 — Land Use Mix Distribution */}
@@ -285,7 +285,7 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
               points={[
                 'Live + Work mix is the most desirable urban condition. It reduces travel demand, supports street vitality, and indicates mature urban character.',
                 liveWorkPct != null
-                  ? `In the primary study area, Live + Work accounts for ${liveWorkPct}% (${mix?.liveWorkCount ?? 0} valid hexes).`
+                  ? `In the primary study area, Live + Work accounts for ${liveWorkPct}% (${mix?.liveWorkCount ?? 0} analysis-grade hexes).`
                   : 'Live + Work share will appear once maturation data loads.',
               ]}
               ariaLabel="Why is Live + Work important?"
@@ -420,7 +420,7 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Entropy vs Urban Maturation Score"
             points={[
-              'Each dot is one valid hex cell in the primary study area.',
+              'Each dot is one analysis-grade hex cell (≥90% complete) in the primary study area.',
               'X axis is normalized Shannon Entropy; Y axis is Urban Maturation Index.',
               'A rising pattern suggests more diverse land-use mix tends to coincide with higher maturation.',
             ]}

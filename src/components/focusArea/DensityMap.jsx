@@ -19,9 +19,9 @@ import {
   formatDensityValue,
 } from '../../utils/densityStats.js'
 import { isPracticalMetricValue } from '../../utils/metricClasses.js'
+import { formatHexCompletenessNote, isPartialHex } from '../../utils/hexCellGrade.js'
 import {
   CELL_POPUP_OPTS,
-  buildCellIdOnlyPopupHtml,
   buildCellInfoPopupHtml,
   getFeatureCenter,
   getFeaturePopupAnchor,
@@ -79,7 +79,7 @@ function clamp01(v) {
   return Math.max(0, Math.min(1, v))
 }
 
-function buildHexPopup(props, medianFsi, medianGsi, medianOsr) {
+function buildHexPopup(props, medianFsi, medianGsi, medianOsr, activeMetric = null) {
   const typology = classifyTypology(
     Number(props?.FSI),
     Number(props?.GSI),
@@ -93,11 +93,23 @@ function buildHexPopup(props, medianFsi, medianGsi, medianOsr) {
   const gsiNorm = clamp01(Number(props?.GSI_Norm))
   const osr = Number(props?.OSR)
   const density = Number(props?.Density_V)
+  const completeness = formatHexCompletenessNote({ properties: props })
+
+  const primaryByMetric = {
+    fsi: { label: 'FSI:', value: formatDensityValue(props?.FSI) },
+    gsi: { label: 'GSI:', value: formatDensityValue(props?.GSI) },
+    osr: { label: 'OSR:', value: formatDensityValue(props?.OSR) },
+    density: { label: 'Density Value:', value: formatDensityValue(props?.Density_V) },
+  }
+  const primary = primaryByMetric[activeMetric] ?? {
+    label: 'Density Value:',
+    value: formatDensityValue(props?.Density_V),
+  }
 
   return buildCellInfoPopupHtml({
     title: `Hex Cell #${id}`,
-    primaryLabel: 'Density Value:',
-    primaryValue: formatDensityValue(props?.Density_V),
+    primaryLabel: primary.label,
+    primaryValue: primary.value,
     badge: { label: typology.label, color: typology.color, textColor: '#ffffff' },
     metrics: [
       { label: 'FSI', value: formatDensityValue(props?.FSI), bar: fsiNorm },
@@ -122,6 +134,7 @@ function buildHexPopup(props, medianFsi, medianGsi, medianOsr) {
         value: formatDensityValue(density),
         bar: Number.isFinite(density) ? clamp01(density) : null,
       },
+      { label: 'Completeness', value: completeness, bar: null },
     ],
     footer: { label: typology.label, color: typology.color, textColor: '#ffffff' },
   })
@@ -129,7 +142,13 @@ function buildHexPopup(props, medianFsi, medianGsi, medianOsr) {
 
 function buildHexIdOnlyPopup(props) {
   const id = props?.id != null ? Math.round(Number(props.id)) : '—'
-  return buildCellIdOnlyPopupHtml(`Hex Cell #${id}`)
+  const note = formatHexCompletenessNote({ properties: props })
+  return buildCellInfoPopupHtml({
+    title: `Hex Cell #${id}`,
+    primaryLabel: 'Hex grid',
+    primaryValue: 'Outline only',
+    metrics: [{ label: 'Completeness', value: note, bar: null }],
+  })
 }
 
 function formatHexCellLabel(props) {
@@ -138,11 +157,11 @@ function formatHexCellLabel(props) {
 }
 
 /** Fly to a hex focused from a Min/Highest Cell ID card and open its popup. */
-function FlyToHex({ hexId, hex, medianFsi, medianGsi, medianOsr }) {
+function FlyToHex({ hexId, hex, medianFsi, medianGsi, medianOsr, activeMetric }) {
   const map = useMap()
 
   useEffect(() => {
-    if (hexId == null || !hex?.features) return
+    if (hexId == null || !hex?.features || !activeMetric) return
     const feature = hex.features.find((f) => f.properties?.id == hexId)
     if (!feature) return
 
@@ -153,14 +172,25 @@ function FlyToHex({ hexId, hex, medianFsi, medianGsi, medianOsr }) {
     map.flyTo(center, 17, { animate: true, duration: 0.8 })
     const popup = L.popup(CELL_POPUP_OPTS)
       .setLatLng(anchor)
-      .setContent(buildHexPopup(feature.properties, medianFsi, medianGsi, medianOsr))
+      .setContent(
+        buildHexPopup(feature.properties, medianFsi, medianGsi, medianOsr, activeMetric),
+      )
     popup.openOn(map)
 
     return () => {
       map.closePopup(popup)
     }
-  }, [hexId, hex, medianFsi, medianGsi, medianOsr, map])
+  }, [hexId, hex, medianFsi, medianGsi, medianOsr, activeMetric, map])
 
+  return null
+}
+
+/** Close any open Leaflet popup when metric layers turn off. */
+function ClosePopupWhenNoMetric({ activeMetric }) {
+  const map = useMap()
+  useEffect(() => {
+    if (!activeMetric) map.closePopup()
+  }, [activeMetric, map])
   return null
 }
 
@@ -206,6 +236,11 @@ export default function DensityMap({
     if (!hexLayersOn) setSelectedHexId(null)
   }, [hexLayersOn])
 
+  // Clear selection highlight when metric turns off (hex-grid-only keeps ID clicks)
+  useEffect(() => {
+    if (!activeMetric) setSelectedHexId(null)
+  }, [activeMetric])
+
   const selectedFeature = useMemo(() => {
     if (!hexLayersOn || selectedHexId == null) return null
     const fromHex = hex?.features?.find((f) => f.properties?.id == selectedHexId)
@@ -226,11 +261,13 @@ export default function DensityMap({
         }
       }
       const fill = colorForDensityMetric(value, metricClasses)
+      const partial = isPartialHex(feature)
       return {
         color: '#94a3b8',
-        weight: 0.6,
+        weight: partial ? 1.2 : 0.6,
+        dashArray: partial ? '4 3' : null,
         fillColor: fill,
-        fillOpacity: 0.75,
+        fillOpacity: partial ? 0.45 : 0.75,
       }
     },
     [activeMetric, metricKey, metricClasses],
@@ -277,6 +314,7 @@ export default function DensityMap({
             stats?.medianFsi,
             stats?.medianGsi,
             stats?.medianOsr,
+            activeMetric,
           ),
         )
         if (anchor && layer._map) {
@@ -286,7 +324,7 @@ export default function DensityMap({
         }
       })
     },
-    [stats?.medianFsi, stats?.medianGsi, stats?.medianOsr],
+    [stats?.medianFsi, stats?.medianGsi, stats?.medianOsr, activeMetric],
   )
 
   const onEachHexGrid = useMemo(() => {
@@ -387,13 +425,16 @@ export default function DensityMap({
           </>
         )}
 
-        {focusedHexId != null && (
+        <ClosePopupWhenNoMetric activeMetric={activeMetric} />
+
+        {focusedHexId != null && activeMetric && (
           <FlyToHex
             hexId={focusedHexId}
             hex={hex}
             medianFsi={stats?.medianFsi}
             medianGsi={stats?.medianGsi}
             medianOsr={stats?.medianOsr}
+            activeMetric={activeMetric}
           />
         )}
 

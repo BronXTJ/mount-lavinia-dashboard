@@ -27,7 +27,8 @@ export default function UrbanMaturationView() {
           if (m !== id) next[m] = false
         }
       }
-      if (!hasMaturationHexSelectableLayer(next)) {
+      const hasMetric = MATURATION_METRIC_IDS.some((m) => next[m])
+      if (!hasMetric || !hasMaturationHexSelectableLayer(next)) {
         setFocusedHexId(null)
       }
       return next

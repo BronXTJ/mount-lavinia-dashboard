@@ -152,7 +152,7 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
         <MetricInfoButton
           title="Average Urban Maturation Index"
           points={[
-            'Large number is the mean UMI across all valid hex cells in the primary study area.',
+            'Large number is the mean UMI across analysis-grade hex cells (≥90% complete) in the primary study area.',
             `Progress bar places that average relative to the observed valid-cell max (≈ ${umiStudyMaxLabel}).`,
             `Emerging / Moderate / Matured markers follow 0 / 0.35 / ${umiStudyMaxLabel} (tier cutoffs stay at 0.15 / 0.35).`,
           ]}
@@ -199,7 +199,7 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
         title="Urban Maturation"
         infoTitle="Urban Maturation Index"
         infoPoints={[
-          'Min / Max / Average UMI across valid hex cells after edge filtering.',
+          'Min / Max / Average UMI across analysis-grade hex cells (≥90% complete). Partial scraps stay off the KPI cards.',
           'Click Minimum / Highest Cell ID to fly to that hex and open the UMI layer.',
         ]}
         infoAria="What do the Urban Maturation cards show?"
@@ -293,7 +293,7 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
             <MetricInfoButton
               title="Accessibility Distribution"
               points={[
-                'Equal-interval classes of normalized accessibility across valid hex cells.',
+                'Equal-interval classes of normalized accessibility across analysis-grade hex cells (≥90% complete).',
                 'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
               ]}
               ariaLabel="What does the accessibility histogram show?"
@@ -365,7 +365,7 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
         title="Land Use Diversity"
         infoTitle="Land Use Diversity"
         infoPoints={[
-          'Normalized land-use diversity (1normali_2) across valid hex cells.',
+          'Normalized land-use diversity (1normali_2) across analysis-grade hex cells (≥90% complete).',
           'Click Minimum / Highest Cell ID to fly to that hex on the Land Use Diversity layer.',
         ]}
         infoAria="What does Land Use Diversity show?"
@@ -385,7 +385,7 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Index Components"
             points={[
-              'Three cards show average normalized scores (0–1) across valid hex cells.',
+              'Three cards show average normalized scores (0–1) across analysis-grade hex cells (≥90% complete).',
               'Accessibility, Land Use Diversity, and Shannon Entropy are the equal-weight inputs to UMI.',
             ]}
             ariaLabel="What are Index Components?"
@@ -425,7 +425,7 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Component Contribution to UMI"
             points={[
-              'Bars compare the average normalized value of each UMI input across valid hex cells.',
+              'Bars compare the average normalized value of each UMI input across analysis-grade hex cells (≥90% complete).',
               'Taller bars mean that component contributes more, on average, to the composite score.',
               'UMI itself is the mean of these three normalized components per cell.',
             ]}
@@ -485,7 +485,7 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Urban Maturation Score Distribution"
             points={[
-              'Equal-interval classes of UMI across valid hex cells in the primary study area.',
+              'Equal-interval classes of UMI across analysis-grade hex cells (≥90% complete) in the primary study area.',
               'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
               'Maturation tiers (0.15 / 0.35) are separate classification rules, not these chart bins.',
             ]}

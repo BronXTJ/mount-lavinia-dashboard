@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
 import { maturationGeoUrl } from '../constants/maturation.js'
 import { densityGeoUrl } from '../constants/density.js'
-import {
-  buildMaturationStats,
-  filterValidMaturationFeatures,
-} from '../utils/maturationStats.js'
+import { buildMaturationStats } from '../utils/maturationStats.js'
+import { annotateHexAreaFromGrid, partitionHexFeatures } from '../utils/hexCellGrade.js'
 
 async function fetchGeoJson(url) {
   try {
@@ -38,11 +36,12 @@ const EMPTY_STATS = {
   umiHistogram: [],
   accessibilityHistogram: [],
   componentContribution: [],
+  hexCounts: null,
 }
 
 /**
  * Loads Urban Maturation hex + shannon + landuse + Density context layers.
- * Primary 5-GN study area layers by default.
+ * Grades by Hex_area from the shared 100 m grid; KPIs use ≥90% cells only.
  */
 export function useMaturationLayers() {
   const [hex, setHex] = useState(null)
@@ -83,23 +82,15 @@ export function useMaturationLayers() {
       ]) => {
         if (cancelled) return
 
-        const validFeatures = filterValidMaturationFeatures(rawHex)
-        const validIds = new Set(validFeatures.map((f) => f.properties?.id))
-        const excludedFeatures = (rawHex?.features ?? []).filter(
-          (f) => !validIds.has(f.properties?.id),
-        )
-        const hexFc =
-          validFeatures.length > 0
-            ? { type: 'FeatureCollection', features: validFeatures }
-            : null
-        const excludedFc =
-          excludedFeatures.length > 0
-            ? { type: 'FeatureCollection', features: excludedFeatures }
-            : null
+        const withArea = {
+          type: 'FeatureCollection',
+          features: annotateHexAreaFromGrid(rawHex?.features ?? [], hexGridData),
+        }
+        const { mapFc, excludedFc, statsFeatures, counts } = partitionHexFeatures(withArea)
 
         const shannonFeatures = shannonData?.features ?? []
 
-        setHex(hexFc)
+        setHex(mapFc)
         setExcludedHex(excludedFc)
         setShannon(shannonData)
         setLanduse(landuseData)
@@ -109,9 +100,12 @@ export function useMaturationLayers() {
         setPois(poisData)
         setBoundary(boundaryData)
         setStats(
-          hexFc
-            ? buildMaturationStats(validFeatures, shannonFeatures, landuseData)
-            : EMPTY_STATS,
+          statsFeatures.length
+            ? {
+                ...buildMaturationStats(statsFeatures, shannonFeatures, landuseData),
+                hexCounts: counts,
+              }
+            : { ...EMPTY_STATS, hexCounts: counts },
         )
         setLoading(false)
       },

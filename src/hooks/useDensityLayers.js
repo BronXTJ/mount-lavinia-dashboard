@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { densityGeoUrl } from '../constants/density.js'
-import { buildDensityStats, filterValidFeatures } from '../utils/densityStats.js'
+import { buildDensityStats } from '../utils/densityStats.js'
+import { isDensityGloballyInvalid, partitionHexFeatures } from '../utils/hexCellGrade.js'
 
 async function fetchGeoJson(url) {
   try {
@@ -31,12 +32,13 @@ const EMPTY_STATS = {
   osrHistogram: [],
   densityHistogram: [],
   findings: [],
+  hexCounts: null,
 }
 
 /**
  * Loads Density Analysis hex grid + context layers once on mount.
  * Primary 5-GN study area layers by default.
- * Filters invalid / edge cells and precomputes panel stats.
+ * Grades hexes by area completeness; KPIs use ≥90% cells only.
  */
 export function useDensityLayers() {
   const [hex, setHex] = useState(null)
@@ -63,28 +65,22 @@ export function useDensityLayers() {
     ]).then(([rawHex, hexGridData, buildingsData, roadsData, poisData, boundaryData]) => {
       if (cancelled) return
 
-      const validFeatures = filterValidFeatures(rawHex)
-      const validIds = new Set(validFeatures.map((f) => f.properties?.id))
-      const excludedFeatures = (rawHex?.features ?? []).filter(
-        (f) => !validIds.has(f.properties?.id),
-      )
-      const hexFc =
-        validFeatures.length > 0
-          ? { type: 'FeatureCollection', features: validFeatures }
-          : null
-      const excludedFc =
-        excludedFeatures.length > 0
-          ? { type: 'FeatureCollection', features: excludedFeatures }
-          : null
+      const { mapFc, excludedFc, statsFeatures, counts } = partitionHexFeatures(rawHex, {
+        isGloballyInvalid: isDensityGloballyInvalid,
+      })
 
-      setHex(hexFc)
+      setHex(mapFc)
       setExcludedHex(excludedFc)
       setHexGrid(hexGridData)
       setBuildings(buildingsData)
       setRoads(roadsData)
       setPois(poisData)
       setBoundary(boundaryData)
-      setStats(hexFc ? buildDensityStats(validFeatures) : EMPTY_STATS)
+      setStats(
+        statsFeatures.length
+          ? { ...buildDensityStats(statsFeatures), hexCounts: counts }
+          : { ...EMPTY_STATS, hexCounts: counts },
+      )
       setLoading(false)
     })
 

@@ -1,22 +1,11 @@
 import { DENSITY_METRIC_RAMPS, DENSITY_TYPOLOGY } from '../constants/density.js'
 import { buildMetricClasses, colorForMetricClass } from './metricClasses.js'
+import { isDensityGloballyInvalid, partitionHexFeatures } from './hexCellGrade.js'
 
-// Filter out invalid / edge boundary cells.
-// A valid cell must have: FSI > 0, GSI > 0, OSR >= 0, Hex_area > 0,
-// and must not be flagged is_edge when that property is present.
+/** Analysis-grade density cells (≥90% complete; excludes scraps and negative OSR). */
 export function filterValidFeatures(geojson) {
-  const features = geojson?.features ?? []
-  return features.filter((f) => {
-    const p = f.properties
-    if (p?.is_edge === true || p?.is_edge === 'true') return false
-    if (p?.is_valid === false || p?.is_valid === 'false') return false
-    return (
-      p.FSI > 0 &&
-      p.GSI > 0 &&
-      p.OSR >= 0 &&
-      p.Hex_area > 0
-    )
-  })
+  return partitionHexFeatures(geojson, { isGloballyInvalid: isDensityGloballyInvalid })
+    .statsFeatures
 }
 
 function numericValues(features, key) {

@@ -28,7 +28,8 @@ export default function DensityAnalysisView() {
           if (m !== id) next[m] = false
         }
       }
-      if (!hasHexSelectableLayer(next)) {
+      const hasMetric = DENSITY_METRIC_IDS.some((m) => next[m])
+      if (!hasMetric || !hasHexSelectableLayer(next)) {
         setFocusedHexId(null)
       }
       return next

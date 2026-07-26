@@ -142,8 +142,8 @@ export const findings = [
     label: 'Split Built Form Across the Primary Area',
     domains: ['density', 'morphology'],
     observation: [
-      'Primary 5-GN density analysis uses a 100 m hex grid (447 hexes; 322 valid after edge filtering).',
-      'Typology on valid hexes is split: about 41% Dense Congested Urban and about 41% Open Underdeveloped, with smaller shares of vertical and sprawling types.',
+      'Primary 5-GN density analysis uses a 100 m hex grid (447 hexes; 341 analysis-grade at ≥90% complete).',
+      'Typology on analysis-grade hexes is split: about 40% Dense Congested Urban and about 40% Open Underdeveloped, with smaller shares of vertical and sprawling types.',
       'See Built Form typology and median FSI–GSI on the Density tab.',
     ],
     interpretation: [
@@ -165,7 +165,7 @@ export const findings = [
     label: 'Limited Open-Space Ratio',
     domains: ['density'],
     observation: [
-      'Median OSR (open-space ratio) on primary valid density hexes is about 0.33 — limited open space relative to built coverage.',
+      'Median OSR (open-space ratio) on primary analysis-grade density hexes (≥90% complete) is about 0.34 — limited open space relative to built coverage.',
       'See the Openness panel on the Density tab.',
     ],
     interpretation: [
@@ -188,7 +188,7 @@ export const findings = [
     domains: ['morphology', 'social', 'maturation'],
     observation: [
       'Centrality maps (closeness / betweenness at multiple scales) highlight Mount Lavinia Junction and corridor links as key movement spines.',
-      'UMI accessibility (from 5000 m closeness NQPDA5000 and betweenness BtA5000) averages only about 0.11 on a 0–1 scale across 311 maturation-valid hexes.',
+      'UMI accessibility (from 5000 m closeness NQPDA5000 and betweenness BtA5000) averages only about 0.11 on a 0–1 scale across 341 analysis-grade hexes (≥90% complete).',
       'Network importance is high where measured accessibility still lags.',
     ],
     interpretation: [
@@ -340,11 +340,11 @@ export const findings = [
     label: 'Shannon Entropy Leads the Maturation Reading',
     domains: ['maturation', 'morphology'],
     observation: [
-      'Primary study area: 447 hex cells at 100 m (311 maturation-valid after edge / completeness filters).',
-      'Mean Shannon entropy (normalized land-use mix): about 0.43 on a 0–1 scale.',
+      'Primary study area: 447 hex cells at 100 m (341 analysis-grade at ≥90% complete for KPIs).',
+      'Mean Shannon entropy (normalized land-use mix): about 0.44 on a 0–1 scale.',
       'Shannon remains a strong final signal for maturation (mix).',
       'Mean UMI (composite of Shannon + access + diversity): about 0.34.',
-      'UMI tiers on valid hexes: about 62% moderately matured (0.15–0.35), about 38% highly matured (over 0.35), and essentially no early-tier cells (under 0.15).',
+      'UMI tiers on analysis-grade hexes: about 62% moderately matured (0.15–0.35), about 36% highly matured (over 0.35), and about 1–2% early-tier cells (under 0.15).',
       'UMI sits below Shannon largely because accessibility is weaker than mix and diversity.',
     ],
     interpretation: [
@@ -378,8 +378,8 @@ export const findings = [
     label: 'Accessibility Lags Mix and Diversity',
     domains: ['maturation', 'morphology'],
     observation: [
-      'UMI component means on primary valid hexes (0–1): Shannon entropy about 0.43.',
-      'Land-use diversity about 0.48.',
+      'UMI component means on primary analysis-grade hexes (0–1): Shannon entropy about 0.44.',
+      'Land-use diversity about 0.46.',
       'Accessibility about 0.11 (from 5000 m closeness and betweenness).',
       'Shannon and diversity are the stronger maturation readings.',
       'Weak accessibility pulls the composite UMI down to about 0.34—below what mix alone would suggest.',
@@ -410,7 +410,7 @@ export const findings = [
     label: 'Uneven Shannon Fabric Meets Heat and Conflict',
     domains: ['maturation', 'thermal', 'social'],
     observation: [
-      'Mean Shannon entropy is about 0.43 on primary valid hexes.',
+      'Mean Shannon entropy is about 0.44 on primary analysis-grade hexes.',
       'UMI composite averages about 0.34 (mostly moderate and highly matured tiers).',
       'On the same geography, mean UTCI is ~39 °C (strong heat stress).',
       'Issues RC1 describes tourism–resident–fisher identity mismatch on shared un-zoned space.',
@@ -485,7 +485,7 @@ export const storySpine = [
   {
     findingId: 'F14',
     title: 'Shannon Profile',
-    blurb: 'Primary grid: Shannon mix ~0.43; UMI combined score ~0.34.',
+    blurb: 'Primary grid: Shannon mix ~0.44; UMI combined score ~0.34.',
   },
   {
     findingId: 'F15',

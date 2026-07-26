@@ -136,6 +136,9 @@ export function isPracticalMetricValue(value, metricId) {
   if (value == null || value === '') return false
   const v = Number(value)
   if (!Number.isFinite(v)) return false
-  if (metricId === 'fsi' || metricId === 'gsi') return v > 0
+  // FSI/GSI of 0 = real open / unbuilt space — still colourable.
+  if (metricId === 'fsi' || metricId === 'gsi' || metricId === 'density') return v >= 0
+  if (metricId === 'osr') return v >= 0
+  // Maturation components may be 0 (sparse mix / access) — still practical.
   return v >= 0
 }

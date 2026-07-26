@@ -9,8 +9,9 @@ export default function HexEdgeEffectNote() {
         <AlertCircle className="relative h-3.5 w-3.5 text-[#f87171]" aria-hidden />
       </span>
       <p className="min-w-0 flex-1 text-[11px] leading-snug text-surface-200">
-        Hexes are clipped to the study boundary. Edge / impractical cells (e.g. negative OSR) stay
-        unfilled and are omitted from charts and KPIs.
+        Hexes are clipped to the study boundary. Nearly complete cells (≥90%) are coloured normally;
+        partial cells (50–90%) are dimmed. Tiny scraps and impractical values (e.g. negative OSR) stay
+        unfilled. Charts and KPIs use ≥90% complete cells only.
       </p>
     </div>
   )

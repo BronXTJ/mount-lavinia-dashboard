@@ -24,9 +24,9 @@ import {
   formatMaturationValue,
 } from '../../utils/maturationStats.js'
 import { isPracticalMetricValue } from '../../utils/metricClasses.js'
+import { formatHexCompletenessNote, isPartialHex } from '../../utils/hexCellGrade.js'
 import {
   CELL_POPUP_OPTS,
-  buildCellIdOnlyPopupHtml,
   buildCellInfoPopupHtml,
   getFeatureCenter,
   getFeaturePopupAnchor,
@@ -79,32 +79,69 @@ const highlightFillStyle = () => ({
 
 const POPUP_OPTS = CELL_POPUP_OPTS
 
-function buildMaturationPopup(props) {
-  const umi = Number(props?.[MATURATION_PROPS.umi])
+function buildMaturationPopup(props, activeMetric = 'umi') {
+  const umi = Number(props?.[MATURATION_PROPS.umi] ?? props?.umi)
   const tier = classifyMaturationTier(umi)
-  const entropy = Number(props?.[MATURATION_PROPS.entropyNorm])
-  const access = Number(props?.[MATURATION_PROPS.accessibilityNorm])
-  const landUse = Number(props?.[MATURATION_PROPS.landUseNorm])
+  const entropy = Number(props?.[MATURATION_PROPS.entropyNorm] ?? props?.entropy_norm)
+  const access = Number(props?.[MATURATION_PROPS.accessibilityNorm] ?? props?.accessibility)
+  const landUse = Number(props?.[MATURATION_PROPS.landUseNorm] ?? props?.landuse_div)
   const id = props?.id != null ? Math.round(Number(props.id)) : '—'
   const badgeTextColor = tier.id === 'low' ? '#0f172a' : '#ffffff'
+  const completeness = formatHexCompletenessNote({ properties: props })
+
+  const primaryByMetric = {
+    umi: { label: 'Urban Maturation Score:', value: formatMaturationValue(umi) },
+    entropy: { label: 'Shannon Entropy:', value: formatMaturationValue(entropy) },
+    accessibility: { label: 'Accessibility:', value: formatMaturationValue(access) },
+    landUseDiversity: { label: 'Land Use Diversity:', value: formatMaturationValue(landUse) },
+  }
+  const primary = primaryByMetric[activeMetric] ?? primaryByMetric.umi
 
   return buildCellInfoPopupHtml({
     title: `Hex Cell #${id}`,
-    primaryLabel: 'Urban Maturation Score:',
-    primaryValue: formatMaturationValue(umi),
-    badge: { label: tier.shortLabel, color: tier.color, textColor: badgeTextColor },
+    primaryLabel: primary.label,
+    primaryValue: primary.value,
+    badge:
+      activeMetric === 'umi'
+        ? { label: tier.shortLabel, color: tier.color, textColor: badgeTextColor }
+        : null,
     metrics: [
       { label: 'Shannon Entropy', value: formatMaturationValue(entropy), bar: entropy },
       { label: 'Accessibility', value: formatMaturationValue(access), bar: access },
       { label: 'Land Use Diversity', value: formatMaturationValue(landUse), bar: landUse },
+      { label: 'UMI', value: formatMaturationValue(umi), bar: umi },
+      { label: 'Completeness', value: completeness, bar: null },
     ],
-    footer: { label: tier.label, color: tier.color, textColor: badgeTextColor },
+    footer:
+      activeMetric === 'umi'
+        ? { label: tier.label, color: tier.color, textColor: badgeTextColor }
+        : null,
   })
 }
 
 function buildHexIdOnlyPopup(props) {
   const id = props?.id != null ? Math.round(Number(props.id)) : '—'
-  return buildCellIdOnlyPopupHtml(`Hex Cell #${id}`)
+  const note = formatHexCompletenessNote({ properties: props })
+  return buildCellInfoPopupHtml({
+    title: `Hex Cell #${id}`,
+    primaryLabel: 'Hex grid',
+    primaryValue: 'Outline only',
+    metrics: [{ label: 'Completeness', value: note, bar: null }],
+  })
+}
+
+function buildLandUsePopup(props) {
+  const cat = props?.Main_C ?? 'Unknown'
+  const sub = props?.Sub_class ?? '—'
+  return buildCellInfoPopupHtml({
+    title: 'Land use parcel',
+    primaryLabel: 'Category:',
+    primaryValue: String(cat),
+    metrics: [
+      { label: 'Sub-class', value: String(sub), bar: null },
+      { label: 'Main_C', value: String(cat), bar: null },
+    ],
+  })
 }
 
 function formatHexCellLabel(props) {
@@ -112,11 +149,11 @@ function formatHexCellLabel(props) {
   return `Hex Cell #${id}`
 }
 
-function FlyToHex({ hexId, hex }) {
+function FlyToHex({ hexId, hex, activeMetric }) {
   const map = useMap()
 
   useEffect(() => {
-    if (hexId == null || !hex?.features) return
+    if (hexId == null || !hex?.features || !activeMetric) return
     const feature = hex.features.find((f) => f.properties?.id == hexId)
     if (!feature) return
 
@@ -127,14 +164,22 @@ function FlyToHex({ hexId, hex }) {
     map.flyTo(center, 17, { animate: true, duration: 0.8 })
     const popup = L.popup(POPUP_OPTS)
       .setLatLng(anchor)
-      .setContent(buildMaturationPopup(feature.properties))
+      .setContent(buildMaturationPopup(feature.properties, activeMetric))
     popup.openOn(map)
 
     return () => {
       map.closePopup(popup)
     }
-  }, [hexId, hex, map])
+  }, [hexId, hex, activeMetric, map])
 
+  return null
+}
+
+function ClosePopupWhenNoMetric({ activeMetric }) {
+  const map = useMap()
+  useEffect(() => {
+    if (!activeMetric) map.closePopup()
+  }, [activeMetric, map])
   return null
 }
 
@@ -180,6 +225,10 @@ export default function MaturationMap({
     if (!hexLayersOn) setSelectedHexId(null)
   }, [hexLayersOn])
 
+  useEffect(() => {
+    if (!activeMetric) setSelectedHexId(null)
+  }, [activeMetric])
+
   const selectedFeature = useMemo(() => {
     if (!hexLayersOn || selectedHexId == null) return null
     const fromHex = hex?.features?.find((f) => f.properties?.id == selectedHexId)
@@ -203,11 +252,13 @@ export default function MaturationMap({
         activeMetric === 'landUseDiversity'
           ? colorForLandUseDiversity(value, metricClasses)
           : colorForMaturationMetric(value, metricClasses)
+      const partial = isPartialHex(feature)
       return {
         color: '#94a3b8',
-        weight: 0.6,
+        weight: partial ? 1.2 : 0.6,
+        dashArray: partial ? '4 3' : null,
         fillColor: fill,
-        fillOpacity: 0.75,
+        fillOpacity: partial ? 0.45 : 0.75,
       }
     },
     [activeMetric, metricKey, metricClasses],
@@ -260,7 +311,9 @@ export default function MaturationMap({
         const id = feature.properties?.id ?? null
         setSelectedHexId(id)
         const anchor = getFeaturePopupAnchor(feature)
-        const popup = L.popup(POPUP_OPTS).setContent(buildMaturationPopup(feature.properties))
+        const popup = L.popup(POPUP_OPTS).setContent(
+          buildMaturationPopup(feature.properties, activeMetric),
+        )
         if (anchor) {
           popup.setLatLng(anchor).openOn(layer._map)
         } else {
@@ -268,7 +321,7 @@ export default function MaturationMap({
         }
       })
     },
-    [],
+    [activeMetric],
   )
 
   const onEachHexGrid = useMemo(() => {
@@ -302,6 +355,16 @@ export default function MaturationMap({
         sticky: true,
         direction: 'top',
         opacity: 0.95,
+      })
+      layer.on('click', (e) => {
+        L.DomEvent.stopPropagation(e)
+        const anchor = getFeaturePopupAnchor(feature)
+        const popup = L.popup(POPUP_OPTS).setContent(buildLandUsePopup(feature.properties))
+        if (anchor && layer._map) {
+          popup.setLatLng(anchor).openOn(layer._map)
+        } else {
+          layer.bindPopup(popup).openPopup()
+        }
       })
     },
     [],
@@ -421,7 +484,10 @@ export default function MaturationMap({
             )
           })}
 
-        {focusedHexId != null && <FlyToHex hexId={focusedHexId} hex={hex} />}
+        {focusedHexId != null && activeMetric && (
+          <FlyToHex hexId={focusedHexId} hex={hex} activeMetric={activeMetric} />
+        )}
+        <ClosePopupWhenNoMetric activeMetric={activeMetric} />
       </MapContainer>
 
         <MaturationLegend activeMetric={activeMetric} stats={stats} />

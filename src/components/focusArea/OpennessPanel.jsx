@@ -86,7 +86,7 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
         infoTitle="OSR Value Distribution"
         infoAria="What does the OSR Value Distribution show?"
         infoPoints={[
-          'Equal-interval classes of valid hex cells by Open Space Ratio (OSR).',
+          'Equal-interval classes of analysis-grade hex cells (≥90% complete) by Open Space Ratio (OSR).',
           'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
           'Edge hexes are on the map only; charts use valid cells.',
         ]}
@@ -101,7 +101,7 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
             points={[
               'Measures the volume/intensity of built form within each hex cell.',
               'Higher Density Value = denser development in that cell.',
-              'Min, max, and average summarise valid hex cells in the primary study area.',
+              'Min, max, and average summarise analysis-grade hex cells (≥90% complete) in the primary study area.',
               'Click a Minimum/Highest Cell ID card to locate that hex on the map.',
             ]}
             ariaLabel="What is Density Value?"
@@ -147,7 +147,7 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
           infoTitle="Density Value Distribution"
           infoAria="What does the Density Value Distribution show?"
           infoPoints={[
-            'Equal-interval classes of valid hex cells by Density Value.',
+            'Equal-interval classes of analysis-grade hex cells (≥90% complete) by Density Value.',
             'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
             'Edge hexes are on the map only; charts use valid cells.',
           ]}
