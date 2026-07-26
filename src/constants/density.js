@@ -48,14 +48,54 @@ export const DENSITY_CONTEXT_STYLES = {
 
 /** 8-type urban form classification from FSI + GSI + OSR median splits. */
 export const DENSITY_TYPOLOGY = {
-  denseCongested: { id: 'denseCongested', label: 'Dense Congested Urban', color: '#dc2626' },
-  denseLiveable: { id: 'denseLiveable', label: 'Dense Liveable Urban', color: '#16a34a' },
-  verticalCompact: { id: 'verticalCompact', label: 'Vertical Compact', color: '#9333ea' },
-  verticalOpen: { id: 'verticalOpen', label: 'Vertical Open', color: '#06b6d4' },
-  sprawlingCongested: { id: 'sprawlingCongested', label: 'Sprawling Congested', color: '#d97706' },
-  sprawlingOpen: { id: 'sprawlingOpen', label: 'Sprawling Open', color: '#65a30d' },
-  openUnderdeveloped: { id: 'openUnderdeveloped', label: 'Open Underdeveloped', color: '#0369a1' },
-  bareInactive: { id: 'bareInactive', label: 'Bare / Inactive Land', color: '#57534e' },
+  denseCongested: {
+    id: 'denseCongested',
+    label: 'Dense Congested Urban',
+    shortLabel: 'Dense Congested',
+    color: '#dc2626',
+  },
+  denseLiveable: {
+    id: 'denseLiveable',
+    label: 'Dense Liveable Urban',
+    shortLabel: 'Dense Liveable',
+    color: '#16a34a',
+  },
+  verticalCompact: {
+    id: 'verticalCompact',
+    label: 'Vertical Compact',
+    shortLabel: 'Vertical Compact',
+    color: '#9333ea',
+  },
+  verticalOpen: {
+    id: 'verticalOpen',
+    label: 'Vertical Open',
+    shortLabel: 'Vertical Open',
+    color: '#06b6d4',
+  },
+  sprawlingCongested: {
+    id: 'sprawlingCongested',
+    label: 'Sprawling Congested',
+    shortLabel: 'Sprawling Congested',
+    color: '#d97706',
+  },
+  sprawlingOpen: {
+    id: 'sprawlingOpen',
+    label: 'Sprawling Open',
+    shortLabel: 'Sprawling Open',
+    color: '#65a30d',
+  },
+  openUnderdeveloped: {
+    id: 'openUnderdeveloped',
+    label: 'Open Underdeveloped',
+    shortLabel: 'Open Underdeveloped',
+    color: '#0369a1',
+  },
+  bareInactive: {
+    id: 'bareInactive',
+    label: 'Bare / Inactive Land',
+    shortLabel: 'Bare / Inactive',
+    color: '#57534e',
+  },
 }
 
 /** FAB layer panel — primary study area labels. */

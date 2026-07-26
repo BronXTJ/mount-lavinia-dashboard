@@ -71,8 +71,8 @@ export const SVF_CLASS_COLORS = {
 
 /** Model UTCI stress classes present in this study (4 = strong, 5 = very strong). */
 export const UTCI_CLASS_LABELS = {
-  4: { label: 'Strong Heat Stress', color: '#ea580c' },
-  5: { label: 'Very Strong Heat Stress', color: '#b91c1c' },
+  4: { label: 'Strong Heat Stress', shortLabel: 'Strong', color: '#ea580c' },
+  5: { label: 'Very Strong Heat Stress', shortLabel: 'Very Strong', color: '#b91c1c' },
 }
 
 export const ENV_FAB_LAYERS = [

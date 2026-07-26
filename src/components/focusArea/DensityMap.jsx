@@ -93,24 +93,31 @@ function buildHexPopup(props, medianFsi, medianGsi, medianOsr, activeMetric = nu
   const gsiNorm = clamp01(Number(props?.GSI_Norm))
   const osr = Number(props?.OSR)
   const density = Number(props?.Density_V)
+  const densityBar = Number.isFinite(density) ? clamp01(density) : null
   const completeness = formatHexCompletenessNote({ properties: props })
 
   const primaryByMetric = {
-    fsi: { label: 'FSI:', value: formatDensityValue(props?.FSI) },
-    gsi: { label: 'GSI:', value: formatDensityValue(props?.GSI) },
-    osr: { label: 'OSR:', value: formatDensityValue(props?.OSR) },
+    fsi: { label: 'Floor Space Index:', value: formatDensityValue(props?.FSI) },
+    gsi: { label: 'Ground Space Index:', value: formatDensityValue(props?.GSI) },
+    osr: { label: 'Open Space Ratio:', value: formatDensityValue(props?.OSR) },
     density: { label: 'Density Value:', value: formatDensityValue(props?.Density_V) },
   }
-  const primary = primaryByMetric[activeMetric] ?? {
-    label: 'Density Value:',
-    value: formatDensityValue(props?.Density_V),
-  }
+  const primary = primaryByMetric[activeMetric] ?? primaryByMetric.density
+
+  // Match Maturation: classification badge/footer only on the composite (Density) layer.
+  const showTypology = activeMetric === 'density' || activeMetric == null
 
   return buildCellInfoPopupHtml({
     title: `Hex Cell #${id}`,
     primaryLabel: primary.label,
     primaryValue: primary.value,
-    badge: { label: typology.label, color: typology.color, textColor: '#ffffff' },
+    badge: showTypology
+      ? {
+          label: typology.shortLabel ?? typology.label,
+          color: typology.color,
+          textColor: '#ffffff',
+        }
+      : null,
     metrics: [
       { label: 'FSI', value: formatDensityValue(props?.FSI), bar: fsiNorm },
       { label: 'GSI', value: formatDensityValue(props?.GSI), bar: gsiNorm },
@@ -120,23 +127,15 @@ function buildHexPopup(props, medianFsi, medianGsi, medianOsr, activeMetric = nu
         bar: Number.isFinite(osr) ? clamp01(osr / 2) : null,
       },
       {
-        label: 'Built area',
-        value: `${formatDensityValue(props?.Area_build, 1)} m²`,
-        bar: null,
-      },
-      {
-        label: 'Floor area',
-        value: `${formatDensityValue(props?.Floor_Area, 1)} m²`,
-        bar: null,
-      },
-      {
         label: 'Density_V',
         value: formatDensityValue(density),
-        bar: Number.isFinite(density) ? clamp01(density) : null,
+        bar: densityBar,
       },
       { label: 'Completeness', value: completeness, bar: null },
     ],
-    footer: { label: typology.label, color: typology.color, textColor: '#ffffff' },
+    footer: showTypology
+      ? { label: typology.label, color: typology.color, textColor: '#ffffff' }
+      : null,
   })
 }
 

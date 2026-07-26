@@ -33,33 +33,51 @@ const bufferStyle = {
   fill: false,
 }
 
-function buildCellPopup(props) {
+function buildCellPopup(props, activeMetric = 'utci') {
   const id = props?.id != null ? Math.round(Number(props.id)) : '—'
   const stressClass = props?.utci_class != null ? Number(props.utci_class) : null
   const stressMeta =
     stressClass != null
       ? UTCI_CLASS_LABELS[stressClass] ?? {
           label: `Class ${stressClass}`,
+          shortLabel: `Class ${stressClass}`,
           color: '#94a3b8',
         }
       : null
   const utci = Number(props?.utci_c)
-  // Rough comfort band 26–48 °C for mini-bar
   const utciBar = Number.isFinite(utci) ? Math.max(0, Math.min(1, (utci - 26) / 22)) : null
   const uhi = Number(props?.UHI_intens)
   const uhiBar = Number.isFinite(uhi) ? Math.max(0, Math.min(1, (uhi + 8) / 16)) : null
-
   const shadowFrac = Number(props?.shadow_frac)
   const shadowBar = Number.isFinite(shadowFrac) ? Math.max(0, Math.min(1, shadowFrac)) : null
 
+  const primaryByMetric = {
+    utci: { label: 'UTCI:', value: `${formatEnvValue(props?.utci_c, 1)} °C` },
+    uhi: { label: 'UHI Intensity:', value: `${formatEnvValue(props?.UHI_intens)} °C` },
+    airTemp: { label: 'Air Temperature:', value: `${formatEnvValue(props?.Air_Temp, 1)} °C` },
+    tmrt: { label: 'Mean Radiant Temp:', value: `${formatEnvValue(props?.Tmrt, 1)} °C` },
+    shadow: { label: 'Shadow Exposure:', value: formatShadowPercent(props?.shadow_frac, 0) },
+  }
+  const primary = primaryByMetric[activeMetric] ?? primaryByMetric.utci
+  const showStress = activeMetric === 'utci'
+
   return buildCellInfoPopupHtml({
     title: `Cell #${id}`,
-    primaryLabel: 'UTCI:',
-    primaryValue: `${formatEnvValue(props?.utci_c, 1)} °C`,
-    badge: stressMeta
-      ? { label: stressMeta.label, color: stressMeta.color, textColor: '#ffffff' }
+    primaryLabel: primary.label,
+    primaryValue: primary.value,
+    badge: showStress && stressMeta
+      ? {
+          label: stressMeta.shortLabel ?? stressMeta.label,
+          color: stressMeta.color,
+          textColor: '#ffffff',
+        }
       : null,
     metrics: [
+      {
+        label: 'UTCI',
+        value: `${formatEnvValue(props?.utci_c, 1)} °C`,
+        bar: utciBar,
+      },
       {
         label: 'UHI Intensity',
         value: `${formatEnvValue(props?.UHI_intens)} °C`,
@@ -76,38 +94,23 @@ function buildCellPopup(props) {
         bar: null,
       },
       {
-        label: 'Wind',
-        value: formatEnvValue(props?.Wind_speed, 1),
-        bar: null,
-      },
-      {
-        label: 'UTCI Band',
-        value: `${formatEnvValue(props?.utci_c, 1)} °C`,
-        bar: utciBar,
-      },
-      {
-        label: 'Stress Class',
-        value: stressMeta?.label ?? '—',
-        bar: null,
-      },
-      {
-        label: 'Shadow Exposure',
+        label: 'Shadow',
         value: formatShadowPercent(props?.shadow_frac, 0),
         bar: shadowBar,
         barColor: SHADOW_COLOR,
       },
     ],
-    footer: stressMeta
+    footer: showStress && stressMeta
       ? { label: stressMeta.label, color: stressMeta.color, textColor: '#ffffff' }
       : null,
   })
 }
 
-function FlyToCell({ cellId, grid }) {
+function FlyToCell({ cellId, grid, activeMetric }) {
   const map = useMap()
 
   useEffect(() => {
-    if (cellId == null || !grid?.features) return
+    if (cellId == null || !grid?.features || !activeMetric) return
     const feature = grid.features.find((f) => f.properties?.id == cellId)
     if (!feature) return
 
@@ -118,13 +121,13 @@ function FlyToCell({ cellId, grid }) {
     map.flyTo(center, 19, { animate: true, duration: 0.8 })
     const popup = L.popup(CELL_POPUP_OPTS)
       .setLatLng(anchor)
-      .setContent(buildCellPopup(feature.properties))
+      .setContent(buildCellPopup(feature.properties, activeMetric))
     popup.openOn(map)
 
     return () => {
       map.closePopup(popup)
     }
-  }, [cellId, grid, map])
+  }, [cellId, grid, activeMetric, map])
 
   return null
 }
@@ -315,7 +318,9 @@ export default function EnvironmentalMap({
         const id = feature.properties?.id ?? null
         setSelectedCellId(id)
         const anchor = getFeaturePopupAnchor(feature)
-        const popup = L.popup(CELL_POPUP_OPTS).setContent(buildCellPopup(feature.properties))
+        const popup = L.popup(CELL_POPUP_OPTS).setContent(
+          buildCellPopup(feature.properties, activeMetric),
+        )
         if (anchor && layer._map) {
           popup.setLatLng(anchor).openOn(layer._map)
         } else {
@@ -323,7 +328,7 @@ export default function EnvironmentalMap({
         }
       })
     },
-    [],
+    [activeMetric],
   )
 
   const highlightRenderer = useMemo(() => L.svg(), [])
@@ -437,7 +442,7 @@ export default function EnvironmentalMap({
           </>
         )}
 
-        <FlyToCell cellId={focusedCellId} grid={grid} />
+        <FlyToCell cellId={focusedCellId} grid={grid} activeMetric={activeMetric} />
       </MapContainer>
 
       <EnvironmentalMapLayerFab
