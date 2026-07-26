@@ -188,9 +188,9 @@ function buildCellPopup(props, activeMetric = 'utci', metricSummary = null) {
           bar: null,
         },
         {
-          label: 'UTCI',
-          value: `${formatEnvValue(props?.utci_c, 1)} °C`,
-          bar: utciBar,
+          label: 'Wind',
+          value: formatEnvValue(props?.Wind_speed, 1),
+          bar: null,
         },
       ],
       footer: { label: band.label, color: legendColor, textColor },
@@ -212,21 +212,30 @@ function buildCellPopup(props, activeMetric = 'utci', metricSummary = null) {
           barColor: legendColor,
         },
         {
-          label: 'Tmrt',
-          value: `${formatEnvValue(props?.Tmrt, 1)} °C`,
+          label: 'Air Temp',
+          value: `${formatEnvValue(props?.Air_Temp, 1)} °C`,
           bar: null,
         },
         {
-          label: 'UTCI',
-          value: `${formatEnvValue(props?.utci_c, 1)} °C`,
-          bar: utciBar,
+          label: 'Wind',
+          value: formatEnvValue(props?.Wind_speed, 1),
+          bar: null,
         },
       ],
       footer: { label: band.label, color: legendColor, textColor },
     })
   }
 
-  // UTCI (default) — stress class + comfort drivers
+  // UTCI only — stress class + comfort drivers (never fall through from other layers)
+  if (activeMetric !== 'utci') {
+    return buildCellInfoPopupHtml({
+      title: `Cell #${id}`,
+      primaryLabel: 'Metric:',
+      primaryValue: '—',
+      metrics: [],
+    })
+  }
+
   return buildCellInfoPopupHtml({
     title: `Cell #${id}`,
     primaryLabel: 'UTCI:',
@@ -533,9 +542,9 @@ export default function EnvironmentalMap({
           data={svfPoints}
         />
 
-        {grid && (
+        {grid && activeMetric && (
           <GeoJSON
-            key="env-thermal-grid"
+            key={`env-thermal-grid-${activeMetric}`}
             data={grid}
             style={cellStyle}
             onEachFeature={onEachCell}
