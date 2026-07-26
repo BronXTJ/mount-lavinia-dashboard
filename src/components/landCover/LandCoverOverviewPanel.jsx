@@ -14,8 +14,8 @@ export default function LandCoverOverviewPanel({ selectedGn, onSelectGn }) {
           <div>
             <h1 className="font-display text-xl font-bold text-surface-50">Land Cover Change</h1>
             <p className="mt-1 text-xs leading-relaxed text-surface-400">
-              Five GN study area · Landsat dry-season composites (~2000 / ~2015 / ~2025) ·
-              neighbourhood-scale only
+              Five GN study area · Landsat 30 m (~2000 / ~2015 / ~2025) · Sentinel-2 10 m GN
+              metrics (2018–2025) · neighbourhood-scale only
             </p>
           </div>
           <MetricInfoButton title={LC_INFO.section.title} points={LC_INFO.section.points} />
@@ -24,7 +24,9 @@ export default function LandCoverOverviewPanel({ selectedGn, onSelectGn }) {
 
       <FocusAreaPanelCard>
         <div className="mb-3 flex items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold text-surface-100">Headline change (2000→2025)</h2>
+          <h2 className="text-sm font-semibold text-surface-100">
+            Landsat headline change (2000→2025)
+          </h2>
           <MetricInfoButton title={LC_INFO.kpis.title} points={LC_INFO.kpis.points} />
         </div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-1">
@@ -42,7 +44,9 @@ export default function LandCoverOverviewPanel({ selectedGn, onSelectGn }) {
 
       <FocusAreaPanelCard>
         <div className="mb-2 flex items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold text-surface-100">Class area trend</h2>
+          <h2 className="text-sm font-semibold text-surface-100">
+            Landsat class area trend (~2000 / ~2015 / ~2025)
+          </h2>
           <MetricInfoButton title={LC_INFO.classTrend.title} points={LC_INFO.classTrend.points} />
         </div>
         <ClassAreaTrendChart />

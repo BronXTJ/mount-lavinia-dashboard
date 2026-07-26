@@ -128,7 +128,9 @@ function GnS2KpiCards({ gnName }) {
   return (
     <FocusAreaPanelCard>
       <div className="mb-3 flex items-center justify-between gap-2">
-        <h3 className="text-sm font-semibold text-surface-100">Sentinel-2 10 m snapshot (~2025)</h3>
+        <h3 className="text-sm font-semibold text-surface-100">
+          Sentinel-2 10 m snapshot (~2025 · change 2018→2025)
+        </h3>
         <MetricInfoButton title={LC_INFO.s2Metrics.title} points={LC_INFO.s2Metrics.points} />
       </div>
       <p className="mb-3 text-[11px] text-surface-400">Area ≈ {kpis.area_ha} ha</p>
@@ -136,25 +138,25 @@ function GnS2KpiCards({ gnName }) {
         <DensityStatCard
           label="Built-up"
           value={`${kpis.built_up_pct.toFixed(1)}%`}
-          hint="Share of GN area · S2 ~2025"
+          hint="Share of GN area · Sentinel-2 ~2025"
           topBorderColor="#d73027"
         />
         <DensityStatCard
           label="Green"
           value={`${kpis.green_pct.toFixed(1)}%`}
-          hint="Vegetation share · S2 ~2025"
+          hint="Vegetation share · Sentinel-2 ~2025"
           topBorderColor="#1a9850"
         />
         <DensityStatCard
           label="Soft surface"
           value={`${kpis.soft_surface_pct.toFixed(1)}%`}
-          hint="Veg + open + water + beach · S2 ~2025"
+          hint="Veg + open + water + beach · Sentinel-2 ~2025"
           topBorderColor="#4575b4"
         />
         <DensityStatCard
           label="Built-up change"
           value={formatSignedPp(kpis.built_up_change_pp)}
-          hint="Percentage points · S2 2018→2025"
+          hint="Percentage points · Sentinel-2 2018→2025"
           topBorderColor="#fc8d59"
         />
       </div>
@@ -190,18 +192,24 @@ export default function LandCoverDetailPanel({ selectedGn, epochId }) {
         <p className="mt-1 text-xs text-surface-400">
           {hasGn
             ? isMount
-              ? 'Landsat deep dive + Sentinel-2 10 m shares'
-              : 'Sentinel-2 10 m built / green / soft shares'
-            : `Class shares for ${epochRow.label} · Landsat`}
+              ? 'Landsat 30 m (2000→2025) + Sentinel-2 10 m (2018–2025)'
+              : 'Sentinel-2 10 m built / green / soft (2018–2025)'
+            : `Landsat 30 m class shares (${epochRow.label})`}
         </p>
       </div>
 
       {!hasGn && (
         <>
           <FocusAreaPanelCard>
-            <h3 className="mb-3 text-sm font-semibold text-surface-100">
-              Class shares ({epochRow.label})
-            </h3>
+            <div className="mb-3 flex items-center justify-between gap-2">
+              <h3 className="text-sm font-semibold text-surface-100">
+                Landsat class shares ({epochRow.label})
+              </h3>
+              <MetricInfoButton
+                title={LC_INFO.landsatClassShares.title}
+                points={LC_INFO.landsatClassShares.points}
+              />
+            </div>
             <ClassShareBars epochRow={epochRow} />
           </FocusAreaPanelCard>
 
@@ -230,9 +238,15 @@ export default function LandCoverDetailPanel({ selectedGn, epochId }) {
         <>
           {isMount && (
             <FocusAreaPanelCard>
-              <h3 className="mb-3 text-sm font-semibold text-surface-100">
-                Landsat deep dive (2000→2025)
-              </h3>
+              <div className="mb-3 flex items-center justify-between gap-2">
+                <h3 className="text-sm font-semibold text-surface-100">
+                  Landsat 30 m deep dive (2000→2025)
+                </h3>
+                <MetricInfoButton
+                  title={LC_INFO.landsatDeepDive.title}
+                  points={LC_INFO.landsatDeepDive.points}
+                />
+              </div>
               <div className="grid grid-cols-2 gap-3">
                 <DensityStatCard
                   label="Built-up"
@@ -266,7 +280,9 @@ export default function LandCoverDetailPanel({ selectedGn, epochId }) {
 
           <FocusAreaPanelCard>
             <div className="mb-2 flex items-center justify-between gap-2">
-              <h3 className="text-sm font-semibold text-surface-100">Sentinel-2 trend</h3>
+              <h3 className="text-sm font-semibold text-surface-100">
+                Sentinel-2 trend (2018 / 2020 / 2025)
+              </h3>
               <MetricInfoButton
                 title={LC_INFO.s2Metrics.title}
                 points={LC_INFO.s2Metrics.points}
@@ -274,7 +290,8 @@ export default function LandCoverDetailPanel({ selectedGn, epochId }) {
             </div>
             {!isMount && (
               <p className="mb-2 text-[11px] text-surface-400">
-                Long-term (~2000) change is summarised at the 5 GN / Mount Lavinia scale on the map.
+                Landsat long-term change (~2000–2025) is on the map layers and Mount Lavinia deep
+                dive; this GN uses Sentinel-2 10 m (2018–2025).
               </p>
             )}
             <S2MetricsChart gnName={selectedGn} />
@@ -289,9 +306,9 @@ export default function LandCoverDetailPanel({ selectedGn, epochId }) {
             <FocusAreaPanelCard>
               <h3 className="mb-3 text-sm font-semibold text-surface-100">Reading tip</h3>
               <p className="text-xs leading-relaxed text-surface-300">
-                Use the map epoch and change layers for the Landsat long-term story across all five
-                GNs. These Sentinel-2 cards and bars give finer 2018–2025 built / green / soft
-                texture for {selectedGn}.
+                Use the map epoch and change layers for the Landsat 30 m long-term story (~2000 /
+                ~2015 / ~2025) across all five GNs. These Sentinel-2 10 m cards and bars give finer
+                2018–2025 built / green / soft texture for {selectedGn}.
               </p>
             </FocusAreaPanelCard>
           )}

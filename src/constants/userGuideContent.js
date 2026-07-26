@@ -92,8 +92,8 @@ export const USER_GUIDE_SECTIONS = [
     bullets: [
       'Use the map FAB to switch Landsat 30 m classified epochs (~2000 / ~2015 / ~2025) or change theme, and toggle OSM buildings / roads / GN boundaries.',
       'Click a GN on the map or in the left list to load its detail panel.',
-      'Left KPIs and the stacked chart show Landsat change across all five GNs (2000→2025).',
-      'Mount Lavinia shows a Landsat deep dive; other GNs show Sentinel-2 10 m built / green / soft shares.',
+      'Left KPIs and the stacked chart show Landsat 30 m change across all five GNs (2000→2025).',
+      'Per-GN cards use Sentinel-2 10 m (2018–2025); Mount Lavinia also includes a Landsat 30 m deep dive (2000→2025). Do not mix the two % scales.',
     ],
   },
   {
