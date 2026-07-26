@@ -109,7 +109,7 @@ export const USER_GUIDE_SECTIONS = [
       'Open the FAB to toggle the 800 m analysis boundary, thermal metrics, and SVF points.',
       'Use the FAB Basemap chips for Streets (default) or Satellite under the thermal grid.',
       'Turn on one main metric at a time (UTCI, UHI, air temperature, Tmrt, or shadow) to keep the map readable.',
-      'Click a grid cell to see its values; gauges and charts summarise the wider study area.',
+      'Click a grid cell for that layer’s facts card — colours match the legend for the selected cell.',
       'Use teal “i” help on gauges and charts when you need to interpret a panel.',
     ],
   },

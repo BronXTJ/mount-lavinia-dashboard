@@ -10,7 +10,6 @@ import {
   ENV_MAP_CENTER,
   ENV_MAP_ZOOM,
   ENV_METRIC_RAMPS,
-  SHADOW_COLOR,
   SVF_CLASS_COLORS,
   UTCI_CLASS_LABELS,
   getActiveEnvMetric,
@@ -34,6 +33,47 @@ const bufferStyle = {
   fill: false,
 }
 
+function bandFromRange(value, summary, kind) {
+  const min = summary?.min
+  const max = summary?.max
+  const labels = ENV_BAND_LABELS[kind]
+  if (
+    !labels ||
+    !Number.isFinite(value) ||
+    !Number.isFinite(min) ||
+    !Number.isFinite(max) ||
+    max === min
+  ) {
+    return { shortLabel: labels?.medium?.shortLabel ?? '—', label: labels?.medium?.label ?? '—' }
+  }
+  const t = (value - min) / (max - min)
+  const level = t > 2 / 3 ? 'high' : t >= 1 / 3 ? 'medium' : 'low'
+  return labels[level]
+}
+
+const ENV_BAND_LABELS = {
+  uhi: {
+    high: { shortLabel: 'High UHI', label: 'High Heat Island Intensity' },
+    medium: { shortLabel: 'Moderate UHI', label: 'Moderate Heat Island Intensity' },
+    low: { shortLabel: 'Low UHI', label: 'Low Heat Island Intensity' },
+  },
+  airTemp: {
+    high: { shortLabel: 'Hotter', label: 'Higher Air Temperature' },
+    medium: { shortLabel: 'Moderate', label: 'Moderate Air Temperature' },
+    low: { shortLabel: 'Cooler', label: 'Lower Air Temperature' },
+  },
+  tmrt: {
+    high: { shortLabel: 'High Tmrt', label: 'Higher Mean Radiant Temp' },
+    medium: { shortLabel: 'Moderate Tmrt', label: 'Moderate Mean Radiant Temp' },
+    low: { shortLabel: 'Low Tmrt', label: 'Lower Mean Radiant Temp' },
+  },
+  shadow: {
+    high: { shortLabel: 'More Shade', label: 'Higher Shadow Exposure' },
+    medium: { shortLabel: 'Mixed Shade', label: 'Moderate Shadow Exposure' },
+    low: { shortLabel: 'Less Shade', label: 'Lower Shadow Exposure' },
+  },
+}
+
 function buildCellPopup(props, activeMetric = 'utci', metricSummary = null) {
   const id = props?.id != null ? Math.round(Number(props.id)) : '—'
   const stressClass = props?.utci_class != null ? Number(props.utci_class) : null
@@ -42,61 +82,157 @@ function buildCellPopup(props, activeMetric = 'utci', metricSummary = null) {
       ? UTCI_CLASS_LABELS[stressClass] ?? {
           label: `Class ${stressClass}`,
           shortLabel: `Class ${stressClass}`,
-          color: '#94a3b8',
         }
       : null
   const utci = Number(props?.utci_c)
   const utciBar = Number.isFinite(utci) ? Math.max(0, Math.min(1, (utci - 26) / 22)) : null
   const uhi = Number(props?.UHI_intens)
   const uhiBar = Number.isFinite(uhi) ? Math.max(0, Math.min(1, (uhi + 8) / 16)) : null
+  const airTemp = Number(props?.Air_Temp)
+  const tmrt = Number(props?.Tmrt)
+  const wind = Number(props?.Wind_speed)
   const shadowFrac = Number(props?.shadow_frac)
   const shadowBar = Number.isFinite(shadowFrac) ? Math.max(0, Math.min(1, shadowFrac)) : null
 
-  const primaryByMetric = {
-    utci: {
-      label: 'UTCI:',
-      value: `${formatEnvValue(props?.utci_c, 1)} °C`,
-      valueNum: utci,
-    },
-    uhi: {
-      label: 'UHI Intensity:',
-      value: `${formatEnvValue(props?.UHI_intens)} °C`,
-      valueNum: uhi,
-    },
-    airTemp: {
-      label: 'Air Temperature:',
-      value: `${formatEnvValue(props?.Air_Temp, 1)} °C`,
-      valueNum: Number(props?.Air_Temp),
-    },
-    tmrt: {
-      label: 'Mean Radiant Temp:',
-      value: `${formatEnvValue(props?.Tmrt, 1)} °C`,
-      valueNum: Number(props?.Tmrt),
-    },
-    shadow: {
-      label: 'Shadow Exposure:',
-      value: formatShadowPercent(props?.shadow_frac, 0),
-      valueNum: shadowFrac,
-    },
+  const valueByMetric = {
+    utci,
+    uhi,
+    airTemp,
+    tmrt,
+    shadow: shadowFrac,
   }
-  const primary = primaryByMetric[activeMetric] ?? primaryByMetric.utci
+  const valueNum = valueByMetric[activeMetric]
   const legendColor = colorForEnvMetric(
-    primary.valueNum,
+    valueNum,
     metricSummary?.min,
     metricSummary?.max,
     activeMetric,
   )
   const textColor = contrastTextForBg(legendColor)
-  const showStress = activeMetric === 'utci'
 
+  if (activeMetric === 'uhi') {
+    const band = bandFromRange(uhi, metricSummary, 'uhi')
+    return buildCellInfoPopupHtml({
+      title: `Cell #${id}`,
+      primaryLabel: 'UHI Intensity:',
+      primaryValue: `${formatEnvValue(props?.UHI_intens)} °C`,
+      badge: { label: band.shortLabel, color: legendColor, textColor },
+      metrics: [
+        {
+          label: 'UHI Intensity',
+          value: `${formatEnvValue(props?.UHI_intens)} °C`,
+          bar: uhiBar,
+          barColor: legendColor,
+        },
+        {
+          label: 'Air Temp',
+          value: `${formatEnvValue(props?.Air_Temp, 1)} °C`,
+          bar: null,
+        },
+        {
+          label: 'Wind',
+          value: formatEnvValue(props?.Wind_speed, 1),
+          bar: null,
+        },
+      ],
+      footer: { label: band.label, color: legendColor, textColor },
+    })
+  }
+
+  if (activeMetric === 'airTemp') {
+    const band = bandFromRange(airTemp, metricSummary, 'airTemp')
+    return buildCellInfoPopupHtml({
+      title: `Cell #${id}`,
+      primaryLabel: 'Air Temperature:',
+      primaryValue: `${formatEnvValue(props?.Air_Temp, 1)} °C`,
+      badge: { label: band.shortLabel, color: legendColor, textColor },
+      metrics: [
+        {
+          label: 'Air Temp',
+          value: `${formatEnvValue(props?.Air_Temp, 1)} °C`,
+          bar: null,
+          barColor: legendColor,
+        },
+        {
+          label: 'Tmrt',
+          value: `${formatEnvValue(props?.Tmrt, 1)} °C`,
+          bar: null,
+        },
+        {
+          label: 'Wind',
+          value: formatEnvValue(props?.Wind_speed, 1),
+          bar: null,
+        },
+      ],
+      footer: { label: band.label, color: legendColor, textColor },
+    })
+  }
+
+  if (activeMetric === 'tmrt') {
+    const band = bandFromRange(tmrt, metricSummary, 'tmrt')
+    return buildCellInfoPopupHtml({
+      title: `Cell #${id}`,
+      primaryLabel: 'Mean Radiant Temp:',
+      primaryValue: `${formatEnvValue(props?.Tmrt, 1)} °C`,
+      badge: { label: band.shortLabel, color: legendColor, textColor },
+      metrics: [
+        {
+          label: 'Tmrt',
+          value: `${formatEnvValue(props?.Tmrt, 1)} °C`,
+          bar: null,
+          barColor: legendColor,
+        },
+        {
+          label: 'Air Temp',
+          value: `${formatEnvValue(props?.Air_Temp, 1)} °C`,
+          bar: null,
+        },
+        {
+          label: 'UTCI',
+          value: `${formatEnvValue(props?.utci_c, 1)} °C`,
+          bar: utciBar,
+        },
+      ],
+      footer: { label: band.label, color: legendColor, textColor },
+    })
+  }
+
+  if (activeMetric === 'shadow') {
+    const band = bandFromRange(shadowFrac, metricSummary, 'shadow')
+    return buildCellInfoPopupHtml({
+      title: `Cell #${id}`,
+      primaryLabel: 'Shadow Exposure:',
+      primaryValue: formatShadowPercent(props?.shadow_frac, 0),
+      badge: { label: band.shortLabel, color: legendColor, textColor },
+      metrics: [
+        {
+          label: 'Shadow',
+          value: formatShadowPercent(props?.shadow_frac, 0),
+          bar: shadowBar,
+          barColor: legendColor,
+        },
+        {
+          label: 'Tmrt',
+          value: `${formatEnvValue(props?.Tmrt, 1)} °C`,
+          bar: null,
+        },
+        {
+          label: 'UTCI',
+          value: `${formatEnvValue(props?.utci_c, 1)} °C`,
+          bar: utciBar,
+        },
+      ],
+      footer: { label: band.label, color: legendColor, textColor },
+    })
+  }
+
+  // UTCI (default) — stress class + comfort drivers
   return buildCellInfoPopupHtml({
     title: `Cell #${id}`,
-    primaryLabel: primary.label,
-    primaryValue: primary.value,
+    primaryLabel: 'UTCI:',
+    primaryValue: `${formatEnvValue(props?.utci_c, 1)} °C`,
     badge: {
-      label: showStress
-        ? stressMeta?.shortLabel ?? stressMeta?.label ?? 'UTCI'
-        : ENV_METRIC_RAMPS[activeMetric]?.label?.split('(')[0]?.trim() ?? 'Metric',
+      label: stressMeta?.shortLabel ?? stressMeta?.label ?? 'UTCI',
       color: legendColor,
       textColor,
     },
@@ -105,13 +241,7 @@ function buildCellPopup(props, activeMetric = 'utci', metricSummary = null) {
         label: 'UTCI',
         value: `${formatEnvValue(props?.utci_c, 1)} °C`,
         bar: utciBar,
-        barColor: activeMetric === 'utci' ? legendColor : undefined,
-      },
-      {
-        label: 'UHI Intensity',
-        value: `${formatEnvValue(props?.UHI_intens)} °C`,
-        bar: uhiBar,
-        barColor: activeMetric === 'uhi' ? legendColor : undefined,
+        barColor: legendColor,
       },
       {
         label: 'Air Temp',
@@ -124,16 +254,13 @@ function buildCellPopup(props, activeMetric = 'utci', metricSummary = null) {
         bar: null,
       },
       {
-        label: 'Shadow',
-        value: formatShadowPercent(props?.shadow_frac, 0),
-        bar: shadowBar,
-        barColor: activeMetric === 'shadow' ? legendColor : SHADOW_COLOR,
+        label: 'Wind',
+        value: formatEnvValue(wind, 1),
+        bar: null,
       },
     ],
     footer: {
-      label: showStress
-        ? stressMeta?.label ?? 'UTCI'
-        : ENV_METRIC_RAMPS[activeMetric]?.label ?? primary.label.replace(':', ''),
+      label: stressMeta?.label ?? 'UTCI',
       color: legendColor,
       textColor,
     },
@@ -163,6 +290,14 @@ function FlyToCell({ cellId, grid, activeMetric, metricSummary }) {
     }
   }, [cellId, grid, activeMetric, metricSummary, map])
 
+  return null
+}
+
+function ClosePopupWhenNoMetric({ activeMetric }) {
+  const map = useMap()
+  useEffect(() => {
+    if (!activeMetric) map.closePopup()
+  }, [activeMetric, map])
   return null
 }
 
@@ -308,6 +443,10 @@ export default function EnvironmentalMap({
   useEffect(() => {
     if (!selectableOn) setSelectedCellId(null)
   }, [selectableOn])
+
+  useEffect(() => {
+    if (!activeMetric) setSelectedCellId(null)
+  }, [activeMetric])
 
   const selectedFeature = useMemo(() => {
     if (!selectableOn || selectedCellId == null) return null
@@ -482,6 +621,7 @@ export default function EnvironmentalMap({
           activeMetric={activeMetric}
           metricSummary={metricSummary}
         />
+        <ClosePopupWhenNoMetric activeMetric={activeMetric} />
       </MapContainer>
 
       <EnvironmentalMapLayerFab

@@ -30,6 +30,10 @@ export default function EnvironmentalAnalysisView() {
           if (m !== id) next[m] = false
         }
       }
+      const hasMetric = ENV_METRIC_IDS.some((m) => next[m])
+      if (!hasMetric || !hasEnvSelectableLayer(next)) {
+        setFocusedCellId(null)
+      }
       return next
     })
   }
