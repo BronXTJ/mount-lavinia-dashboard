@@ -9,7 +9,7 @@ export const APP_BASEMAPS = [
   },
   {
     id: 'satellite',
-    label: 'Satellite (current)',
+    label: 'Satellite',
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
     attribution:
       'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',

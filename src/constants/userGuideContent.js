@@ -26,7 +26,7 @@ export const USER_GUIDE_SECTIONS = [
       'Click a GN division on the map (or related cards) to select it.',
       'Charts and demographic panels update to match the selected GN.',
       'Use the map layer button (FAB) to show or hide boundaries, land use, roads, and other context layers.',
-      'In the FAB Basemap row, switch Streets (default) or Satellite (current) to see present-day ground photos.',
+      'In the FAB Basemap row, switch Streets (default) or Satellite to see present-day ground photos.',
       'Clear or change the selection to compare another division.',
     ],
   },
@@ -37,7 +37,7 @@ export const USER_GUIDE_SECTIONS = [
     bullets: [
       'Open Centrality, Density, or Urban Maturation from under Focus Area in the sidebar.',
       'Use the floating layer button (FAB) on the map to toggle analysis and context layers on or off.',
-      'Use the FAB Basemap chips to switch Streets (default) or Satellite (current).',
+      'Use the FAB Basemap chips to switch Streets (default) or Satellite.',
       'Click a hex cell (or street segment on Centrality) to inspect its values in the side panel.',
       'Where you see Minimum / Highest Cell ID cards, click them to fly the map to those hex cells.',
       'Teal “i” icons explain metrics in more detail when you need them.',
@@ -93,7 +93,7 @@ export const USER_GUIDE_SECTIONS = [
     title: 'Land Cover Change',
     icon: 'Trees',
     bullets: [
-      'Use the map FAB to switch Landsat 30 m classified epochs (~2000 / ~2015 / ~2025) or change theme, pick Satellite (current) or Streets basemap, and toggle OSM buildings / roads / GN boundaries.',
+      'Use the map FAB to switch Landsat 30 m classified epochs (~2000 / ~2015 / ~2025) or change theme, pick Satellite or Streets basemap, and toggle OSM buildings / roads / GN boundaries.',
       'Click a GN on the map or in the left list to load its detail panel.',
       'Left KPIs and the stacked chart show Landsat 30 m change across all five GNs (2000→2025).',
       'Per-GN cards use Sentinel-2 10 m (2018–2025): Built-up, Green, and Soft surface. Green is inside Soft — do not add them. Mount Lavinia also includes a Landsat 30 m deep dive (2000→2025). Do not mix Landsat % with Sentinel-2 %.',
@@ -105,7 +105,7 @@ export const USER_GUIDE_SECTIONS = [
     icon: 'Thermometer',
     bullets: [
       'Open the FAB to toggle the 800 m analysis boundary, thermal metrics, and SVF points.',
-      'Use the FAB Basemap chips for Streets (default) or Satellite (current) under the thermal grid.',
+      'Use the FAB Basemap chips for Streets (default) or Satellite under the thermal grid.',
       'Turn on one main metric at a time (UTCI, UHI, air temperature, Tmrt, or shadow) to keep the map readable.',
       'Click a grid cell to see its values; gauges and charts summarise the wider study area.',
       'Use teal “i” help on gauges and charts when you need to interpret a panel.',
