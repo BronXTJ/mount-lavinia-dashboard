@@ -23,6 +23,7 @@ import { formatHexCompletenessNote, isPartialHex } from '../../utils/hexCellGrad
 import {
   CELL_POPUP_OPTS,
   buildCellInfoPopupHtml,
+  contrastTextForBg,
   getFeatureCenter,
   getFeaturePopupAnchor,
 } from '../../utils/cellPopup.js'
@@ -79,7 +80,14 @@ function clamp01(v) {
   return Math.max(0, Math.min(1, v))
 }
 
-function buildHexPopup(props, medianFsi, medianGsi, medianOsr, activeMetric = null) {
+function buildHexPopup(
+  props,
+  medianFsi,
+  medianGsi,
+  medianOsr,
+  activeMetric = null,
+  metricClasses = null,
+) {
   const typology = classifyTypology(
     Number(props?.FSI),
     Number(props?.GSI),
@@ -97,14 +105,20 @@ function buildHexPopup(props, medianFsi, medianGsi, medianOsr, activeMetric = nu
   const completeness = formatHexCompletenessNote({ properties: props })
 
   const primaryByMetric = {
-    fsi: { label: 'Floor Space Index:', value: formatDensityValue(props?.FSI) },
-    gsi: { label: 'Ground Space Index:', value: formatDensityValue(props?.GSI) },
-    osr: { label: 'Open Space Ratio:', value: formatDensityValue(props?.OSR) },
-    density: { label: 'Density Value:', value: formatDensityValue(props?.Density_V) },
+    fsi: { label: 'Floor Space Index:', value: formatDensityValue(props?.FSI), valueNum: Number(props?.FSI) },
+    gsi: { label: 'Ground Space Index:', value: formatDensityValue(props?.GSI), valueNum: Number(props?.GSI) },
+    osr: { label: 'Open Space Ratio:', value: formatDensityValue(props?.OSR), valueNum: Number(props?.OSR) },
+    density: {
+      label: 'Density Value:',
+      value: formatDensityValue(props?.Density_V),
+      valueNum: density,
+    },
   }
   const primary = primaryByMetric[activeMetric] ?? primaryByMetric.density
+  const legendColor = colorForDensityMetric(primary.valueNum, metricClasses)
+  const textColor = contrastTextForBg(legendColor)
 
-  // Match Maturation: classification badge/footer only on the composite (Density) layer.
+  // Typology labels on Density composite; other metrics use legend-matched chrome only.
   const showTypology = activeMetric === 'density' || activeMetric == null
 
   return buildCellInfoPopupHtml({
@@ -114,10 +128,14 @@ function buildHexPopup(props, medianFsi, medianGsi, medianOsr, activeMetric = nu
     badge: showTypology
       ? {
           label: typology.shortLabel ?? typology.label,
-          color: typology.color,
-          textColor: '#ffffff',
+          color: legendColor,
+          textColor,
         }
-      : null,
+      : {
+          label: DENSITY_METRIC_RAMPS[activeMetric]?.label ?? 'Metric',
+          color: legendColor,
+          textColor,
+        },
     metrics: [
       { label: 'FSI', value: formatDensityValue(props?.FSI), bar: fsiNorm },
       { label: 'GSI', value: formatDensityValue(props?.GSI), bar: gsiNorm },
@@ -130,12 +148,13 @@ function buildHexPopup(props, medianFsi, medianGsi, medianOsr, activeMetric = nu
         label: 'Density_V',
         value: formatDensityValue(density),
         bar: densityBar,
+        barColor: activeMetric === 'density' ? legendColor : undefined,
       },
       { label: 'Completeness', value: completeness, bar: null },
     ],
     footer: showTypology
-      ? { label: typology.label, color: typology.color, textColor: '#ffffff' }
-      : null,
+      ? { label: typology.label, color: legendColor, textColor }
+      : { label: primary.label.replace(':', ''), color: legendColor, textColor },
   })
 }
 
@@ -156,7 +175,7 @@ function formatHexCellLabel(props) {
 }
 
 /** Fly to a hex focused from a Min/Highest Cell ID card and open its popup. */
-function FlyToHex({ hexId, hex, medianFsi, medianGsi, medianOsr, activeMetric }) {
+function FlyToHex({ hexId, hex, medianFsi, medianGsi, medianOsr, activeMetric, metricClasses }) {
   const map = useMap()
 
   useEffect(() => {
@@ -172,14 +191,21 @@ function FlyToHex({ hexId, hex, medianFsi, medianGsi, medianOsr, activeMetric })
     const popup = L.popup(CELL_POPUP_OPTS)
       .setLatLng(anchor)
       .setContent(
-        buildHexPopup(feature.properties, medianFsi, medianGsi, medianOsr, activeMetric),
+        buildHexPopup(
+          feature.properties,
+          medianFsi,
+          medianGsi,
+          medianOsr,
+          activeMetric,
+          metricClasses,
+        ),
       )
     popup.openOn(map)
 
     return () => {
       map.closePopup(popup)
     }
-  }, [hexId, hex, medianFsi, medianGsi, medianOsr, activeMetric, map])
+  }, [hexId, hex, medianFsi, medianGsi, medianOsr, activeMetric, metricClasses, map])
 
   return null
 }
@@ -314,6 +340,7 @@ export default function DensityMap({
             stats?.medianGsi,
             stats?.medianOsr,
             activeMetric,
+            metricClasses,
           ),
         )
         if (anchor && layer._map) {
@@ -323,7 +350,7 @@ export default function DensityMap({
         }
       })
     },
-    [stats?.medianFsi, stats?.medianGsi, stats?.medianOsr, activeMetric],
+    [stats?.medianFsi, stats?.medianGsi, stats?.medianOsr, activeMetric, metricClasses],
   )
 
   const onEachHexGrid = useMemo(() => {
@@ -434,6 +461,7 @@ export default function DensityMap({
             medianGsi={stats?.medianGsi}
             medianOsr={stats?.medianOsr}
             activeMetric={activeMetric}
+            metricClasses={metricClasses}
           />
         )}
 

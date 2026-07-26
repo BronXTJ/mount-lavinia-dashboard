@@ -43,6 +43,24 @@ function escapeHtml(text) {
     .replace(/"/g, '&quot;')
 }
 
+/** Readable text on a hex/rgb background (for badge/footer fills matching the legend). */
+export function contrastTextForBg(hexColor) {
+  const raw = String(hexColor ?? '').replace('#', '').trim()
+  if (raw.length !== 3 && raw.length !== 6) return '#ffffff'
+  const full =
+    raw.length === 3
+      ? raw
+          .split('')
+          .map((c) => c + c)
+          .join('')
+      : raw
+  const r = parseInt(full.slice(0, 2), 16) / 255
+  const g = parseInt(full.slice(2, 4), 16) / 255
+  const b = parseInt(full.slice(4, 6), 16) / 255
+  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+  return luminance > 0.55 ? '#0f172a' : '#ffffff'
+}
+
 /**
  * Maturation-style cell info card HTML.
  *

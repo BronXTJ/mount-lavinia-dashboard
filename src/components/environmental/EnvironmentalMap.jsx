@@ -21,6 +21,7 @@ import { colorForEnvMetric, formatEnvValue, formatShadowPercent } from '../../ut
 import {
   CELL_POPUP_OPTS,
   buildCellInfoPopupHtml,
+  contrastTextForBg,
   getFeatureCenter,
   getFeaturePopupAnchor,
 } from '../../utils/cellPopup.js'
@@ -33,7 +34,7 @@ const bufferStyle = {
   fill: false,
 }
 
-function buildCellPopup(props, activeMetric = 'utci') {
+function buildCellPopup(props, activeMetric = 'utci', metricSummary = null) {
   const id = props?.id != null ? Math.round(Number(props.id)) : '—'
   const stressClass = props?.utci_class != null ? Number(props.utci_class) : null
   const stressMeta =
@@ -52,36 +53,65 @@ function buildCellPopup(props, activeMetric = 'utci') {
   const shadowBar = Number.isFinite(shadowFrac) ? Math.max(0, Math.min(1, shadowFrac)) : null
 
   const primaryByMetric = {
-    utci: { label: 'UTCI:', value: `${formatEnvValue(props?.utci_c, 1)} °C` },
-    uhi: { label: 'UHI Intensity:', value: `${formatEnvValue(props?.UHI_intens)} °C` },
-    airTemp: { label: 'Air Temperature:', value: `${formatEnvValue(props?.Air_Temp, 1)} °C` },
-    tmrt: { label: 'Mean Radiant Temp:', value: `${formatEnvValue(props?.Tmrt, 1)} °C` },
-    shadow: { label: 'Shadow Exposure:', value: formatShadowPercent(props?.shadow_frac, 0) },
+    utci: {
+      label: 'UTCI:',
+      value: `${formatEnvValue(props?.utci_c, 1)} °C`,
+      valueNum: utci,
+    },
+    uhi: {
+      label: 'UHI Intensity:',
+      value: `${formatEnvValue(props?.UHI_intens)} °C`,
+      valueNum: uhi,
+    },
+    airTemp: {
+      label: 'Air Temperature:',
+      value: `${formatEnvValue(props?.Air_Temp, 1)} °C`,
+      valueNum: Number(props?.Air_Temp),
+    },
+    tmrt: {
+      label: 'Mean Radiant Temp:',
+      value: `${formatEnvValue(props?.Tmrt, 1)} °C`,
+      valueNum: Number(props?.Tmrt),
+    },
+    shadow: {
+      label: 'Shadow Exposure:',
+      value: formatShadowPercent(props?.shadow_frac, 0),
+      valueNum: shadowFrac,
+    },
   }
   const primary = primaryByMetric[activeMetric] ?? primaryByMetric.utci
+  const legendColor = colorForEnvMetric(
+    primary.valueNum,
+    metricSummary?.min,
+    metricSummary?.max,
+    activeMetric,
+  )
+  const textColor = contrastTextForBg(legendColor)
   const showStress = activeMetric === 'utci'
 
   return buildCellInfoPopupHtml({
     title: `Cell #${id}`,
     primaryLabel: primary.label,
     primaryValue: primary.value,
-    badge: showStress && stressMeta
-      ? {
-          label: stressMeta.shortLabel ?? stressMeta.label,
-          color: stressMeta.color,
-          textColor: '#ffffff',
-        }
-      : null,
+    badge: {
+      label: showStress
+        ? stressMeta?.shortLabel ?? stressMeta?.label ?? 'UTCI'
+        : ENV_METRIC_RAMPS[activeMetric]?.label?.split('(')[0]?.trim() ?? 'Metric',
+      color: legendColor,
+      textColor,
+    },
     metrics: [
       {
         label: 'UTCI',
         value: `${formatEnvValue(props?.utci_c, 1)} °C`,
         bar: utciBar,
+        barColor: activeMetric === 'utci' ? legendColor : undefined,
       },
       {
         label: 'UHI Intensity',
         value: `${formatEnvValue(props?.UHI_intens)} °C`,
         bar: uhiBar,
+        barColor: activeMetric === 'uhi' ? legendColor : undefined,
       },
       {
         label: 'Air Temp',
@@ -97,16 +127,20 @@ function buildCellPopup(props, activeMetric = 'utci') {
         label: 'Shadow',
         value: formatShadowPercent(props?.shadow_frac, 0),
         bar: shadowBar,
-        barColor: SHADOW_COLOR,
+        barColor: activeMetric === 'shadow' ? legendColor : SHADOW_COLOR,
       },
     ],
-    footer: showStress && stressMeta
-      ? { label: stressMeta.label, color: stressMeta.color, textColor: '#ffffff' }
-      : null,
+    footer: {
+      label: showStress
+        ? stressMeta?.label ?? 'UTCI'
+        : ENV_METRIC_RAMPS[activeMetric]?.label ?? primary.label.replace(':', ''),
+      color: legendColor,
+      textColor,
+    },
   })
 }
 
-function FlyToCell({ cellId, grid, activeMetric }) {
+function FlyToCell({ cellId, grid, activeMetric, metricSummary }) {
   const map = useMap()
 
   useEffect(() => {
@@ -121,13 +155,13 @@ function FlyToCell({ cellId, grid, activeMetric }) {
     map.flyTo(center, 19, { animate: true, duration: 0.8 })
     const popup = L.popup(CELL_POPUP_OPTS)
       .setLatLng(anchor)
-      .setContent(buildCellPopup(feature.properties, activeMetric))
+      .setContent(buildCellPopup(feature.properties, activeMetric, metricSummary))
     popup.openOn(map)
 
     return () => {
       map.closePopup(popup)
     }
-  }, [cellId, grid, activeMetric, map])
+  }, [cellId, grid, activeMetric, metricSummary, map])
 
   return null
 }
@@ -319,7 +353,7 @@ export default function EnvironmentalMap({
         setSelectedCellId(id)
         const anchor = getFeaturePopupAnchor(feature)
         const popup = L.popup(CELL_POPUP_OPTS).setContent(
-          buildCellPopup(feature.properties, activeMetric),
+          buildCellPopup(feature.properties, activeMetric, metricSummary),
         )
         if (anchor && layer._map) {
           popup.setLatLng(anchor).openOn(layer._map)
@@ -328,7 +362,7 @@ export default function EnvironmentalMap({
         }
       })
     },
-    [activeMetric],
+    [activeMetric, metricSummary],
   )
 
   const highlightRenderer = useMemo(() => L.svg(), [])
@@ -442,7 +476,12 @@ export default function EnvironmentalMap({
           </>
         )}
 
-        <FlyToCell cellId={focusedCellId} grid={grid} activeMetric={activeMetric} />
+        <FlyToCell
+          cellId={focusedCellId}
+          grid={grid}
+          activeMetric={activeMetric}
+          metricSummary={metricSummary}
+        />
       </MapContainer>
 
       <EnvironmentalMapLayerFab
