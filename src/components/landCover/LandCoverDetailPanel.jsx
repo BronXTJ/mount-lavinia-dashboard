@@ -346,12 +346,14 @@ export default function LandCoverDetailPanel({ selectedGn, epochId }) {
           ) : (
             <FocusAreaPanelCard>
               <h3 className="mb-3 text-sm font-semibold text-surface-100">Reading tip</h3>
-              <p className="text-xs leading-relaxed text-surface-300">
-                Use the map epoch and change layers for the Landsat 30 m long-term story (~2000 /
-                ~2015 / ~2025) across all five GNs. These Sentinel-2 10 m cards and bars give finer
-                2018–2025 built / green / soft texture for {selectedGn}. Green is inside Soft — do
-                not add Green + Soft.
-              </p>
+              <DesignBullets
+                items={[
+                  `Use the map epoch and change layers for the Landsat 30 m long-term story (~2000 / ~2015 / ~2025) across all five GNs.`,
+                  `These Sentinel-2 10 m cards and bars give finer 2018–2025 built / green / soft texture for ${selectedGn}.`,
+                  'Green is inside Soft — do not add Green + Soft.',
+                  'Soft = all non-built cover. Built-up + Soft ≈ 100% of this GN.',
+                ]}
+              />
             </FocusAreaPanelCard>
           )}
         </>
