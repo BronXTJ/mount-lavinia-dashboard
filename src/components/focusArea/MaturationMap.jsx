@@ -79,62 +79,129 @@ const highlightFillStyle = () => ({
 
 const POPUP_OPTS = CELL_POPUP_OPTS
 
+/** High / medium / low bands for 0–1 component scores (same cut-points as UMI tiers). */
+function classifyComponentBand(value, kind) {
+  const v = Number(value)
+  const level = !Number.isFinite(v) ? 'low' : v > 0.35 ? 'high' : v >= 0.15 ? 'medium' : 'low'
+  const tier = MATURATION_TIERS_BY_LEVEL[level]
+  const labels = COMPONENT_BAND_LABELS[kind]?.[level] ?? {
+    shortLabel: tier.shortLabel,
+    label: tier.label,
+  }
+  const textColor = level === 'high' ? '#ffffff' : '#0f172a'
+  return {
+    shortLabel: labels.shortLabel,
+    label: labels.label,
+    color: tier.color,
+    textColor,
+  }
+}
+
+const MATURATION_TIERS_BY_LEVEL = {
+  high: { shortLabel: 'High', label: 'High', color: '#b45309' },
+  medium: { shortLabel: 'Medium', label: 'Medium', color: '#fbbf24' },
+  low: { shortLabel: 'Low', label: 'Low', color: '#94a3b8' },
+}
+
+const COMPONENT_BAND_LABELS = {
+  mix: {
+    high: { shortLabel: 'High Mix', label: 'High Land-Use Mix' },
+    medium: { shortLabel: 'Moderate Mix', label: 'Moderate Land-Use Mix' },
+    low: { shortLabel: 'Low Mix', label: 'Low Land-Use Mix' },
+  },
+  access: {
+    high: { shortLabel: 'High Access', label: 'High Accessibility' },
+    medium: { shortLabel: 'Moderate Access', label: 'Moderate Accessibility' },
+    low: { shortLabel: 'Low Access', label: 'Low Accessibility' },
+  },
+  diversity: {
+    high: { shortLabel: 'High Diversity', label: 'High Land-Use Diversity' },
+    medium: { shortLabel: 'Moderate Diversity', label: 'Moderate Land-Use Diversity' },
+    low: { shortLabel: 'Low Diversity', label: 'Low Land-Use Diversity' },
+  },
+}
+
 function buildMaturationPopup(props, activeMetric = 'umi') {
   const umi = Number(props?.[MATURATION_PROPS.umi] ?? props?.umi)
   const tier = classifyMaturationTier(umi)
   const entropy = Number(props?.[MATURATION_PROPS.entropyNorm] ?? props?.entropy_norm)
+  const entropyRaw = Number(props?.[MATURATION_PROPS.entropyRaw] ?? props?.entropy_raw)
   const access = Number(props?.[MATURATION_PROPS.accessibilityNorm] ?? props?.accessibility)
   const landUse = Number(props?.[MATURATION_PROPS.landUseNorm] ?? props?.landuse_div)
+  const mixedUse = Number(props?.[MATURATION_PROPS.mixedUse] ?? props?.[' final_mui'])
   const id = props?.id != null ? Math.round(Number(props.id)) : '—'
-  const badgeTextColor = tier.id === 'low' ? '#0f172a' : '#ffffff'
   const completeness = formatHexCompletenessNote({ properties: props })
+  const umiBadgeText = tier.id === 'low' ? '#0f172a' : '#ffffff'
 
-  const primaryByMetric = {
-    umi: { label: 'Urban Maturation Score:', value: formatMaturationValue(umi) },
-    entropy: { label: 'Shannon Entropy:', value: formatMaturationValue(entropy) },
-    accessibility: { label: 'Accessibility:', value: formatMaturationValue(access) },
-    landUseDiversity: { label: 'Land Use Diversity:', value: formatMaturationValue(landUse) },
+  if (activeMetric === 'entropy') {
+    const band = classifyComponentBand(entropy, 'mix')
+    return buildCellInfoPopupHtml({
+      title: `Hex Cell #${id}`,
+      primaryLabel: 'Shannon Entropy:',
+      primaryValue: formatMaturationValue(entropy),
+      badge: { label: band.shortLabel, color: band.color, textColor: band.textColor },
+      metrics: [
+        { label: 'Entropy (norm)', value: formatMaturationValue(entropy), bar: entropy },
+        { label: 'Entropy (raw)', value: formatMaturationValue(entropyRaw), bar: null },
+        {
+          label: 'Mixed-use',
+          value: formatMaturationValue(mixedUse),
+          bar: Number.isFinite(mixedUse) ? mixedUse : null,
+        },
+        { label: 'Completeness', value: completeness, bar: null },
+      ],
+      footer: { label: band.label, color: band.color, textColor: band.textColor },
+    })
   }
-  const primary = primaryByMetric[activeMetric] ?? primaryByMetric.umi
 
-  // Same card chrome on every metric layer (UMI tier = classification, like Density typology).
-  const metricsByMetric = {
-    umi: [
-      { label: 'Shannon Entropy', value: formatMaturationValue(entropy), bar: entropy },
-      { label: 'Accessibility', value: formatMaturationValue(access), bar: access },
-      { label: 'Land Use Diversity', value: formatMaturationValue(landUse), bar: landUse },
-    ],
-    entropy: [
-      { label: 'Shannon Entropy', value: formatMaturationValue(entropy), bar: entropy },
-      { label: 'Accessibility', value: formatMaturationValue(access), bar: access },
-      { label: 'Land Use Diversity', value: formatMaturationValue(landUse), bar: landUse },
-      { label: 'UMI', value: formatMaturationValue(umi), bar: umi },
-    ],
-    accessibility: [
-      { label: 'Accessibility', value: formatMaturationValue(access), bar: access },
-      { label: 'Shannon Entropy', value: formatMaturationValue(entropy), bar: entropy },
-      { label: 'Land Use Diversity', value: formatMaturationValue(landUse), bar: landUse },
-      { label: 'UMI', value: formatMaturationValue(umi), bar: umi },
-    ],
-    landUseDiversity: [
-      { label: 'Land Use Diversity', value: formatMaturationValue(landUse), bar: landUse },
-      { label: 'Shannon Entropy', value: formatMaturationValue(entropy), bar: entropy },
-      { label: 'Accessibility', value: formatMaturationValue(access), bar: access },
-      { label: 'UMI', value: formatMaturationValue(umi), bar: umi },
-    ],
+  if (activeMetric === 'accessibility') {
+    const band = classifyComponentBand(access, 'access')
+    return buildCellInfoPopupHtml({
+      title: `Hex Cell #${id}`,
+      primaryLabel: 'Accessibility:',
+      primaryValue: formatMaturationValue(access),
+      badge: { label: band.shortLabel, color: band.color, textColor: band.textColor },
+      metrics: [
+        { label: 'Accessibility', value: formatMaturationValue(access), bar: access },
+        { label: 'Completeness', value: completeness, bar: null },
+      ],
+      footer: { label: band.label, color: band.color, textColor: band.textColor },
+    })
   }
-  const metrics = [
-    ...(metricsByMetric[activeMetric] ?? metricsByMetric.umi),
-    { label: 'Completeness', value: completeness, bar: null },
-  ]
 
+  if (activeMetric === 'landUseDiversity') {
+    const band = classifyComponentBand(landUse, 'diversity')
+    return buildCellInfoPopupHtml({
+      title: `Hex Cell #${id}`,
+      primaryLabel: 'Land Use Diversity:',
+      primaryValue: formatMaturationValue(landUse),
+      badge: { label: band.shortLabel, color: band.color, textColor: band.textColor },
+      metrics: [
+        { label: 'Diversity (norm)', value: formatMaturationValue(landUse), bar: landUse },
+        {
+          label: 'Mixed-use',
+          value: formatMaturationValue(mixedUse),
+          bar: Number.isFinite(mixedUse) ? mixedUse : null,
+        },
+        { label: 'Completeness', value: completeness, bar: null },
+      ],
+      footer: { label: band.label, color: band.color, textColor: band.textColor },
+    })
+  }
+
+  // UMI (default) — maturation tier + component breakdown
   return buildCellInfoPopupHtml({
     title: `Hex Cell #${id}`,
-    primaryLabel: primary.label,
-    primaryValue: primary.value,
-    badge: { label: tier.shortLabel, color: tier.color, textColor: badgeTextColor },
-    metrics,
-    footer: { label: tier.label, color: tier.color, textColor: badgeTextColor },
+    primaryLabel: 'Urban Maturation Score:',
+    primaryValue: formatMaturationValue(umi),
+    badge: { label: tier.shortLabel, color: tier.color, textColor: umiBadgeText },
+    metrics: [
+      { label: 'Shannon Entropy', value: formatMaturationValue(entropy), bar: entropy },
+      { label: 'Accessibility', value: formatMaturationValue(access), bar: access },
+      { label: 'Land Use Diversity', value: formatMaturationValue(landUse), bar: landUse },
+      { label: 'Completeness', value: completeness, bar: null },
+    ],
+    footer: { label: tier.label, color: tier.color, textColor: umiBadgeText },
   })
 }
 
