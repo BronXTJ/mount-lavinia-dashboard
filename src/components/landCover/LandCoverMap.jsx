@@ -16,17 +16,17 @@ import { densityGeoUrl } from '../../constants/density.js'
 import LandCoverLegend from './LandCoverLegend.jsx'
 import LandCoverMapLayerFab from './LandCoverMapLayerFab.jsx'
 
-/** Amber highlight — readable over Landsat green/red classes. */
+/** Pale purple highlight — unique vs Landsat red/green/orange/blue and cyan GN lines. */
 const GN_SELECTED = {
-  color: '#fbbf24',
-  fillColor: '#fbbf24',
+  color: '#c4b5fd',
+  fillColor: '#a78bfa',
   fillOpacity: 0.22,
   weight: 4,
   opacity: 1,
 }
 
 const gnHighlightGlowStyle = () => ({
-  color: '#fbbf24',
+  color: '#a78bfa',
   weight: 10,
   opacity: 0.55,
   fill: false,
@@ -35,10 +35,10 @@ const gnHighlightGlowStyle = () => ({
 })
 
 const gnHighlightEdgeStyle = () => ({
-  color: '#fffbeb',
+  color: '#ede9fe',
   weight: 3,
   opacity: 1,
-  fillColor: '#fbbf24',
+  fillColor: '#c4b5fd',
   fillOpacity: 0.18,
   interactive: false,
 })
