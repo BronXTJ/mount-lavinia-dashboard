@@ -1,0 +1,252 @@
+{
+  "phase": 8,
+  "package": "destination-based walk accessibility",
+  "package_root": "E:/mount-lavinia-dashboard/destination-based walk accessibility",
+  "dashboard_publish": {
+    "public_dir": "public/data/walk-accessibility",
+    "route": "/focus-area?sub=walk-access",
+    "focus_sub_id": "walk-access",
+    "id_alias": "properties.id = properties.hex_id"
+  },
+  "phase7_open_space_cleanup": {
+    "methods": "00_manifest/METHODS_PHASE7.md",
+    "runner": "scripts/13_phase7_clean_and_recompute.py",
+    "fix": "GMaps open_space no longer matches parking via substring 'park'",
+    "open_space_definition": "OSM leisure=park|playground; GMaps word-safe park/playground only",
+    "primary_snap_tolerance_m": 50,
+    "note": "Package-root 50 m chain recomputed from clean graph after POI rebuild; snap_50m archive refreshed. 100 m not re-run in Phase 7."
+  },
+  "phase8_snap_sensitivity_refresh": {
+    "methods": "00_manifest/METHODS_PHASE8.md",
+    "runner": "scripts/10_run_snap_scenario.py --snap-m 100",
+    "compare": "scripts/11_compare_snap_scenarios.py",
+    "note": "Refreshed snap_100m + compare against Phase 7 cleaned POIs and snap_50m archive. Dashboard remains on 50 m; package-root network/origins not mutated."
+  },
+  "snap_sensitivity": {
+    "primary_snap_tolerance_m": 50,
+    "sensitivity_snap_tolerance_m": 100,
+    "dashboard_uses": 50,
+    "scenarios_dir": "scenarios/",
+    "runner": "scripts/10_run_snap_scenario.py",
+    "compare": "scripts/11_compare_snap_scenarios.py",
+    "methods": "00_manifest/METHODS_SNAP_SENSITIVITY.md",
+    "note": "100 m scenario is analysis-only; do not overwrite package-root 03_network/04_origins. Phase 8 refreshed after open_space cleanup."
+  },
+  "geometry_crs_stored": {
+    "name": "CRS84",
+    "urn": "urn:ogc:def:crs:OGC:1.3:CRS84",
+    "note": "All locked GeoJSON geometries are lon/lat (WGS84)."
+  },
+  "analysis_crs": {
+    "epsg": 3857,
+    "name": "Web Mercator",
+    "note": "Used for AOI buffer, network lengths, and snap distances."
+  },
+  "aoi": {
+    "buffer_m": 500,
+    "dedupe_m": 30,
+    "snap_tolerance_m": 50,
+    "edge_densify_m": 25,
+    "walk_speed_kmh": 4.8,
+    "area_ratio_analysis_threshold": 0.90,
+    "analysis_definition": "area_ratio>=0.90 AND snap_ok=true",
+    "thresholds_m": {"5": 400, "10": 800, "15": 1200},
+    "dest_groups": ["food", "education", "health", "transit", "finance", "open_space"]
+  },
+  "layers": [
+    {
+      "id": "primary_boundary",
+      "destination": "01_boundary/primary_study_area_boundary.geojson",
+      "source": "E:/mount-lavinia-dashboard/json_files/Primary study area final analysis 01/01_boundary/primary_study_area_boundary.geojson",
+      "role": "Primary study area extent (unbuffered)"
+    },
+    {
+      "id": "access_aoi_500m",
+      "destination": "01_boundary/access_aoi_500m.geojson",
+      "source": "derived: primary_boundary + 500 m buffer (EPSG:3857)",
+      "role": "Clip extent for accessibility destinations and roads"
+    },
+    {
+      "id": "osm_pois_raw",
+      "destination": "02_pois/raw/osm_pois_raw.geojson",
+      "source": "Overpass API (overpass-api.de)",
+      "role": "Fresh OSM destination POIs"
+    },
+    {
+      "id": "gmaps_places_raw",
+      "destination": "02_pois/raw/gmaps_places_raw.geojson",
+      "source": "E:/mount-lavinia-dashboard/Social_media_analysis/cleaned/google_maps/places_gn5.csv",
+      "role": "Google Maps places mapped to dest groups"
+    },
+    {
+      "id": "pois_access_primary",
+      "destination": "02_pois/pois_access_primary.geojson",
+      "source": "OSM + GMaps merge, 30 m within-group dedupe",
+      "required_fields": ["poi_id", "name", "dest_group", "source", "in_primary"],
+      "role": "Locked Phase 1 accessibility POI inventory"
+    },
+    {
+      "id": "pois_access_summary",
+      "destination": "02_pois/pois_access_summary.json",
+      "role": "Counts by dest_group / source and QC flags"
+    },
+    {
+      "id": "roads_osm_raw",
+      "destination": "03_network/raw/roads_osm_raw.geojson",
+      "source": "Overpass API walkable highways",
+      "role": "Raw OSM walkable ways in AOI bbox"
+    },
+    {
+      "id": "roads_walk_aoi",
+      "destination": "03_network/roads_walk_aoi.geojson",
+      "source": "roads_osm_raw clipped to access_aoi_500m",
+      "role": "Walkable road geometries for network build"
+    },
+    {
+      "id": "network_nodes",
+      "destination": "03_network/network_nodes.geojson",
+      "role": "Walk network nodes (includes snap insertion nodes)"
+    },
+    {
+      "id": "network_edges",
+      "destination": "03_network/network_edges.geojson",
+      "required_fields": ["u", "v", "length_m"],
+      "role": "Walk network edges with length_m"
+    },
+    {
+      "id": "network_graph",
+      "destination": "03_network/network_graph.graphml",
+      "role": "networkx undirected GraphML for routing"
+    },
+    {
+      "id": "network_summary",
+      "destination": "03_network/network_summary.json",
+      "role": "Network QC summary"
+    },
+    {
+      "id": "hex_origins_primary",
+      "destination": "04_origins/hex_origins_primary.geojson",
+      "source": "hex_grid_primary_100m centroids + edge snap",
+      "required_fields": ["hex_id", "is_edge", "node_id", "snap_dist_m", "snap_ok"],
+      "role": "Hex walk origins snapped to network"
+    },
+    {
+      "id": "pois_snapped",
+      "destination": "04_origins/pois_snapped.geojson",
+      "required_fields": ["poi_id", "dest_group", "node_id", "snap_dist_m", "snap_ok"],
+      "role": "Phase-1 POIs snapped to network"
+    },
+    {
+      "id": "origins_snap_summary",
+      "destination": "04_origins/origins_snap_summary.json",
+      "role": "Snap success rates and QC"
+    },
+    {
+      "id": "access_hex_primary",
+      "destination": "05_accessibility/access_hex_primary.geojson",
+      "source": "multi-source Dijkstra per dest_group on network_graph.graphml",
+      "required_fields": [
+        "hex_id",
+        "is_edge",
+        "snap_ok",
+        "access_score",
+        "groups_within_10",
+        "dist_food_m",
+        "reach_food_10"
+      ],
+      "role": "Hex polygons with walk accessibility metrics"
+    },
+    {
+      "id": "access_primary_summary",
+      "destination": "05_accessibility/access_primary_summary.json",
+      "role": "Coverage, mean access_score, desert counts among non-edge snap_ok hexes"
+    },
+    {
+      "id": "access_hex_classified",
+      "destination": "05_accessibility/access_hex_classified.geojson",
+      "required_fields": ["hex_id", "access_tier", "mean_BtA5000", "mismatch_flag"],
+      "role": "Access tiers + betweenness mismatch flags"
+    },
+    {
+      "id": "maps_summary",
+      "destination": "06_maps/maps_summary.json",
+      "role": "Tier counts, mismatch count, map file index"
+    },
+    {
+      "id": "map01_access_score",
+      "destination": "06_maps/map01_access_score.png",
+      "role": "Access score choropleth"
+    },
+    {
+      "id": "map02_access_tiers_deserts",
+      "destination": "06_maps/map02_access_tiers_deserts.png",
+      "role": "Access tier / desert map"
+    },
+    {
+      "id": "map03_time_by_group",
+      "destination": "06_maps/map03_time_by_group.png",
+      "role": "Walk time panels by destination group"
+    },
+    {
+      "id": "map04_coverage_10min",
+      "destination": "06_maps/map04_coverage_10min.png",
+      "role": "10-minute coverage bar chart"
+    },
+    {
+      "id": "map05_centrality_mismatch",
+      "destination": "06_maps/map05_centrality_mismatch.png",
+      "role": "High betweenness + weak destination access"
+    },
+    {
+      "id": "findings_md",
+      "destination": "07_findings/findings.md",
+      "role": "Synthesis-ready findings prose (WA1–WA3)"
+    },
+    {
+      "id": "findings_summary",
+      "destination": "07_findings/findings_summary.json",
+      "role": "KPIs, draft finding cards, priorities"
+    },
+    {
+      "id": "desert_hex_ids",
+      "destination": "07_findings/desert_hex_ids.json",
+      "role": "Low-tier desert hex_id list"
+    },
+    {
+      "id": "dashboard_access_hex_classified",
+      "destination": "../public/data/walk-accessibility/access_hex_classified.geojson",
+      "required_fields": ["hex_id", "id", "Hex_area", "access_score", "access_tier"],
+      "role": "Dashboard publish: classified hex with id=hex_id alias"
+    },
+    {
+      "id": "dashboard_pois_snapped",
+      "destination": "../public/data/walk-accessibility/pois_snapped.geojson",
+      "role": "Dashboard publish: access destination POIs"
+    },
+    {
+      "id": "dashboard_access_summary",
+      "destination": "../public/data/walk-accessibility/access_primary_summary.json",
+      "role": "Dashboard publish: primary summary KPIs"
+    },
+    {
+      "id": "dashboard_findings_summary",
+      "destination": "../public/data/walk-accessibility/findings_summary.json",
+      "role": "Dashboard publish: findings / desert / mismatch ids"
+    },
+    {
+      "id": "scenario_snap_50m",
+      "destination": "scenarios/snap_50m/",
+      "role": "Archived locked 50 m Phase 2–5 outputs"
+    },
+    {
+      "id": "scenario_snap_100m",
+      "destination": "scenarios/snap_100m/",
+      "role": "Isolated 100 m snap sensitivity run (analysis-only)"
+    },
+    {
+      "id": "scenario_compare",
+      "destination": "scenarios/compare/",
+      "role": "50 vs 100 m comparison table, hex diffs, difference map"
+    }
+  ]
+}

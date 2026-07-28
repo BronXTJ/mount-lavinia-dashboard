@@ -13,6 +13,7 @@ import {
   Thermometer,
   Trees,
   TrendingUp,
+  Footprints,
   X,
 } from 'lucide-react'
 import { USER_GUIDE_SECTIONS } from '../constants/userGuideContent.js'
@@ -26,6 +27,7 @@ const ICON_MAP = {
   Layers,
   Grid3x3,
   TrendingUp,
+  Footprints,
   Car,
   Trees,
   Thermometer,

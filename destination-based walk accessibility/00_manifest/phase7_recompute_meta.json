@@ -1,0 +1,19 @@
+{
+  "phase": 7,
+  "snap_tolerance_m": 50.0,
+  "open_space_count": 12,
+  "role": "package_root_primary_after_open_space_cleanup",
+  "hex_snap_ok": 389,
+  "poi_snap_ok": 247,
+  "mean_access_score": 0.8731,
+  "desert_count": 27,
+  "mismatch_count": 5,
+  "poi_sources_snapped": {
+    "food": 143,
+    "education": 18,
+    "health": 12,
+    "transit": 23,
+    "finance": 38,
+    "open_space": 10
+  }
+}

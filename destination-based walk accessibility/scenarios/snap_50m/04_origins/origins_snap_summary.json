@@ -1,0 +1,14 @@
+{
+  "snap_tolerance_m": 50.0,
+  "snap_method": "nearest_edge_within_tolerance_insert_node",
+  "hex_count": 447,
+  "hex_snap_ok": 389,
+  "hex_snap_ok_share": 0.8702,
+  "hex_snap_fail": 58,
+  "poi_count": 257,
+  "poi_snap_ok": 247,
+  "poi_snap_ok_share": 0.9611,
+  "poi_snap_fail": 10,
+  "graph_nodes_after_snap": 7255,
+  "graph_edges_after_snap": 7492
+}

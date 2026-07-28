@@ -1,0 +1,12 @@
+{
+  "snap_tolerance_m": 100.0,
+  "role": "sensitivity_scenario",
+  "dashboard_publish": "unchanged \u2014 live dashboard stays on 50 m",
+  "outputs": {
+    "network": "03_network/",
+    "origins": "04_origins/",
+    "accessibility": "05_accessibility/",
+    "maps": "06_maps/",
+    "findings": "07_findings/"
+  }
+}

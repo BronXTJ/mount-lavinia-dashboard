@@ -94,6 +94,16 @@ export default function Tab7_Synthesis({ onFocusAreaSub }) {
             </button>
             <button
               type="button"
+              onClick={() => {
+                onFocusAreaSub?.('walk-access')
+                navigate('/focus-area?sub=walk-access')
+              }}
+              className="rounded-lg border border-surface-700 bg-surface-800 px-2.5 py-1 text-[11px] font-medium text-surface-200 transition hover:border-[#0d9488]/50"
+            >
+              Walk Accessibility
+            </button>
+            <button
+              type="button"
               onClick={() => navigate('/environmental')}
               className="rounded-lg border border-surface-700 bg-surface-800 px-2.5 py-1 text-[11px] font-medium text-surface-200 transition hover:border-[#f46d43]/50"
             >
