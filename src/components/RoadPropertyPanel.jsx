@@ -33,9 +33,9 @@ const ROAD_RANKINGS_INFO = {
   title: 'Road Rankings',
   ariaLabel: 'What do Road Rankings show?',
   points: [
-    'Each tab ranks roads independently by residential, commercial, or vacant (bare land) share.',
-    'Both carriageway sides are combined when both exist; side-less whole-road records are kept.',
-    'Mount Lavinia uses the GN boundary and may add one-sided in-GN roads so lists can reach five.',
+    'Each tab ranks roads independently by residential, commercial, or vacant (bare land) share — up to 10 when data allows.',
+    'Both carriageway sides are combined when both exist; All GN Divisions also includes one-sided roads.',
+    'Mount Lavinia uses the GN boundary plus one-sided in-GN roads; scroll the list to see the full ranking.',
     'Commercial and vacant tabs omit roads with 0% on that share.',
     'Clickable rows select that road in the list above and highlight it on the map.',
   ],
@@ -44,8 +44,8 @@ const ROAD_RANKINGS_INFO = {
 /**
  * Interactive road property analysis: scrollable road list (selecting a
  * road also drives the map highlight via onSelectRoad), an info card for
- * whichever road is selected, and — below that — the full-width Top-5
- * road rankings panel.
+ * whichever road is selected, and — below that — the full-width ranked
+ * road rankings panel (up to 10 per tab).
  */
 export default function RoadPropertyPanel({ data, selectedRoadName, onSelectRoad }) {
   const [rankingsScope, setRankingsScope] = useState('all')

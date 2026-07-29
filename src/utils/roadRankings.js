@@ -7,7 +7,9 @@
  *
  * Mount Lavinia scope: point-in-polygon against the Mount Lavinia GN, then
  * add one-sided in-GN rows (without double-counting bases that already have
- * a both-side merge) so lists can reach five. Commercial / vacant omit 0%.
+ * a both-side merge). All GN Divisions uses the same pairing + one-sided
+ * pattern without a GN filter. Each tab returns up to 10 roads; commercial /
+ * vacant omit 0%.
  */
 
 /** Side tokens used only for pairing — do not strip lane names. */
@@ -266,16 +268,18 @@ function inMountLaviniaGn(road, mlGeometry) {
   return pointInPolygon(road.lng, road.lat, mlGeometry)
 }
 
-function emptyTop5() {
+function emptyRankings() {
   return { residential: [], commercial: [], vacant: [] }
 }
+
+export const RANKING_LIMIT = 10
 
 /**
  * @param {Array<object>} roads
  * @param {string} metricKey
  * @param {{ minPercentage?: number }} [options] - exclusive lower bound; use 0 to require > 0
  */
-function top5ForMetric(roads, metricKey, { minPercentage = null } = {}) {
+function topNForMetric(roads, metricKey, { minPercentage = null } = {}) {
   let pool = [...roads]
   if (minPercentage != null) {
     pool = pool.filter((r) => (r[metricKey] ?? 0) > minPercentage)
@@ -287,7 +291,7 @@ function top5ForMetric(roads, metricKey, { minPercentage = null } = {}) {
       if (diff !== 0) return diff
       return (b.total ?? 0) - (a.total ?? 0)
     })
-    .slice(0, 5)
+    .slice(0, RANKING_LIMIT)
     .map((road, index) => ({
       rank: index + 1,
       name: road.name,
@@ -297,6 +301,13 @@ function top5ForMetric(roads, metricKey, { minPercentage = null } = {}) {
       total: road.total,
       inRoadList: road.inRoadList,
     }))
+}
+
+function buildAllScopePool(roads) {
+  const paired = pairBothSideRoads(roads)
+  const pairedBaseKeys = new Set(paired.map((r) => r.baseKey))
+  const oneSided = collectOneSidedRoads(roads, pairedBaseKeys)
+  return [...paired, ...oneSided]
 }
 
 function buildMountLaviniaPool(roads, mlGeometry) {
@@ -319,16 +330,16 @@ export function buildRoadRankings(roads, { scope = 'all', mlGeometry = null } = 
   let pool
 
   if (scope === 'mount-lavinia') {
-    if (!mlGeometry) return emptyTop5()
+    if (!mlGeometry) return emptyRankings()
     pool = buildMountLaviniaPool(roads, mlGeometry)
   } else {
-    pool = pairBothSideRoads(roads)
+    pool = buildAllScopePool(roads)
   }
 
   return {
-    residential: top5ForMetric(pool, 'residential'),
-    commercial: top5ForMetric(pool, 'commercial', { minPercentage: 0 }),
-    vacant: top5ForMetric(pool, 'bareLand', { minPercentage: 0 }),
+    residential: topNForMetric(pool, 'residential'),
+    commercial: topNForMetric(pool, 'commercial', { minPercentage: 0 }),
+    vacant: topNForMetric(pool, 'bareLand', { minPercentage: 0 }),
   }
 }
 

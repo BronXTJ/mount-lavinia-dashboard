@@ -34,9 +34,9 @@ function prefersReducedMotion() {
 }
 
 /**
- * Ranked Top-5 lists (Residential / Commercial / Vacant) from both-side
- * merged road rankings. Entries with `inRoadList` are clickable and call
- * `onSelectRoad` with `selectName` (registry row) so the list/map stay in sync.
+ * Ranked lists (Residential / Commercial / Vacant), up to 10 roads per tab.
+ * Entries with `inRoadList` are clickable and call `onSelectRoad` with
+ * `selectName` (registry row) so the list/map stay in sync.
  */
 export default function TopRoadsPanel({ top5, selectedRoadName, onSelectRoad }) {
   const [activeTab, setActiveTab] = useState(TABS[0].id)
@@ -85,11 +85,11 @@ export default function TopRoadsPanel({ top5, selectedRoadName, onSelectRoad }) 
 
       {entries.length === 0 ? (
         <p className="mt-3 text-xs text-surface-300">
-          No both-side (or whole-road) records in this scope yet.
+          No ranked roads in this scope yet.
         </p>
       ) : null}
 
-      <ul className="mt-3 space-y-2">
+      <ul className="mt-3 max-h-72 space-y-2 overflow-y-auto pr-1">
         {entries.map((entry) => {
           const selectName = entry.selectName ?? entry.name
           const selectNames = entry.selectNames ?? [selectName]
