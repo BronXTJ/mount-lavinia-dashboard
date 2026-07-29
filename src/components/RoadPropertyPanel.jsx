@@ -1,10 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { MousePointerClick } from 'lucide-react'
 import TopRoadsPanel from './TopRoadsPanel.jsx'
 import RoadRankingsScopeSelect from './RoadRankingsScopeSelect.jsx'
 import MetricInfoButton from './focusArea/MetricInfoButton.jsx'
 import { LAND_USE_COLORS } from '../constants/mapLayers.js'
-import { buildRoadRankings } from '../utils/roadRankings.js'
+import { buildRoadRankings, extractMountLaviniaGeometry } from '../utils/roadRankings.js'
 
 function InfoIcon() {
   return (
@@ -35,7 +35,7 @@ const ROAD_RANKINGS_INFO = {
   points: [
     'Top 5 roads ranked by residential, commercial, or vacant (bare land) share after combining both carriageway sides.',
     'Roads with only one side in the registry are excluded; side-less whole-road records are kept.',
-    'Use the scope menu for All GN Divisions or Mount Lavinia (roads between Ediriweera Avenue and Samudrasanna Road).',
+    'Use the scope menu for All GN Divisions or Mount Lavinia (roads whose registry point falls inside the Mount Lavinia GN boundary).',
     'Clickable rows select that road in the list above and highlight it on the map.',
   ],
 }
@@ -48,10 +48,31 @@ const ROAD_RANKINGS_INFO = {
  */
 export default function RoadPropertyPanel({ data, selectedRoadName, onSelectRoad }) {
   const [rankingsScope, setRankingsScope] = useState('all')
+  const [mlGeometry, setMlGeometry] = useState(null)
   const selectedRoad = data.roads.find((r) => r.name === selectedRoadName) ?? null
+
+  useEffect(() => {
+    let cancelled = false
+    const url = `${import.meta.env.BASE_URL}data/geo/gn5_combined_area.geojson`
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to load GN boundaries (${res.status})`)
+        return res.json()
+      })
+      .then((collection) => {
+        if (!cancelled) setMlGeometry(extractMountLaviniaGeometry(collection))
+      })
+      .catch(() => {
+        if (!cancelled) setMlGeometry(null)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   const top5 = useMemo(
-    () => buildRoadRankings(data.roads, { scope: rankingsScope }),
-    [data.roads, rankingsScope],
+    () => buildRoadRankings(data.roads, { scope: rankingsScope, mlGeometry }),
+    [data.roads, rankingsScope, mlGeometry],
   )
 
   return (

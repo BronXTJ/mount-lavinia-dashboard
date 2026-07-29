@@ -5,14 +5,9 @@
  * counts, then rank whole roads. One-sided rows are excluded. Side-less rows
  * (e.g. Watarappola Rd) count as complete whole-road records.
  *
- * Mount Lavinia scope uses a fixed north–south lat band between Ediriweera
- * Avenue and Samudrasanna Road (OSM linework extents) — not GN polygon PIP.
+ * Mount Lavinia scope uses point-in-polygon against the Mount Lavinia GN
+ * feature from gn5_combined_area.geojson.
  */
-
-/** Samudrasanna Road southernmost vertex (OSM). */
-export const ML_LAT_SOUTH = 6.830079
-/** Ediriweera Avenue northernmost vertex (OSM). */
-export const ML_LAT_NORTH = 6.849415
 
 /** Side tokens used only for pairing — do not strip lane names. */
 const SIDE_TOKENS = [
@@ -168,10 +163,51 @@ export function pairBothSideRoads(roads) {
   return paired
 }
 
-function inMountLaviniaBand(road) {
-  const lat = road.lat
-  if (lat == null || Number.isNaN(Number(lat))) return false
-  return lat >= ML_LAT_SOUTH && lat <= ML_LAT_NORTH
+/** Ray-casting point-in-ring (lng/lat). Exterior ring only; holes ignored. */
+function pointInRing(lng, lat, ring) {
+  let inside = false
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i]
+    const [xj, yj] = ring[j]
+    const intersect =
+      yi > lat !== yj > lat && lng < ((xj - xi) * (lat - yi)) / (yj - yi) + xi
+    if (intersect) inside = !inside
+  }
+  return inside
+}
+
+/**
+ * Point-in-polygon for GeoJSON Polygon / MultiPolygon.
+ * @param {number} lng
+ * @param {number} lat
+ * @param {GeoJSON.Geometry|null|undefined} geometry
+ */
+export function pointInPolygon(lng, lat, geometry) {
+  if (!geometry || lng == null || lat == null) return false
+  if (Number.isNaN(Number(lng)) || Number.isNaN(Number(lat))) return false
+
+  if (geometry.type === 'Polygon') {
+    const exterior = geometry.coordinates?.[0]
+    return Array.isArray(exterior) ? pointInRing(lng, lat, exterior) : false
+  }
+
+  if (geometry.type === 'MultiPolygon') {
+    for (const polygon of geometry.coordinates ?? []) {
+      const exterior = polygon?.[0]
+      if (Array.isArray(exterior) && pointInRing(lng, lat, exterior)) return true
+    }
+    return false
+  }
+
+  return false
+}
+
+function inMountLaviniaGn(road, mlGeometry) {
+  return pointInPolygon(road.lng, road.lat, mlGeometry)
+}
+
+function emptyTop5() {
+  return { residential: [], commercial: [], vacant: [] }
 }
 
 function top5ForMetric(roads, metricKey) {
@@ -195,13 +231,14 @@ function top5ForMetric(roads, metricKey) {
 
 /**
  * @param {Array<object>} roads - roadProperty.roads
- * @param {{ scope?: 'all' | 'mount-lavinia' }} [options]
+ * @param {{ scope?: 'all' | 'mount-lavinia', mlGeometry?: GeoJSON.Geometry|null }} [options]
  * @returns {{ residential: object[], commercial: object[], vacant: object[] }}
  */
-export function buildRoadRankings(roads, { scope = 'all' } = {}) {
+export function buildRoadRankings(roads, { scope = 'all', mlGeometry = null } = {}) {
   let paired = pairBothSideRoads(roads)
   if (scope === 'mount-lavinia') {
-    paired = paired.filter(inMountLaviniaBand)
+    if (!mlGeometry) return emptyTop5()
+    paired = paired.filter((road) => inMountLaviniaGn(road, mlGeometry))
   }
 
   return {
@@ -209,4 +246,12 @@ export function buildRoadRankings(roads, { scope = 'all' } = {}) {
     commercial: top5ForMetric(paired, 'commercial'),
     vacant: top5ForMetric(paired, 'bareLand'),
   }
+}
+
+/** Extract Mount Lavinia feature geometry from a gn5 FeatureCollection. */
+export function extractMountLaviniaGeometry(gnCollection) {
+  const feature = gnCollection?.features?.find(
+    (f) => f.properties?.ADM4_EN === 'Mount Lavinia',
+  )
+  return feature?.geometry ?? null
 }
