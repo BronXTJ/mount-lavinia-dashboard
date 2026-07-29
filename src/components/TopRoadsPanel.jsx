@@ -34,11 +34,9 @@ function prefersReducedMotion() {
 }
 
 /**
- * Ranked Top-5 lists (Residential / Commercial / Vacant) pulled straight from
- * the property registry's Top-10 tables. Entries whose road also exists in
- * the interactive road list (`inRoadList`) are clickable and drive the same
- * `onSelectRoad` callback as the main list; the rest render as plain,
- * non-interactive rows (their road doesn't have per-road detail on file).
+ * Ranked Top-5 lists (Residential / Commercial / Vacant) from both-side
+ * merged road rankings. Entries with `inRoadList` are clickable and call
+ * `onSelectRoad` with `selectName` (registry row) so the list/map stay in sync.
  */
 export default function TopRoadsPanel({ top5, selectedRoadName, onSelectRoad }) {
   const [activeTab, setActiveTab] = useState(TABS[0].id)
@@ -56,7 +54,7 @@ export default function TopRoadsPanel({ top5, selectedRoadName, onSelectRoad }) 
       window.requestAnimationFrame(() => setBarProgress(1))
     })
     return () => window.cancelAnimationFrame(id)
-  }, [activeTab])
+  }, [activeTab, top5])
 
   return (
     <div>
@@ -85,17 +83,25 @@ export default function TopRoadsPanel({ top5, selectedRoadName, onSelectRoad }) 
         })}
       </div>
 
+      {entries.length === 0 ? (
+        <p className="mt-3 text-xs text-surface-300">
+          No both-side (or whole-road) records in this scope yet.
+        </p>
+      ) : null}
+
       <ul className="mt-3 space-y-2">
         {entries.map((entry) => {
-          const active = entry.inRoadList && entry.name === selectedRoadName
+          const selectName = entry.selectName ?? entry.name
+          const selectNames = entry.selectNames ?? [selectName]
+          const active = entry.inRoadList && selectNames.includes(selectedRoadName)
           const Wrapper = entry.inRoadList ? 'button' : 'div'
           const targetPct = Math.min(entry.percentage, 100)
 
           return (
-            <li key={`${activeTab}-${entry.rank}`}>
+            <li key={`${activeTab}-${entry.rank}-${entry.name}`}>
               <Wrapper
                 type={entry.inRoadList ? 'button' : undefined}
-                onClick={entry.inRoadList ? () => onSelectRoad(entry.name) : undefined}
+                onClick={entry.inRoadList ? () => onSelectRoad(selectName) : undefined}
                 className={`flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left transition-colors ${
                   entry.inRoadList
                     ? 'cursor-pointer hover:bg-white/[0.07]'

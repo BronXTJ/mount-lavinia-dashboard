@@ -1,7 +1,10 @@
+import { useMemo, useState } from 'react'
 import { MousePointerClick } from 'lucide-react'
 import TopRoadsPanel from './TopRoadsPanel.jsx'
+import RoadRankingsScopeSelect from './RoadRankingsScopeSelect.jsx'
 import MetricInfoButton from './focusArea/MetricInfoButton.jsx'
 import { LAND_USE_COLORS } from '../constants/mapLayers.js'
+import { buildRoadRankings } from '../utils/roadRankings.js'
 
 function InfoIcon() {
   return (
@@ -22,7 +25,7 @@ const ROAD_PROPERTY_INFO = {
     'Lists selected main roads in the Primary Study Area with property and land-use shares.',
     'Selecting a road highlights it on the map and updates residential, commercial, and bare-land percentages.',
     'Total properties counts parcels linked to that road in the property registry.',
-    'Road Rankings show the top roads by residential, commercial, or vacant share.',
+    'Road Rankings combine both sides of each road and show top shares by land use.',
   ],
 }
 
@@ -30,10 +33,10 @@ const ROAD_RANKINGS_INFO = {
   title: 'Road Rankings',
   ariaLabel: 'What do Road Rankings show?',
   points: [
-    'Top 5 roads ranked by residential, commercial, or vacant (bare land) share.',
-    'Switch tabs to change which land-use share drives the ranking.',
+    'Top 5 roads ranked by residential, commercial, or vacant (bare land) share after combining both carriageway sides.',
+    'Roads with only one side in the registry are excluded; side-less whole-road records are kept.',
+    'Use the scope menu for All GN Divisions or Mount Lavinia (roads between Ediriweera Avenue and Samudrasanna Road).',
     'Clickable rows select that road in the list above and highlight it on the map.',
-    'Some ranked roads may lack per-road detail and are shown as non-clickable.',
   ],
 }
 
@@ -44,7 +47,12 @@ const ROAD_RANKINGS_INFO = {
  * road rankings panel.
  */
 export default function RoadPropertyPanel({ data, selectedRoadName, onSelectRoad }) {
+  const [rankingsScope, setRankingsScope] = useState('all')
   const selectedRoad = data.roads.find((r) => r.name === selectedRoadName) ?? null
+  const top5 = useMemo(
+    () => buildRoadRankings(data.roads, { scope: rankingsScope }),
+    [data.roads, rankingsScope],
+  )
 
   return (
     <div className="rounded-lg border border-surface-700 bg-surface-800 p-5 shadow-card">
@@ -160,17 +168,20 @@ export default function RoadPropertyPanel({ data, selectedRoadName, onSelectRoad
       </div>
 
       <div className="mt-5 overflow-hidden rounded-md border border-surface-700/80 bg-surface-900/40">
-        <div className="flex items-center gap-2 border-b border-surface-700/80 px-3 py-2">
+        <div className="flex flex-wrap items-center gap-2 border-b border-surface-700/80 px-3 py-2">
           <p className="font-display text-sm font-semibold text-surface-50">Road Rankings</p>
           <MetricInfoButton
             title={ROAD_RANKINGS_INFO.title}
             points={ROAD_RANKINGS_INFO.points}
             ariaLabel={ROAD_RANKINGS_INFO.ariaLabel}
           />
+          <div className="ml-auto w-full min-w-[10rem] sm:w-auto sm:min-w-[11rem]">
+            <RoadRankingsScopeSelect value={rankingsScope} onChange={setRankingsScope} />
+          </div>
         </div>
         <div className="p-3">
           <TopRoadsPanel
-            top5={data.top5}
+            top5={top5}
             selectedRoadName={selectedRoadName}
             onSelectRoad={onSelectRoad}
           />
