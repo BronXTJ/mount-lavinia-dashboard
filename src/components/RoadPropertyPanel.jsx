@@ -33,9 +33,10 @@ const ROAD_RANKINGS_INFO = {
   title: 'Road Rankings',
   ariaLabel: 'What do Road Rankings show?',
   points: [
-    'Top 5 roads ranked by residential, commercial, or vacant (bare land) share after combining both carriageway sides.',
-    'Roads with only one side in the registry are excluded; side-less whole-road records are kept.',
-    'Use the scope menu for All GN Divisions or Mount Lavinia (roads whose registry point falls inside the Mount Lavinia GN boundary).',
+    'Each tab ranks roads independently by residential, commercial, or vacant (bare land) share.',
+    'Both carriageway sides are combined when both exist; side-less whole-road records are kept.',
+    'Mount Lavinia uses the GN boundary and may add one-sided in-GN roads so lists can reach five.',
+    'Commercial and vacant tabs omit roads with 0% on that share.',
     'Clickable rows select that road in the list above and highlight it on the map.',
   ],
 }

@@ -2,11 +2,12 @@
  * Both-side road rankings for Overview Road Property Analysis.
  *
  * Pair Left↔Right / LHS↔RHS on the same base street name, combine property
- * counts, then rank whole roads. One-sided rows are excluded. Side-less rows
- * (e.g. Watarappola Rd) count as complete whole-road records.
+ * counts, then rank whole roads. Side-less rows (e.g. Watarappola Rd) count
+ * as complete whole-road records.
  *
- * Mount Lavinia scope uses point-in-polygon against the Mount Lavinia GN
- * feature from gn5_combined_area.geojson.
+ * Mount Lavinia scope: point-in-polygon against the Mount Lavinia GN, then
+ * add one-sided in-GN rows (without double-counting bases that already have
+ * a both-side merge) so lists can reach five. Commercial / vacant omit 0%.
  */
 
 /** Side tokens used only for pairing — do not strip lane names. */
@@ -85,11 +86,7 @@ function round2(n) {
   return Math.round(n * 100) / 100
 }
 
-/**
- * Pair both-side (or whole) roads. Returns merged road records ready to rank.
- * @param {Array<object>} roads
- */
-export function pairBothSideRoads(roads) {
+function groupRoadsByBase(roads) {
   const groups = new Map()
 
   for (const row of roads ?? []) {
@@ -114,53 +111,116 @@ export function pairBothSideRoads(roads) {
     }
   }
 
+  return groups
+}
+
+function rankRecordFromPair(g, left, right) {
+  const cL = countsFromRow(left)
+  const cR = countsFromRow(right)
+  const total = cL.total + cR.total
+  if (total <= 0) return null
+  return {
+    baseKey: g.baseKey,
+    name: g.displayBase || left.name,
+    selectName: left.name,
+    selectNames: [left.name, right.name],
+    lat: left.lat ?? right.lat ?? null,
+    lng: left.lng ?? right.lng ?? null,
+    total: Math.round(total),
+    residential: round2((100 * (cL.residential + cR.residential)) / total),
+    commercial: round2((100 * (cL.commercial + cR.commercial)) / total),
+    bareLand: round2((100 * (cL.vacant + cR.vacant)) / total),
+    inRoadList: true,
+    bothSides: true,
+  }
+}
+
+function rankRecordFromWhole(g, row) {
+  return {
+    baseKey: g.baseKey,
+    name: g.displayBase || row.name,
+    selectName: row.name,
+    selectNames: [row.name],
+    lat: row.lat ?? null,
+    lng: row.lng ?? null,
+    total: row.total,
+    residential: row.residential,
+    commercial: row.commercial,
+    bareLand: row.bareLand,
+    inRoadList: true,
+    bothSides: false,
+  }
+}
+
+function rankRecordFromOneSide(row) {
+  const { baseKey } = parseRoadSide(row.name)
+  return {
+    baseKey,
+    name: row.name,
+    selectName: row.name,
+    selectNames: [row.name],
+    lat: row.lat ?? null,
+    lng: row.lng ?? null,
+    total: row.total,
+    residential: row.residential,
+    commercial: row.commercial,
+    bareLand: row.bareLand,
+    inRoadList: true,
+    bothSides: false,
+  }
+}
+
+/**
+ * Pair both-side (or whole) roads. Returns merged road records ready to rank.
+ * One-sided-only bases are excluded here.
+ * @param {Array<object>} roads
+ */
+export function pairBothSideRoads(roads) {
   const paired = []
 
-  for (const g of groups.values()) {
+  for (const g of groupRoadsByBase(roads).values()) {
     const left = g.sides.left
     const right = g.sides.right
 
     if (left && right) {
-      const cL = countsFromRow(left)
-      const cR = countsFromRow(right)
-      const total = cL.total + cR.total
-      if (total <= 0) continue
-      paired.push({
-        name: g.displayBase || left.name,
-        selectName: left.name,
-        selectNames: [left.name, right.name],
-        lat: left.lat ?? right.lat ?? null,
-        lng: left.lng ?? right.lng ?? null,
-        total: Math.round(total),
-        residential: round2((100 * (cL.residential + cR.residential)) / total),
-        commercial: round2((100 * (cL.commercial + cR.commercial)) / total),
-        bareLand: round2((100 * (cL.vacant + cR.vacant)) / total),
-        inRoadList: true,
-      })
+      const record = rankRecordFromPair(g, left, right)
+      if (record) paired.push(record)
       continue
     }
 
-    // One side only → incomplete; drop (even if a whole row somehow coexists).
     if (left || right) continue
 
-    if (g.whole) {
-      const row = g.whole
-      paired.push({
-        name: g.displayBase || row.name,
-        selectName: row.name,
-        selectNames: [row.name],
-        lat: row.lat ?? null,
-        lng: row.lng ?? null,
-        total: row.total,
-        residential: row.residential,
-        commercial: row.commercial,
-        bareLand: row.bareLand,
-        inRoadList: true,
-      })
-    }
+    if (g.whole) paired.push(rankRecordFromWhole(g, g.whole))
   }
 
   return paired
+}
+
+/**
+ * One-sided registry rows whose base is not already represented by a both-side
+ * merge (and not a whole-road-only base). Used to fill Mount Lavinia rankings.
+ * @param {Array<object>} roads
+ * @param {Set<string>} pairedBaseKeys - base keys already in the both-side pool
+ */
+export function collectOneSidedRoads(roads, pairedBaseKeys = new Set()) {
+  const ones = []
+
+  for (const g of groupRoadsByBase(roads).values()) {
+    if (pairedBaseKeys.has(g.baseKey)) continue
+
+    const left = g.sides.left
+    const right = g.sides.right
+    const hasBoth = Boolean(left && right)
+    if (hasBoth) continue
+
+    // Skip whole-road-only (already in pairBothSideRoads) and empty groups.
+    if (!left && !right) continue
+
+    if (left) ones.push(rankRecordFromOneSide(left))
+    if (right) ones.push(rankRecordFromOneSide(right))
+  }
+
+  return ones
 }
 
 /** Ray-casting point-in-ring (lng/lat). Exterior ring only; holes ignored. */
@@ -210,8 +270,18 @@ function emptyTop5() {
   return { residential: [], commercial: [], vacant: [] }
 }
 
-function top5ForMetric(roads, metricKey) {
-  return [...roads]
+/**
+ * @param {Array<object>} roads
+ * @param {string} metricKey
+ * @param {{ minPercentage?: number }} [options] - exclusive lower bound; use 0 to require > 0
+ */
+function top5ForMetric(roads, metricKey, { minPercentage = null } = {}) {
+  let pool = [...roads]
+  if (minPercentage != null) {
+    pool = pool.filter((r) => (r[metricKey] ?? 0) > minPercentage)
+  }
+
+  return pool
     .sort((a, b) => {
       const diff = (b[metricKey] ?? 0) - (a[metricKey] ?? 0)
       if (diff !== 0) return diff
@@ -229,22 +299,36 @@ function top5ForMetric(roads, metricKey) {
     }))
 }
 
+function buildMountLaviniaPool(roads, mlGeometry) {
+  const paired = pairBothSideRoads(roads).filter((road) =>
+    inMountLaviniaGn(road, mlGeometry),
+  )
+  const pairedBaseKeys = new Set(paired.map((r) => r.baseKey))
+  const oneSided = collectOneSidedRoads(roads, pairedBaseKeys).filter((road) =>
+    inMountLaviniaGn(road, mlGeometry),
+  )
+  return [...paired, ...oneSided]
+}
+
 /**
  * @param {Array<object>} roads - roadProperty.roads
  * @param {{ scope?: 'all' | 'mount-lavinia', mlGeometry?: GeoJSON.Geometry|null }} [options]
  * @returns {{ residential: object[], commercial: object[], vacant: object[] }}
  */
 export function buildRoadRankings(roads, { scope = 'all', mlGeometry = null } = {}) {
-  let paired = pairBothSideRoads(roads)
+  let pool
+
   if (scope === 'mount-lavinia') {
     if (!mlGeometry) return emptyTop5()
-    paired = paired.filter((road) => inMountLaviniaGn(road, mlGeometry))
+    pool = buildMountLaviniaPool(roads, mlGeometry)
+  } else {
+    pool = pairBothSideRoads(roads)
   }
 
   return {
-    residential: top5ForMetric(paired, 'residential'),
-    commercial: top5ForMetric(paired, 'commercial'),
-    vacant: top5ForMetric(paired, 'bareLand'),
+    residential: top5ForMetric(pool, 'residential'),
+    commercial: top5ForMetric(pool, 'commercial', { minPercentage: 0 }),
+    vacant: top5ForMetric(pool, 'bareLand', { minPercentage: 0 }),
   }
 }
 
