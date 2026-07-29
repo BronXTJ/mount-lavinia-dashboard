@@ -107,7 +107,7 @@ export const MATURATION_FAB_LAYERS = [
   { id: 'accessibility', label: 'Accessibility Score (5000 m)', dot: '#0ea5e9', group: 'metric' },
   { id: 'landUseDiversity', label: 'Land Use Diversity', dot: '#b63679', group: 'metric' },
   { id: 'landUseMap', label: 'Land Use Map — Primary', dot: '#fa9f00', group: 'independent' },
-  { id: 'buildings', label: 'Buildings (Zenodo)', dot: '#64748b', group: 'independent' },
+  { id: 'buildings', label: 'Buildings', dot: '#64748b', group: 'independent' },
   { id: 'roads', label: 'Roads — Primary', dot: '#f77f00', group: 'independent' },
   { id: 'pois', label: 'POIs — Primary', dot: '#db2777', group: 'independent' },
 ]
