@@ -1,0 +1,44 @@
+{
+  "gn_name": "Mount Lavinia",
+  "gn_area_km2": 1.1501,
+  "inside_gn_only": true,
+  "counts": {
+    "n_culdesac": 65,
+    "n_three_way": 110,
+    "n_four_way": 13,
+    "n_bend": 0,
+    "n_junctions": 123,
+    "n_nodes_inside_gn": 188
+  },
+  "four_to_three_ratio": "0.11 : 0.89",
+  "four_to_three_raw": "13 : 110",
+  "four_way_share": 0.1057,
+  "three_way_share": 0.8943,
+  "culdesac_per_km2": 56.52,
+  "culdesac_per_km_road": 3.71,
+  "road_length_inside_gn_km": 17.519,
+  "junction_spacing_m": {
+    "n_edges": 149,
+    "median": 64.3,
+    "mean": 81.8,
+    "q25": 40.0,
+    "q75": 99.2,
+    "pct_200_to_500m": 6.0
+  },
+  "rifat_benchmark_four_to_three": "0.07 : 0.93",
+  "compare_note": "Shares are among degree\u22653 junctions inside Mount Lavinia GN. Rifat area-wide benchmark was 0.07 : 0.93; treat as direction check, not exact match.",
+  "icon_legend": {
+    "four_way": {
+      "symbol": "triangle",
+      "color": "red"
+    },
+    "three_way": {
+      "symbol": "square",
+      "color": "blue"
+    },
+    "culdesac": {
+      "symbol": "circle",
+      "color": "orange"
+    }
+  }
+}
