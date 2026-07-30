@@ -12,7 +12,7 @@ export default function NetworkFormView() {
 
   const {
     gnBoundary,
-    edges,
+    streets,
     junctions,
     metrics,
     findings,
@@ -44,7 +44,7 @@ export default function NetworkFormView() {
             visibleLayers={visibleLayers}
             onToggleLayer={handleToggleLayer}
             gnBoundary={gnBoundary}
-            edges={edges}
+            streets={streets}
             junctions={junctions}
             counts={counts}
             loading={loading}

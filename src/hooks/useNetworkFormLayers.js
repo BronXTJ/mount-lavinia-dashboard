@@ -22,7 +22,7 @@ async function fetchJson(url) {
  */
 export function useNetworkFormLayers() {
   const [gnBoundary, setGnBoundary] = useState(null)
-  const [edges, setEdges] = useState(null)
+  const [streets, setStreets] = useState(null)
   const [junctions, setJunctions] = useState(null)
   const [metrics, setMetrics] = useState(null)
   const [findings, setFindings] = useState(null)
@@ -33,16 +33,16 @@ export function useNetworkFormLayers() {
 
     async function load() {
       setLoading(true)
-      const [gn, ed, junc, met, find] = await Promise.all([
+      const [gn, streetFc, junc, met, find] = await Promise.all([
         fetchJson(networkFormGeoUrl('mount_lavinia_gn.geojson')),
-        fetchJson(networkFormGeoUrl('topology_edges.geojson')),
+        fetchJson(networkFormGeoUrl('roads_streets.geojson')),
         fetchJson(networkFormGeoUrl('junctions_classified.geojson')),
         fetchJson(networkFormGeoUrl('metrics_ml_gn_summary.json')),
         fetchJson(networkFormGeoUrl('findings_summary.json')),
       ])
       if (cancelled) return
       setGnBoundary(gn)
-      setEdges(ed)
+      setStreets(streetFc)
       setJunctions(junc)
       setMetrics(met)
       setFindings(find)
@@ -67,7 +67,7 @@ export function useNetworkFormLayers() {
 
   return {
     gnBoundary,
-    edges,
+    streets,
     junctions: insideJunctions,
     allJunctions: junctions,
     metrics,

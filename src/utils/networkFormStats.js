@@ -76,6 +76,6 @@ export function listCuldesacs(features, limit = 12) {
     .map((f) => ({
       nodeId: f.properties.node_id,
       degree: f.properties.degree,
-      label: `Cul-de-sac #${f.properties.node_id}`,
+      label: `Node ${f.properties.node_id}`,
     }))
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { GeoJSON, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
@@ -15,6 +15,10 @@ import {
   NETWORK_FORM_ROAD_COLOR,
   NETWORK_FORM_SELECTED_ZOOM,
 } from '../../constants/networkForm.js'
+import {
+  DEFAULT_NETWORK_FORM_BASEMAP,
+  getNetworkFormBasemap,
+} from '../../constants/basemaps.js'
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
 import { findJunctionById, junctionLatLng } from '../../utils/networkFormStats.js'
 
@@ -109,13 +113,16 @@ export default function NetworkFormMap({
   visibleLayers,
   onToggleLayer,
   gnBoundary,
-  edges,
+  streets,
   junctions,
   counts,
   loading,
   selectedJunctionId,
   onSelectJunction,
 }) {
+  const [basemapId, setBasemapId] = useState(DEFAULT_NETWORK_FORM_BASEMAP)
+  const basemap = useMemo(() => getNetworkFormBasemap(basemapId), [basemapId])
+
   const showRoads = Boolean(visibleLayers?.roads)
   const showGn = Boolean(visibleLayers?.gnBoundary)
 
@@ -127,11 +134,16 @@ export default function NetworkFormMap({
     })
   }, [junctions, visibleLayers])
 
-  const fitData = gnBoundary ?? edges
+  const fitData = gnBoundary ?? streets
 
   return (
     <div className="relative h-full min-h-[320px] w-full overflow-hidden rounded-lg border border-surface-700">
-      <NetworkFormMapLayerFab visibleLayers={visibleLayers} onToggle={onToggleLayer} />
+      <NetworkFormMapLayerFab
+        visibleLayers={visibleLayers}
+        onToggle={onToggleLayer}
+        basemapId={basemapId}
+        onBasemapChange={setBasemapId}
+      />
       <NetworkFormLegend counts={counts} visibleLayers={visibleLayers} />
 
       {loading && (
@@ -149,16 +161,17 @@ export default function NetworkFormMap({
       >
         <MapInvalidateOnResize />
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-          subdomains="abcd"
-          maxZoom={19}
+          key={basemap.id}
+          attribution={basemap.attribution}
+          url={basemap.url}
+          subdomains={basemap.subdomains}
+          maxZoom={basemap.maxZoom}
         />
 
         {fitData && <FitBoundsToGeoJson data={fitData} padding={[28, 28]} />}
 
         {showGn && gnBoundary && <GeoJSON data={gnBoundary} style={gnStyle} />}
-        {showRoads && edges && <GeoJSON data={edges} style={roadStyle} />}
+        {showRoads && streets && <GeoJSON data={streets} style={roadStyle} />}
 
         {markers.map((feature) => {
           const ll = junctionLatLng(feature)
@@ -182,7 +195,6 @@ export default function NetworkFormMap({
         <FlyToJunction selectedJunctionId={selectedJunctionId} junctions={junctions} />
         <OpenSelectedPopup selectedJunctionId={selectedJunctionId} junctions={junctions} />
 
-        {/* Selected glow ring via extra circle-ish marker */}
         {selectedJunctionId != null &&
           (() => {
             const feature = findJunctionById(junctions, selectedJunctionId)

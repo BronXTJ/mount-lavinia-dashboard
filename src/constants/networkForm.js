@@ -25,7 +25,7 @@ export const NETWORK_FORM_ICONS = {
   },
 }
 
-export const NETWORK_FORM_ROAD_COLOR = '#94a3b8'
+export const NETWORK_FORM_ROAD_COLOR = '#cbd5e1'
 export const NETWORK_FORM_GN_COLOR = '#00b4d8'
 export const NETWORK_FORM_HIGHLIGHT = '#00b4d8'
 
@@ -36,7 +36,7 @@ export const NETWORK_FORM_FAB_JUNCTION_LAYERS = [
 ]
 
 export const NETWORK_FORM_FAB_CONTEXT_LAYERS = [
-  { id: 'roads', label: 'Street network', dot: NETWORK_FORM_ROAD_COLOR },
+  { id: 'roads', label: 'Street pathways', dot: NETWORK_FORM_ROAD_COLOR },
   { id: 'gnBoundary', label: 'Mount Lavinia GN', dot: NETWORK_FORM_GN_COLOR },
 ]
 

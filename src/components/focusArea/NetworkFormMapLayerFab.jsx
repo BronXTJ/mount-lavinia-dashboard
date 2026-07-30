@@ -4,6 +4,8 @@ import {
   NETWORK_FORM_FAB_CONTEXT_LAYERS,
   NETWORK_FORM_FAB_JUNCTION_LAYERS,
 } from '../../constants/networkForm.js'
+import { NETWORK_FORM_BASEMAPS } from '../../constants/basemaps.js'
+import BasemapChips from '../BasemapChips.jsx'
 
 function LayerRow({ layer, checked, onToggle }) {
   return (
@@ -36,8 +38,13 @@ function LayerRow({ layer, checked, onToggle }) {
   )
 }
 
-/** Network Form map FAB — teal pulse + junction/context toggles. */
-export default function NetworkFormMapLayerFab({ visibleLayers, onToggle }) {
+/** Network Form map FAB — basemap chips + junction/context toggles. */
+export default function NetworkFormMapLayerFab({
+  visibleLayers,
+  onToggle,
+  basemapId,
+  onBasemapChange,
+}) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
 
@@ -98,9 +105,22 @@ export default function NetworkFormMapLayerFab({ visibleLayers, onToggle }) {
             className="px-4 pb-2 pt-3 text-[11px] font-bold uppercase tracking-[0.1em]"
             style={{ color: '#94a3b8' }}
           >
-            Junctions
+            Map Layers
           </p>
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
+          <BasemapChips
+            basemapId={basemapId}
+            onBasemapChange={onBasemapChange}
+            options={NETWORK_FORM_BASEMAPS}
+          />
+
+          <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
+          <p
+            className="px-4 pb-1 pt-2.5 text-[11px] font-bold uppercase tracking-[0.1em]"
+            style={{ color: '#94a3b8' }}
+          >
+            Junctions
+          </p>
           <div className="py-1">
             {NETWORK_FORM_FAB_JUNCTION_LAYERS.map((layer) => (
               <LayerRow
