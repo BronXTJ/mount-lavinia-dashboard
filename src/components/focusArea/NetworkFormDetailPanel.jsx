@@ -217,7 +217,7 @@ export default function NetworkFormDetailPanel({
         </div>
 
         <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-surface-400">
-          Sample on map
+          Sample cul-de-sacs
         </p>
         {!culdesacRows?.length ? (
           <p className="text-xs text-surface-400">No cul-de-sacs loaded.</p>

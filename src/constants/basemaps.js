@@ -19,11 +19,11 @@ export const APP_BASEMAPS = [
 /** Default for Overview / Density / Maturation / Environmental. */
 export const DEFAULT_APP_BASEMAP = 'streets'
 
-/** Network Form — Dark (default) + Streets. */
+/** Network Form — Dark Matter (default) + Streets (Carto light). */
 export const NETWORK_FORM_BASEMAPS = [
   {
     id: 'dark',
-    label: 'Dark',
+    label: 'Dark Matter',
     url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -33,8 +33,11 @@ export const NETWORK_FORM_BASEMAPS = [
   {
     id: 'streets',
     label: 'Streets',
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19,
   },
 ]
 

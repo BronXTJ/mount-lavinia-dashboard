@@ -164,8 +164,8 @@ export default function NetworkFormMap({
           key={basemap.id}
           attribution={basemap.attribution}
           url={basemap.url}
-          subdomains={basemap.subdomains}
-          maxZoom={basemap.maxZoom}
+          {...(basemap.subdomains ? { subdomains: basemap.subdomains } : {})}
+          {...(basemap.maxZoom != null ? { maxZoom: basemap.maxZoom } : {})}
         />
 
         {fitData && <FitBoundsToGeoJson data={fitData} padding={[28, 28]} />}
