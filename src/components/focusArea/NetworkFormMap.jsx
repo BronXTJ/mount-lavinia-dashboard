@@ -131,7 +131,7 @@ export default function NetworkFormMap({
 
   return (
     <div className="relative h-full min-h-[320px] w-full overflow-hidden rounded-lg border border-surface-700">
-      <NetworkFormMapLayerFab visibleLayers={visibleLayers} onToggleLayer={onToggleLayer} />
+      <NetworkFormMapLayerFab visibleLayers={visibleLayers} onToggle={onToggleLayer} />
       <NetworkFormLegend counts={counts} visibleLayers={visibleLayers} />
 
       {loading && (
