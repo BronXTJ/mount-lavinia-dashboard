@@ -1,11 +1,13 @@
 import CentralityAnalysisView from '../components/focusArea/CentralityAnalysisView.jsx'
 import DensityAnalysisView from '../components/focusArea/DensityAnalysisView.jsx'
+import NetworkFormView from '../components/focusArea/NetworkFormView.jsx'
 import UrbanMaturationView from '../components/focusArea/UrbanMaturationView.jsx'
 
 const VIEWS = {
   centrality: CentralityAnalysisView,
   density: DensityAnalysisView,
   maturation: UrbanMaturationView,
+  'network-form': NetworkFormView,
 }
 
 /** Focus Area tab — section controlled by sidebar only. */

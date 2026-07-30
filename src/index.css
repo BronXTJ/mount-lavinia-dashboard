@@ -232,6 +232,56 @@
   animation: density-fab-panel-in 200ms ease forwards;
 }
 
+/* Network Form junction DivIcons (report-style triangle / square / circle) */
+.nf-junction-marker {
+  background: transparent !important;
+  border: none !important;
+}
+.nf-icon {
+  box-sizing: border-box;
+}
+.nf-icon-tri {
+  width: 0;
+  height: 0;
+  border-left-style: solid;
+  border-right-style: solid;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom-style: solid;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.85));
+}
+.nf-icon-sq {
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+.nf-icon-cir {
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+.nf-icon-selected {
+  filter: drop-shadow(0 0 4px rgba(0, 180, 216, 0.95));
+}
+.nf-icon-glow {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 2px solid #00b4d8;
+  box-shadow: 0 0 10px rgba(0, 180, 216, 0.55);
+  opacity: 0.85;
+  animation: nf-glow-pulse 1.6s ease-in-out infinite;
+}
+@keyframes nf-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.08);
+  }
+}
+
 /* Urban Typology Distribution info modal */
 @keyframes typology-info-overlay-in {
   from {

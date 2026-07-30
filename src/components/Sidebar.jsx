@@ -31,6 +31,7 @@ const FOCUS_SUBS = [
   { id: 'centrality', label: 'Centrality Analysis', icon: Layers },
   { id: 'density', label: 'Density Analysis', icon: Grid3x3 },
   { id: 'maturation', label: 'Urban Maturation', icon: TrendingUp },
+  { id: 'network-form', label: 'Network Form', icon: GitBranch },
 ]
 
 /**
