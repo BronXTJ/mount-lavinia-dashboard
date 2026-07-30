@@ -2,11 +2,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { GeoJSON, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
-import FitBoundsToGeoJson from './FitBoundsToGeoJson.jsx'
 import NetworkFormLegend from './NetworkFormLegend.jsx'
 import NetworkFormMapLayerFab from './NetworkFormMapLayerFab.jsx'
 import {
   NETWORK_FORM_GN_COLOR,
+  NETWORK_FORM_GN_MUTED,
   NETWORK_FORM_HIGHLIGHT,
   NETWORK_FORM_ICONS,
   NETWORK_FORM_JTYPE_LABEL,
@@ -16,6 +16,7 @@ import {
   NETWORK_FORM_ROAD_COLOR_ON_STREETS,
   NETWORK_FORM_ROAD_WEIGHT,
   NETWORK_FORM_ROAD_WEIGHT_ON_STREETS,
+  NETWORK_FORM_SCOPE_ALL,
   NETWORK_FORM_SELECTED_ZOOM,
 } from '../../constants/networkForm.js'
 import {
@@ -25,10 +26,19 @@ import {
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
 import { findJunctionById, junctionLatLng } from '../../utils/networkFormStats.js'
 
-const gnStyle = {
-  color: NETWORK_FORM_GN_COLOR,
-  weight: 2,
+const gnMutedStyle = {
+  color: NETWORK_FORM_GN_MUTED,
+  weight: 1.25,
   fill: false,
+  dashArray: '4 4',
+  opacity: 0.7,
+}
+
+const gnHighlightStyle = {
+  color: NETWORK_FORM_GN_COLOR,
+  weight: 2.5,
+  fillColor: NETWORK_FORM_GN_COLOR,
+  fillOpacity: 0.08,
   dashArray: '6 4',
   opacity: 0.95,
 }
@@ -75,7 +85,7 @@ function buildPopup(props) {
     },
     metrics: [
       { label: 'Degree', value: String(props?.degree ?? '—'), bar: null },
-      { label: 'Inside GN', value: props?.inside_gn ? 'Yes' : 'No', bar: null },
+      { label: 'GN', value: props?.gn_name ?? '—', bar: null },
     ],
   })
 }
@@ -114,11 +124,27 @@ function OpenSelectedPopup({ selectedJunctionId, junctions }) {
   return null
 }
 
+function FitBoundsToScope({ data, scopeKey, padding = [28, 28], maxZoom = 16 }) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (!data?.features?.length) return
+    const layer = L.geoJSON(data)
+    const bounds = layer.getBounds()
+    if (!bounds.isValid()) return
+    map.fitBounds(bounds, { padding, maxZoom, animate: true })
+  }, [data, scopeKey, map, padding, maxZoom])
+
+  return null
+}
+
 /** Interactive Network Form map — dark basemap + report-style junction icons. */
 export default function NetworkFormMap({
   visibleLayers,
   onToggleLayer,
   gnBoundary,
+  allGnBoundary,
+  selectedScope,
   streets,
   junctions,
   counts,
@@ -142,6 +168,8 @@ export default function NetworkFormMap({
   }, [junctions, visibleLayers])
 
   const fitData = gnBoundary ?? streets
+  const showMutedOthers =
+    showGn && selectedScope !== NETWORK_FORM_SCOPE_ALL && allGnBoundary?.features?.length
 
   return (
     <div className="relative h-full min-h-[320px] w-full overflow-hidden rounded-lg border border-surface-700">
@@ -175,11 +203,26 @@ export default function NetworkFormMap({
           {...(basemap.maxZoom != null ? { maxZoom: basemap.maxZoom } : {})}
         />
 
-        {fitData && <FitBoundsToGeoJson data={fitData} padding={[28, 28]} />}
+        {fitData && (
+          <FitBoundsToScope data={fitData} scopeKey={selectedScope} padding={[28, 28]} />
+        )}
 
-        {showGn && gnBoundary && <GeoJSON data={gnBoundary} style={gnStyle} />}
+        {showMutedOthers && (
+          <GeoJSON
+            key={`gn-all-muted-${selectedScope}`}
+            data={allGnBoundary}
+            style={gnMutedStyle}
+          />
+        )}
+        {showGn && gnBoundary && (
+          <GeoJSON key={`gn-scope-${selectedScope}`} data={gnBoundary} style={gnHighlightStyle} />
+        )}
         {showRoads && streets && (
-          <GeoJSON key={`streets-${basemapId}`} data={streets} style={roadStyle} />
+          <GeoJSON
+            key={`streets-${basemapId}-${selectedScope}`}
+            data={streets}
+            style={roadStyle}
+          />
         )}
 
         {markers.map((feature) => {
