@@ -9,15 +9,16 @@ import {
   CircleHelp,
   Code2,
   Download,
-  GitBranch,
   Grid3x3,
   Layers,
   LayoutDashboard,
   MapPin,
+  Sparkles,
   Thermometer,
   Trees,
   TrendingUp,
   Footprints,
+  Waypoints,
 } from 'lucide-react'
 import DeveloperModal from './DeveloperModal.jsx'
 import UserGuideModal from './UserGuideModal.jsx'
@@ -33,7 +34,7 @@ const FOCUS_SUBS = [
   { id: 'density', label: 'Density Analysis', icon: Grid3x3 },
   { id: 'maturation', label: 'Urban Maturation', icon: TrendingUp },
   { id: 'walk-access', label: 'Walk Accessibility', icon: Footprints },
-  { id: 'network-form', label: 'Network Form', icon: GitBranch },
+  { id: 'network-form', label: 'Network Form', icon: Waypoints },
 ]
 
 /**
@@ -638,7 +639,7 @@ export default function Sidebar({
         <NavItem
           to="/synthesis"
           expanded={expanded}
-          icon={GitBranch}
+          icon={Sparkles}
           label="Synthesis"
           iconColor={AMBER}
           accentColor={AMBER}

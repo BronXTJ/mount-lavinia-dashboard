@@ -6,9 +6,41 @@ import KeyFindingsBridge from './KeyFindingsBridge.jsx'
 import MetricInfoButton from './MetricInfoButton.jsx'
 import { formatPct, formatRatio } from '../../utils/networkFormStats.js'
 
+const LABEL_RADIAN = Math.PI / 180
+
+function renderTypeSliceLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent, pct }) {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5
+  const x = cx + radius * Math.cos(-midAngle * LABEL_RADIAN)
+  const y = cy + radius * Math.sin(-midAngle * LABEL_RADIAN)
+  const value = pct != null ? Math.round(pct) : Math.round((percent ?? 0) * 100)
+  if (!Number.isFinite(value) || value <= 0) return null
+  return (
+    <text
+      className="chart-value-label"
+      x={x}
+      y={y}
+      fill="#ffffff"
+      stroke="#0f1923"
+      strokeWidth={3}
+      paintOrder="stroke"
+      fontSize={11}
+      fontWeight={700}
+      textAnchor="middle"
+      dominantBaseline="central"
+    >
+      {`${value}%`}
+    </text>
+  )
+}
+
 function TypeDonut({ zones }) {
-  const { isAnimationActive, animationDuration, animationEasing, onAnimationEnd } =
-    useChartAnimation()
+  const {
+    isAnimationActive,
+    animationDuration,
+    animationEasing,
+    showLabels,
+    onAnimationEnd,
+  } = useChartAnimation()
   if (!zones?.length) {
     return (
       <p className="py-6 text-center text-xs text-surface-400">Junction type mix unavailable.</p>
@@ -32,6 +64,8 @@ function TypeDonut({ zones }) {
             animationDuration={animationDuration}
             animationEasing={animationEasing}
             onAnimationEnd={onAnimationEnd}
+            label={(props) => (showLabels ? renderTypeSliceLabel(props) : null)}
+            labelLine={false}
           >
             {zones.map((z) => (
               <Cell key={z.name} fill={z.color} stroke="#0f172a" strokeWidth={1} />
