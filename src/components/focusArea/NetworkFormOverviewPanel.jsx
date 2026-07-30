@@ -1,5 +1,10 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import useChartAnimation from '../../hooks/useChartAnimation.js'
+import {
+  NETWORK_FORM_GN_NAMES,
+  NETWORK_FORM_SCOPE_ALL,
+  networkFormScopeLabel,
+} from '../../constants/networkForm.js'
 import FocusAreaPanelCard from './FocusAreaPanelCard.jsx'
 import FocusAreaStatGrid from './FocusAreaStatGrid.jsx'
 import KeyFindingsBridge from './KeyFindingsBridge.jsx'
@@ -91,13 +96,33 @@ function TypeDonut({ zones }) {
   )
 }
 
+function ScopeButton({ active, label, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="rounded-md border px-3 py-2 text-left text-sm transition-colors"
+      style={{
+        borderColor: active ? '#00b4d8' : 'rgba(71,85,105,0.8)',
+        backgroundColor: active ? 'rgba(0,180,216,0.12)' : 'transparent',
+        color: active ? '#e0f2fe' : '#cbd5e1',
+      }}
+    >
+      {label}
+    </button>
+  )
+}
+
 export default function NetworkFormOverviewPanel({
   metrics,
   findings,
   typeZones,
   counts,
   loading,
+  selectedScope,
+  onSelectScope,
 }) {
+  const scopeLabel = networkFormScopeLabel(selectedScope)
   const ratio = formatRatio(metrics?.four_to_three_ratio)
   const raw = metrics?.four_to_three_raw ?? '—'
   const share = formatPct(metrics?.four_way_share)
@@ -129,16 +154,42 @@ export default function NetworkFormOverviewPanel({
           title="Network Form"
           ariaLabel="What does Network Form show?"
           points={[
-            'Classifies Mount Lavinia GN street junctions as 4-way, 3-way, or cul-de-sac from a true-intersection topology (no densify).',
+            'Classifies street junctions as 4-way, 3-way, or cul-de-sac from a true-intersection topology (no densify) across the five GN primary study area.',
+            'Choose All GN Divisions or a single GN below — KPIs, map, and findings follow that scope.',
             'A high share of 3-way junctions indicates a tree-like residential fabric with lower local permeability than a grid.',
-            'Compare with Walk Accessibility and Centrality: destination reach and through-movement can sit on spines even when the interior fabric is tree-like.',
           ]}
         />
       </div>
 
+      <FocusAreaPanelCard>
+        <h3 className="mb-2 font-display text-sm font-semibold text-surface-100">
+          GN Divisions
+        </h3>
+        <div className="flex flex-col gap-1.5">
+          <ScopeButton
+            active={selectedScope === NETWORK_FORM_SCOPE_ALL}
+            label="All GN Divisions"
+            onClick={() => onSelectScope?.(NETWORK_FORM_SCOPE_ALL)}
+          />
+          {NETWORK_FORM_GN_NAMES.map((name) => (
+            <ScopeButton
+              key={name}
+              active={selectedScope === name}
+              label={name}
+              onClick={() => onSelectScope?.(name)}
+            />
+          ))}
+        </div>
+      </FocusAreaPanelCard>
+
       {loading && (
         <p className="text-center text-xs text-surface-300">Loading network form data…</p>
       )}
+
+      <p className="text-[11px] text-surface-400">
+        Showing junction fabric for{' '}
+        <span className="font-semibold text-surface-200">{scopeLabel}</span>
+      </p>
 
       <FocusAreaStatGrid items={statItems} />
 
@@ -154,7 +205,7 @@ export default function NetworkFormOverviewPanel({
         </div>
         <TypeDonut zones={typeZones} />
         <p className="mt-1 text-center text-[11px] text-surface-400">
-          Raw ratio {raw} (inside GN)
+          Raw ratio {raw} ({scopeLabel})
         </p>
       </FocusAreaPanelCard>
 
@@ -163,7 +214,7 @@ export default function NetworkFormOverviewPanel({
           findingBullets.length
             ? findingBullets
             : [
-                'Mount Lavinia GN junctions are 3-way dominated (tree-like residential fabric).',
+                `${scopeLabel} junctions are 3-way dominated (tree-like residential fabric).`,
                 'Cul-de-sacs and short links constrain interior permeability.',
                 'Spines are relatively more permeable than the interior; walk access rides those spines.',
               ]

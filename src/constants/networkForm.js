@@ -4,6 +4,20 @@ export const NETWORK_FORM_MAP_CENTER = [6.8394, 79.8635]
 export const NETWORK_FORM_MAP_ZOOM = 15
 export const NETWORK_FORM_SELECTED_ZOOM = 17
 
+export const NETWORK_FORM_GN_NAMES = [
+  'Mount Lavinia',
+  'Kawdana West',
+  'Watarappala',
+  'Wathumulla',
+  'Wedikanda',
+]
+
+/** Scope id for primary study area aggregate. */
+export const NETWORK_FORM_SCOPE_ALL = 'all'
+
+/** Default left-panel selection. */
+export const DEFAULT_NETWORK_FORM_SCOPE = 'Mount Lavinia'
+
 export const NETWORK_FORM_ICONS = {
   four_way: {
     id: 'four_way',
@@ -30,6 +44,7 @@ export const NETWORK_FORM_ROAD_COLOR_ON_STREETS = '#0f172a'
 export const NETWORK_FORM_ROAD_WEIGHT = 3.25
 export const NETWORK_FORM_ROAD_WEIGHT_ON_STREETS = 4
 export const NETWORK_FORM_GN_COLOR = '#00b4d8'
+export const NETWORK_FORM_GN_MUTED = '#64748b'
 export const NETWORK_FORM_HIGHLIGHT = '#00b4d8'
 
 export const NETWORK_FORM_FAB_JUNCTION_LAYERS = [
@@ -40,7 +55,7 @@ export const NETWORK_FORM_FAB_JUNCTION_LAYERS = [
 
 export const NETWORK_FORM_FAB_CONTEXT_LAYERS = [
   { id: 'roads', label: 'Street Pathways', dot: NETWORK_FORM_ROAD_COLOR },
-  { id: 'gnBoundary', label: 'Mount Lavinia GN', dot: NETWORK_FORM_GN_COLOR },
+  { id: 'gnBoundary', label: 'GN Boundaries', dot: NETWORK_FORM_GN_COLOR },
 ]
 
 export const DEFAULT_NETWORK_FORM_VISIBLE = {
@@ -59,4 +74,9 @@ export const NETWORK_FORM_JTYPE_LABEL = {
   four_way: '4-way junction',
   three_way: '3-way junction',
   culdesac: 'Cul-de-sac',
+}
+
+export function networkFormScopeLabel(scope) {
+  if (scope === NETWORK_FORM_SCOPE_ALL) return 'All GN Divisions'
+  return scope ?? '—'
 }

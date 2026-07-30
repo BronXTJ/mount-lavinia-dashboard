@@ -1,10 +1,17 @@
 import { useEffect, useMemo, useState } from 'react'
-import { networkFormGeoUrl } from '../constants/networkForm.js'
+import {
+  DEFAULT_NETWORK_FORM_SCOPE,
+  networkFormGeoUrl,
+} from '../constants/networkForm.js'
 import {
   buildTypeShareZones,
   countByJtype,
-  filterInsideJunctions,
+  filterJunctionsByScope,
+  filterStreetsByGnFeatures,
+  gnFeaturesForScope,
   listCuldesacs,
+  scopeFindings,
+  scopeMetrics,
 } from '../utils/networkFormStats.js'
 
 async function fetchJson(url) {
@@ -18,14 +25,14 @@ async function fetchJson(url) {
 }
 
 /**
- * Loads Network Form layers + summaries once on mount.
+ * Loads Network Form layers once; derives scoped metrics/layers from selectedScope.
  */
-export function useNetworkFormLayers() {
-  const [gnBoundary, setGnBoundary] = useState(null)
-  const [streets, setStreets] = useState(null)
-  const [junctions, setJunctions] = useState(null)
-  const [metrics, setMetrics] = useState(null)
-  const [findings, setFindings] = useState(null)
+export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE) {
+  const [gn5, setGn5] = useState(null)
+  const [streetsAll, setStreetsAll] = useState(null)
+  const [junctionsAll, setJunctionsAll] = useState(null)
+  const [metricsByScope, setMetricsByScope] = useState(null)
+  const [findingsByScope, setFindingsByScope] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -34,18 +41,18 @@ export function useNetworkFormLayers() {
     async function load() {
       setLoading(true)
       const [gn, streetFc, junc, met, find] = await Promise.all([
-        fetchJson(networkFormGeoUrl('mount_lavinia_gn.geojson')),
+        fetchJson(networkFormGeoUrl('gn5_divisions.geojson')),
         fetchJson(networkFormGeoUrl('roads_streets.geojson')),
         fetchJson(networkFormGeoUrl('junctions_classified.geojson')),
-        fetchJson(networkFormGeoUrl('metrics_ml_gn_summary.json')),
-        fetchJson(networkFormGeoUrl('findings_summary.json')),
+        fetchJson(networkFormGeoUrl('metrics_by_scope.json')),
+        fetchJson(networkFormGeoUrl('findings_by_scope.json')),
       ])
       if (cancelled) return
-      setGnBoundary(gn)
-      setStreets(streetFc)
-      setJunctions(junc)
-      setMetrics(met)
-      setFindings(find)
+      setGn5(gn)
+      setStreetsAll(streetFc)
+      setJunctionsAll(junc)
+      setMetricsByScope(met)
+      setFindingsByScope(find)
       setLoading(false)
     }
 
@@ -55,26 +62,60 @@ export function useNetworkFormLayers() {
     }
   }, [])
 
-  const insideFeatures = useMemo(() => filterInsideJunctions(junctions), [junctions])
-  const counts = useMemo(() => countByJtype(insideFeatures), [insideFeatures])
-  const typeZones = useMemo(() => buildTypeShareZones(counts), [counts])
-  const culdesacRows = useMemo(() => listCuldesacs(insideFeatures), [insideFeatures])
+  const scopeGnFeatures = useMemo(
+    () => gnFeaturesForScope(gn5, selectedScope),
+    [gn5, selectedScope],
+  )
 
-  const insideJunctions = useMemo(() => {
-    if (!junctions) return null
-    return { type: 'FeatureCollection', features: insideFeatures }
-  }, [junctions, insideFeatures])
+  const gnBoundary = useMemo(() => {
+    if (!scopeGnFeatures.length) return null
+    return { type: 'FeatureCollection', features: scopeGnFeatures }
+  }, [scopeGnFeatures])
+
+  const allGnBoundary = useMemo(() => {
+    if (!gn5?.features) return null
+    return gn5
+  }, [gn5])
+
+  const scopedFeatures = useMemo(
+    () => filterJunctionsByScope(junctionsAll, selectedScope),
+    [junctionsAll, selectedScope],
+  )
+
+  const streets = useMemo(
+    () => filterStreetsByGnFeatures(streetsAll, scopeGnFeatures),
+    [streetsAll, scopeGnFeatures],
+  )
+
+  const counts = useMemo(() => countByJtype(scopedFeatures), [scopedFeatures])
+  const typeZones = useMemo(() => buildTypeShareZones(counts), [counts])
+  const culdesacRows = useMemo(() => listCuldesacs(scopedFeatures), [scopedFeatures])
+
+  const junctions = useMemo(() => {
+    if (!junctionsAll) return null
+    return { type: 'FeatureCollection', features: scopedFeatures }
+  }, [junctionsAll, scopedFeatures])
+
+  const metrics = useMemo(
+    () => scopeMetrics(metricsByScope, selectedScope),
+    [metricsByScope, selectedScope],
+  )
+  const findings = useMemo(
+    () => scopeFindings(findingsByScope, selectedScope),
+    [findingsByScope, selectedScope],
+  )
 
   return {
     gnBoundary,
+    allGnBoundary,
     streets,
-    junctions: insideJunctions,
-    allJunctions: junctions,
+    junctions,
     metrics,
     findings,
     counts,
     typeZones,
     culdesacRows,
     loading,
+    selectedScope,
   }
 }

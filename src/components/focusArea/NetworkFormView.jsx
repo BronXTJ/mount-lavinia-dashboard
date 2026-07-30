@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { DEFAULT_NETWORK_FORM_VISIBLE } from '../../constants/networkForm.js'
+import {
+  DEFAULT_NETWORK_FORM_SCOPE,
+  DEFAULT_NETWORK_FORM_VISIBLE,
+} from '../../constants/networkForm.js'
 import { useNetworkFormLayers } from '../../hooks/useNetworkFormLayers.js'
 import NetworkFormDetailPanel from './NetworkFormDetailPanel.jsx'
 import NetworkFormMap from './NetworkFormMap.jsx'
@@ -9,9 +12,11 @@ import NetworkFormOverviewPanel from './NetworkFormOverviewPanel.jsx'
 export default function NetworkFormView() {
   const [visibleLayers, setVisibleLayers] = useState(DEFAULT_NETWORK_FORM_VISIBLE)
   const [selectedJunctionId, setSelectedJunctionId] = useState(null)
+  const [selectedScope, setSelectedScope] = useState(DEFAULT_NETWORK_FORM_SCOPE)
 
   const {
     gnBoundary,
+    allGnBoundary,
     streets,
     junctions,
     metrics,
@@ -20,10 +25,15 @@ export default function NetworkFormView() {
     typeZones,
     culdesacRows,
     loading,
-  } = useNetworkFormLayers()
+  } = useNetworkFormLayers(selectedScope)
 
   function handleToggleLayer(id, checked) {
     setVisibleLayers((prev) => ({ ...prev, [id]: checked }))
+  }
+
+  function handleSelectScope(scope) {
+    setSelectedScope(scope)
+    setSelectedJunctionId(null)
   }
 
   return (
@@ -35,6 +45,8 @@ export default function NetworkFormView() {
           typeZones={typeZones}
           counts={counts}
           loading={loading}
+          selectedScope={selectedScope}
+          onSelectScope={handleSelectScope}
         />
       </div>
 
@@ -44,6 +56,8 @@ export default function NetworkFormView() {
             visibleLayers={visibleLayers}
             onToggleLayer={handleToggleLayer}
             gnBoundary={gnBoundary}
+            allGnBoundary={allGnBoundary}
+            selectedScope={selectedScope}
             streets={streets}
             junctions={junctions}
             counts={counts}
@@ -60,6 +74,7 @@ export default function NetworkFormView() {
           metrics={metrics}
           culdesacRows={culdesacRows}
           loading={loading}
+          selectedScope={selectedScope}
           onJunctionClick={setSelectedJunctionId}
         />
       </div>

@@ -3,7 +3,10 @@ import FocusAreaPanelCard from './FocusAreaPanelCard.jsx'
 import FocusAreaStatGrid from './FocusAreaStatGrid.jsx'
 import MetricInfoButton from './MetricInfoButton.jsx'
 import { formatPct } from '../../utils/networkFormStats.js'
-import { NETWORK_FORM_ICONS } from '../../constants/networkForm.js'
+import {
+  NETWORK_FORM_ICONS,
+  networkFormScopeLabel,
+} from '../../constants/networkForm.js'
 
 const CORRIDOR_COLOR = '#00b4d8'
 const INTERIOR_COLOR = '#f59e0b'
@@ -75,9 +78,11 @@ export default function NetworkFormDetailPanel({
   metrics,
   culdesacRows,
   loading,
+  selectedScope,
   onJunctionClick,
 }) {
-  const corridor = findings?.corridor_vs_interior
+  const scopeLabel = networkFormScopeLabel(selectedScope)
+  const corridor = findings?.corridor_vs_interior ?? metrics?.corridor_vs_interior
   const shareC = corridor?.four_way_share_corridor
   const shareI = corridor?.four_way_share_interior
   const spacing = metrics?.junction_spacing_m
@@ -178,7 +183,7 @@ export default function NetworkFormDetailPanel({
           <MetricInfoButton
             title="Junction Spacing"
             points={[
-              'Measured along true topology edges between consecutive junctions inside Mount Lavinia GN.',
+              'Measured along true topology edges between consecutive junctions inside the selected scope.',
               'Median is the headline; IQR (Q25–Q75) shows the middle half of link lengths.',
             ]}
             ariaLabel="What does junction spacing show?"
@@ -194,7 +199,7 @@ export default function NetworkFormDetailPanel({
           <MetricInfoButton
             title="Cul-de-sacs"
             points={[
-              'Degree-1 ends inside Mount Lavinia GN after true-intersection topology.',
+              `Degree-1 ends inside ${scopeLabel} after true-intersection topology.`,
               'Click a row to fly to that cul-de-sac on the map.',
             ]}
             ariaLabel="What do cul-de-sac stats show?"
@@ -206,7 +211,7 @@ export default function NetworkFormDetailPanel({
             label="Total"
             value={nCuldesac != null ? String(nCuldesac) : '—'}
             topBorderColor={NETWORK_FORM_ICONS.culdesac.color}
-            hint="Inside GN"
+            hint={scopeLabel}
           />
           <DensityStatCard
             label="Density"

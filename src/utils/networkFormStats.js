@@ -1,14 +1,27 @@
-import { NETWORK_FORM_ICONS } from '../constants/networkForm.js'
+import {
+  NETWORK_FORM_GN_NAMES,
+  NETWORK_FORM_ICONS,
+  NETWORK_FORM_SCOPE_ALL,
+} from '../constants/networkForm.js'
 
-export function isInsideGn(props) {
-  return props?.inside_gn === true || props?.inside_gn === 'true'
+export function isPrimaryJunction(props) {
+  if (props?.inside_primary === true || props?.inside_primary === 'true') return true
+  if (props?.inside_gn === true || props?.inside_gn === 'true') return true
+  const name = props?.gn_name
+  return Boolean(name && NETWORK_FORM_GN_NAMES.includes(name))
 }
 
-export function filterInsideJunctions(geojson) {
+/** Filter classified junctions for the active scope. */
+export function filterJunctionsByScope(geojson, scope) {
   if (!geojson?.features) return []
   return geojson.features.filter((f) => {
     const jtype = f.properties?.jtype
-    return isInsideGn(f.properties) && Boolean(NETWORK_FORM_ICONS[jtype])
+    if (!NETWORK_FORM_ICONS[jtype]) return false
+    const gn = f.properties?.gn_name
+    if (scope === NETWORK_FORM_SCOPE_ALL) {
+      return Boolean(gn && NETWORK_FORM_GN_NAMES.includes(gn))
+    }
+    return gn === scope
   })
 }
 
@@ -43,7 +56,6 @@ export function findJunctionById(geojson, nodeId) {
   )
 }
 
-/** Donut/bar data from inside-GN counts. */
 export function buildTypeShareZones(counts) {
   const total = (counts.four_way || 0) + (counts.three_way || 0) + (counts.culdesac || 0)
   if (!total) return null
@@ -78,4 +90,93 @@ export function listCuldesacs(features, limit = 12) {
       degree: f.properties.degree,
       label: `Cul-de-sac ${f.properties.node_id}`,
     }))
+}
+
+/** Ray-cast point-in-ring (ring = [[lon,lat],...], no holes). */
+function pointInRing(lon, lat, ring) {
+  let inside = false
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xi = ring[i][0]
+    const yi = ring[i][1]
+    const xj = ring[j][0]
+    const yj = ring[j][1]
+    const intersect =
+      yi > lat !== yj > lat && lon < ((xj - xi) * (lat - yi)) / (yj - yi + 0.0) + xi
+    if (intersect) inside = !inside
+  }
+  return inside
+}
+
+function pointInPolygonFeature(lon, lat, feature) {
+  const geom = feature?.geometry
+  if (!geom) return false
+  const polys =
+    geom.type === 'Polygon'
+      ? [geom.coordinates]
+      : geom.type === 'MultiPolygon'
+        ? geom.coordinates
+        : []
+  for (const poly of polys) {
+    const outer = poly[0]
+    if (!outer || !pointInRing(lon, lat, outer)) continue
+    let inHole = false
+    for (let h = 1; h < poly.length; h++) {
+      if (pointInRing(lon, lat, poly[h])) {
+        inHole = true
+        break
+      }
+    }
+    if (!inHole) return true
+  }
+  return false
+}
+
+function lineMidpoint(coords) {
+  if (!coords?.length) return null
+  const mid = coords[Math.floor(coords.length / 2)]
+  if (!mid || mid.length < 2) return null
+  return [mid[0], mid[1]]
+}
+
+function collectLineCoords(geom) {
+  if (!geom) return []
+  if (geom.type === 'LineString') return [geom.coordinates]
+  if (geom.type === 'MultiLineString') return geom.coordinates
+  return []
+}
+
+/** Keep street features whose midpoint falls in any of the given GN polygons. */
+export function filterStreetsByGnFeatures(streets, gnFeatures) {
+  if (!streets?.features?.length) return streets
+  if (!gnFeatures?.length) return { type: 'FeatureCollection', features: [] }
+  const kept = streets.features.filter((f) => {
+    const lines = collectLineCoords(f.geometry)
+    for (const coords of lines) {
+      const mid = lineMidpoint(coords)
+      if (!mid) continue
+      for (const gn of gnFeatures) {
+        if (pointInPolygonFeature(mid[0], mid[1], gn)) return true
+      }
+    }
+    return false
+  })
+  return { type: 'FeatureCollection', features: kept }
+}
+
+export function gnFeaturesForScope(gn5, scope) {
+  if (!gn5?.features) return []
+  if (scope === NETWORK_FORM_SCOPE_ALL) {
+    return gn5.features.filter((f) => NETWORK_FORM_GN_NAMES.includes(f.properties?.ADM4_EN))
+  }
+  return gn5.features.filter((f) => f.properties?.ADM4_EN === scope)
+}
+
+export function scopeMetrics(metricsByScope, scope) {
+  if (!metricsByScope) return null
+  return metricsByScope[scope] ?? metricsByScope[NETWORK_FORM_SCOPE_ALL] ?? null
+}
+
+export function scopeFindings(findingsByScope, scope) {
+  if (!findingsByScope) return null
+  return findingsByScope[scope] ?? findingsByScope[NETWORK_FORM_SCOPE_ALL] ?? null
 }
