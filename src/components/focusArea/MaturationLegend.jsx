@@ -1,7 +1,7 @@
 import { MATURATION_METRIC_RAMPS } from '../../constants/maturation.js'
 
 /**
- * Bottom-right maturation metric legend — same size as DensityLegend.
+ * Bottom-left maturation metric legend — same size as WalkAccessLegend.
  * Discrete equal-interval class ranges for every metric (shared with map + charts).
  */
 export default function MaturationLegend({ activeMetric, stats }) {
@@ -30,7 +30,7 @@ export default function MaturationLegend({ activeMetric, stats }) {
   }
 
   return (
-    <div className="pointer-events-none absolute bottom-14 left-3 z-[1000] w-72 rounded-lg border border-surface-700 bg-surface-900/95 p-4 shadow-card backdrop-blur">
+    <div className="pointer-events-none absolute bottom-14 left-3 z-[1000] w-48 rounded-lg border border-surface-700 bg-surface-900/95 p-4 shadow-card backdrop-blur">
       <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-surface-400">
         Legend
       </p>

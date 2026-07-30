@@ -1,7 +1,7 @@
 import { DENSITY_METRIC_RAMPS } from '../../constants/density.js'
 
 /**
- * Bottom-left density metric legend — dark card for contrast on light basemap.
+ * Bottom-left density metric legend — same card size as WalkAccessLegend.
  * Discrete equal-interval class ranges (shared with map + histograms).
  */
 export default function DensityLegend({ activeMetric, stats }) {
@@ -32,7 +32,7 @@ export default function DensityLegend({ activeMetric, stats }) {
   }
 
   return (
-    <div className="pointer-events-none absolute bottom-14 left-3 z-[1000] w-72 rounded-lg border border-surface-700 bg-surface-900/95 p-4 shadow-card backdrop-blur">
+    <div className="pointer-events-none absolute bottom-14 left-3 z-[1000] w-48 rounded-lg border border-surface-700 bg-surface-900/95 p-4 shadow-card backdrop-blur">
       <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-surface-400">
         Legend
       </p>
