@@ -18,10 +18,10 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-1.5">
         <h2 className="border-l-4 border-[#0d9488] pl-3 font-display text-lg font-semibold text-surface-50">
-          Destination groups
+          Destination Groups
         </h2>
         <MetricInfoButton
-          title="Destination groups"
+          title="Destination Groups"
           points={[
             'Six daily need groups: food, education, health, transit, finance, open space.',
             'Reach % = share of analysis-grade hexes (≥90% complete) within 10 minutes of that group.',
@@ -62,9 +62,9 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
 
       <div className="rounded-lg border border-surface-700 bg-surface-800 p-4 shadow-card">
         <div className="flex items-center gap-1.5">
-          <h3 className="font-display text-sm font-semibold text-surface-50">Desert hexes</h3>
+          <h3 className="font-display text-sm font-semibold text-surface-50">Desert Hexes</h3>
           <MetricInfoButton
-            title="Destination deserts"
+            title="Destination Deserts"
             points={[
               'Low-tier analysis hexes with ≤2 destination groups within 10 minutes.',
               'Click a Cell ID to fly to that hex on the Access Score layer.',
@@ -92,10 +92,10 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
       <div className="rounded-lg border border-surface-700 bg-surface-800 p-4 shadow-card">
         <div className="flex items-center gap-1.5">
           <h3 className="font-display text-sm font-semibold text-surface-50">
-            Centrality–access mismatch
+            Centrality–Access Mismatch
           </h3>
           <MetricInfoButton
-            title="Mismatch hexes"
+            title="Mismatch Hexes"
             points={[
               'Analysis hexes in the top quartile of mean BtA5000 with access_score under 0.5.',
               'High network betweenness without matching daily destination reach.',

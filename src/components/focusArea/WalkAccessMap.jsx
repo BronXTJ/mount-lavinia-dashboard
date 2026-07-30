@@ -113,7 +113,7 @@ function buildWalkPopup(props, activeMetric = 'accessScore', metricClasses = nul
       primaryValue: tierMeta.shortLabel,
       badge: { label: tierMeta.shortLabel, color, textColor },
       metrics: [
-        { label: 'Access score', value: formatWalkScore(score), bar: Number.isFinite(score) ? score : null, barColor: color },
+        { label: 'Access Score', value: formatWalkScore(score), bar: Number.isFinite(score) ? score : null, barColor: color },
         {
           label: 'Groups ≤10 min',
           value: Number.isFinite(groups) ? String(groups) : '—',
@@ -148,7 +148,7 @@ function buildWalkPopup(props, activeMetric = 'accessScore', metricClasses = nul
           bar: reachable ? Math.min(1, minutes / 15) : null,
           barColor: color,
         },
-        { label: 'Access score', value: formatWalkScore(score), bar: Number.isFinite(score) ? score : null },
+        { label: 'Access Score', value: formatWalkScore(score), bar: Number.isFinite(score) ? score : null },
         { label: 'Completeness', value: completeness, bar: null },
       ],
       footer: {
@@ -164,12 +164,12 @@ function buildWalkPopup(props, activeMetric = 'accessScore', metricClasses = nul
   const textColor = contrastTextForBg(color)
   return buildCellInfoPopupHtml({
     title: `Hex Cell #${id}`,
-    primaryLabel: 'Access score:',
+    primaryLabel: 'Access Score:',
     primaryValue: formatWalkScore(score),
     badge: { label: tierMeta.shortLabel, color: tierMeta.color, textColor: contrastTextForBg(tierMeta.color) },
     metrics: [
       {
-        label: 'Access score',
+        label: 'Access Score',
         value: formatWalkScore(score),
         bar: Number.isFinite(score) ? score : null,
         barColor: color,

@@ -33,13 +33,13 @@ export const NETWORK_FORM_GN_COLOR = '#00b4d8'
 export const NETWORK_FORM_HIGHLIGHT = '#00b4d8'
 
 export const NETWORK_FORM_FAB_JUNCTION_LAYERS = [
-  { id: 'four_way', label: '4-way junctions', dot: NETWORK_FORM_ICONS.four_way.color },
-  { id: 'three_way', label: '3-way junctions', dot: NETWORK_FORM_ICONS.three_way.color },
+  { id: 'four_way', label: '4-Way Junctions', dot: NETWORK_FORM_ICONS.four_way.color },
+  { id: 'three_way', label: '3-Way Junctions', dot: NETWORK_FORM_ICONS.three_way.color },
   { id: 'culdesac', label: 'Cul-de-sacs', dot: NETWORK_FORM_ICONS.culdesac.color },
 ]
 
 export const NETWORK_FORM_FAB_CONTEXT_LAYERS = [
-  { id: 'roads', label: 'Street pathways', dot: NETWORK_FORM_ROAD_COLOR },
+  { id: 'roads', label: 'Street Pathways', dot: NETWORK_FORM_ROAD_COLOR },
   { id: 'gnBoundary', label: 'Mount Lavinia GN', dot: NETWORK_FORM_GN_COLOR },
 ]
 

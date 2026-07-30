@@ -145,7 +145,7 @@ export default function NetworkFormOverviewPanel({
       <FocusAreaPanelCard>
         <div className="mb-2 flex flex-nowrap items-center justify-between gap-2">
           <h3 className="shrink-0 font-display text-sm font-semibold text-surface-100">
-            Junction type mix
+            Junction Type Mix
           </h3>
           <p className="min-w-0 truncate text-right text-[11px] text-surface-400 whitespace-nowrap">
             {counts?.three_way ?? 0}×3-way · {counts?.four_way ?? 0}×4-way ·{' '}

@@ -115,9 +115,9 @@ export default function NetworkFormDetailPanel({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2 border-l-4 border-[#f59e0b] pl-3">
-        <h2 className="font-display text-lg font-semibold text-surface-50">Fabric detail</h2>
+        <h2 className="font-display text-lg font-semibold text-surface-50">Fabric Detail</h2>
         <MetricInfoButton
-          title="Corridor vs interior"
+          title="Corridor vs Interior"
           ariaLabel="What does corridor vs interior mean?"
           points={[
             'Corridor junctions sit within 50 m of trunk/primary/secondary streets.',
@@ -134,10 +134,10 @@ export default function NetworkFormDetailPanel({
       <FocusAreaPanelCard>
         <div className="mb-3 flex items-center gap-1.5">
           <h3 className="font-display text-sm font-semibold text-surface-100">
-            Corridor vs interior (50 m)
+            Corridor vs Interior (50 m)
           </h3>
           <MetricInfoButton
-            title="4-way share comparison"
+            title="4-Way Share Comparison"
             points={[
               'Bars show the share of degree ≥3 junctions that are 4-way+ within each zone.',
               'Higher corridor share means spines are more permeable than the residential interior.',
@@ -173,10 +173,10 @@ export default function NetworkFormDetailPanel({
       <FocusAreaPanelCard>
         <div className="mb-3 flex items-center gap-1.5">
           <h3 className="font-display text-sm font-semibold text-surface-100">
-            Junction spacing
+            Junction Spacing
           </h3>
           <MetricInfoButton
-            title="Junction spacing"
+            title="Junction Spacing"
             points={[
               'Measured along true topology edges between consecutive junctions inside Mount Lavinia GN.',
               'Median is the headline; IQR (Q25–Q75) shows the middle half of link lengths.',
@@ -217,7 +217,7 @@ export default function NetworkFormDetailPanel({
         </div>
 
         <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-surface-400">
-          Sample cul-de-sacs
+          Sample Cul-de-sacs
         </p>
         {!culdesacRows?.length ? (
           <p className="text-xs text-surface-400">No cul-de-sacs loaded.</p>

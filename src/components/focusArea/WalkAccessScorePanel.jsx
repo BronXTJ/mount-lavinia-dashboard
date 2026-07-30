@@ -35,7 +35,7 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
           Walk Accessibility
         </h2>
         <MetricInfoButton
-          title="Destination walk access"
+          title="Destination Walk Access"
           points={[
             'Access score = share of six daily destination groups reachable within a 10-minute network walk (4.8 km/h).',
             'KPIs use analysis-grade hexes (≥90% complete). Partial / scrap cells stay off these cards.',
@@ -60,9 +60,9 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
 
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-1.5">
-          <h3 className="font-display text-sm font-semibold text-surface-100">Access score</h3>
+          <h3 className="font-display text-sm font-semibold text-surface-100">Access Score</h3>
           <MetricInfoButton
-            title="Access score cards"
+            title="Access Score Cards"
             points={[
               'Min / Max / Average across analysis-grade hexes (≥90% complete).',
               'Click Minimum / Highest Cell ID to fly to that hex and open the Access Score layer.',
@@ -95,13 +95,13 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
 
       <div className="grid grid-cols-2 gap-3">
         <DensityStatCard
-          label="Desert hexes"
+          label="Desert Hexes"
           value={String(stats?.desertCount ?? 0)}
           topBorderColor="#dc2626"
           hint="Low tier · ≤2 groups / 10 min"
         />
         <DensityStatCard
-          label="Mismatch hexes"
+          label="Mismatch Hexes"
           value={String(stats?.mismatchCount ?? 0)}
           topBorderColor="#7c3aed"
           hint="High BtA + weak access"
@@ -111,10 +111,10 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
       <div className="rounded-lg border border-surface-700 bg-surface-800 p-4 shadow-card">
         <div className="flex items-center gap-1.5">
           <h3 className="font-display text-sm font-semibold text-surface-50">
-            10-minute coverage by group
+            10-Minute Coverage by Group
           </h3>
           <MetricInfoButton
-            title="10-minute coverage"
+            title="10-Minute Coverage"
             points={[
               'Share of analysis-grade hexes that reach at least one destination in each group within 10 minutes.',
               'Food is typically strongest; health and education are the thinnest essential groups.',

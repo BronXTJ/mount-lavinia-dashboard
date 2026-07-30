@@ -27,14 +27,14 @@ export const WALK_DEST_GROUPS = [
   { id: 'health', label: 'Health', timeKey: 'timeHealth', timeProp: 'time_health_min', reachKey: 'reach_health_10' },
   { id: 'transit', label: 'Transit', timeKey: 'timeTransit', timeProp: 'time_transit_min', reachKey: 'reach_transit_10' },
   { id: 'finance', label: 'Finance', timeKey: 'timeFinance', timeProp: 'time_finance_min', reachKey: 'reach_finance_10' },
-  { id: 'open_space', label: 'Open space', timeKey: 'timeOpenSpace', timeProp: 'time_open_space_min', reachKey: 'reach_open_space_10' },
+  { id: 'open_space', label: 'Open Space', timeKey: 'timeOpenSpace', timeProp: 'time_open_space_min', reachKey: 'reach_open_space_10' },
 ]
 
 /** Access tier colours (categorical choropleth). */
 export const WALK_ACCESS_TIERS = {
-  high: { id: 'high', label: 'High access', shortLabel: 'High', color: '#0d9488' },
-  medium: { id: 'medium', label: 'Medium access', shortLabel: 'Medium', color: '#fbbf24' },
-  low: { id: 'low', label: 'Low / desert', shortLabel: 'Low', color: '#dc2626' },
+  high: { id: 'high', label: 'High Access', shortLabel: 'High', color: '#0d9488' },
+  medium: { id: 'medium', label: 'Medium Access', shortLabel: 'Medium', color: '#fbbf24' },
+  low: { id: 'low', label: 'Low / Desert', shortLabel: 'Low', color: '#dc2626' },
   excluded: { id: 'excluded', label: 'Excluded', shortLabel: 'Excluded', color: '#94a3b8' },
 }
 
@@ -43,43 +43,43 @@ export const WALK_METRIC_RAMPS = {
   accessScore: {
     stops: ['#f0fdfa', '#99f6e4', '#2dd4bf', '#0d9488', '#115e59', '#042f2e'],
     property: WALK_PROPS.accessScore,
-    label: 'Access score (0–1)',
+    label: 'Access Score (0–1)',
   },
   accessTier: {
     stops: ['#dc2626', '#fbbf24', '#0d9488'],
     property: WALK_PROPS.accessTier,
-    label: 'Access tier',
+    label: 'Access Tier',
     categorical: true,
   },
   timeFood: {
     stops: ['#042f2e', '#115e59', '#0d9488', '#5eead4', '#ccfbf1', '#f0fdfa'],
     property: WALK_PROPS.timeFood,
-    label: 'Walk time — Food (min)',
+    label: 'Walk Time — Food (min)',
   },
   timeEducation: {
     stops: ['#042f2e', '#115e59', '#0d9488', '#5eead4', '#ccfbf1', '#f0fdfa'],
     property: WALK_PROPS.timeEducation,
-    label: 'Walk time — Education (min)',
+    label: 'Walk Time — Education (min)',
   },
   timeHealth: {
     stops: ['#042f2e', '#115e59', '#0d9488', '#5eead4', '#ccfbf1', '#f0fdfa'],
     property: WALK_PROPS.timeHealth,
-    label: 'Walk time — Health (min)',
+    label: 'Walk Time — Health (min)',
   },
   timeTransit: {
     stops: ['#042f2e', '#115e59', '#0d9488', '#5eead4', '#ccfbf1', '#f0fdfa'],
     property: WALK_PROPS.timeTransit,
-    label: 'Walk time — Transit (min)',
+    label: 'Walk Time — Transit (min)',
   },
   timeFinance: {
     stops: ['#042f2e', '#115e59', '#0d9488', '#5eead4', '#ccfbf1', '#f0fdfa'],
     property: WALK_PROPS.timeFinance,
-    label: 'Walk time — Finance (min)',
+    label: 'Walk Time — Finance (min)',
   },
   timeOpenSpace: {
     stops: ['#042f2e', '#115e59', '#0d9488', '#5eead4', '#ccfbf1', '#f0fdfa'],
     property: WALK_PROPS.timeOpenSpace,
-    label: 'Walk time — Open space (min)',
+    label: 'Walk Time — Open Space (min)',
   },
 }
 
@@ -110,11 +110,11 @@ export const WALK_FAB_LAYERS = [
   { id: 'timeTransit', label: 'Walk Time — Transit', dot: '#99f6e4', group: 'metric' },
   { id: 'timeFinance', label: 'Walk Time — Finance', dot: '#ccfbf1', group: 'metric' },
   { id: 'timeOpenSpace', label: 'Walk Time — Open Space', dot: '#f0fdfa', group: 'metric' },
-  { id: 'deserts', label: 'Deserts outline (low tier)', dot: '#dc2626', group: 'independent' },
-  { id: 'mismatch', label: 'Centrality–access mismatch', dot: '#7c3aed', group: 'independent' },
+  { id: 'deserts', label: 'Deserts Outline (Low Tier)', dot: '#dc2626', group: 'independent' },
+  { id: 'mismatch', label: 'Centrality–Access Mismatch', dot: '#7c3aed', group: 'independent' },
   { id: 'buildings', label: 'Buildings (Zenodo)', dot: '#64748b', group: 'independent' },
   { id: 'roads', label: 'Roads — Primary', dot: '#f77f00', group: 'independent' },
-  { id: 'pois', label: 'POIs — Access destinations', dot: '#db2777', group: 'independent' },
+  { id: 'pois', label: 'POIs — Access Destinations', dot: '#db2777', group: 'independent' },
 ]
 
 export const DEFAULT_WALK_VISIBLE = {
