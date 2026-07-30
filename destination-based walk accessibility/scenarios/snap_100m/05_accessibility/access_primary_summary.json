@@ -1,0 +1,129 @@
+{
+  "hex_count": 447,
+  "analysis_hex_count": 341,
+  "analysis_definition": "area_ratio>=0.90 AND snap_ok=true",
+  "area_ratio_analysis_threshold": 0.9,
+  "completeness_counts": {
+    "core": 331,
+    "near_complete": 10,
+    "partial": 41,
+    "sliver": 65,
+    "unknown": 0
+  },
+  "walk_speed_kmh": 4.8,
+  "walk_m_per_min": 80.0,
+  "thresholds_m": {
+    "5": 400.0,
+    "10": 800.0,
+    "15": 1200.0
+  },
+  "dest_groups": [
+    "food",
+    "education",
+    "health",
+    "transit",
+    "finance",
+    "open_space"
+  ],
+  "coverage_analysis_ok": {
+    "food": {
+      "within_5_min": 0.9472,
+      "within_10_min": 0.9941,
+      "within_15_min": 0.9941,
+      "median_dist_m": 155.495,
+      "mean_dist_m": 171.885
+    },
+    "education": {
+      "within_5_min": 0.4457,
+      "within_10_min": 0.827,
+      "within_15_min": 0.9443,
+      "median_dist_m": 435.013,
+      "mean_dist_m": 508.942
+    },
+    "health": {
+      "within_5_min": 0.3226,
+      "within_10_min": 0.8035,
+      "within_15_min": 0.9765,
+      "median_dist_m": 556.74,
+      "mean_dist_m": 555.339
+    },
+    "transit": {
+      "within_5_min": 0.4106,
+      "within_10_min": 0.8974,
+      "within_15_min": 0.9912,
+      "median_dist_m": 455.474,
+      "mean_dist_m": 462.69
+    },
+    "finance": {
+      "within_5_min": 0.4809,
+      "within_10_min": 0.8798,
+      "within_15_min": 0.9912,
+      "median_dist_m": 409.19,
+      "mean_dist_m": 446.174
+    },
+    "open_space": {
+      "within_5_min": 0.3284,
+      "within_10_min": 0.8299,
+      "within_15_min": 0.9795,
+      "median_dist_m": 498.92,
+      "mean_dist_m": 528.565
+    }
+  },
+  "coverage_non_edge_snap_ok": {
+    "food": {
+      "within_5_min": 0.9472,
+      "within_10_min": 0.9941,
+      "within_15_min": 0.9941,
+      "median_dist_m": 155.495,
+      "mean_dist_m": 171.885
+    },
+    "education": {
+      "within_5_min": 0.4457,
+      "within_10_min": 0.827,
+      "within_15_min": 0.9443,
+      "median_dist_m": 435.013,
+      "mean_dist_m": 508.942
+    },
+    "health": {
+      "within_5_min": 0.3226,
+      "within_10_min": 0.8035,
+      "within_15_min": 0.9765,
+      "median_dist_m": 556.74,
+      "mean_dist_m": 555.339
+    },
+    "transit": {
+      "within_5_min": 0.4106,
+      "within_10_min": 0.8974,
+      "within_15_min": 0.9912,
+      "median_dist_m": 455.474,
+      "mean_dist_m": 462.69
+    },
+    "finance": {
+      "within_5_min": 0.4809,
+      "within_10_min": 0.8798,
+      "within_15_min": 0.9912,
+      "median_dist_m": 409.19,
+      "mean_dist_m": 446.174
+    },
+    "open_space": {
+      "within_5_min": 0.3284,
+      "within_10_min": 0.8299,
+      "within_15_min": 0.9795,
+      "median_dist_m": 498.92,
+      "mean_dist_m": 528.565
+    }
+  },
+  "mean_access_score": 0.8719,
+  "median_access_score": 1.0,
+  "desert_count": 29,
+  "desert_definition": "analysis_ok AND groups_within_10 <= 2",
+  "desert_share": 0.085,
+  "poi_sources_snapped": {
+    "food": 147,
+    "education": 19,
+    "health": 12,
+    "transit": 23,
+    "finance": 39,
+    "open_space": 11
+  }
+}

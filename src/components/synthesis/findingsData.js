@@ -10,6 +10,7 @@ export const DOMAIN_META = {
   density: { label: 'Density', color: '#22d3ee' },
   social: { label: 'Social', color: '#fb923c' },
   governance: { label: 'Governance', color: '#c4b5fd' },
+  walk: { label: 'Walk Access', color: '#0d9488' },
 }
 
 export const EDGE_TYPE_META = {
@@ -185,22 +186,23 @@ export const findings = [
   {
     id: 'F8',
     label: 'Network Centrality Concentrates Pressure',
-    domains: ['morphology', 'social', 'maturation'],
+    domains: ['morphology', 'social', 'maturation', 'walk'],
     observation: [
       'Centrality maps (closeness / betweenness at multiple scales) highlight Mount Lavinia Junction and corridor links as key movement spines.',
       'UMI accessibility (from 5000 m closeness NQPDA5000 and betweenness BtA5000) averages only about 0.11 on a 0–1 scale across 341 analysis-grade hexes (≥90% complete).',
       'Network importance is high where measured accessibility still lags.',
+      'Five analysis hexes combine top-quartile mean BtA5000 with destination access_score under 0.5 — high betweenness without matching daily destination reach.',
     ],
     interpretation: [
       'Shannon entropy (land-use mix) remains a strong maturation lens for reading mix.',
       'Accessibility is the weak part of the UMI composite on the primary grid.',
       'Heat, crowding, and tourism–resident friction still pile onto the most central streets.',
-      'Being on a busy spine is not the same as fair, mature access.',
+      'Being on a busy spine is not the same as fair, mature access — nor as destination walk reach.',
     ],
     implication: [
       'Put shade, sidewalk, and cooling packages first on high betweenness and closeness links through Mount Lavinia Junction.',
       'Improve walkable access to daily destinations so network importance is matched by real accessibility, which currently averages only about 0.11 on UMI.',
-      'Read corridor pressure through Shannon land-use mix maps and centrality together so upgrades serve both movement and maturation.',
+      'Read corridor pressure through Shannon land-use mix maps, centrality, and destination walk mismatch together so upgrades serve both movement and lived access.',
     ],
     evidence: [
       { tab: 'centrality', label: 'Centrality maps', path: '/focus-area', focusSub: 'centrality' },
@@ -209,6 +211,12 @@ export const findings = [
         label: 'Shannon Entropy + UMI accessibility',
         path: '/focus-area',
         focusSub: 'maturation',
+      },
+      {
+        tab: 'walk',
+        label: 'Walk access · centrality mismatch',
+        path: '/focus-area',
+        focusSub: 'walk-access',
       },
     ],
     issuesLinks: ['PT1', 'SE7'],
@@ -376,23 +384,25 @@ export const findings = [
   {
     id: 'F15',
     label: 'Accessibility Lags Mix and Diversity',
-    domains: ['maturation', 'morphology'],
+    domains: ['maturation', 'morphology', 'walk'],
     observation: [
       'UMI component means on primary analysis-grade hexes (0–1): Shannon entropy about 0.44.',
       'Land-use diversity about 0.46.',
       'Accessibility about 0.11 (from 5000 m closeness and betweenness).',
       'Shannon and diversity are the stronger maturation readings.',
       'Weak accessibility pulls the composite UMI down to about 0.34—below what mix alone would suggest.',
+      'Destination walk access averages about 0.879 across 323 analysis hexes, but health (80.8%) and education (83.0%) 10-minute coverage still lag food (99.4%).',
     ],
     interpretation: [
       'A mid UMI does not mean “no mix.”',
       'Shannon and diversity show more functional variety than the accessibility layer delivers.',
       'Functional reach is thin relative to network and tourism pressure (see F8).',
+      'UMI accessibility measures network potential; destination walk scores measure lived reach to services — both lag behind mix in different ways.',
     ],
     implication: [
       'Insert reachable shops, services, and daily destinations along main corridors so accessibility rises toward the stronger Shannon and diversity readings.',
       'Prefer mixed Live+Work hexes over repeating mono-typology hotel or condo slabs.',
-      'Target access upgrades where UMI lags Shannon so the composite score can catch up to real land-use mix.',
+      'Target access upgrades where UMI lags Shannon — and where destination deserts or health/education gaps remain — so the composite score can catch up to real land-use mix.',
     ],
     evidence: [
       {
@@ -402,6 +412,12 @@ export const findings = [
         focusSub: 'maturation',
       },
       { tab: 'centrality', label: 'Centrality maps', path: '/focus-area', focusSub: 'centrality' },
+      {
+        tab: 'walk',
+        label: 'Destination walk accessibility',
+        path: '/focus-area',
+        focusSub: 'walk-access',
+      },
     ],
     issuesLinks: ['GOV1', 'PT1'],
   },
@@ -443,6 +459,94 @@ export const findings = [
     ],
     issuesLinks: ['RC1', 'RC2', 'GOV1'],
   },
+  {
+    id: 'WA1',
+    label: 'Food Access Is Strong; Health and Education Lag',
+    domains: ['walk', 'morphology'],
+    observation: [
+      'Among 323 analysis hexes (area_ratio≥0.90 and snapped), mean destination access_score is 0.873.',
+      'Within a 10-minute walk, food coverage is 99.4% while health is 80.8% and education is 83.0%.',
+      'Transit (89.5%), finance (87.9%), and open space (83.3%) sit between those extremes.',
+    ],
+    interpretation: [
+      'Daily retail/food destinations are already dense relative to other essential services.',
+      'Health and education remain the thinnest 10-minute destination groups, so accessibility is uneven by function rather than uniformly poor.',
+      'Five-minute coverage is much lower for health/education than for food, so short-trip equity gaps are sharper than 10-minute totals alone suggest.',
+    ],
+    implication: [
+      'Prioritise pharmacies/clinics and school-adjacent walking links where 10-minute health/education reach is weakest.',
+      'Do not treat high food coverage as proof that all daily needs are walkable.',
+      'Use destination-group time maps and coverage bars to target service insertion or crossing upgrades.',
+    ],
+    evidence: [
+      {
+        tab: 'walk',
+        label: 'Walk Accessibility · coverage by group',
+        path: '/focus-area',
+        focusSub: 'walk-access',
+      },
+    ],
+    issuesLinks: ['GOV1', 'PT1'],
+  },
+  {
+    id: 'WA2',
+    label: 'Destination Deserts Are Localized',
+    domains: ['walk', 'morphology'],
+    observation: [
+      '27 analysis hexes are low-tier deserts (groups_within_10 ≤ 2), about 8.4% of the analysis set.',
+      'Tier among all 447 hexes: high 257, medium 39, low 27, excluded 124.',
+      'Excluded cells are incomplete (<90% area) or unsnapped; they remain mapped but are outside KPI denominators.',
+    ],
+    interpretation: [
+      'Most of the primary area already reaches five or more destination groups within 10 minutes.',
+      'Deserts are concentrated pockets, not an area-wide failure of walk access.',
+      'Treating only legacy is_edge cells as invalid would mis-state the problem; the analysis_ok gate keeps near-complete boundary hexes in the evidence.',
+    ],
+    implication: [
+      'Treat the 27 desert hexes as priority zones for missing daily destinations or safer walk links into existing clusters.',
+      'Keep deserts visible alongside high-access fabric so interventions stay place-specific.',
+      'Re-check deserts after any POI inventory update (health/education especially).',
+    ],
+    evidence: [
+      {
+        tab: 'walk',
+        label: 'Walk Accessibility · deserts outline',
+        path: '/focus-area',
+        focusSub: 'walk-access',
+      },
+    ],
+    issuesLinks: ['GOV1'],
+  },
+  {
+    id: 'WA3',
+    label: 'A Few High-Betweenness Cells Still Lack Daily Destinations',
+    domains: ['walk', 'morphology', 'maturation'],
+    observation: [
+      '5 analysis hexes combine top-quartile mean BtA5000 with access_score under 0.5.',
+      'These cells sit on structurally important movement corridors but still fail to reach half of the six destination groups within 10 minutes.',
+      'This is the spatial bridge to synthesis finding F8 (network centrality concentrates pressure).',
+    ],
+    interpretation: [
+      'Network importance (space-syntax betweenness) is not the same as destination reach.',
+      'UMI accessibility (~0.11 from NQPDA/BtA) measures network potential; destination walk scores measure lived reach to services.',
+      'Mismatch hexes show where movement spines still under-serve daily needs.',
+    ],
+    implication: [
+      'Put service insertion, sidewalk continuity, and shade packages first on mismatch corridors.',
+      'When reading F8/F15, cite destination walk results alongside centrality so accessibility lag is not read as network topology alone.',
+      'Avoid assuming high betweenness streets already have complete daily amenity catchments.',
+    ],
+    evidence: [
+      {
+        tab: 'walk',
+        label: 'Walk Accessibility · mismatch outline',
+        path: '/focus-area',
+        focusSub: 'walk-access',
+      },
+      { tab: 'centrality', label: 'Centrality maps', path: '/focus-area', focusSub: 'centrality' },
+    ],
+    issuesLinks: ['PT1', 'SE7'],
+  },
 ]
 
 /** Typed edges for the claim interconnection diagram. */
@@ -475,6 +579,10 @@ export const findingEdges = [
   { source: 'F16', target: 'F9', type: 'amplifies', strength: 2 },
   { source: 'F16', target: 'F13', type: 'amplifies', strength: 2 },
   { source: 'F8', target: 'F16', type: 'amplifies', strength: 1 },
+  { source: 'WA1', target: 'F15', type: 'amplifies', strength: 2 },
+  { source: 'WA2', target: 'WA1', type: 'co_located', strength: 2 },
+  { source: 'WA3', target: 'F8', type: 'amplifies', strength: 2 },
+  { source: 'WA3', target: 'F15', type: 'caused_by', strength: 2 },
 ]
 
 /**

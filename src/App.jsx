@@ -12,7 +12,7 @@ import Tab6_Problems from './tabs/Tab6_Problems.jsx'
 import Tab7_Synthesis from './tabs/Tab7_Synthesis.jsx'
 import ExportMaps from './tabs/ExportMaps.jsx'
 
-const FOCUS_SUB_IDS = new Set(['centrality', 'density', 'maturation', 'network-form'])
+const FOCUS_SUB_IDS = new Set(['centrality', 'density', 'maturation', 'walk-access', 'network-form'])
 
 export default function App() {
   const location = useLocation()

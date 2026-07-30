@@ -25,8 +25,7 @@
     "q75": 99.2,
     "pct_200_to_500m": 6.0
   },
-  "rifat_benchmark_four_to_three": "0.07 : 0.93",
-  "compare_note": "Shares are among degree\u22653 junctions inside Mount Lavinia GN. Rifat area-wide benchmark was 0.07 : 0.93; treat as direction check, not exact match.",
+  "compare_note": "Shares are among degree\u22653 junctions inside Mount Lavinia GN.",
   "icon_legend": {
     "four_way": {
       "symbol": "triangle",

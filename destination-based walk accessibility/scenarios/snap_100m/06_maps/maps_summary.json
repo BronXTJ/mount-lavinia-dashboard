@@ -1,0 +1,29 @@
+{
+  "hex_count": 447,
+  "analysis_hex_count": 341,
+  "analysis_definition": "area_ratio>=0.90 AND snap_ok=true",
+  "tier_counts": {
+    "high": 272,
+    "excluded": 106,
+    "medium": 40,
+    "low": 29
+  },
+  "bta_q75": 4.496303,
+  "mismatch_count": 5,
+  "mismatch_definition": "analysis_ok AND mean_BtA5000 >= Q75 AND access_score < 0.5",
+  "plot_crs": "EPSG:32644",
+  "maps": {
+    "map01_access_score": "map01_access_score.png",
+    "map02_access_tiers_deserts": "map02_access_tiers_deserts.png",
+    "map03_time_by_group": "map03_time_by_group.png",
+    "map04_coverage_10min": "map04_coverage_10min.png",
+    "map05_centrality_mismatch": "map05_centrality_mismatch.png"
+  },
+  "map_bytes": {
+    "map01_access_score": 179822,
+    "map02_access_tiers_deserts": 182890,
+    "map03_time_by_group": 440653,
+    "map04_coverage_10min": 49456,
+    "map05_centrality_mismatch": 143552
+  }
+}

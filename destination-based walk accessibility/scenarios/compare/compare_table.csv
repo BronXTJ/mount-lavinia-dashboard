@@ -1,0 +1,13 @@
+metric,snap_50m,snap_100m,delta_100_minus_50
+snap_tolerance_m,50.0,100.0,50.0
+hex_snap_ok,389,429,40.0
+hex_snap_fail,58,18,-40.0
+poi_snap_ok,247,256,9.0
+analysis_hex_count,323,341,18.0
+mean_access_score,0.8731,0.8719,-0.0011999999999999789
+desert_count,27,29,2.0
+mismatch_count,5,5,0.0
+tier_high,257,272,15.0
+tier_medium,39,40,1.0
+tier_low,27,29,2.0
+tier_excluded,124,106,-18.0

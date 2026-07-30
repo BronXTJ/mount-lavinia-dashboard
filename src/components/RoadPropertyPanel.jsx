@@ -1,7 +1,10 @@
+import { useEffect, useMemo, useState } from 'react'
 import { MousePointerClick } from 'lucide-react'
 import TopRoadsPanel from './TopRoadsPanel.jsx'
+import RoadRankingsScopeSelect from './RoadRankingsScopeSelect.jsx'
 import MetricInfoButton from './focusArea/MetricInfoButton.jsx'
 import { LAND_USE_COLORS } from '../constants/mapLayers.js'
+import { buildRoadRankings, extractMountLaviniaGeometry } from '../utils/roadRankings.js'
 
 function InfoIcon() {
   return (
@@ -22,7 +25,7 @@ const ROAD_PROPERTY_INFO = {
     'Lists selected main roads in the Primary Study Area with property and land-use shares.',
     'Selecting a road highlights it on the map and updates residential, commercial, and bare-land percentages.',
     'Total properties counts parcels linked to that road in the property registry.',
-    'Road Rankings show the top roads by residential, commercial, or vacant share.',
+    'Road Rankings combine both sides of each road and show top shares by land use.',
   ],
 }
 
@@ -30,21 +33,48 @@ const ROAD_RANKINGS_INFO = {
   title: 'Road Rankings',
   ariaLabel: 'What do Road Rankings show?',
   points: [
-    'Top 5 roads ranked by residential, commercial, or vacant (bare land) share.',
-    'Switch tabs to change which land-use share drives the ranking.',
+    'Each tab ranks roads independently by residential, commercial, or vacant (bare land) share — up to 10 when data allows.',
+    'Both carriageway sides are combined when both exist; All GN Divisions also includes one-sided roads.',
+    'Mount Lavinia uses the GN boundary plus one-sided in-GN roads; scroll the list to see the full ranking.',
+    'Commercial and vacant tabs omit roads with 0% on that share.',
     'Clickable rows select that road in the list above and highlight it on the map.',
-    'Some ranked roads may lack per-road detail and are shown as non-clickable.',
   ],
 }
 
 /**
  * Interactive road property analysis: scrollable road list (selecting a
  * road also drives the map highlight via onSelectRoad), an info card for
- * whichever road is selected, and — below that — the full-width Top-5
- * road rankings panel.
+ * whichever road is selected, and — below that — the full-width ranked
+ * road rankings panel (up to 10 per tab).
  */
 export default function RoadPropertyPanel({ data, selectedRoadName, onSelectRoad }) {
+  const [rankingsScope, setRankingsScope] = useState('all')
+  const [mlGeometry, setMlGeometry] = useState(null)
   const selectedRoad = data.roads.find((r) => r.name === selectedRoadName) ?? null
+
+  useEffect(() => {
+    let cancelled = false
+    const url = `${import.meta.env.BASE_URL}data/geo/gn5_combined_area.geojson`
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to load GN boundaries (${res.status})`)
+        return res.json()
+      })
+      .then((collection) => {
+        if (!cancelled) setMlGeometry(extractMountLaviniaGeometry(collection))
+      })
+      .catch(() => {
+        if (!cancelled) setMlGeometry(null)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const top5 = useMemo(
+    () => buildRoadRankings(data.roads, { scope: rankingsScope, mlGeometry }),
+    [data.roads, rankingsScope, mlGeometry],
+  )
 
   return (
     <div className="rounded-lg border border-surface-700 bg-surface-800 p-5 shadow-card">
@@ -160,17 +190,20 @@ export default function RoadPropertyPanel({ data, selectedRoadName, onSelectRoad
       </div>
 
       <div className="mt-5 overflow-hidden rounded-md border border-surface-700/80 bg-surface-900/40">
-        <div className="flex items-center gap-2 border-b border-surface-700/80 px-3 py-2">
+        <div className="flex flex-wrap items-center gap-2 border-b border-surface-700/80 px-3 py-2">
           <p className="font-display text-sm font-semibold text-surface-50">Road Rankings</p>
           <MetricInfoButton
             title={ROAD_RANKINGS_INFO.title}
             points={ROAD_RANKINGS_INFO.points}
             ariaLabel={ROAD_RANKINGS_INFO.ariaLabel}
           />
+          <div className="ml-auto w-full min-w-[10rem] sm:w-auto sm:min-w-[11rem]">
+            <RoadRankingsScopeSelect value={rankingsScope} onChange={setRankingsScope} />
+          </div>
         </div>
         <div className="p-3">
           <TopRoadsPanel
-            top5={data.top5}
+            top5={top5}
             selectedRoadName={selectedRoadName}
             onSelectRoad={onSelectRoad}
           />

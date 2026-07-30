@@ -17,6 +17,7 @@ import {
   Thermometer,
   Trees,
   TrendingUp,
+  Footprints,
 } from 'lucide-react'
 import DeveloperModal from './DeveloperModal.jsx'
 import UserGuideModal from './UserGuideModal.jsx'
@@ -31,6 +32,7 @@ const FOCUS_SUBS = [
   { id: 'centrality', label: 'Centrality Analysis', icon: Layers },
   { id: 'density', label: 'Density Analysis', icon: Grid3x3 },
   { id: 'maturation', label: 'Urban Maturation', icon: TrendingUp },
+  { id: 'walk-access', label: 'Walk Accessibility', icon: Footprints },
   { id: 'network-form', label: 'Network Form', icon: GitBranch },
 ]
 

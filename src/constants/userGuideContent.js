@@ -35,7 +35,7 @@ export const USER_GUIDE_SECTIONS = [
     title: 'Focus Area — maps',
     icon: 'MapPin',
     bullets: [
-      'Open Centrality, Density, or Urban Maturation from under Focus Area in the sidebar.',
+      'Open Centrality, Density, Urban Maturation, or Walk Accessibility from under Focus Area in the sidebar.',
       'Use the floating layer button (FAB) on the map to toggle analysis and context layers on or off.',
       'Use the FAB Basemap chips to switch Streets (default) or Satellite.',
       'Click a hex cell (or street segment on Centrality) to inspect its values in the side panel.',
@@ -77,6 +77,19 @@ export const USER_GUIDE_SECTIONS = [
       'Use the FAB to control which layers appear with the maturation choropleth, and Streets / Satellite basemap.',
       'Charts use analysis-grade hexes (≥90% complete); partial cells are dimmed on the map and omitted from KPIs.',
       'Key Findings chips link straight into related Synthesis claims.',
+    ],
+  },
+  {
+    id: 'walk-access',
+    title: 'Walk Accessibility',
+    icon: 'Footprints',
+    bullets: [
+      'Explore access score, access tier, and walk-time layers by destination group on the hex grid. Nearly complete cells are coloured; partial cells are dimmed; scraps stay unfilled.',
+      'Toggle map layers with the FAB (metrics, desert / mismatch outlines, buildings, roads, access-destination POIs, analysis boundary).',
+      'POIs use the same pink pulse ring + filled dot as Density; switch Streets / Satellite basemap in the FAB when you want imagery under the hexes.',
+      'KPIs use analysis-grade hexes (≥90% of full area). Click a coloured hex for layer-specific facts; click Minimum / Highest Cell ID to fly to extremes.',
+      'Desert and mismatch Cell ID chips on the right fly the map to those hexes. Destination reach is not the same as UMI network accessibility.',
+      'Key Findings chips (WA1–WA3) link straight into Synthesis.',
     ],
   },
   {

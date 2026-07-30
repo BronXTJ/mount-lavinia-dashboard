@@ -1,0 +1,30 @@
+{
+  "feature_count": 257,
+  "by_dest_group": {
+    "education": 19,
+    "finance": 39,
+    "food": 152,
+    "health": 12,
+    "open_space": 12,
+    "transit": 23
+  },
+  "by_source": {
+    "gmaps": 87,
+    "osm": 170
+  },
+  "in_primary_count": 177,
+  "in_buffer_only_count": 80,
+  "empty_groups": [],
+  "dedupe_m": 30,
+  "buffer_m": 500,
+  "bbox_crs84": [
+    79.8614268,
+    6.8193542,
+    79.8773217,
+    6.853661
+  ],
+  "old_pois_primary_count": 147,
+  "osm_raw_count": 257,
+  "gmaps_raw_mapped_count": 177,
+  "merged_before_dedupe": 434
+}

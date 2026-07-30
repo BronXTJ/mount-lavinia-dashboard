@@ -106,7 +106,7 @@ export const DENSITY_FAB_LAYERS = [
   { id: 'gsi', label: 'GSI — Ground Space Index', dot: '#3bbcc0', group: 'metric' },
   { id: 'osr', label: 'OSR — Open Space Ratio', dot: '#4a6c6f', group: 'metric' },
   { id: 'density', label: 'Density Value', dot: '#5ec962', group: 'metric' },
-  { id: 'buildings', label: 'Buildings (Zenodo)', dot: '#64748b', group: 'independent' },
+  { id: 'buildings', label: 'Buildings', dot: '#64748b', group: 'independent' },
   { id: 'roads', label: 'Roads — Primary', dot: '#f77f00', group: 'independent' },
   { id: 'pois', label: 'POIs — Primary', dot: '#db2777', group: 'independent' },
 ]

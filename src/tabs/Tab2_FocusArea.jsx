@@ -2,11 +2,13 @@ import CentralityAnalysisView from '../components/focusArea/CentralityAnalysisVi
 import DensityAnalysisView from '../components/focusArea/DensityAnalysisView.jsx'
 import NetworkFormView from '../components/focusArea/NetworkFormView.jsx'
 import UrbanMaturationView from '../components/focusArea/UrbanMaturationView.jsx'
+import WalkAccessibilityView from '../components/focusArea/WalkAccessibilityView.jsx'
 
 const VIEWS = {
   centrality: CentralityAnalysisView,
   density: DensityAnalysisView,
   maturation: UrbanMaturationView,
+  'walk-access': WalkAccessibilityView,
   'network-form': NetworkFormView,
 }
 
