@@ -1,0 +1,338 @@
+{
+  "Mount Lavinia": {
+    "study_unit": "Mount Lavinia",
+    "gn_area_km2": 1.1501,
+    "method": {
+      "densify": false,
+      "node_snap_m": 1.0,
+      "degree2_collapsed": true,
+      "inside_gn_only": true
+    },
+    "headline": {
+      "four_to_three_ratio": "0.11 : 0.89",
+      "four_to_three_raw": "13 : 109",
+      "four_way_share": 0.1066,
+      "n_culdesac": 65,
+      "n_three_way": 109,
+      "n_four_way": 13,
+      "n_junctions": 122,
+      "culdesac_per_km2": 56.52,
+      "culdesac_per_km_road": 3.59,
+      "median_junction_spacing_m": 66.5
+    },
+    "corridor_vs_interior": {
+      "n_corridor": 31,
+      "n_interior": 156,
+      "four_way_share_corridor": 0.1786,
+      "four_way_share_interior": 0.0851,
+      "buffer_m": 50.0
+    },
+    "sensitivity": {
+      "verdict": "stable",
+      "four_way_share_delta_pp": 0.09,
+      "stable": true
+    },
+    "cards": [
+      {
+        "id": "NF1",
+        "title": "Tree-like residential network",
+        "claim": "Junctions inside Mount Lavinia are 3-way dominated (0.11 : 0.89); the residential fabric is tree-like rather than a permeable grid."
+      },
+      {
+        "id": "NF2",
+        "title": "Cul-de-sacs and short local links",
+        "claim": "65 cul-de-sacs and median junction spacing 66.5 m show subdivided residential enclosure with limited local permeability."
+      },
+      {
+        "id": "NF3",
+        "title": "Spines carry permeability; interior stays tree-like",
+        "claim": "Corridor 4-way share (18%) exceeds interior (9%); destination access and centrality ride spines, not a grid fabric."
+      }
+    ],
+    "design_priorities": [
+      "Prefer interior permeability upgrades over assuming walk access proves grid form",
+      "Keep headline method at snap 1 m (sensitivity stable)",
+      "Cite NF1\u2013NF3 with walk accessibility and BtA centrality in synthesis"
+    ]
+  },
+  "Kawdana West": {
+    "study_unit": "Kawdana West",
+    "gn_area_km2": 0.525,
+    "method": {
+      "densify": false,
+      "node_snap_m": 1.0,
+      "degree2_collapsed": true,
+      "inside_gn_only": true
+    },
+    "headline": {
+      "four_to_three_ratio": "0.04 : 0.96",
+      "four_to_three_raw": "3 : 76",
+      "four_way_share": 0.038,
+      "n_culdesac": 58,
+      "n_three_way": 76,
+      "n_four_way": 3,
+      "n_junctions": 79,
+      "culdesac_per_km2": 110.47,
+      "culdesac_per_km_road": 5.6,
+      "median_junction_spacing_m": 52.3
+    },
+    "corridor_vs_interior": {
+      "n_corridor": 37,
+      "n_interior": 100,
+      "four_way_share_corridor": 0.069,
+      "four_way_share_interior": 0.02,
+      "buffer_m": 50.0
+    },
+    "sensitivity": {
+      "verdict": "stable",
+      "four_way_share_delta_pp": 0.09,
+      "stable": true
+    },
+    "cards": [
+      {
+        "id": "NF1",
+        "title": "Tree-like residential network",
+        "claim": "Junctions inside Kawdana West are 3-way dominated (0.04 : 0.96); the residential fabric is tree-like rather than a permeable grid."
+      },
+      {
+        "id": "NF2",
+        "title": "Cul-de-sacs and short local links",
+        "claim": "58 cul-de-sacs and median junction spacing 52.3 m show subdivided residential enclosure with limited local permeability."
+      },
+      {
+        "id": "NF3",
+        "title": "Spines carry permeability; interior stays tree-like",
+        "claim": "Corridor 4-way share (7%) exceeds interior (2%); destination access and centrality ride spines, not a grid fabric."
+      }
+    ],
+    "design_priorities": [
+      "Prefer interior permeability upgrades over assuming walk access proves grid form",
+      "Keep headline method at snap 1 m (sensitivity stable)",
+      "Cite NF1\u2013NF3 with walk accessibility and BtA centrality in synthesis"
+    ]
+  },
+  "Watarappala": {
+    "study_unit": "Watarappala",
+    "gn_area_km2": 0.395,
+    "method": {
+      "densify": false,
+      "node_snap_m": 1.0,
+      "degree2_collapsed": true,
+      "inside_gn_only": true
+    },
+    "headline": {
+      "four_to_three_ratio": "0.10 : 0.90",
+      "four_to_three_raw": "9 : 79",
+      "four_way_share": 0.1023,
+      "n_culdesac": 44,
+      "n_three_way": 79,
+      "n_four_way": 9,
+      "n_junctions": 88,
+      "culdesac_per_km2": 111.4,
+      "culdesac_per_km_road": 4.77,
+      "median_junction_spacing_m": 48.7
+    },
+    "corridor_vs_interior": {
+      "n_corridor": 10,
+      "n_interior": 122,
+      "four_way_share_corridor": 0.0,
+      "four_way_share_interior": 0.1139,
+      "buffer_m": 50.0
+    },
+    "sensitivity": {
+      "verdict": "stable",
+      "four_way_share_delta_pp": 0.09,
+      "stable": true
+    },
+    "cards": [
+      {
+        "id": "NF1",
+        "title": "Tree-like residential network",
+        "claim": "Junctions inside Watarappala are 3-way dominated (0.10 : 0.90); the residential fabric is tree-like rather than a permeable grid."
+      },
+      {
+        "id": "NF2",
+        "title": "Cul-de-sacs and short local links",
+        "claim": "44 cul-de-sacs and median junction spacing 48.7 m show subdivided residential enclosure with limited local permeability."
+      },
+      {
+        "id": "NF3",
+        "title": "Spines carry permeability; interior stays tree-like",
+        "claim": "Corridor 4-way share (0%) exceeds interior (11%); destination access and centrality ride spines, not a grid fabric."
+      }
+    ],
+    "design_priorities": [
+      "Prefer interior permeability upgrades over assuming walk access proves grid form",
+      "Keep headline method at snap 1 m (sensitivity stable)",
+      "Cite NF1\u2013NF3 with walk accessibility and BtA centrality in synthesis"
+    ]
+  },
+  "Wathumulla": {
+    "study_unit": "Wathumulla",
+    "gn_area_km2": 0.5492,
+    "method": {
+      "densify": false,
+      "node_snap_m": 1.0,
+      "degree2_collapsed": true,
+      "inside_gn_only": true
+    },
+    "headline": {
+      "four_to_three_ratio": "0.09 : 0.91",
+      "four_to_three_raw": "6 : 62",
+      "four_way_share": 0.0882,
+      "n_culdesac": 38,
+      "n_three_way": 62,
+      "n_four_way": 6,
+      "n_junctions": 68,
+      "culdesac_per_km2": 69.19,
+      "culdesac_per_km_road": 3.85,
+      "median_junction_spacing_m": 65.7
+    },
+    "corridor_vs_interior": {
+      "n_corridor": 25,
+      "n_interior": 81,
+      "four_way_share_corridor": 0.2,
+      "four_way_share_interior": 0.0233,
+      "buffer_m": 50.0
+    },
+    "sensitivity": {
+      "verdict": "stable",
+      "four_way_share_delta_pp": 0.09,
+      "stable": true
+    },
+    "cards": [
+      {
+        "id": "NF1",
+        "title": "Tree-like residential network",
+        "claim": "Junctions inside Wathumulla are 3-way dominated (0.09 : 0.91); the residential fabric is tree-like rather than a permeable grid."
+      },
+      {
+        "id": "NF2",
+        "title": "Cul-de-sacs and short local links",
+        "claim": "38 cul-de-sacs and median junction spacing 65.7 m show subdivided residential enclosure with limited local permeability."
+      },
+      {
+        "id": "NF3",
+        "title": "Spines carry permeability; interior stays tree-like",
+        "claim": "Corridor 4-way share (20%) exceeds interior (2%); destination access and centrality ride spines, not a grid fabric."
+      }
+    ],
+    "design_priorities": [
+      "Prefer interior permeability upgrades over assuming walk access proves grid form",
+      "Keep headline method at snap 1 m (sensitivity stable)",
+      "Cite NF1\u2013NF3 with walk accessibility and BtA centrality in synthesis"
+    ]
+  },
+  "Wedikanda": {
+    "study_unit": "Wedikanda",
+    "gn_area_km2": 0.6706,
+    "method": {
+      "densify": false,
+      "node_snap_m": 1.0,
+      "degree2_collapsed": true,
+      "inside_gn_only": true
+    },
+    "headline": {
+      "four_to_three_ratio": "0.10 : 0.90",
+      "four_to_three_raw": "9 : 82",
+      "four_way_share": 0.0989,
+      "n_culdesac": 54,
+      "n_three_way": 82,
+      "n_four_way": 9,
+      "n_junctions": 91,
+      "culdesac_per_km2": 80.53,
+      "culdesac_per_km_road": 4.54,
+      "median_junction_spacing_m": 59.9
+    },
+    "corridor_vs_interior": {
+      "n_corridor": 10,
+      "n_interior": 135,
+      "four_way_share_corridor": 0.1,
+      "four_way_share_interior": 0.0988,
+      "buffer_m": 50.0
+    },
+    "sensitivity": {
+      "verdict": "stable",
+      "four_way_share_delta_pp": 0.09,
+      "stable": true
+    },
+    "cards": [
+      {
+        "id": "NF1",
+        "title": "Tree-like residential network",
+        "claim": "Junctions inside Wedikanda are 3-way dominated (0.10 : 0.90); the residential fabric is tree-like rather than a permeable grid."
+      },
+      {
+        "id": "NF2",
+        "title": "Cul-de-sacs and short local links",
+        "claim": "54 cul-de-sacs and median junction spacing 59.9 m show subdivided residential enclosure with limited local permeability."
+      },
+      {
+        "id": "NF3",
+        "title": "Spines carry permeability; interior stays tree-like",
+        "claim": "Corridor 4-way share (10%) exceeds interior (10%); destination access and centrality ride spines, not a grid fabric."
+      }
+    ],
+    "design_priorities": [
+      "Prefer interior permeability upgrades over assuming walk access proves grid form",
+      "Keep headline method at snap 1 m (sensitivity stable)",
+      "Cite NF1\u2013NF3 with walk accessibility and BtA centrality in synthesis"
+    ]
+  },
+  "all": {
+    "study_unit": "All GN Divisions",
+    "gn_area_km2": 3.2898,
+    "method": {
+      "densify": false,
+      "node_snap_m": 1.0,
+      "degree2_collapsed": true,
+      "inside_gn_only": true
+    },
+    "headline": {
+      "four_to_three_ratio": "0.09 : 0.91",
+      "four_to_three_raw": "40 : 408",
+      "four_way_share": 0.0893,
+      "n_culdesac": 259,
+      "n_three_way": 408,
+      "n_four_way": 40,
+      "n_junctions": 448,
+      "culdesac_per_km2": 78.73,
+      "culdesac_per_km_road": 4.36,
+      "median_junction_spacing_m": 58.1
+    },
+    "corridor_vs_interior": {
+      "n_corridor": 113,
+      "n_interior": 594,
+      "four_way_share_corridor": 0.1287,
+      "four_way_share_interior": 0.0778,
+      "buffer_m": 50.0
+    },
+    "sensitivity": {
+      "verdict": "stable",
+      "four_way_share_delta_pp": 0.09,
+      "stable": true
+    },
+    "cards": [
+      {
+        "id": "NF1",
+        "title": "Tree-like residential network",
+        "claim": "Junctions inside All GN Divisions are 3-way dominated (0.09 : 0.91); the residential fabric is tree-like rather than a permeable grid."
+      },
+      {
+        "id": "NF2",
+        "title": "Cul-de-sacs and short local links",
+        "claim": "259 cul-de-sacs and median junction spacing 58.1 m show subdivided residential enclosure with limited local permeability."
+      },
+      {
+        "id": "NF3",
+        "title": "Spines carry permeability; interior stays tree-like",
+        "claim": "Corridor 4-way share (13%) exceeds interior (8%); destination access and centrality ride spines, not a grid fabric."
+      }
+    ],
+    "design_priorities": [
+      "Prefer interior permeability upgrades over assuming walk access proves grid form",
+      "Keep headline method at snap 1 m (sensitivity stable)",
+      "Cite NF1\u2013NF3 with walk accessibility and BtA centrality in synthesis"
+    ]
+  }
+}
