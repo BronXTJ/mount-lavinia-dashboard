@@ -1,7 +1,7 @@
 import { WALK_ACCESS_TIERS, WALK_METRIC_RAMPS } from '../../constants/walkAccessibility.js'
 
 /**
- * Bottom-left walk-access metric legend — same card chrome as DensityLegend.
+ * Bottom-left walk-access metric legend — same size as MaturationLegend (w-48).
  */
 export default function WalkAccessLegend({ activeMetric, stats }) {
   if (!activeMetric) return null
@@ -12,7 +12,7 @@ export default function WalkAccessLegend({ activeMetric, stats }) {
   if (activeMetric === 'accessTier') {
     const tiers = ['high', 'medium', 'low'].map((id) => WALK_ACCESS_TIERS[id])
     return (
-      <div className="pointer-events-none absolute bottom-14 left-3 z-[1000] w-72 rounded-lg border border-surface-700 bg-surface-900/95 p-4 shadow-card backdrop-blur">
+      <div className="pointer-events-none absolute bottom-14 left-3 z-[1000] w-48 rounded-lg border border-surface-700 bg-surface-900/95 p-4 shadow-card backdrop-blur">
         <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-surface-400">
           Legend
         </p>
@@ -49,7 +49,7 @@ export default function WalkAccessLegend({ activeMetric, stats }) {
   }
 
   return (
-    <div className="pointer-events-none absolute bottom-14 left-3 z-[1000] w-72 rounded-lg border border-surface-700 bg-surface-900/95 p-4 shadow-card backdrop-blur">
+    <div className="pointer-events-none absolute bottom-14 left-3 z-[1000] w-48 rounded-lg border border-surface-700 bg-surface-900/95 p-4 shadow-card backdrop-blur">
       <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-surface-400">
         Legend
       </p>
