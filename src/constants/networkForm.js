@@ -25,7 +25,10 @@ export const NETWORK_FORM_ICONS = {
   },
 }
 
-export const NETWORK_FORM_ROAD_COLOR = '#cbd5e1'
+export const NETWORK_FORM_ROAD_COLOR = '#e2e8f0'
+export const NETWORK_FORM_ROAD_COLOR_ON_STREETS = '#0f172a'
+export const NETWORK_FORM_ROAD_WEIGHT = 3.25
+export const NETWORK_FORM_ROAD_WEIGHT_ON_STREETS = 4
 export const NETWORK_FORM_GN_COLOR = '#00b4d8'
 export const NETWORK_FORM_HIGHLIGHT = '#00b4d8'
 

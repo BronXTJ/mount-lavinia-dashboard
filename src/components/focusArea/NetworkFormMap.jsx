@@ -13,6 +13,9 @@ import {
   NETWORK_FORM_MAP_CENTER,
   NETWORK_FORM_MAP_ZOOM,
   NETWORK_FORM_ROAD_COLOR,
+  NETWORK_FORM_ROAD_COLOR_ON_STREETS,
+  NETWORK_FORM_ROAD_WEIGHT,
+  NETWORK_FORM_ROAD_WEIGHT_ON_STREETS,
   NETWORK_FORM_SELECTED_ZOOM,
 } from '../../constants/networkForm.js'
 import {
@@ -22,18 +25,21 @@ import {
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
 import { findJunctionById, junctionLatLng } from '../../utils/networkFormStats.js'
 
-const roadStyle = {
-  color: NETWORK_FORM_ROAD_COLOR,
-  weight: 1.25,
-  opacity: 0.85,
-}
-
 const gnStyle = {
   color: NETWORK_FORM_GN_COLOR,
   weight: 2,
   fill: false,
   dashArray: '6 4',
   opacity: 0.95,
+}
+
+function roadStyleForBasemap(basemapId) {
+  const onStreets = basemapId === 'streets'
+  return {
+    color: onStreets ? NETWORK_FORM_ROAD_COLOR_ON_STREETS : NETWORK_FORM_ROAD_COLOR,
+    weight: onStreets ? NETWORK_FORM_ROAD_WEIGHT_ON_STREETS : NETWORK_FORM_ROAD_WEIGHT,
+    opacity: onStreets ? 0.92 : 0.9,
+  }
 }
 
 function junctionIcon(jtype, selected) {
@@ -122,6 +128,7 @@ export default function NetworkFormMap({
 }) {
   const [basemapId, setBasemapId] = useState(DEFAULT_NETWORK_FORM_BASEMAP)
   const basemap = useMemo(() => getNetworkFormBasemap(basemapId), [basemapId])
+  const roadStyle = useMemo(() => roadStyleForBasemap(basemapId), [basemapId])
 
   const showRoads = Boolean(visibleLayers?.roads)
   const showGn = Boolean(visibleLayers?.gnBoundary)
@@ -171,7 +178,9 @@ export default function NetworkFormMap({
         {fitData && <FitBoundsToGeoJson data={fitData} padding={[28, 28]} />}
 
         {showGn && gnBoundary && <GeoJSON data={gnBoundary} style={gnStyle} />}
-        {showRoads && streets && <GeoJSON data={streets} style={roadStyle} />}
+        {showRoads && streets && (
+          <GeoJSON key={`streets-${basemapId}`} data={streets} style={roadStyle} />
+        )}
 
         {markers.map((feature) => {
           const ll = junctionLatLng(feature)
