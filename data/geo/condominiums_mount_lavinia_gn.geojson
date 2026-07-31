@@ -1,0 +1,1843 @@
+{
+  "type": "FeatureCollection",
+  "name": "condominiums_mount_lavinia_gn",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "6 De Alwis Residencies",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "06 De Alwis Ave, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJUSxfAgBb4joRYM7t5wzj6dM",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=6%20De%20Alwis%20Residencies&query_place_id=ChIJUSxfAgBb4joRYM7t5wzj6dM"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8633695,
+          6.8411903
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Allan's home",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "8, Mount Towers, 8 Old Station Rd, Dehiwala-Mount Lavinia 10370, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJ0wCJSatN4joRkSc_pefn82Y",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Allan's%20home&query_place_id=ChIJ0wCJSatN4joRkSc_pefn82Y"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8669368,
+          6.8323402
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Arun Apartment",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "22 Aponsu Mawatha, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJ663oTwBb4joRJ22BoxB1Jgs",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Arun%20Apartment&query_place_id=ChIJ663oTwBb4joRJ22BoxB1Jgs"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8639006,
+          6.8486669
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Auburn side",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "18 Dudley Senanayake Mw, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJl1ZrLuxb4joRWb9Gy0QubRM",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Auburn%20side&query_place_id=ChIJl1ZrLuxb4joRWb9Gy0QubRM"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8652879,
+          6.8463704
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Avenue IX (Avenue 9)",
+        "developer": "Gateway Homes",
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "No 03 Mount Ave, Dehiwala-Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJfYGLqSJb4joRLyi0w1M2zxQ",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Avenue%20IX&query_place_id=ChIJfYGLqSJb4joRLyi0w1M2zxQ",
+          "https://propertyguide.lk/en/new-projects/"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.863654,
+          6.8337083
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Beach Front Residencies",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "3 Beach Rd, Dehiwala-Mount Lavinia 10370, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJx_jAOgBb4joRtdAYy41dDyY",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Beach%20Front%20Residencies&query_place_id=ChIJx_jAOgBb4joRtdAYy41dDyY"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8661468,
+          6.8425829
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Beach Mount Apartment",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "37/3 Beach Rd, Dehiwala-Mount Lavinia 10350, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJsTy0jldb4joRIED2eG4W9fY",
+        "review_needed": true,
+        "category": "Holiday apartment rental",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Beach%20Mount%20Apartment&query_place_id=ChIJsTy0jldb4joRIED2eG4W9fY"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8635389,
+          6.8419699
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Beach Road Residencies",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "RVR7+W5W, 03Beach Rd, Dehiwala-Mount Lavinia 10370, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJaWPrdgBb4joRtHp7GFDJ3l4",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Beach%20Road%20Residencies&query_place_id=ChIJaWPrdgBb4joRtHp7GFDJ3l4"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8629386,
+          6.8423664
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Blue Ocean Apartment (De Alwis Avenue)",
+        "developer": "Blue Ocean Group of Companies",
+        "floors": 15,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "6 De Alwis Ave, Dehiwala-Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJ-ZkiV3Bb4joR0wp_LCC1OKI",
+        "review_needed": false,
+        "category": "Condominium complex",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Blue%20Ocean%20Apartment&query_place_id=ChIJ-ZkiV3Bb4joR0wp_LCC1OKI",
+          "https://www.blueoceangroup.lk/",
+          "https://www.openstreetmap.org/way/1230166374"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.863369,
+          6.8411947
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Blue Ocean Apartment (Lilian Avenue)",
+        "developer": "Blue Ocean Group of Companies",
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": true,
+        "case_summary": "Area residents (incl. Lilian Avenue / Hotel Road coastal apartments) filed Court of Appeal Writ No. 43/2019 seeking enforcement of construction laws and review of UDA permits; not a building-specific conviction.",
+        "case_source_url": "https://www.lankaweb.com/news/items/2020/02/29/high-rise-corruption/",
+        "address": "15 Lillian Ave, Dehiwala-Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJBdhn2yJb4joR0ZpQQ-SHZHc",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": "https://www.blueoceangroup.lk/",
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Blue%20Ocean%20Apartment&query_place_id=ChIJBdhn2yJb4joR0ZpQQ-SHZHc",
+          "https://www.blueoceangroup.lk/",
+          "https://www.lankaweb.com/news/items/2020/02/29/high-rise-corruption/"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8642181,
+          6.8329898
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Blue Ocean Apartments (Beach Road)",
+        "developer": "Blue Ocean Group of Companies",
+        "floors": 8,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "37/3 Beach Road, Mount Lavinia",
+        "source": "osm+manual",
+        "place_id": "way/610247832",
+        "review_needed": false,
+        "category": "apartments",
+        "website": null,
+        "sources": [
+          "https://www.openstreetmap.org/way/610247832"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8634639,
+          6.8419972
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Blue Ocean Hotel Road",
+        "developer": "Blue Ocean Group of Companies",
+        "floors": 9,
+        "construction_start": null,
+        "completion_or_opening": "2022-07",
+        "year_built": 2022,
+        "age_years": 4,
+        "date_precision": "month",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "30 Hotel Rd, Dehiwala-Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJi_WJ_hhb4joRdmJHSpRdKUw",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": "http://www.blueocean.lk/",
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Blue%20Ocean%20Hotel%20Road%20Apartments&query_place_id=ChIJi_WJ_hhb4joRdmJHSpRdKUw",
+          "http://www.blueocean.lk/",
+          "https://propertyguide.lk/en/new-projects/blue-ocean-hotel-road-mount-lavinia"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8665038,
+          6.8384418
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Blue Ocean Residence 2",
+        "developer": "Blue Ocean Group of Companies",
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "11, 12 De Alwis Ave, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps+manual",
+        "place_id": "ChIJjfyimiBb4joRv5G7ifTYzj4",
+        "review_needed": false,
+        "category": "Condominium complex",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Blue%20Ocean%20Residence%202&query_place_id=ChIJjfyimiBb4joRv5G7ifTYzj4",
+          "https://www.blueoceangroup.lk/"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8635278,
+          6.8417872
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Blue Ocean Residence 2",
+        "developer": "Blue Ocean Group of Companies",
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "3, 1a Sri Dharmapala Mawatha, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps+manual",
+        "place_id": "ChIJ21y3z3Jb4joRUAkyeGujBTE",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Residence&query_place_id=ChIJ21y3z3Jb4joRUAkyeGujBTE",
+          "https://www.blueoceangroup.lk/"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8655082,
+          6.84415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Blue Ocean Residency (College Avenue)",
+        "developer": "Blue Ocean Group of Companies",
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "3 College Avenue, Dehiwala-Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJJd14Tg1b4joRp8vHsqtkty8",
+        "review_needed": false,
+        "category": "Condominium complex",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Blue%20Ocean%20Residency&query_place_id=ChIJJd14Tg1b4joRp8vHsqtkty8",
+          "https://www.blueoceangroup.lk/"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8661632,
+          6.8387133
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Blue Ocean Samudra Mawatha",
+        "developer": "Blue Ocean Group of Companies",
+        "floors": 7,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "1 Samudra Mawatha, Dehiwala-Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJaV7_UsJb4joRa5RjBe7xfs4",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Blue%20Ocean%20Residencies%20-%20Samudra%20Mawatha&query_place_id=ChIJaV7_UsJb4joRa5RjBe7xfs4",
+          "https://propertyguide.lk/en/new-projects/blue-ocean-samudra-mawatha-mount-lavinia"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8640344,
+          6.8415914
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "cgr2",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": null,
+        "source": "osm",
+        "place_id": "node/11842769884",
+        "review_needed": true,
+        "category": "apartment",
+        "website": null,
+        "sources": [
+          "https://www.openstreetmap.org/node/11842769884"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8624088,
+          6.8484755
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Crystal Apartments",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "6 De Saram Rd, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJf0u6_Blb4joR6Xn1_1c5GsA",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Crystal%20Apartments&query_place_id=ChIJf0u6_Blb4joR6Xn1_1c5GsA"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8643437,
+          6.8418277
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dehiwala",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "RVW7+699, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJA6jxCQBb4joROJojgsVxtQc",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Dehiwala&query_place_id=ChIJA6jxCQBb4joROJojgsVxtQc",
+          "https://www.google.com/maps/search/?api=1&query=Dehiwala%20Apartment%20242&query_place_id=ChIJeaiyRJ1b4joRA78kI7r0Igo"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8634804,
+          6.8455369
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Elysian Residencies",
+        "developer": "Elysian Realty",
+        "floors": 8,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "34/8 De Saram Rd, Dehiwala-Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJtxxe7MBb4joR8YMUrOlIfNk",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Elysian%20Residencies&query_place_id=ChIJtxxe7MBb4joR8YMUrOlIfNk",
+          "https://www.elysianrealty.lk/apartment-projects/elysian-residencies-mount-lavinia.html"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8638118,
+          6.8397588
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Geeth Daluwatta",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "20/3 Vihara Rd, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJHUFAWd5b4joR-G22dsn4--g",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Geeth%20Daluwatta&query_place_id=ChIJHUFAWd5b4joR-G22dsn4--g"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8636094,
+          6.8302122
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Good Hope Residencies",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "7, 26 De Saram Rd, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJx-pjHRpb4joR0FOBaH28FcM",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Good%20Hope%20Residencies&query_place_id=ChIJx-pjHRpb4joR0FOBaH28FcM"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8640779,
+          6.8403467
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hashim",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "14, 2 Auburn Side, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJvd6B6RFb4joRDtc6Raw0Dcw",
+        "review_needed": true,
+        "category": "Condominium complex",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Hashim&query_place_id=ChIJvd6B6RFb4joRDtc6Raw0Dcw"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.865847,
+          6.8470972
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Home Lasitha",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "1246 Dudley Senanayake Mw, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJz6TSVABb4joRw637wydQjmM",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Home%20Lasitha&query_place_id=ChIJz6TSVABb4joRw637wydQjmM"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.864433,
+          6.845925
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Home of Krish",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "15, 3 Aponsu Mawatha, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJZQx2FA9b4joR7e9pEyD0OHc",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Home%20of%20Krish&query_place_id=ChIJZQx2FA9b4joR7e9pEyD0OHc"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8648116,
+          6.8479739
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "HZ Residence",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "RVW7+FM7, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJy-J0u5Rb4joRx4IQmgakfYs",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=HZ%20Residence&query_place_id=ChIJy-J0u5Rb4joRx4IQmgakfYs"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8641695,
+          6.8461646
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Jonathan’s House",
+        "developer": null,
+        "floors": 7,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "8 Old Station Rd, Dehiwala-Mount Lavinia 10370, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJqwOhTQBb4joRp0jIYc6rj54",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Jonathan%E2%80%99s%20House&query_place_id=ChIJqwOhTQBb4joRp0jIYc6rj54",
+          "https://www.openstreetmap.org/way/1310763774"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8669546,
+          6.8323487
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "JPKL Tower",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "No -2B Siripala Rd, Dehiwala-Mount Lavinia 10350, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJa5hEjf1b4joRjMB3TsoVQcY",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=JPKL%20Tower&query_place_id=ChIJa5hEjf1b4joRjMB3TsoVQcY"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8660247,
+          6.8432614
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "KIRU Home",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "RVV7+VWX, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJ-YoIfwBb4joR082sAFmbS_s",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=KIRU%20Home&query_place_id=ChIJ-YoIfwBb4joR082sAFmbS_s"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8648474,
+          6.8447485
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lucky Residencies",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "22 Auburn Side, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJvxh_Vvtb4joRxhIxjv6VplM",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Lucky%20Residencies&query_place_id=ChIJvxh_Vvtb4joRxhIxjv6VplM"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8643917,
+          6.8469489
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "LXG HQ",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "RVV7+366, Siripala Rd, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJs21ngRBb4joR9Im6RFEsVQ8",
+        "review_needed": true,
+        "category": "Condominium complex",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=LXG%20HQ&query_place_id=ChIJs21ngRBb4joR9Im6RFEsVQ8"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8630255,
+          6.8426743
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Marine Plaza No.9",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "RVM7+JCC, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps+manual",
+        "place_id": "ChIJ8wp-syJb4joRVFTwivG-JHg",
+        "review_needed": false,
+        "category": "Furnished apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Marine%20Plaza%20No.9&query_place_id=ChIJ8wp-syJb4joRVFTwivG-JHg"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8635127,
+          6.8340544
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mount Court",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "RVV7+5FQ, Siripala Rd, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJX3-SfRpb4joRnc7W-Mv75qE",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Mount%20Court&query_place_id=ChIJX3-SfRpb4joRnc7W-Mv75qE"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.863733,
+          6.8429506
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mount Melody Apartment",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "RVV8+77X, Siripala Rd, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJZZe8BABb4joRA9ETIWmpS5w",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Mount%20Melody%20Apartment&query_place_id=ChIJZZe8BABb4joRA9ETIWmpS5w"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8657188,
+          6.8432289
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mount Residencies",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "13 Vihara Rd, Dehiwala-Mount Lavinia 13500, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJz6woTyNb4joR_UDMI7GUigc",
+        "review_needed": false,
+        "category": "Condominium complex",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Mount%20Residencies&query_place_id=ChIJz6woTyNb4joR_UDMI7GUigc"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8638302,
+          6.8307274
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mount Residencies",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": null,
+        "source": "gmaps",
+        "place_id": "ChIJN99a9zDWGAcRWXiOIrgV5Jw",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Mount%20Residencies&query_place_id=ChIJN99a9zDWGAcRWXiOIrgV5Jw"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8662333,
+          6.8391995
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MOUNT ROYAL RESIDENCIES",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "RVV7+6V2, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJNW93pUxb4joRjlQ3tAXMJag",
+        "review_needed": false,
+        "category": "Apartment complex",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=MOUNT%20ROYAL%20RESIDENCIES&query_place_id=ChIJNW93pUxb4joRjlQ3tAXMJag"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8646423,
+          6.8430214
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mount Tower",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "8, Mount Towers, 8 Old Station Rd, Dehiwala-Mount Lavinia 10370, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJfYKdewBb4joR9KmK0vCGdTM",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Mount%20Tower&query_place_id=ChIJfYKdewBb4joR9KmK0vCGdTM"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8669368,
+          6.8323402
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "NEMRA II",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "No. 2A1, 2 Siripala Rd, Dehiwala-Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJe3bU_xpb4joRfVN_c-PUmDM",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": "http://www.nemra.lk/",
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=NEMRA%20II&query_place_id=ChIJe3bU_xpb4joRfVN_c-PUmDM",
+          "http://www.nemra.lk/"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8661332,
+          6.8432713
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "NEMRA II",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "No. 2A1, 2 Siripala Rd, Dehiwala-Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJqV7qHABb4joRCOHfonD-_Nw",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=MR&query_place_id=ChIJqV7qHABb4joRCOHfonD-_Nw",
+          "http://www.nemra.lk/"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.865065,
+          6.846296
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Northpole Mount Residencies",
+        "developer": null,
+        "floors": 8,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "6 De Soysa Ave, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJYeH1Chhb4joREXV-Wck4WX8",
+        "review_needed": true,
+        "category": "apartments",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Northpole%20Mount%20Residencies&query_place_id=ChIJYeH1Chhb4joREXV-Wck4WX8",
+          "https://www.openstreetmap.org/way/1310763301"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8645127,
+          6.8351794
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "NS Apartments",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "19 Circular Rd, Dehiwala-Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJ2-VzXiJb4joRWhBJC6uMN60",
+        "review_needed": false,
+        "category": "Condominium complex",
+        "website": "http://nsapartments.info/",
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=NS%20Apartments&query_place_id=ChIJ2-VzXiJb4joRWhBJC6uMN60",
+          "http://nsapartments.info/"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8663052,
+          6.8343126
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ocean View Apartment",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "6 De Alwis Ave, Dehiwala-Mount Lavinia 10370, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJTbq_5whb4joRe9C5D5cfpo8",
+        "review_needed": false,
+        "category": "Condominium complex",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Ocean%20View%20Apartment&query_place_id=ChIJTbq_5whb4joRe9C5D5cfpo8"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.863414,
+          6.8411238
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Opal Residencies",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "19 Cross Rd, Dehiwala-Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJH8ibL2Rb4joRmutRAi4HWR8",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": "http://www.ydapartments.com/",
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Opal%20Residencies&query_place_id=ChIJH8ibL2Rb4joRmutRAi4HWR8",
+          "http://www.ydapartments.com/"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.86615,
+          6.8349485
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Paddy Mendis' Residence",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "RVQ8+V2J, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJn4RLuCZb4joRdT0v8qbaf-Y",
+        "review_needed": true,
+        "category": "Condominium complex",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Paddy%20Mendis'%20Residence&query_place_id=ChIJn4RLuCZb4joRdT0v8qbaf-Y"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.865005,
+          6.8397037
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pubudu Cultural Troupe",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "23 Circular Rd, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJzUjPfCJb4joRyK60IBDhzqA",
+        "review_needed": true,
+        "category": "Condominium complex",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Pubudu%20Cultural%20Troupe&query_place_id=ChIJzUjPfCJb4joRyK60IBDhzqA"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8663199,
+          6.8344751
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Residences at 28 aponso",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "28 Aponsu Mawatha, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJVSFdBgBb4joRiktytt7rpW8",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Residences%20at%2028%20aponso&query_place_id=ChIJVSFdBgBb4joRiktytt7rpW8"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8632891,
+          6.8485694
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rushan 96",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "96-1/1 Galle Rd, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJEc05GgBb4joRjShgjFTvpes",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Rushan%2096&query_place_id=ChIJEc05GgBb4joRjShgjFTvpes"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8657598,
+          6.8476769
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sel’S place",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "13 Vihara Rd, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJr-5gbQBb4joRmFP-oJd3mGA",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Sel%E2%80%99S%20place&query_place_id=ChIJr-5gbQBb4joRmFP-oJd3mGA"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8637249,
+          6.8307145
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Star Mount Residencies",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "9, 5 De Saram Rd, Dehiwala-Mount Lavinia 10370, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJ06NKxo5b4joRVLBBqTX-8RA",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Star%20Mount%20Residencies&query_place_id=ChIJ06NKxo5b4joRVLBBqTX-8RA"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8652742,
+          6.8415993
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sunflower Court",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "49 Dudley Senanayake Mw, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJdwEmsxpb4joRg18bqILOuEc",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Sunflower%20Court&query_place_id=ChIJdwEmsxpb4joRg18bqILOuEc"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8641792,
+          6.8456034
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "The Mount",
+        "developer": "Evercore Properties (Pvt) Ltd",
+        "floors": 7,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "19/1 Old Quarry Road, Mount Lavinia",
+        "source": "gmaps+manual",
+        "place_id": "ChIJw2Xo3FJb4joRAObQNhSQS1U",
+        "review_needed": false,
+        "category": "Condominium complex",
+        "website": "http://evercoreproperties.lk/",
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=The%20Mount%20by%20Evercore%20Properties%20Pvt%20Ltd&query_place_id=ChIJw2Xo3FJb4joRAObQNhSQS1U",
+          "http://evercoreproperties.lk/",
+          "https://www.themount.lk/about.html",
+          "https://www.openstreetmap.org/way/1310763775"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.865988,
+          6.8312987
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Unnamed apartments (OSM)",
+        "developer": null,
+        "floors": 9,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": null,
+        "source": "osm",
+        "place_id": "way/1310763300",
+        "review_needed": true,
+        "category": "apartments",
+        "website": null,
+        "sources": [
+          "https://www.openstreetmap.org/way/1310763300"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8643107,
+          6.8357496
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Upul",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "37 Dudley Senanayake Mawatha, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJadQGQwBb4joRqrqzv9gbb40",
+        "review_needed": true,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Upul&query_place_id=ChIJadQGQwBb4joRqrqzv9gbb40"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8637186,
+          6.8449778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Vesta Mount villa apartments",
+        "developer": null,
+        "floors": null,
+        "construction_start": null,
+        "completion_or_opening": null,
+        "year_built": null,
+        "age_years": null,
+        "date_precision": "unknown",
+        "case_found": false,
+        "case_summary": null,
+        "case_source_url": null,
+        "address": "4 Beach Rd, Dehiwala-Mount Lavinia, Sri Lanka",
+        "source": "gmaps",
+        "place_id": "ChIJMaGRzxJb4joRaifDM38_LrM",
+        "review_needed": false,
+        "category": "Apartment building",
+        "website": null,
+        "sources": [
+          "https://www.google.com/maps/search/?api=1&query=Vesta%20Mount%20villa%20apartments&query_place_id=ChIJMaGRzxJb4joRaifDM38_LrM"
+        ],
+        "gn_division": "Mount Lavinia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8659109,
+          6.8427335
+        ]
+      }
+    }
+  ]
+}
