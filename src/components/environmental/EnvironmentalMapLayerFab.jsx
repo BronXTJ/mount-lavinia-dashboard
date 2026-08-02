@@ -3,11 +3,13 @@ import { Layers, X } from 'lucide-react'
 import L from 'leaflet'
 import { ENV_FAB_LAYERS } from '../../constants/environmental.js'
 import BasemapChips from '../BasemapChips.jsx'
+import { useMapFullscreen } from '../MapFullscreenShell.jsx'
 
 /** Environmental Analysis map FAB — reliable switch rows + Leaflet DomEvent isolation. */
 export default function EnvironmentalMapLayerFab({ visibleLayers, onToggle, basemapId, onBasemapChange }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
+  const fullscreen = useMapFullscreen()
 
   useEffect(() => {
     const el = rootRef.current
@@ -32,7 +34,9 @@ export default function EnvironmentalMapLayerFab({ visibleLayers, onToggle, base
   return (
     <div
       ref={rootRef}
-      className="pointer-events-auto absolute top-4 right-4 z-[2000] flex flex-col items-end gap-2.5"
+      className={`pointer-events-auto absolute top-4 z-[2000] flex flex-col items-end gap-2.5 ${
+        fullscreen ? 'right-16' : 'right-4'
+      }`}
     >
       <span className="relative flex h-12 w-12 items-center justify-center">
         {!open && (

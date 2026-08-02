@@ -67,7 +67,7 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
               'Min / Max / Average across analysis-grade hexes (≥90% complete).',
               'Click Minimum / Highest Cell ID to fly to that hex and open the Access Score layer.',
             ]}
-            ariaLabel="What do the access score cards show?"
+            ariaLabel="What Do The Access Score Cards Show?"
           />
         </div>
         <div className="grid grid-cols-3 gap-3">
@@ -98,28 +98,28 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
           label="Desert Hexes"
           value={String(stats?.desertCount ?? 0)}
           topBorderColor="#dc2626"
-          hint="Low tier · ≤2 groups / 10 min"
+          hint="Low Tier · ≤2 Groups / 10 Min"
         />
         <DensityStatCard
           label="Mismatch Hexes"
           value={String(stats?.mismatchCount ?? 0)}
           topBorderColor="#7c3aed"
-          hint="High BtA + weak access"
+          hint="High BtA + Weak Access"
         />
       </div>
 
       <div className="rounded-lg border border-surface-700 bg-surface-800 p-4 shadow-card">
         <div className="flex items-center gap-1.5">
           <h3 className="font-display text-sm font-semibold text-surface-50">
-            10-Minute Coverage by Group
+            10-Minute Coverage By Group
           </h3>
           <MetricInfoButton
             title="10-Minute Coverage"
             points={[
               'Share of analysis-grade hexes that reach at least one destination in each group within 10 minutes.',
-              'Food is typically strongest; health and education are the thinnest essential groups.',
+              'Food is typically strongest; Health and Education are the thinnest essential groups.',
             ]}
-            ariaLabel="What do the coverage bars show?"
+            ariaLabel="What Do The Coverage Bars Show?"
           />
         </div>
         <div className="mt-3 flex flex-col gap-2.5">

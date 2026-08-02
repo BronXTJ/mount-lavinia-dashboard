@@ -25,8 +25,10 @@ import kpiData from '../data/kpi.json'
 import populationTrendData from '../data/populationTrend.json'
 import gnDivisionStatsData from '../data/gnDivisionStats.json'
 import gnPopulationStructure2024 from '../data/gnPopulationStructure2024.json'
-import landUseSummaryData from '../data/landUseSummary.json'
+import landUseSummaryByGn from '../data/landUseSummaryByGn.json'
 import roadPropertyData from '../data/roadProperty.json'
+
+const DEFAULT_GN_NAME = 'Mount Lavinia'
 
 const iconClass = 'h-4 w-4'
 
@@ -130,9 +132,9 @@ const LAND_USE_INFO = {
   title: 'Land Use Distribution',
   ariaLabel: 'What does the Land Use Distribution chart show?',
   points: [
-    'The donut shows the share of land area by land-use category (Main_C) in the study area.',
-    'Percentages sum to 100% of classified land parcels in the Primary Study Area.',
-    'Residential typically dominates; commercial and institutional mark corridor activity.',
+    'The donut shows the share of land area by land-use category (Main_C) for the selected GN division.',
+    'Choose a division from the GN Divisions card (or click the map). “All GN Divisions” shows the full five-GN Primary Study Area.',
+    'Percentages sum to 100% of classified land parcels in that selection.',
     'Use the legend colours to match slices with categories on the map when Land Use is on.',
   ],
 }
@@ -178,7 +180,7 @@ export default function Tab1_Overview() {
   const [clickedCoords, setClickedCoords] = useState(null)
   const [activeLayers, setActiveLayers] = useState(DEFAULT_ACTIVE_LAYERS)
   const [selectedRoadName, setSelectedRoadName] = useState(null)
-  const [selectedGnName, setSelectedGnName] = useState(null)
+  const [selectedGnName, setSelectedGnName] = useState(DEFAULT_GN_NAME)
 
   const selectedRoad = roadPropertyData.roads.find((r) => r.name === selectedRoadName)
   const highlightedRoadCoords =
@@ -188,6 +190,13 @@ export default function Tab1_Overview() {
     ? gnDivisionStatsData.find((d) => d.name === selectedGnName)
     : null
   const kpiCards = selectedGnStats ? buildGnCards(selectedGnStats) : KPI_CARDS
+
+  const landUseChartData = selectedGnName
+    ? (landUseSummaryByGn.byGn[selectedGnName] ?? landUseSummaryByGn.all)
+    : landUseSummaryByGn.all
+  const landUseSubtitle = selectedGnName
+    ? `Share of land area by category · ${selectedGnName}`
+    : 'Share of land area by category · All five GN divisions'
 
   const handleToggleLayer = (layerId, checked) => {
     setActiveLayers((prev) => (checked ? [...prev, layerId] : prev.filter((id) => id !== layerId)))
@@ -301,9 +310,10 @@ export default function Tab1_Overview() {
             />
           </SectionCard>
 
-          <SectionCard title="Land Use Distribution" info={LAND_USE_INFO}>
+          <SectionCard title="Land Use Distribution" subtitle={landUseSubtitle} info={LAND_USE_INFO}>
             <DonutChart
-              data={landUseSummaryData}
+              key={selectedGnName ?? 'all'}
+              data={landUseChartData}
               colors={Object.values(LAND_USE_COLORS)}
               height={280}
             />

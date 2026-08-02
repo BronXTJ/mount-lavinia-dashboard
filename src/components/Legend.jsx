@@ -1,4 +1,5 @@
 import { HIGHLIGHT_COLOR, LAND_USE_COLORS, MAP_LAYERS, SELECTED_GN_COLOR } from '../constants/mapLayers.js'
+import { useMapFullscreen } from './MapFullscreenShell.jsx'
 
 function Swatch({ color, dashed }) {
   if (dashed) {
@@ -18,12 +19,19 @@ function Swatch({ color, dashed }) {
  * Expands the Land Use entry into its per-category color key when active.
  */
 export default function Legend({ activeLayers, highlightedRoadName, selectedGnName }) {
+  const fullscreen = useMapFullscreen()
   const active = MAP_LAYERS.filter((layer) => activeLayers.includes(layer.id))
 
   if (!active.length && !highlightedRoadName && !selectedGnName) return null
 
   return (
-    <div className="pointer-events-auto absolute bottom-4 left-4 z-[1000] max-w-[200px] rounded-lg border border-surface-700 bg-surface-850/95 p-3 text-xs shadow-card backdrop-blur">
+    <div
+      className={
+        fullscreen
+          ? 'pointer-events-auto absolute bottom-4 left-4 z-[1000] max-h-[70vh] max-w-[260px] overflow-y-auto rounded-lg border border-surface-700 bg-surface-850/95 p-3 text-xs shadow-card backdrop-blur'
+          : 'pointer-events-auto absolute bottom-4 left-4 z-[1000] max-w-[200px] rounded-lg border border-surface-700 bg-surface-850/95 p-3 text-xs shadow-card backdrop-blur'
+      }
+    >
       <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-surface-200">Legend</p>
       <ul className="space-y-1.5">
         {active.map((layer) =>

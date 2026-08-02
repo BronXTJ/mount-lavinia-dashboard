@@ -40,7 +40,7 @@ const EMPTY_STATS = {
 
 /**
  * Loads Walk Accessibility hex + context layers once on mount.
- * KPIs use ≥90% complete hexes (partitionHexFeatures); POIs from walk-access snaps.
+ * KPIs use ≥90% complete hexes (partitionHexFeatures); access POIs from pois_snapped.geojson.
  */
 export function useWalkAccessibilityLayers() {
   const [hex, setHex] = useState(null)

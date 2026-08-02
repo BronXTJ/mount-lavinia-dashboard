@@ -104,17 +104,17 @@ export const WALK_FAB_LAYERS = [
   { id: 'hexGrid', label: '100 m Hex Grid — Primary', dot: '#2563eb', group: 'independent' },
   { id: 'accessScore', label: 'Access Score', dot: '#0d9488', group: 'metric' },
   { id: 'accessTier', label: 'Access Tier', dot: '#fbbf24', group: 'metric' },
+  { id: 'buildings', label: 'Buildings', dot: '#64748b', group: 'independent' },
+  { id: 'roads', label: 'Roads — Primary', dot: '#f77f00', group: 'independent' },
+  { id: 'pois', label: 'POIs — Access Destinations', dot: '#db2777', group: 'independent' },
+  { id: 'deserts', label: 'Deserts Outline (Low Tier)', dot: '#dc2626', group: 'independent' },
+  { id: 'mismatch', label: 'Centrality–Access Mismatch', dot: '#7c3aed', group: 'independent' },
   { id: 'timeFood', label: 'Walk Time — Food', dot: '#14b8a6', group: 'metric' },
   { id: 'timeEducation', label: 'Walk Time — Education', dot: '#2dd4bf', group: 'metric' },
   { id: 'timeHealth', label: 'Walk Time — Health', dot: '#5eead4', group: 'metric' },
   { id: 'timeTransit', label: 'Walk Time — Transit', dot: '#99f6e4', group: 'metric' },
   { id: 'timeFinance', label: 'Walk Time — Finance', dot: '#ccfbf1', group: 'metric' },
   { id: 'timeOpenSpace', label: 'Walk Time — Open Space', dot: '#f0fdfa', group: 'metric' },
-  { id: 'deserts', label: 'Deserts Outline (Low Tier)', dot: '#dc2626', group: 'independent' },
-  { id: 'mismatch', label: 'Centrality–Access Mismatch', dot: '#7c3aed', group: 'independent' },
-  { id: 'buildings', label: 'Buildings (Zenodo)', dot: '#64748b', group: 'independent' },
-  { id: 'roads', label: 'Roads — Primary', dot: '#f77f00', group: 'independent' },
-  { id: 'pois', label: 'POIs — Access Destinations', dot: '#db2777', group: 'independent' },
 ]
 
 export const DEFAULT_WALK_VISIBLE = {

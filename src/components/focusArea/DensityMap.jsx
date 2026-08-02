@@ -2,6 +2,7 @@ import { Fragment, useEffect, useMemo, useState } from 'react'
 import { CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import MapFullscreenShell from '../MapFullscreenShell.jsx'
 import {
   DENSITY_BUFFER_COLOR,
   DENSITY_CONTEXT_STYLES,
@@ -380,7 +381,7 @@ export default function DensityMap({
   const highlightRenderer = useMemo(() => L.svg(), [])
 
   return (
-    <div className="relative h-full min-h-0">
+    <MapFullscreenShell className="min-h-0">
         {loading && (
           <div className="absolute inset-0 z-[1001] flex items-center justify-center bg-surface-900/60 backdrop-blur-sm">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#fb7185] border-t-transparent" />
@@ -506,6 +507,6 @@ export default function DensityMap({
           onBasemapChange={setBasemapId}
         />
         <HexEdgeEffectNote />
-    </div>
+    </MapFullscreenShell>
   )
 }

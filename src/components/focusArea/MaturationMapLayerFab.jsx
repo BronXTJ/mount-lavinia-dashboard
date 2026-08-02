@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Layers, X } from 'lucide-react'
 import { MATURATION_FAB_LAYERS } from '../../constants/maturation.js'
 import BasemapChips from '../BasemapChips.jsx'
+import { useMapFullscreen } from '../MapFullscreenShell.jsx'
 
 /**
  * Urban Maturation map FAB — same teal pulse design as Density Analysis.
@@ -9,6 +10,7 @@ import BasemapChips from '../BasemapChips.jsx'
 export default function MaturationMapLayerFab({ visibleLayers, onToggle, basemapId, onBasemapChange }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
+  const fullscreen = useMapFullscreen()
 
   useEffect(() => {
     if (!open) return
@@ -26,7 +28,9 @@ export default function MaturationMapLayerFab({ visibleLayers, onToggle, basemap
   return (
     <div
       ref={rootRef}
-      className="pointer-events-auto absolute top-4 right-4 z-[1000] flex flex-col items-end gap-2.5"
+      className={`pointer-events-auto absolute top-4 z-[1000] flex flex-col items-end gap-2.5 ${
+        fullscreen ? 'right-16' : 'right-4'
+      }`}
     >
       <span className="relative flex h-12 w-12 items-center justify-center">
         {!open && (

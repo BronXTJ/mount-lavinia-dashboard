@@ -2,17 +2,23 @@ import { useState } from 'react'
 import { MAP_LAYERS } from '../constants/mapLayers.js'
 import LayerToggle from './LayerToggle.jsx'
 import BasemapChips from './BasemapChips.jsx'
+import { useMapFullscreen } from './MapFullscreenShell.jsx'
 
 /**
- * Round teal floating action button (bottom-right of the map) that expands
+ * Round teal floating action button (top-right of the map) that expands
  * into a panel listing all 6 map layers, in a fixed order, with toggle
  * switches. Props: activeLayers (string[]), onToggle(layerId, nextChecked).
  */
 export default function MapLayerFab({ activeLayers, onToggle, basemapId, onBasemapChange }) {
   const [open, setOpen] = useState(false)
+  const fullscreen = useMapFullscreen()
 
   return (
-    <div className="pointer-events-auto absolute top-4 right-4 z-[1000] flex flex-col items-end gap-2">
+    <div
+      className={`pointer-events-auto absolute top-4 z-[1000] flex flex-col items-end gap-2 ${
+        fullscreen ? 'right-16' : 'right-4'
+      }`}
+    >
       {open && (
         <div className="w-64 rounded-lg border border-surface-700 bg-surface-850/95 p-3 shadow-card backdrop-blur">
           <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-wide text-surface-200">

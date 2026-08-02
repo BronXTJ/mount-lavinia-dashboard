@@ -9,6 +9,7 @@ import {
   useMap,
 } from 'react-leaflet'
 import MapInvalidateOnResize from '../../../components/MapInvalidateOnResize.jsx'
+import MapFullscreenShell, { useMapFullscreen } from '../../../components/MapFullscreenShell.jsx'
 import { junctions } from '../data/junctions'
 import { JUNCTION_COLORS, STUDY_BOUNDARY_COLOR } from '../data/colors'
 import {
@@ -31,6 +32,27 @@ const gnLabelOptions = {
   offset: [0, -10],
   className: 'gn-label',
   interactive: false,
+}
+
+function RoadLabelsToggle({ showRoadLabels, onChange }) {
+  const fullscreen = useMapFullscreen()
+  return (
+    <div
+      className={`absolute top-3 z-[1000] rounded-lg border border-surface-700 bg-surface-900/95 p-3 shadow-card backdrop-blur ${
+        fullscreen ? 'right-16' : 'right-3'
+      }`}
+    >
+      <label className="flex cursor-pointer items-center gap-2 text-sm text-surface-100">
+        <input
+          type="checkbox"
+          checked={showRoadLabels}
+          onChange={(e) => onChange(e.target.checked)}
+          className="h-4 w-4 accent-[#dc2626]"
+        />
+        Road Labels
+      </label>
+    </div>
+  )
 }
 
 /** Fly map to the selected junction when selection changes. */
@@ -110,19 +132,11 @@ export default function JunctionMap({
   }, [])
 
   return (
-    <div className="relative h-full min-h-[320px] w-full overflow-hidden rounded-lg border border-surface-700">
-      {/* Road Labels toggle — top-right, Centrality-style panel */}
-      <div className="absolute right-3 top-3 z-[1000] rounded-lg border border-surface-700 bg-surface-900/95 p-3 shadow-card backdrop-blur">
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-surface-100">
-          <input
-            type="checkbox"
-            checked={showRoadLabels}
-            onChange={(e) => setShowRoadLabels(e.target.checked)}
-            className="h-4 w-4 accent-[#dc2626]"
-          />
-          Road Labels
-        </label>
-      </div>
+    <MapFullscreenShell className="min-h-[320px]" innerClassName="rounded-lg border border-surface-700">
+      <RoadLabelsToggle
+        showRoadLabels={showRoadLabels}
+        onChange={setShowRoadLabels}
+      />
 
       <MapContainer
         center={MAP_CENTER}
@@ -274,6 +288,6 @@ export default function JunctionMap({
           Circle size = relative traffic volume
         </p>
       </div>
-    </div>
+    </MapFullscreenShell>
   )
 }

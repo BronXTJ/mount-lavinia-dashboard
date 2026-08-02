@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { GeoJSON, ImageOverlay, MapContainer, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import MapFullscreenShell from '../MapFullscreenShell.jsx'
 import FitBoundsToGeoJson from '../focusArea/FitBoundsToGeoJson.jsx'
 import {
   DEFAULT_LC_BASEMAP,
@@ -184,7 +185,7 @@ export default function LandCoverMap({
   }
 
   return (
-    <div className="relative h-full min-h-[360px] w-full overflow-hidden rounded-none bg-surface-900">
+    <MapFullscreenShell className="min-h-[360px]" innerClassName="bg-surface-900">
       {loading && (
         <div className="absolute inset-0 z-[1001] flex items-center justify-center bg-surface-900/60 backdrop-blur-sm">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#00b4d8] border-t-transparent" />
@@ -262,6 +263,6 @@ export default function LandCoverMap({
         onBasemapChange={setBasemapId}
       />
       <LandCoverLegend activeOverlay={activeOverlay} />
-    </div>
+    </MapFullscreenShell>
   )
 }

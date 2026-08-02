@@ -15,6 +15,7 @@ export const MAP_LAYERS = [
   { id: 'roadNetwork', label: 'Road Network', defaultOn: false, swatchColor: '#f77f00' },
   { id: 'buildings', label: 'Buildings', defaultOn: false, swatchColor: '#94a3b8' },
   { id: 'pois', label: 'POIs', defaultOn: false, swatchColor: '#db2777' },
+  { id: 'condominiums', label: 'Condominiums', defaultOn: false, swatchColor: '#0f766e' },
 ]
 
 export const DEFAULT_ACTIVE_LAYERS = MAP_LAYERS.filter((l) => l.defaultOn).map((l) => l.id)
@@ -24,8 +25,9 @@ export const DEFAULT_ACTIVE_LAYERS = MAP_LAYERS.filter((l) => l.defaultOn).map((
 // Legend displays, so it must always match the real data 1:1. Colors are
 // chosen so every category stays visually distinct from its neighbors and
 // from the other map layers (roads orange, buildings slate, boundary red,
-// road-highlight brown). Barren Land uses cool light grey (#cbd5e1), distinct
-// from buildings (#94a3b8) and the unknown-class fallback (#64748b).
+// road-highlight brown). Transport uses medium grey (#6b7280), distinct from
+// Institutional violet, Barren Land light grey (#cbd5e1), buildings (#94a3b8),
+// and the unknown-class fallback (#64748b).
 export const LAND_USE_COLORS = {
   Residential: '#fa9f00',
   Commercial: '#ec4899',
@@ -33,7 +35,7 @@ export const LAND_USE_COLORS = {
   Institutional: '#a78bfa',
   Cultural: '#eab308',
   'Public Space': '#22c55e',
-  Transport: '#6366f1',
+  Transport: '#6b7280',
   Agriculture: '#65a30d',
   'Coastal area': '#0ea5e9',
   Water: '#0369a1',
@@ -54,8 +56,8 @@ export function getLandUseColor(mainClass) {
 }
 
 // Saddle-brown — deliberately distinct from every color already used in the
-// legend (red boundary, violet GN5/POIs, teal/indigo/pink/rose/sky/emerald/
-// olive land-use, cool grey barren, orange roads, slate buildings).
+// legend (red boundary, violet GN5/POIs, teal/pink/rose/sky/emerald/olive
+// land-use, grey transport, cool grey barren, orange roads, slate buildings).
 export const HIGHLIGHT_COLOR = '#8b4513'
 
 // Teal accent — used to highlight the currently-selected GN division polygon

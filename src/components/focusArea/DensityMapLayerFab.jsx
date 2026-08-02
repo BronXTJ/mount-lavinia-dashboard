@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Layers, X } from 'lucide-react'
 import { DENSITY_FAB_LAYERS } from '../../constants/density.js'
 import BasemapChips from '../BasemapChips.jsx'
+import { useMapFullscreen } from '../MapFullscreenShell.jsx'
 
 /**
  * Density Analysis map-only FAB — top-right layers control with pulse rings.
@@ -10,6 +11,7 @@ import BasemapChips from '../BasemapChips.jsx'
 export default function DensityMapLayerFab({ visibleLayers, onToggle, basemapId, onBasemapChange }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
+  const fullscreen = useMapFullscreen()
 
   useEffect(() => {
     if (!open) return
@@ -27,7 +29,9 @@ export default function DensityMapLayerFab({ visibleLayers, onToggle, basemapId,
   return (
     <div
       ref={rootRef}
-      className="pointer-events-auto absolute top-4 right-4 z-[1000] flex flex-col items-end gap-2.5"
+      className={`pointer-events-auto absolute top-4 z-[1000] flex flex-col items-end gap-2.5 ${
+        fullscreen ? 'right-16' : 'right-4'
+      }`}
     >
       <span className="relative flex h-12 w-12 items-center justify-center">
         {!open && (

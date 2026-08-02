@@ -35,7 +35,7 @@ export const USER_GUIDE_SECTIONS = [
     title: 'Focus Area — maps',
     icon: 'MapPin',
     bullets: [
-      'Open Centrality, Density, Urban Maturation, or Walk Accessibility from under Focus Area in the sidebar.',
+      'Open Centrality, Density, Urban Maturation, Walk Accessibility, or Network Form from under Focus Area in the sidebar.',
       'Use the floating layer button (FAB) on the map to toggle analysis and context layers on or off.',
       'Use the FAB Basemap chips to switch Streets (default) or Satellite.',
       'Click a hex cell (or street segment on Centrality) to inspect its values in the side panel.',
@@ -90,6 +90,18 @@ export const USER_GUIDE_SECTIONS = [
       'KPIs use analysis-grade hexes (≥90% of full area). Click a coloured hex for layer-specific facts; click Minimum / Highest Cell ID to fly to extremes.',
       'Desert and mismatch Cell ID chips on the right fly the map to those hexes. Destination reach is not the same as UMI network accessibility.',
       'Key Findings chips (WA1–WA3) link straight into Synthesis.',
+    ],
+  },
+  {
+    id: 'network-form',
+    title: 'Network Form',
+    icon: 'Waypoints',
+    bullets: [
+      'Classifies junctions as 4-way (permeable), 3-way (tree-like), or cul-de-sac (dead-end) from street topology across the five GN study area.',
+      'Use the scope selector to view All GNs or one GN division; the map fits to that boundary.',
+      'Toggle junction types, street pathways, and GN boundaries with the FAB; switch Streets / Satellite basemap.',
+      'The right panel lists sample cul-de-sacs — click a row to fly the map to that dead-end.',
+      'Read interior vs spine permeability in the overview charts before linking to Synthesis corridor findings.',
     ],
   },
   {

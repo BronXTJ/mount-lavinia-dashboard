@@ -1,8 +1,9 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
-import { CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap, useMapEvents } from 'react-leaflet'
+import { CircleMarker, GeoJSON, MapContainer, Popup, TileLayer, Tooltip, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import { MousePointerClick } from 'lucide-react'
 import MapInvalidateOnResize from './MapInvalidateOnResize.jsx'
+import MapFullscreenShell from './MapFullscreenShell.jsx'
 import { findRoadFeature } from '../utils/roadNameMatch.js'
 import findGnAtPoint from '../utils/findGnAtPoint.js'
 import { getLandUseColor, HIGHLIGHT_COLOR, MAP_CENTER, MAP_ZOOM, SELECTED_GN_COLOR } from '../constants/mapLayers.js'
@@ -18,6 +19,7 @@ const GEO_FILES = {
   railways: 'railways.geojson',
   buildings: 'buildings.geojson',
   pois: 'pois.geojson',
+  condominiums: 'condominiums_primary.geojson',
 }
 
 function geoUrl(fileName) {
@@ -113,7 +115,8 @@ function bindTooltip(getLabel) {
 const onEachRoad = bindTooltip((p) => p.name)
 const onEachLanduse = bindTooltip((p) => p.Main_C)
 const onEachBuilding = bindTooltip((p) => (p.area_in_me ? `Building • ${Math.round(p.area_in_me)} m²` : null))
-const getPoiLabel = (p) => p.name || p.name_en || p.shop || p.amenity || p.tourism || p.man_made
+const getPoiLabel = (p) =>
+  p.name || p.name_en || p.shop || p.amenity || p.tourism || p.man_made || p.dest_group
 
 const gnLabelOptions = { permanent: true, direction: 'center', className: 'gn-label', interactive: false }
 
@@ -162,6 +165,7 @@ function makeOnEachGn5(onGnSelect, suppressMapClickRef) {
 // ping" ring behind a solid, interactive dot — matching the halo technique
 // used for the road highlight, scaled down for point markers.
 const POI_COLOR = '#db2777'
+const CONDO_COLOR = '#0f766e'
 const poiPulseStyle = {
   radius: 5,
   color: POI_COLOR,
@@ -177,6 +181,51 @@ const poiDotStyle = {
   weight: 1,
   fillColor: POI_COLOR,
   fillOpacity: 0.9,
+}
+const condoPulseStyle = {
+  radius: 6,
+  color: CONDO_COLOR,
+  weight: 2,
+  opacity: 0.55,
+  fillOpacity: 0,
+  interactive: false,
+  className: 'poi-pulse-ring',
+}
+const condoDotStyle = {
+  radius: 6,
+  color: '#ffffff',
+  weight: 1,
+  fillColor: CONDO_COLOR,
+  fillOpacity: 0.92,
+}
+
+function CondoPopupContent({ p }) {
+  return (
+    <div className="max-w-[240px] space-y-1 text-xs leading-relaxed text-surface-900">
+      <p className="font-semibold">{p.name || 'Condominium'}</p>
+      {p.developer && <p>Developer: {p.developer}</p>}
+      {p.floors != null && <p>Floors: {p.floors}</p>}
+      {p.construction_start && <p>Construction start: {p.construction_start}</p>}
+      {p.completion_or_opening && <p>Opened / completed: {p.completion_or_opening}</p>}
+      {p.year_built != null && <p>Year built: {p.year_built}</p>}
+      {p.age_years != null && <p>Age (years): {p.age_years}</p>}
+      {p.address && <p>Address: {p.address}</p>}
+      {p.case_found && (
+        <p>
+          Case / violation note: {p.case_summary || 'Reported'}
+          {p.case_source_url ? (
+            <>
+              {' '}
+              <a href={p.case_source_url} target="_blank" rel="noopener noreferrer">
+                Source
+              </a>
+            </>
+          ) : null}
+        </p>
+      )}
+      {p.review_needed && <p className="italic text-surface-600">Needs review</p>}
+    </div>
+  )
 }
 
 const boundaryStyle = { color: '#dc2626', weight: 4, fill: false }
@@ -215,7 +264,7 @@ function landuseStyle(feature) {
 }
 
 /**
- * The Focus Area interactive map. Self-loads all 7 GeoJSON layers and renders
+ * The Focus Area interactive map. Self-loads GeoJSON layers and renders
  * whichever are active. Reports clicks up via onMapClick and accepts a
  * clickedPosition to render the "you clicked here" marker (state lives in
  * the parent tab so it can also drive the Live Data Panel). Clicking a GN
@@ -264,7 +313,7 @@ export default function FocusAreaMap({
   const showGnHint = isOn('gn5')
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-lg border border-surface-700">
+    <MapFullscreenShell innerClassName="rounded-lg border border-surface-700">
       <MapContainer center={MAP_CENTER} zoom={MAP_ZOOM} className="h-full w-full" preferCanvas>
         <MapInvalidateOnResize />
         <TileLayer
@@ -319,6 +368,28 @@ export default function FocusAreaMap({
                       {label}
                     </Tooltip>
                   )}
+                </CircleMarker>
+              </Fragment>
+            )
+          })}
+
+        {isOn('condominiums') &&
+          layers.condominiums &&
+          layers.condominiums.features.map((feature, idx) => {
+            if (feature.geometry?.type !== 'Point') return null
+            const [lng, lat] = feature.geometry.coordinates
+            const p = feature.properties ?? {}
+            const label = p.name || 'Condominium'
+            return (
+              <Fragment key={p.place_id ?? `condo-${idx}`}>
+                <CircleMarker center={[lat, lng]} {...condoPulseStyle} renderer={highlightRenderer} />
+                <CircleMarker center={[lat, lng]} {...condoDotStyle} renderer={highlightRenderer}>
+                  <Tooltip direction="top" offset={[0, -6]} opacity={0.95}>
+                    {label}
+                  </Tooltip>
+                  <Popup>
+                    <CondoPopupContent p={p} />
+                  </Popup>
                 </CircleMarker>
               </Fragment>
             )
@@ -398,6 +469,6 @@ export default function FocusAreaMap({
         basemapId={basemapId}
         onBasemapChange={setBasemapId}
       />
-    </div>
+    </MapFullscreenShell>
   )
 }

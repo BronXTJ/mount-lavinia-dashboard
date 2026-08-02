@@ -7,7 +7,7 @@ import {
 const ACCENT = '#0d9488'
 
 /**
- * Right panel — destination-group detail, desert / mismatch lists, UMI contrast note.
+ * Right panel — daily-needs reach by service type, desert / mismatch lists, UMI note.
  */
 export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
   const groups = stats?.groupDetail ?? []
@@ -16,23 +16,28 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-1.5">
-        <h2 className="border-l-4 border-[#0d9488] pl-3 font-display text-lg font-semibold text-surface-50">
-          Destination Groups
-        </h2>
-        <MetricInfoButton
-          title="Destination Groups"
-          points={[
-            'Six daily need groups: food, education, health, transit, finance, open space.',
-            'Reach % = share of analysis-grade hexes (≥90% complete) within 10 minutes of that group.',
-            'Median time is among hexes with a finite snapped path to the group.',
-          ]}
-          ariaLabel="What do destination groups show?"
-        />
+      <div>
+        <div className="flex items-center gap-1.5">
+          <h2 className="border-l-4 border-[#0d9488] pl-3 font-display text-lg font-semibold text-surface-50">
+            Daily Needs Reach
+          </h2>
+          <MetricInfoButton
+            title="Daily Needs Reach"
+            points={[
+              'Six daily service types: Food, Education, Health, Transit, Finance, Open Space.',
+              'Reach % = share of analysis-grade hexes (≥90% complete) within a 10-minute walk of that service.',
+              'Click a service card to open its walk-time map and fly to the longest-walk (worst access) cell.',
+            ]}
+            ariaLabel="What Does Daily Needs Reach Show?"
+          />
+        </div>
+        <p className="mt-1.5 pl-[15px] text-[11px] leading-snug text-surface-300">
+          Share of hexes within a 10-minute walk of each service type
+        </p>
       </div>
 
       {loading && (
-        <p className="text-center text-xs text-surface-300">Loading destination groups…</p>
+        <p className="text-center text-xs text-surface-300">Loading Daily Needs Reach…</p>
       )}
 
       <div className="flex flex-col gap-2">
@@ -42,19 +47,21 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
             type="button"
             className="rounded-lg border border-surface-700 bg-surface-800 p-3 text-left shadow-card transition-colors hover:border-surface-500"
             onClick={() => {
-              const id = g.summary?.lowestId
+              const id = g.summary?.highestId
               if (id != null) onFocusCell?.(g.timeKey, id)
             }}
           >
             <div className="flex items-center justify-between gap-2">
               <p className="font-display text-sm font-semibold text-surface-50">{g.label}</p>
               <span className="text-xs font-semibold" style={{ color: ACCENT }}>
-                {formatWalkPct(g.reachPct)} reach
+                {formatWalkPct(g.reachPct)} Reach
               </span>
             </div>
             <p className="mt-1 text-[11px] text-surface-300">
-              Median walk time {formatWalkMinutes(g.medianTime)}
-              {g.summary?.lowestId != null ? ` · click → slowest cell #${g.summary.lowestId}` : ''}
+              Median Walk Time {formatWalkMinutes(g.medianTime)}
+              {g.summary?.highestId != null
+                ? ` · Click → Longest Walk · Cell #${g.summary.highestId}`
+                : ''}
             </p>
           </button>
         ))}
@@ -64,17 +71,17 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
         <div className="flex items-center gap-1.5">
           <h3 className="font-display text-sm font-semibold text-surface-50">Desert Hexes</h3>
           <MetricInfoButton
-            title="Destination Deserts"
+            title="Desert Hexes"
             points={[
-              'Low-tier analysis hexes with ≤2 destination groups within 10 minutes.',
+              'Low-tier analysis hexes with ≤2 daily needs within 10 minutes.',
               'Click a Cell ID to fly to that hex on the Access Score layer.',
             ]}
-            ariaLabel="What are desert hexes?"
+            ariaLabel="What Are Desert Hexes?"
           />
         </div>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {desertIds.length === 0 && (
-            <p className="text-xs text-surface-400">No desert hexes in the analysis set.</p>
+            <p className="text-xs text-surface-400">No Desert Hexes in the analysis set.</p>
           )}
           {desertIds.map((id) => (
             <button
@@ -95,18 +102,18 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
             Centrality–Access Mismatch
           </h3>
           <MetricInfoButton
-            title="Mismatch Hexes"
+            title="Centrality–Access Mismatch"
             points={[
-              'Analysis hexes in the top quartile of mean BtA5000 with access_score under 0.5.',
+              'Analysis hexes in the top quartile of mean BtA5000 with Access Score under 0.5.',
               'High network betweenness without matching daily destination reach.',
               'Click a Cell ID to fly to that hex on the Access Score layer.',
             ]}
-            ariaLabel="What are mismatch hexes?"
+            ariaLabel="What Is Centrality–Access Mismatch?"
           />
         </div>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {mismatchIds.length === 0 && (
-            <p className="text-xs text-surface-400">No mismatch hexes in the analysis set.</p>
+            <p className="text-xs text-surface-400">No Mismatch Hexes in the analysis set.</p>
           )}
           {mismatchIds.map((id) => (
             <button
@@ -123,7 +130,7 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
 
       <p className="rounded-lg border border-surface-700 bg-surface-800/80 p-3 text-[11px] leading-relaxed text-surface-300">
         {stats?.umiContrastNote ||
-          'Destination reach ≠ UMI network accessibility (NQPDA / BtA).'}
+          'Daily Needs Reach ≠ UMI Network Accessibility (NQPDA / BtA).'}
       </p>
     </div>
   )

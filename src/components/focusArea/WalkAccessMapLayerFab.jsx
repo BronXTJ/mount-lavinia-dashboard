@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Layers, X } from 'lucide-react'
 import { WALK_FAB_LAYERS } from '../../constants/walkAccessibility.js'
 import BasemapChips from '../BasemapChips.jsx'
+import { useMapFullscreen } from '../MapFullscreenShell.jsx'
 
 /**
  * Walk Accessibility map-only FAB — same chrome as Density / Maturation.
@@ -9,6 +10,7 @@ import BasemapChips from '../BasemapChips.jsx'
 export default function WalkAccessMapLayerFab({ visibleLayers, onToggle, basemapId, onBasemapChange }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
+  const fullscreen = useMapFullscreen()
 
   useEffect(() => {
     if (!open) return
@@ -26,7 +28,9 @@ export default function WalkAccessMapLayerFab({ visibleLayers, onToggle, basemap
   return (
     <div
       ref={rootRef}
-      className="pointer-events-auto absolute top-4 right-4 z-[1000] flex flex-col items-end gap-2.5"
+      className={`pointer-events-auto absolute top-4 z-[1000] flex flex-col items-end gap-2.5 ${
+        fullscreen ? 'right-16' : 'right-4'
+      }`}
     >
       <span className="relative flex h-12 w-12 items-center justify-center">
         {!open && (
@@ -73,7 +77,7 @@ export default function WalkAccessMapLayerFab({ visibleLayers, onToggle, basemap
           <BasemapChips basemapId={basemapId} onBasemapChange={onBasemapChange} />
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
 
-          <div className="max-h-[min(60vh,420px)] overflow-y-auto py-1">
+          <div className="max-h-[min(70vh,560px)] overflow-y-auto py-1">
             {WALK_FAB_LAYERS.map((layer) => {
               const checked = Boolean(visibleLayers?.[layer.id])
               return (

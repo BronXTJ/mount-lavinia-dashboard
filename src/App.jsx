@@ -45,6 +45,13 @@ export default function App() {
 
   const sidebarWidth = isDesktop ? (sidebarExpanded ? 240 : 64) : 0
 
+  useEffect(() => {
+    document.documentElement.style.setProperty('--app-sidebar-width', `${sidebarWidth}px`)
+    return () => {
+      document.documentElement.style.removeProperty('--app-sidebar-width')
+    }
+  }, [sidebarWidth])
+
   return (
     <div className="min-h-screen bg-surface-900 font-sans text-surface-50">
       {!isDesktop && mobileSidebarOpen && (

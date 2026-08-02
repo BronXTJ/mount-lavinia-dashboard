@@ -4,6 +4,7 @@ import {
   CENTRALITY_FAB_BOUNDARY_LAYERS,
   CENTRALITY_FAB_METRIC_LAYERS,
 } from '../../constants/centrality.js'
+import { useMapFullscreen } from '../MapFullscreenShell.jsx'
 
 function LayerRow({ layer, checked, onToggle }) {
   return (
@@ -43,6 +44,7 @@ function LayerRow({ layer, checked, onToggle }) {
 export default function CentralityMapLayerFab({ visibleLayers, onToggle }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
+  const fullscreen = useMapFullscreen()
 
   useEffect(() => {
     if (!open) return
@@ -60,7 +62,9 @@ export default function CentralityMapLayerFab({ visibleLayers, onToggle }) {
   return (
     <div
       ref={rootRef}
-      className="pointer-events-auto absolute top-4 right-4 z-[1000] flex flex-col items-end gap-2.5"
+      className={`pointer-events-auto absolute top-4 z-[1000] flex flex-col items-end gap-2.5 ${
+        fullscreen ? 'right-16' : 'right-4'
+      }`}
     >
       <span className="relative flex h-12 w-12 items-center justify-center">
         {!open && (

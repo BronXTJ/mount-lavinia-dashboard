@@ -18,7 +18,12 @@ export function filterValidWalkFeatures(geojson) {
 
 function numericValues(features, key) {
   return features
-    .map((f) => Number(f.properties?.[key]))
+    .map((f) => {
+      const raw = f.properties?.[key]
+      // Reject null/undefined before Number() — Number(null) === 0 in JS
+      if (raw == null || raw === '') return NaN
+      return Number(raw)
+    })
     .filter((v) => Number.isFinite(v))
 }
 
@@ -42,8 +47,14 @@ export function formatWalkPct(share) {
 
 export function summarizeMetric(features, key) {
   const allPairs = features
-    .map((f) => ({ id: f.properties?.id, value: Number(f.properties?.[key]) }))
-    .filter((p) => Number.isFinite(p.value))
+    .map((f) => {
+      const raw = f.properties?.[key]
+      if (raw == null || raw === '') return null
+      const value = Number(raw)
+      if (!Number.isFinite(value)) return null
+      return { id: f.properties?.id ?? f.properties?.hex_id, value }
+    })
+    .filter(Boolean)
 
   if (!allPairs.length) {
     return { min: null, max: null, avg: null, highestId: null, lowestId: null }
@@ -106,10 +117,21 @@ export function colorForWalkTier(tier) {
  */
 export function buildWalkAccessibilityStats(statsFeatures, summary = null) {
   const features = statsFeatures ?? []
-  const scoreKey = WALK_PROPS.accessScore
-  const accessScore = summarizeMetric(features, scoreKey)
+  // Prefer analysis_ok (area≥90% AND snapped) when present — matches locked KPIs
+  const hasAnalysisFlag = features.some(
+    (f) => f.properties?.analysis_ok !== undefined && f.properties?.analysis_ok !== null,
+  )
+  const analysisFeatures = hasAnalysisFlag
+    ? features.filter((f) => {
+        const ok = f.properties?.analysis_ok
+        return ok === true || ok === 1 || ok === '1'
+      })
+    : features
 
-  const scoreValues = numericValues(features, scoreKey)
+  const scoreKey = WALK_PROPS.accessScore
+  const accessScore = summarizeMetric(analysisFeatures, scoreKey)
+
+  const scoreValues = numericValues(analysisFeatures, scoreKey)
   const accessScoreClasses = buildMetricClasses(
     scoreValues,
     WALK_METRIC_RAMPS.accessScore.stops,
@@ -118,9 +140,9 @@ export function buildWalkAccessibilityStats(statsFeatures, summary = null) {
   const timeSummaries = {}
   const timeClasses = {}
   for (const g of WALK_DEST_GROUPS) {
-    timeSummaries[g.timeKey] = summarizeMetric(features, g.timeProp)
+    timeSummaries[g.timeKey] = summarizeMetric(analysisFeatures, g.timeProp)
     timeClasses[g.timeKey] = buildMetricClasses(
-      numericValues(features, g.timeProp),
+      numericValues(analysisFeatures, g.timeProp),
       WALK_METRIC_RAMPS[g.timeKey].stops,
     )
   }
@@ -145,11 +167,11 @@ export function buildWalkAccessibilityStats(statsFeatures, summary = null) {
     summary?.kpis?.coverage_within_10_min ??
     Object.fromEntries(
       WALK_DEST_GROUPS.map((g) => {
-        const reach = features.filter((f) => {
+        const reach = analysisFeatures.filter((f) => {
           const v = f.properties?.[g.reachKey]
           return v === true || v === 1 || v === '1'
         }).length
-        return [g.id, features.length ? reach / features.length : null]
+        return [g.id, analysisFeatures.length ? reach / analysisFeatures.length : null]
       }),
     )
 
@@ -157,18 +179,18 @@ export function buildWalkAccessibilityStats(statsFeatures, summary = null) {
     id: g.id,
     label: g.label,
     share: Number(coverage?.[g.id]),
-    medianTime: median(numericValues(features, g.timeProp)),
+    medianTime: median(numericValues(analysisFeatures, g.timeProp)),
     reachPct: Number(coverage?.[g.id]),
   }))
 
-  const desertFeatures = features.filter(isDesertFeature)
-  const mismatchFeatures = features.filter(isMismatchFeature)
+  const desertFeatures = analysisFeatures.filter(isDesertFeature)
+  const mismatchFeatures = analysisFeatures.filter(isMismatchFeature)
 
   const desertIds =
     summary?.desert_hex_ids?.length > 0
       ? summary.desert_hex_ids.map((id) => Math.round(Number(id)))
       : desertFeatures
-          .map((f) => Math.round(Number(f.properties?.id)))
+          .map((f) => Math.round(Number(f.properties?.id ?? f.properties?.hex_id)))
           .filter(Number.isFinite)
           .sort((a, b) => a - b)
 
@@ -176,12 +198,12 @@ export function buildWalkAccessibilityStats(statsFeatures, summary = null) {
     summary?.mismatch_hex_ids?.length > 0
       ? summary.mismatch_hex_ids.map((id) => Math.round(Number(id)))
       : mismatchFeatures
-          .map((f) => Math.round(Number(f.properties?.id)))
+          .map((f) => Math.round(Number(f.properties?.id ?? f.properties?.hex_id)))
           .filter(Number.isFinite)
           .sort((a, b) => a - b)
 
   const groupDetail = WALK_DEST_GROUPS.map((g) => {
-    const times = numericValues(features, g.timeProp)
+    const times = numericValues(analysisFeatures, g.timeProp)
     return {
       id: g.id,
       label: g.label,
@@ -207,7 +229,7 @@ export function buildWalkAccessibilityStats(statsFeatures, summary = null) {
     desertIds,
     mismatchIds,
     meanAccessScore: summary?.kpis?.mean_access_score ?? accessScore.avg,
-    analysisHexCount: summary?.kpis?.analysis_hex_count ?? features.length,
+    analysisHexCount: summary?.kpis?.analysis_hex_count ?? analysisFeatures.length,
     umiContrastNote:
       summary?.umi_contrast_note ??
       'Destination reach ≠ UMI network accessibility (NQPDA/BtA).',

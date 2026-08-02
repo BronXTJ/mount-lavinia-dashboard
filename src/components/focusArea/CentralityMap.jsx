@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { GeoJSON, MapContainer, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import MapFullscreenShell from '../MapFullscreenShell.jsx'
 import {
   CENTRALITY_BOUNDARIES,
   CENTRALITY_MAP_CENTER,
@@ -294,7 +295,7 @@ export default function CentralityMap({
         </div>
       </div>
 
-      <div className="relative min-h-0 flex-1">
+      <MapFullscreenShell className="min-h-0 flex-1">
         {loading && (
           <div className="absolute inset-0 z-[1001] flex items-center justify-center bg-surface-900/60 backdrop-blur-sm">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-500 border-t-transparent" />
@@ -401,7 +402,7 @@ export default function CentralityMap({
           closenessStats={closenessStats}
           betweennessStats={betweennessStats}
         />
-      </div>
+      </MapFullscreenShell>
     </div>
   )
 }
