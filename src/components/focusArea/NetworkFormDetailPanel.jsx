@@ -4,6 +4,7 @@ import FocusAreaStatGrid from './FocusAreaStatGrid.jsx'
 import MetricInfoButton from './MetricInfoButton.jsx'
 import { formatPct } from '../../utils/networkFormStats.js'
 import {
+  CULDESAC_WALK_TIER_COLORS,
   NETWORK_FORM_ICONS,
   networkFormScopeLabel,
 } from '../../constants/networkForm.js'
@@ -84,6 +85,7 @@ export default function NetworkFormDetailPanel({
   culdesacRows,
   culdesacDepthStats,
   culdesacSpatialSummary,
+  culdesacWalkSummary,
   loading,
   selectedScope,
   onJunctionClick,
@@ -99,6 +101,8 @@ export default function NetworkFormDetailPanel({
   const depthCounts = culdesacDepthStats?.depth_class_counts
   const gnRank = culdesacSpatialSummary?.by_gn_rank ?? []
   const culCorridor = culdesacSpatialSummary?.corridor_vs_interior
+  const walkTiers = culdesacWalkSummary?.by_access_tier ?? []
+  const desert = culdesacWalkSummary?.desert
 
   const ratio =
     Number.isFinite(Number(shareC)) && Number.isFinite(Number(shareI)) && Number(shareI) > 0
@@ -304,6 +308,77 @@ export default function NetworkFormDetailPanel({
                       </td>
                       <td className="px-2 py-1.5 font-mono">
                         {formatLongPct(row.long_share)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {walkTiers.length > 0 && (
+          <div className="mb-3">
+            <div className="mb-1.5 flex items-center gap-1.5">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-surface-400">
+                By walk-access tier
+              </p>
+              <MetricInfoButton
+                title="Cul-de-sac × Walk Access"
+                points={[
+                  'Each cul-de-sac inherits access_score / access_tier from its 100 m primary hex (same grid as Walk Accessibility).',
+                  'Desert = low tier and analysis-ok (incomplete or unsnapped hexes are Excluded).',
+                  'Map FAB “Cul-de-sac × Walk Access” colours hexes with ≥1 cul-de-sac by tier.',
+                  culdesacWalkSummary?.hex_coverage_note ||
+                    'Join uses access_hex_classified on the primary hex grid.',
+                ]}
+                ariaLabel="How to read cul-de-sac walk-access overlay?"
+              />
+            </div>
+            {desert && (
+              <p className="mb-2 text-[11px] leading-relaxed text-surface-400">
+                Desert: {desert.culdesac_n ?? '—'} cul-de-sacs in {desert.hex_n ?? '—'} hexes
+                {desert.share_of_assigned != null
+                  ? ` (${formatPct(desert.share_of_assigned)} of assigned)`
+                  : ''}
+                {culdesacWalkSummary?.mean_access_among_culdesac_hexes != null
+                  ? ` · mean access in cul-de-sac hexes ${culdesacWalkSummary.mean_access_among_culdesac_hexes}`
+                  : ''}
+              </p>
+            )}
+            <div className="overflow-x-auto rounded-md border border-surface-700/80">
+              <table className="w-full min-w-[280px] text-left text-[11px]">
+                <thead className="bg-surface-900/80 text-surface-400">
+                  <tr>
+                    <th className="px-2 py-1.5 font-semibold">Tier</th>
+                    <th className="px-2 py-1.5 font-semibold">n</th>
+                    <th className="px-2 py-1.5 font-semibold">Share</th>
+                    <th className="px-2 py-1.5 font-semibold">Med stub</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {walkTiers.map((row) => (
+                    <tr
+                      key={row.access_tier}
+                      className="border-t border-surface-700/60 text-surface-100"
+                    >
+                      <td className="px-2 py-1.5">
+                        <span className="inline-flex items-center gap-1.5">
+                          <span
+                            className="inline-block h-2 w-2 shrink-0 rounded-sm"
+                            style={{
+                              backgroundColor:
+                                CULDESAC_WALK_TIER_COLORS[row.access_tier] ?? '#64748b',
+                            }}
+                            aria-hidden
+                          />
+                          {row.access_tier}
+                        </span>
+                      </td>
+                      <td className="px-2 py-1.5 font-mono">{row.n ?? '—'}</td>
+                      <td className="px-2 py-1.5 font-mono">{formatPct(row.share)}</td>
+                      <td className="px-2 py-1.5 font-mono">
+                        {row.median_stub_m != null ? `${row.median_stub_m} m` : '—'}
                       </td>
                     </tr>
                   ))}

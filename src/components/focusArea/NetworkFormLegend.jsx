@@ -1,5 +1,7 @@
 import {
   CULDESAC_HEX_COUNT_STOPS,
+  CULDESAC_WALK_TIER_COLORS,
+  CULDESAC_WALK_TIER_ORDER,
   NETWORK_FORM_ICONS,
 } from '../../constants/networkForm.js'
 
@@ -46,6 +48,13 @@ function hexStopLabel(stop, index, stops) {
   return `${prev + 1}–${stop.max}`
 }
 
+const TIER_LABELS = {
+  high: 'High',
+  medium: 'Medium',
+  low: 'Low / Desert',
+  excluded: 'Excluded',
+}
+
 /** Bottom-left dark legend for Network Form junction icons. */
 export default function NetworkFormLegend({ counts, visibleLayers }) {
   const rows = [
@@ -55,8 +64,9 @@ export default function NetworkFormLegend({ counts, visibleLayers }) {
   ].filter((r) => visibleLayers?.[r.id] !== false)
 
   const showHex = Boolean(visibleLayers?.culdesacHex)
+  const showWalk = Boolean(visibleLayers?.culdesacWalk)
 
-  if (rows.length === 0 && !showHex) return null
+  if (rows.length === 0 && !showHex && !showWalk) return null
 
   return (
     <div className="pointer-events-none absolute bottom-6 left-3 z-[1000] w-52 rounded-lg border border-surface-700 bg-surface-900/95 p-3 shadow-card backdrop-blur">
@@ -93,6 +103,30 @@ export default function NetworkFormLegend({ counts, visibleLayers }) {
                 <span className="flex-1 font-mono text-surface-200">
                   {hexStopLabel(stop, i, CULDESAC_HEX_COUNT_STOPS)}
                 </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {showWalk && (
+        <div
+          className={
+            rows.length > 0 || showHex ? 'mt-3 border-t border-surface-700/80 pt-2.5' : ''
+          }
+        >
+          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.08em] text-surface-300">
+            Walk access tier
+          </p>
+          <ul className="space-y-1.5">
+            {CULDESAC_WALK_TIER_ORDER.map((tier) => (
+              <li key={tier} className="flex items-center gap-2 text-xs text-surface-100">
+                <span
+                  className="inline-block h-2.5 w-3.5 shrink-0 rounded-sm border border-surface-600"
+                  style={{ backgroundColor: CULDESAC_WALK_TIER_COLORS[tier] }}
+                  aria-hidden
+                />
+                <span className="flex-1 text-surface-200">{TIER_LABELS[tier]}</span>
               </li>
             ))}
           </ul>

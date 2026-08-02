@@ -55,6 +55,7 @@ export const NETWORK_FORM_FAB_JUNCTION_LAYERS = [
 
 export const NETWORK_FORM_FAB_CONTEXT_LAYERS = [
   { id: 'culdesacHex', label: 'Cul-de-sac Hex Density', dot: '#f59e0b' },
+  { id: 'culdesacWalk', label: 'Cul-de-sac × Walk Access', dot: '#0d9488' },
   { id: 'roads', label: 'Street Pathways', dot: NETWORK_FORM_ROAD_COLOR },
   { id: 'roadLabels', label: 'Road Labels', dot: '#e0e0e0' },
   { id: 'gnBoundary', label: 'GN Boundaries', dot: NETWORK_FORM_GN_COLOR },
@@ -65,6 +66,7 @@ export const DEFAULT_NETWORK_FORM_VISIBLE = {
   three_way: true,
   culdesac: true,
   culdesacHex: false,
+  culdesacWalk: false,
   roads: true,
   roadLabels: false,
   gnBoundary: true,
@@ -78,6 +80,16 @@ export const CULDESAC_HEX_COUNT_STOPS = [
   { max: Infinity, color: '#b45309' },
 ]
 
+/** Walk access tier colours (aligned with Walk Accessibility tab). */
+export const CULDESAC_WALK_TIER_COLORS = {
+  high: '#0d9488',
+  medium: '#fbbf24',
+  low: '#dc2626',
+  excluded: '#94a3b8',
+}
+
+export const CULDESAC_WALK_TIER_ORDER = ['high', 'medium', 'low', 'excluded']
+
 export function colorForCuldesacHexCount(n) {
   const count = Number(n)
   if (!Number.isFinite(count) || count < 1) return '#94a3b8'
@@ -85,6 +97,11 @@ export function colorForCuldesacHexCount(n) {
     if (count <= stop.max) return stop.color
   }
   return '#b45309'
+}
+
+export function colorForCuldesacWalkTier(tier) {
+  if (tier == null) return '#64748b'
+  return CULDESAC_WALK_TIER_COLORS[String(tier)] ?? '#64748b'
 }
 
 export function networkFormGeoUrl(fileName) {

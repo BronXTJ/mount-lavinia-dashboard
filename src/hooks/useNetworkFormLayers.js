@@ -11,6 +11,7 @@ import {
   gnFeaturesForScope,
   listCuldesacs,
   mergeCuldesacDepth,
+  mergeCuldesacWalk,
   scopeCuldesacDepthSummary,
   scopeFindings,
   scopeMetrics,
@@ -39,6 +40,8 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
   const [culdesacDepthSummary, setCuldesacDepthSummary] = useState(null)
   const [culdesacHex, setCuldesacHex] = useState(null)
   const [culdesacSpatialSummary, setCuldesacSpatialSummary] = useState(null)
+  const [culdesacHexWalk, setCuldesacHexWalk] = useState(null)
+  const [culdesacWalkSummary, setCuldesacWalkSummary] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -46,28 +49,45 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
 
     async function load() {
       setLoading(true)
-      const [gn, streetFc, junc, met, find, depthFc, depthSum, hexFc, spatialSum] =
-        await Promise.all([
-          fetchJson(networkFormGeoUrl('gn5_divisions.geojson')),
-          fetchJson(networkFormGeoUrl('roads_streets.geojson')),
-          fetchJson(networkFormGeoUrl('junctions_classified.geojson')),
-          fetchJson(networkFormGeoUrl('metrics_by_scope.json')),
-          fetchJson(networkFormGeoUrl('findings_by_scope.json')),
-          fetchJson(networkFormGeoUrl('culdesacs_depth.geojson')),
-          fetchJson(networkFormGeoUrl('culdesac_depth_summary.json')),
-          fetchJson(networkFormGeoUrl('culdesac_hex_counts.geojson')),
-          fetchJson(networkFormGeoUrl('culdesac_spatial_summary.json')),
-        ])
+      const [
+        gn,
+        streetFc,
+        junc,
+        met,
+        find,
+        depthFc,
+        depthSum,
+        hexFc,
+        spatialSum,
+        hexWalkFc,
+        walkPts,
+        walkSum,
+      ] = await Promise.all([
+        fetchJson(networkFormGeoUrl('gn5_divisions.geojson')),
+        fetchJson(networkFormGeoUrl('roads_streets.geojson')),
+        fetchJson(networkFormGeoUrl('junctions_classified.geojson')),
+        fetchJson(networkFormGeoUrl('metrics_by_scope.json')),
+        fetchJson(networkFormGeoUrl('findings_by_scope.json')),
+        fetchJson(networkFormGeoUrl('culdesacs_depth.geojson')),
+        fetchJson(networkFormGeoUrl('culdesac_depth_summary.json')),
+        fetchJson(networkFormGeoUrl('culdesac_hex_counts.geojson')),
+        fetchJson(networkFormGeoUrl('culdesac_spatial_summary.json')),
+        fetchJson(networkFormGeoUrl('culdesac_hex_walk.geojson')),
+        fetchJson(networkFormGeoUrl('culdesacs_walk.geojson')),
+        fetchJson(networkFormGeoUrl('culdesac_walk_summary.json')),
+      ])
       if (cancelled) return
       setGn5(gn)
       setStreetsAll(streetFc)
-      setJunctionsAll(mergeCuldesacDepth(junc, depthFc))
+      setJunctionsAll(mergeCuldesacWalk(mergeCuldesacDepth(junc, depthFc), walkPts))
       setMetricsByScope(met)
       setFindingsByScope(find)
       setCuldesacDepth(depthFc)
       setCuldesacDepthSummary(depthSum)
       setCuldesacHex(hexFc)
       setCuldesacSpatialSummary(spatialSum)
+      setCuldesacHexWalk(hexWalkFc)
+      setCuldesacWalkSummary(walkSum)
       setLoading(false)
     }
 
@@ -139,6 +159,8 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
     culdesacDepth,
     culdesacHex,
     culdesacSpatialSummary,
+    culdesacHexWalk,
+    culdesacWalkSummary,
     loading,
     selectedScope,
   }

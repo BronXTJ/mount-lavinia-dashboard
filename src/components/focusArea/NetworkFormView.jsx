@@ -27,6 +27,8 @@ export default function NetworkFormView() {
     culdesacDepthStats,
     culdesacHex,
     culdesacSpatialSummary,
+    culdesacHexWalk,
+    culdesacWalkSummary,
     loading,
   } = useNetworkFormLayers(selectedScope)
 
@@ -64,6 +66,7 @@ export default function NetworkFormView() {
             streets={streets}
             junctions={junctions}
             culdesacHex={culdesacHex}
+            culdesacHexWalk={culdesacHexWalk}
             counts={counts}
             loading={loading}
             selectedJunctionId={selectedJunctionId}
@@ -79,6 +82,7 @@ export default function NetworkFormView() {
           culdesacRows={culdesacRows}
           culdesacDepthStats={culdesacDepthStats}
           culdesacSpatialSummary={culdesacSpatialSummary}
+          culdesacWalkSummary={culdesacWalkSummary}
           loading={loading}
           selectedScope={selectedScope}
           onJunctionClick={setSelectedJunctionId}

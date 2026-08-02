@@ -20,6 +20,7 @@ import {
   NETWORK_FORM_SCOPE_ALL,
   NETWORK_FORM_SELECTED_ZOOM,
   colorForCuldesacHexCount,
+  colorForCuldesacWalkTier,
 } from '../../constants/networkForm.js'
 import {
   DEFAULT_NETWORK_FORM_BASEMAP,
@@ -99,6 +100,20 @@ function buildPopup(props) {
       value: dist != null && Number.isFinite(Number(dist)) ? `${Number(dist).toFixed(1)} m` : '—',
       bar: null,
     })
+    const tier = props?.access_tier
+    const score = props?.access_score
+    if (tier != null || score != null) {
+      metrics.push({
+        label: 'Walk access',
+        value:
+          tier != null
+            ? `${tier}${score != null && Number.isFinite(Number(score)) ? ` · ${Number(score).toFixed(2)}` : ''}`
+            : score != null && Number.isFinite(Number(score))
+              ? Number(score).toFixed(2)
+              : '—',
+        bar: null,
+      })
+    }
   }
   return buildCellInfoPopupHtml({
     title: NETWORK_FORM_JTYPE_LABEL[jtype] ?? 'Junction',
@@ -171,6 +186,7 @@ export default function NetworkFormMap({
   streets,
   junctions,
   culdesacHex,
+  culdesacHexWalk,
   counts,
   loading,
   selectedJunctionId,
@@ -184,6 +200,7 @@ export default function NetworkFormMap({
   const showRoadLabels = Boolean(visibleLayers?.roadLabels)
   const showGn = Boolean(visibleLayers?.gnBoundary)
   const showCuldesacHex = Boolean(visibleLayers?.culdesacHex)
+  const showCuldesacWalk = Boolean(visibleLayers?.culdesacWalk)
 
   const culdesacHexStyle = useMemo(
     () => (feature) => {
@@ -191,6 +208,20 @@ export default function NetworkFormMap({
       const fill = colorForCuldesacHexCount(n)
       return {
         color: '#92400e',
+        weight: 0.6,
+        fillColor: fill,
+        fillOpacity: 0.55,
+        opacity: 0.8,
+      }
+    },
+    [],
+  )
+
+  const culdesacWalkStyle = useMemo(
+    () => (feature) => {
+      const fill = colorForCuldesacWalkTier(feature?.properties?.access_tier)
+      return {
+        color: '#134e4a',
         weight: 0.6,
         fillColor: fill,
         fillOpacity: 0.55,
@@ -267,6 +298,25 @@ export default function NetworkFormMap({
               layer.bindTooltip(
                 `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs` +
                   (p.median_stub_m != null ? ` · median stub ${p.median_stub_m} m` : ''),
+                { sticky: true },
+              )
+            }}
+          />
+        )}
+
+        {showCuldesacWalk && culdesacHexWalk && (
+          <GeoJSON
+            key="culdesac-hex-walk"
+            data={culdesacHexWalk}
+            style={culdesacWalkStyle}
+            onEachFeature={(feature, layer) => {
+              const p = feature.properties || {}
+              const score =
+                p.access_score != null && Number.isFinite(Number(p.access_score))
+                  ? Number(p.access_score).toFixed(2)
+                  : '—'
+              layer.bindTooltip(
+                `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs · ${p.access_tier ?? '—'} (${score})`,
                 { sticky: true },
               )
             }}

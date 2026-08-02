@@ -132,6 +132,37 @@ export function mergeCuldesacDepth(junctionsFc, depthFc) {
   }
 }
 
+/** Attach Phase-3 walk-access fields onto cul-de-sac junctions by node_id. */
+export function mergeCuldesacWalk(junctionsFc, walkFc) {
+  if (!junctionsFc?.features?.length) return junctionsFc
+  const byId = new Map()
+  for (const f of walkFc?.features ?? []) {
+    const id = f.properties?.node_id
+    if (id == null) continue
+    byId.set(String(id), f.properties)
+  }
+  if (!byId.size) return junctionsFc
+  return {
+    type: 'FeatureCollection',
+    features: junctionsFc.features.map((f) => {
+      if (f.properties?.jtype !== 'culdesac') return f
+      const walk = byId.get(String(f.properties?.node_id))
+      if (!walk) return f
+      return {
+        ...f,
+        properties: {
+          ...f.properties,
+          hex_id: walk.hex_id,
+          access_score: walk.access_score,
+          access_tier: walk.access_tier,
+          analysis_ok: walk.analysis_ok,
+          outside_grid: walk.outside_grid,
+        },
+      }
+    }),
+  }
+}
+
 export function scopeCuldesacDepthSummary(summary, scope) {
   if (!summary?.by_scope) return null
   return summary.by_scope[scope] ?? summary.by_scope.all ?? null
