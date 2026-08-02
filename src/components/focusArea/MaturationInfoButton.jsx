@@ -118,9 +118,9 @@ export default function MaturationInfoButton() {
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#0ea5e9]" />
                   <span>
-                    <span className="font-medium text-[#e0e0e0]">Accessibility</span> — derived from
-                    the average closeness and betweenness centrality scores. Higher = better
-                    connected.
+                    <span className="font-medium text-[#e0e0e0]">Accessibility</span> — how well
+                    the streets connect for movement through the area (network position, not live
+                    traffic counts). Higher = better connected.
                   </span>
                 </li>
                 <li className="flex items-start gap-2">

@@ -158,9 +158,9 @@ export default function NetworkFormOverviewPanel({
           title="Network Form"
           ariaLabel="What does Network Form show?"
           points={[
-            'Classifies street junctions as 4-way, 3-way, or cul-de-sac from a true-intersection topology (no densify) across the five GN primary study area.',
-            'Choose All GN Divisions or a single GN below — KPIs, map, and findings follow that scope.',
-            'A high share of 3-way junctions indicates a tree-like residential fabric with lower local permeability than a grid.',
+            'Shows how street junctions connect: 4-way (more open), 3-way (T-junctions), or cul-de-sac (dead-ends) across the five GN study area.',
+            'Pick All GN Divisions or one GN below — the map, counts, and findings follow that choice.',
+            'Many 3-way junctions and dead-ends mean a tree-like neighbourhood that is harder to cut through than a grid.',
           ]}
         />
       </div>

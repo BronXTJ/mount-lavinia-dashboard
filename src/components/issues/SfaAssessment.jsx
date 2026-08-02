@@ -273,9 +273,9 @@ export default function SfaAssessment() {
         <div className="flex items-center gap-2 border-b border-surface-700 px-3 py-2.5">
           <p className="font-display text-sm font-semibold text-surface-50">SFA Scores</p>
           <MetricInfoButton
-            title={ISSUES_INFO.sfa.title}
-            points={ISSUES_INFO.sfa.points}
-            ariaLabel={ISSUES_INFO.sfa.ariaLabel}
+            title={ISSUES_INFO.sfaScores.title}
+            points={ISSUES_INFO.sfaScores.points}
+            ariaLabel={ISSUES_INFO.sfaScores.ariaLabel}
           />
         </div>
         <table className="w-full min-w-[720px] border-collapse text-left text-sm">

@@ -90,12 +90,16 @@ export default function ThermalComfortPanel({ stats, loading, onFocusCell }) {
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-1.5">
         <h2 className="border-l-4 border-[#f46d43] pl-3 font-display text-lg font-semibold text-surface-50">
-          Thermal Comfort
+          Thermal Comfort (modelled)
         </h2>
         <MetricInfoButton
-          title={ENV_INFO.modeledVsLive.title}
-          points={ENV_INFO.modeledVsLive.points}
-          ariaLabel={ENV_INFO.modeledVsLive.ariaLabel}
+          title="Thermal Comfort (modelled)"
+          points={[
+            'How outdoor heat stress feels across the Mount Lavinia study grid — mainly UTCI and shadow patterns.',
+            'This panel shows modelled spatial patterns for planning, not live weather from a phone app.',
+            'Live temperature on the Overview tab comes from Open-Meteo for a clicked map point — use that for “what is it like right now”.',
+          ]}
+          ariaLabel="What does Thermal Comfort (modelled) show?"
         />
       </div>
 

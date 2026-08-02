@@ -140,12 +140,11 @@ export default function NetworkFormDetailPanel({
       <div className="flex items-center gap-2 border-l-4 border-[#f59e0b] pl-3">
         <h2 className="font-display text-lg font-semibold text-surface-50">Fabric Detail</h2>
         <MetricInfoButton
-          title="Corridor vs Interior"
-          ariaLabel="What does corridor vs interior mean?"
+          title="Fabric Detail"
+          ariaLabel="What does Fabric Detail show?"
           points={[
-            'Corridor junctions sit within 50 m of trunk/primary/secondary streets.',
-            'Interior junctions are the remaining inside-GN nodes — typically more 3-way and cul-de-sac dominated.',
-            'Click a cul-de-sac row to fly to it on the map.',
+            'This panel compares junction form along main through-roads versus the residential back-streets, plus spacing and cul-de-sac depth.',
+            'Open the “i” on Corridor vs Interior (50 m) for plain-language definitions of Corridor and Interior.',
           ]}
         />
       </div>
@@ -160,12 +159,14 @@ export default function NetworkFormDetailPanel({
             Corridor vs Interior (50 m)
           </h3>
           <MetricInfoButton
-            title="4-Way Share Comparison"
+            title="Corridor vs Interior"
             points={[
-              'Bars show the share of degree ≥3 junctions that are 4-way+ within each zone.',
-              'Higher corridor share means spines are more permeable than the residential interior.',
+              'Corridor: junctions within about 50 m of the main through-roads — the street spines that carry through traffic.',
+              'Interior: every other junction in the selected area — the residential back-streets away from those spines (often more T-junctions and dead-ends).',
+              'Bars: for each zone, the share of real junctions that are 4-way. A higher Corridor bar means the spines are more open than the back streets.',
+              'Technically, corridor roads are OSM trunk / primary / secondary (and their link classes).',
             ]}
-            ariaLabel="How to read corridor vs interior bars?"
+            ariaLabel="What do Corridor and Interior mean, and how do I read the bars?"
           />
         </div>
 
@@ -201,8 +202,9 @@ export default function NetworkFormDetailPanel({
           <MetricInfoButton
             title="Junction Spacing"
             points={[
-              'Measured along true topology edges between consecutive junctions inside the selected scope.',
-              'Median is the headline; IQR (Q25–Q75) shows the middle half of link lengths.',
+              'How far apart junctions are along the street network in the selected area.',
+              'Median is the typical distance; the middle half of all link lengths sits between Q25 and Q75.',
+              'Shorter spacing usually means a finer-grain street pattern; longer spacing means longer blocks between junctions.',
             ]}
             ariaLabel="What does junction spacing show?"
           />
@@ -217,10 +219,10 @@ export default function NetworkFormDetailPanel({
           <MetricInfoButton
             title="Cul-de-sacs"
             points={[
-              `Degree-1 ends inside ${scopeLabel} after true-intersection topology (degree-2 collapsed).`,
-              'Stub length = length of the single incident topology edge from the dead-end to the next remaining node.',
-              'Depth class by stub length: short < 50 m, medium 50–150 m, long > 150 m.',
-              'Click a row to fly to that cul-de-sac on the map.',
+              `Dead-end street ends inside ${scopeLabel} — places where the street stops instead of continuing through.`,
+              'Stub length is how far that dead-end is from the next junction (short < 50 m, medium 50–150 m, long > 150 m).',
+              'Cards show count, density per km², typical stub length, and the short/medium/long mix.',
+              'Click a sample row to fly the map to that dead-end.',
             ]}
             ariaLabel="What do cul-de-sac stats show?"
           />
@@ -266,11 +268,10 @@ export default function NetworkFormDetailPanel({
               <MetricInfoButton
                 title="Cul-de-sac Spatial Pattern"
                 points={[
-                  'Ranking uses cul-de-sac density per km² across all five GNs.',
-                  'Long % = share of cul-de-sacs with stub length > 150 m.',
-                  'Hex choropleth (map FAB) counts Phase 1 cul-de-sacs in 100 m primary hex cells.',
-                  culdesacSpatialSummary?.hex_coverage_note ||
-                    'Hex grid covers the primary Mount Lavinia study area only.',
+                  'Ranks the five GNs by how many cul-de-sacs they have per square kilometre (not just raw count).',
+                  'Long % is the share of dead-ends with stub length over 150 m.',
+                  'On the map, turn on Cul-de-sac Hex Density to see how many dead-ends fall in each 100 m cell.',
+                  'Hex colours cover the primary study-area grid; GN ranking still covers all five divisions.',
                 ]}
                 ariaLabel="How to read cul-de-sac ranking and hex density?"
               />
@@ -329,11 +330,9 @@ export default function NetworkFormDetailPanel({
               <MetricInfoButton
                 title="Cul-de-sac × Walk Access"
                 points={[
-                  'Each cul-de-sac inherits access_score / access_tier from its 100 m primary hex (same grid as Walk Accessibility).',
-                  'Desert = low tier and analysis-ok (incomplete or unsnapped hexes are Excluded).',
-                  'Map FAB “Cul-de-sac × Walk Access” colours hexes with ≥1 cul-de-sac by tier.',
-                  culdesacWalkSummary?.hex_coverage_note ||
-                    'Join uses access_hex_classified on the primary hex grid.',
+                  'Each dead-end is scored by how well its 100 m neighbourhood reaches daily destinations on foot (same idea as Walk Accessibility).',
+                  'Desert = few daily needs nearby (low tier). Excluded = cells we could not measure reliably.',
+                  'The table counts cul-de-sacs in each access tier; the map FAB Cul-de-sac × Walk Access colours those hexes by tier.',
                 ]}
                 ariaLabel="How to read cul-de-sac walk-access overlay?"
               />
@@ -400,11 +399,9 @@ export default function NetworkFormDetailPanel({
               <MetricInfoButton
                 title="Cul-de-sac × Density / UMI"
                 points={[
-                  'Each cul-de-sac inherits FSI and UMI from its 100 m primary hex (Density + Urban Maturation layers).',
-                  'Maturation tier comes from the published maturation hex attribute.',
-                  'Map FAB “Cul-de-sac × UMI” colours hexes with ≥1 cul-de-sac by UMI.',
-                  culdesacDensityUmiSummary?.hex_coverage_note ||
-                    'Join uses density_primary_hex and maturation_primary_hex.',
+                  'Each dead-end inherits building intensity (FSI) and Urban Maturation Index (UMI) from its 100 m neighbourhood cell.',
+                  'UMI summarises how “complete” that cell feels (mix + access + diversity); FSI is how much floor space is built relative to the plot.',
+                  'The table groups cul-de-sacs by maturation tier; the map FAB Cul-de-sac × UMI colours those hexes by UMI.',
                 ]}
                 ariaLabel="How to read cul-de-sac density and UMI overlay?"
               />

@@ -45,10 +45,10 @@ export default function BetweennessPanel({
           title="Betweenness Centrality"
           ariaLabel="What does Betweenness Centrality show?"
           points={[
-            'Measures how often a road segment lies on shortest paths between other locations.',
-            'Higher values mark major through-movement corridors with high traffic potential.',
-            'Scale buttons change the network distance used for the calculation.',
-            'Click a top segment bar to locate that corridor on the map.',
+            'Betweenness asks how often a road would sit on shortest paths between other places — a network through-route role, not live traffic counts.',
+            'This panel summarises that role at the scale you pick on the map (Walking → Regional).',
+            'Higher values mark stronger through-movement corridors. Click a top-segment bar to find that road on the map.',
+            'Scale buttons change the network distance used in the calculation.',
           ]}
         />
       </div>
@@ -69,8 +69,8 @@ export default function BetweennessPanel({
         infoTitle="Top 5 Road Segments by Betweenness"
         infoAria="What does the Top 5 Betweenness chart show?"
         infoPoints={[
-          'Shows the five road segments with the highest betweenness values at the active scale.',
-          'Longer bars mean stronger through-movement corridors.',
+          'The five road segments with the highest betweenness at the active scale — the strongest through-route candidates.',
+          'Longer bars mean a stronger network through-route role (not measured vehicle counts).',
           'Click a bar to locate that corridor on the map.',
         ]}
       />
@@ -82,9 +82,9 @@ export default function BetweennessPanel({
         infoTitle="Betweenness — Cross Scale Comparison"
         infoAria="What does the Betweenness Cross Scale chart show?"
         infoPoints={[
-          'Compares the overall average betweenness across Walking, Neighbourhood, District, and Regional scales.',
-          'Taller bars mean higher average through-movement potential at that analysis distance.',
-          'Use this to see how corridor importance shifts as the network radius grows.',
+          'Compares average betweenness across Walking, Neighbourhood, District, and Regional scales.',
+          'Taller bars mean higher average through-route importance at that network distance.',
+          'Use this to see how corridor roles shift as the analysis radius grows.',
         ]}
       />
 
@@ -95,12 +95,11 @@ export default function BetweennessPanel({
         infoTitle="Betweenness Zone Distribution"
         infoAria="What does the Betweenness Zone Distribution show?"
         infoPoints={[
-          'Shows the share of road segments in High, Medium, and Low betweenness tiers for the active scale.',
-          'Tiers are relative, not fixed planning zones: each segment is ranked against the min–max range for this scale.',
-          'High = top third of the value range (normalized ≥ ⅔), Medium = middle third (⅓–⅔), Low = bottom third (< ⅓).',
-          'Segment counts are not forced to 33% each — skewed networks can show more Low or more High segments.',
-          'Percentages update when you change the scale on the map; the same logic is used in segment popups (shown as Moderate there).',
-          'High tiers are the strongest through-movement corridors at this scale.',
+          'Share of road segments in High, Medium, and Low betweenness tiers for the active scale.',
+          'Tiers are relative to this scale’s value range — not fixed planning zones on the ground.',
+          'High = top third of the range, Medium = middle third, Low = bottom third.',
+          'Counts are not forced to 33% each; skewed networks can show more Low or more High segments.',
+          'Percentages update when you change the scale; popups use the same idea (middle tier labelled Moderate).',
         ]}
       />
 

@@ -159,7 +159,18 @@ export const ISSUES_INFO = {
   },
 
   sfa: {
-    title: 'How SFA Scores Work (1–10)',
+    title: 'What is SFA?',
+    ariaLabel: 'About SFA Assessment',
+    points: [
+      'SFA is a simple scorecard for planning ideas: Suitability, Feasibility, and Acceptability — each scored from 1 to 10.',
+      'This section ranks intervention ideas so you can compare what fits, what can be delivered, and what people may accept.',
+      'Use the prioritisation graph for a quick view, then the SFA Scores table for the detailed numbers.',
+      'Scores are study labels for discussion — not a final decision.',
+    ],
+  },
+
+  sfaScores: {
+    title: 'SFA Scores',
     ariaLabel: 'About SFA scoring',
     points: [
       'Each planning idea is scored from 1 to 10 on three questions. 1 = weak / hard / unlikely; 10 = strong / realistic / widely supported.',

@@ -150,13 +150,13 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           Urban Maturation Analysis
         </h2>
         <MetricInfoButton
-          title="Average Urban Maturation Index"
+          title="Urban Maturation Analysis"
           points={[
-            'Large number is the mean UMI across analysis-grade hex cells (≥90% complete) in the primary study area.',
-            `Progress bar places that average relative to the observed valid-cell max (≈ ${umiStudyMaxLabel}).`,
-            `Emerging / Moderate / Matured markers follow 0 / 0.35 / ${umiStudyMaxLabel} (tier cutoffs stay at 0.15 / 0.35).`,
+            'Urban Maturation Index (UMI) summarises how “complete” each neighbourhood cell feels — combining land-use mix, network accessibility, and functional diversity.',
+            'The large number below is the average UMI across reliable cells in the primary study area.',
+            'Emerging / Moderate / Matured markers show where that average sits on a 0–1 scale (tier cutoffs at 0.15 and 0.35).',
           ]}
-          ariaLabel="What does the UMI gauge show?"
+          ariaLabel="What does Urban Maturation Analysis show?"
         />
       </div>
 
@@ -199,8 +199,8 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
         title="Urban Maturation"
         infoTitle="Urban Maturation Index"
         infoPoints={[
-          'Min / Max / Average UMI across analysis-grade hex cells (≥90% complete). Partial scraps stay off the KPI cards.',
-          'Click Minimum / Highest Cell ID to fly to that hex and open the UMI layer.',
+          'Min / Max / Average UMI for reliable neighbourhood cells. Higher UMI means a more complete mix of uses, access, and diversity.',
+          'Click Minimum / Highest Cell ID to fly to that cell on the UMI map.',
         ]}
         infoAria="What do the Urban Maturation cards show?"
         accent="#b45309"
@@ -273,8 +273,8 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           title="Accessibility"
           infoTitle="Accessibility"
           infoPoints={[
-            'Normalized accessibility (0–1) from average closeness / betweenness centrality.',
-            'Click Minimum / Highest Cell ID to fly to that hex on the Accessibility layer.',
+            'How well each neighbourhood cell sits on the street network for movement — a 0–1 score from how central and how connected the streets are (not live traffic counts).',
+            'Higher values mean better network position. Click Minimum / Highest Cell ID to fly to that cell on the Accessibility map.',
           ]}
           infoAria="What does Accessibility show?"
           accent="#0ea5e9"
@@ -293,8 +293,8 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
             <MetricInfoButton
               title="Accessibility Distribution"
               points={[
-                'Equal-interval classes of normalized accessibility across analysis-grade hex cells (≥90% complete).',
-                'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
+                'How many neighbourhood cells fall in each accessibility band (low → high).',
+                'Taller bars mean more cells in that band; colours match the Accessibility map legend.',
               ]}
               ariaLabel="What does the accessibility histogram show?"
             />
@@ -365,8 +365,8 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
         title="Land Use Diversity"
         infoTitle="Land Use Diversity"
         infoPoints={[
-          'Normalized land-use diversity (1normali_2) across analysis-grade hex cells (≥90% complete).',
-          'Click Minimum / Highest Cell ID to fly to that hex on the Land Use Diversity layer.',
+          'How many different functional land-use categories appear in each neighbourhood cell, scaled from 0 to 1.',
+          'Higher values mean a fuller range of everyday functions. Click Minimum / Highest Cell ID to fly to that cell on the map.',
         ]}
         infoAria="What does Land Use Diversity show?"
         accent="#b63679"
@@ -385,8 +385,8 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Index Components"
             points={[
-              'Three cards show average normalized scores (0–1) across analysis-grade hex cells (≥90% complete).',
-              'Accessibility, Land Use Diversity, and Shannon Entropy are the equal-weight inputs to UMI.',
+              'Three building blocks of Urban Maturation, each averaged across reliable neighbourhood cells on a 0–1 scale.',
+              'Accessibility = network position; Land Use Diversity = variety of functions; Shannon Entropy = balance of the mix. UMI averages these three equally.',
             ]}
             ariaLabel="What are Index Components?"
           />
@@ -425,9 +425,8 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Component Contribution to UMI"
             points={[
-              'Bars compare the average normalized value of each UMI input across analysis-grade hex cells (≥90% complete).',
-              'Taller bars mean that component contributes more, on average, to the composite score.',
-              'UMI itself is the mean of these three normalized components per cell.',
+              'Compares the three UMI building blocks by their average score across reliable neighbourhood cells.',
+              'Taller bars mean that ingredient is stronger on average. UMI for each cell is simply the average of the three.',
             ]}
             ariaLabel="What does Component Contribution show?"
           />
@@ -485,9 +484,9 @@ export default function MaturationScorePanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Urban Maturation Score Distribution"
             points={[
-              'Equal-interval classes of UMI across analysis-grade hex cells (≥90% complete) in the primary study area.',
-              'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
-              'Maturation tiers (0.15 / 0.35) are separate classification rules, not these chart bins.',
+              'How many neighbourhood cells fall in each Urban Maturation (UMI) band from low to high.',
+              'Taller bars mean more cells in that band; colours match the UMI map legend.',
+              'Emerging / Moderate / Matured tiers (cutoffs at 0.15 and 0.35) are a separate reading from these chart bins.',
             ]}
             ariaLabel="What does the UMI histogram show?"
           />

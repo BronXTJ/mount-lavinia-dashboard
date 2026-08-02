@@ -16,7 +16,6 @@ import DeferredLabelList from '../DeferredLabelList.jsx'
 import useChartAnimation from '../../hooks/useChartAnimation.js'
 import { formatMaturationValue } from '../../utils/maturationStats.js'
 import DensityStatCard from './DensityStatCard.jsx'
-import MaturationInfoButton from './MaturationInfoButton.jsx'
 import MetricInfoButton from './MetricInfoButton.jsx'
 
 const SHANNON_ACCENT = '#10b981'
@@ -126,7 +125,15 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
         <h2 className="border-l-4 border-[#10b981] pl-3 font-display text-lg font-semibold text-surface-50">
           Land Use & Mix Analysis
         </h2>
-        <MaturationInfoButton />
+        <MetricInfoButton
+          title="Land Use & Mix Analysis"
+          points={[
+            'This panel shows what land is used for, how mixed neighbourhood cells are, and how that mix relates to Urban Maturation.',
+            'Shannon Entropy = how balanced the mix of uses is. Mixed Use Index = how many different functions sit together. Land Use Diversity (on the Maturation panel) = variety of functional categories.',
+            'UMI on the Maturation tab combines entropy, network accessibility, and land-use diversity into one “how complete is this place?” score.',
+          ]}
+          ariaLabel="What does Land Use and Mix Analysis show?"
+        />
       </div>
 
       {loading && (
@@ -142,9 +149,9 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Land Use Composition"
             points={[
-              'Bars show total footprint area (Area_m2) by Main_C from landuse_clipped (same as Overview).',
-              'Percent labels are each category’s share of total mapped land-use area.',
-              'Colors match the Overview land-use map.',
+              'How much ground area falls in each land-use category across the primary study area (same categories as the Overview land-use map).',
+              'Longer bars mean more area in that category; the percent labels are each category’s share of the total mapped land-use area.',
+              'Colours match the Overview land-use map.',
             ]}
             ariaLabel="What does Land Use Composition show?"
           />
@@ -215,19 +222,15 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Land Use Mix by Hex Cell"
             points={[
-              'Land use categories are grouped into 4 urban functions:',
-              '🏠 Living — Residential areas',
-              '💼 Working — Commercial, Industrial, Institutional',
-              '🎭 Culture — Cultural, Public Space, Agriculture',
-              '🚗 Movement — Transport infrastructure',
-              'Counts use analysis-grade hex cells (≥90% complete). Partial and scrap boundary cells are omitted from charts.',
-              'Hex cells containing more than one function are classified as Mixed Use. The Live + Work combination is highlighted as it represents the most functionally mature urban condition, supporting walkability, street vitality, and reduced vehicle dependence.',
+              'Groups land uses into four everyday functions: Living, Working, Culture, and Movement.',
+              'Charts count neighbourhood cells that are mostly complete; thin scrap cells on the boundary are left out.',
+              'Cells with more than one function count as Mixed Use. Live + Work is highlighted because homes and jobs together support walkability and street life.',
             ]}
             ariaLabel="What does Land Use Mix by Hex Cell show?"
           />
         </div>
         <p className="mt-1 text-xs text-surface-300">
-          Based on distinct land-use types per analysis-grade hex (≥90% complete)
+          Based on distinct land-use types per mostly complete neighbourhood cell (≥90% filled)
         </p>
 
         {/* Component 1 — Land Use Mix Distribution */}
@@ -281,14 +284,15 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
               Functional Composition by Hex
             </h4>
             <MetricInfoButton
-              title="Live + Work Mix"
+              title="Functional Composition by Hex"
               points={[
-                'Live + Work mix is the most desirable urban condition. It reduces travel demand, supports street vitality, and indicates mature urban character.',
+                'This bar shows how neighbourhood cells split between homes-only, jobs-only, Live + Work, and other mixes.',
+                'Live + Work (homes and jobs together) is highlighted — it usually means less travel, livelier streets, and a more complete neighbourhood.',
                 liveWorkPct != null
-                  ? `In the primary study area, Live + Work accounts for ${liveWorkPct}% (${mix?.liveWorkCount ?? 0} analysis-grade hexes).`
+                  ? `In the primary study area, Live + Work accounts for ${liveWorkPct}% (${mix?.liveWorkCount ?? 0} cells we can measure reliably).`
                   : 'Live + Work share will appear once maturation data loads.',
               ]}
-              ariaLabel="Why is Live + Work important?"
+              ariaLabel="What does Functional Composition by Hex show?"
             />
           </div>
           <div className="mt-3 flex h-10 w-full overflow-hidden rounded">
@@ -364,9 +368,9 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Shannon Entropy Index"
             points={[
-              'Shannon Entropy measures the diversity and balance of land uses within each hex cell.',
-              'Higher entropy = more balanced mix of uses = more vibrant urban environment.',
-              'Click Minimum / Highest Cell ID to fly to that hex on the map.',
+              'How balanced the mix of land uses is in each neighbourhood cell — not just how many uses, but whether they share the space fairly.',
+              'Higher entropy means a more even mix (often livelier streets). This is the “balance” measure; Mixed Use Index is the “how many functions” measure.',
+              'Click Minimum / Highest Cell ID to fly to that cell on the map.',
             ]}
             ariaLabel="What is Shannon Entropy?"
           />
@@ -420,9 +424,9 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Entropy vs Urban Maturation Score"
             points={[
-              'Each dot is one analysis-grade hex cell (≥90% complete) in the primary study area.',
-              'X axis is normalized Shannon Entropy; Y axis is Urban Maturation Index.',
-              'A rising pattern suggests more diverse land-use mix tends to coincide with higher maturation.',
+              'Each dot is one neighbourhood cell we can measure reliably in the primary study area.',
+              'Left–right is land-use mix balance (Shannon Entropy); up–down is overall Urban Maturation (UMI).',
+              'A rising cloud of dots means places with a more balanced mix of uses tend to score higher on maturation.',
             ]}
             ariaLabel="What does the entropy scatter show?"
           />
@@ -482,8 +486,9 @@ export default function LandUseMixPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Mixed Use Index"
             points={[
-              'Mixed Use Index measures functional diversity: how many different use types coexist in a hex cell.',
-              'Click Minimum / Highest Cell ID to fly to that hex and open the UMI popup.',
+              'How many different land-use functions sit together in each neighbourhood cell — a simple “is this place single-use or mixed?” score.',
+              'Higher values mean more functions share the same cell. This is related to, but not the same as, Shannon Entropy (balance) or UMI (overall maturation).',
+              'Click Minimum / Highest Cell ID to fly to that cell on the map.',
             ]}
             ariaLabel="What is Mixed Use Index?"
           />

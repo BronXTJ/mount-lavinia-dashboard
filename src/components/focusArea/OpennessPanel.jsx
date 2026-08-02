@@ -46,8 +46,10 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Open Space Ratio (OSR)"
             points={[
-              'Ratio of open space to floor area.',
-              'Higher OSR = more open, less congested environment.',
+              'OSR compares open ground to floor area — a simple “how much breathing room is there relative to how much is built?” measure.',
+              'These cards show the lowest, highest, and average OSR across neighbourhood cells we can measure reliably.',
+              'Higher OSR = more open, less congested feel. Lower OSR = buildings dominate relative to open space.',
+              'Click Minimum / Highest Cell ID to fly to that cell on the map. Charts use mostly complete cells (≥90% filled).',
             ]}
             ariaLabel="What is Open Space Ratio?"
           />
@@ -86,9 +88,9 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
         infoTitle="OSR Value Distribution"
         infoAria="What does the OSR Value Distribution show?"
         infoPoints={[
-          'Equal-interval classes of analysis-grade hex cells (≥90% complete) by Open Space Ratio (OSR).',
-          'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
-          'Edge hexes are on the map only; charts use valid cells.',
+          'This chart groups neighbourhood cells into equal OSR bands — the same colour ranges as the map legend.',
+          'Taller bars mean more cells fall in that OSR range (not that those cells are “better”).',
+          'High-OSR bands feel more open relative to floor space; low-OSR bands feel more congested. Thin edge scraps on the map are left out of the chart.',
         ]}
       />
 
@@ -99,10 +101,10 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Density Value"
             points={[
-              'Measures the volume/intensity of built form within each hex cell.',
-              'Higher Density Value = denser development in that cell.',
-              'Min, max, and average summarise analysis-grade hex cells (≥90% complete) in the primary study area.',
-              'Click a Minimum/Highest Cell ID card to locate that hex on the map.',
+              'Density Value summarises how intensely built each neighbourhood cell is — a volume-style reading of built form in that hex.',
+              'These cards show the lowest, highest, and average across cells we can measure reliably in the primary study area.',
+              'Higher Density Value = denser development in that cell. Lower = lighter built intensity.',
+              'Click Minimum / Highest Cell ID to fly to that cell on the map.',
             ]}
             ariaLabel="What is Density Value?"
           />
@@ -147,9 +149,9 @@ export default function OpennessPanel({ stats, loading, onFocusCell }) {
           infoTitle="Density Value Distribution"
           infoAria="What does the Density Value Distribution show?"
           infoPoints={[
-            'Equal-interval classes of analysis-grade hex cells (≥90% complete) by Density Value.',
-            'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
-            'Edge hexes are on the map only; charts use valid cells.',
+            'This chart groups neighbourhood cells into equal Density Value bands — the same colour ranges as the map legend.',
+            'Taller bars mean more cells fall in that density range (not that those cells are “better”).',
+            'High bands are more intensely built; low bands are lighter. Thin edge scraps on the map are left out of the chart.',
           ]}
         />
       </div>

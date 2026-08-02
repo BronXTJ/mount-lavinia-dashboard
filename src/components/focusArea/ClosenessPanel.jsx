@@ -45,10 +45,10 @@ export default function ClosenessPanel({
           title="Closeness Centrality"
           ariaLabel="What does Closeness Centrality show?"
           points={[
-            'Measures how easily each road segment can reach all other locations in the network.',
-            'Higher values mean more central, accessible locations within the study area.',
-            'Compare scales (500m–5000m) to see how centrality shifts with analysis distance.',
-            'Click a top segment bar to locate that road on the map.',
+            'Closeness asks how easily a road can reach the rest of the street network — a network reachability role, not live traffic counts.',
+            'This panel summarises that role at the scale you pick on the map (Walking → Regional).',
+            'Higher values mean more central, easier-to-reach locations. Click a top-segment bar to find that road on the map.',
+            'Compare scales to see how reachability shifts as the network distance grows.',
           ]}
         />
       </div>
@@ -69,8 +69,8 @@ export default function ClosenessPanel({
         infoTitle="Top 5 Road Segments by Closeness"
         infoAria="What does the Top 5 Closeness chart show?"
         infoPoints={[
-          'Shows the five road segments with the highest closeness values at the active scale.',
-          'Longer bars mean more accessible segments within the network.',
+          'The five road segments with the highest closeness at the active scale — the easiest network reachability.',
+          'Longer bars mean more reachable segments within the network (not measured travel times from live traffic).',
           'Click a bar to locate that segment on the map.',
         ]}
       />
@@ -82,8 +82,8 @@ export default function ClosenessPanel({
         infoTitle="Closeness — Cross Scale Comparison"
         infoAria="What does the Closeness Cross Scale chart show?"
         infoPoints={[
-          'Compares the overall average closeness across Walking, Neighbourhood, District, and Regional scales.',
-          'Taller bars mean higher average accessibility at that analysis distance.',
+          'Compares average closeness across Walking, Neighbourhood, District, and Regional scales.',
+          'Taller bars mean higher average network reachability at that analysis distance.',
           'Use this to see how centrality shifts as the network radius grows.',
         ]}
       />
@@ -95,12 +95,11 @@ export default function ClosenessPanel({
         infoTitle="Closeness Zone Distribution"
         infoAria="What does the Closeness Zone Distribution show?"
         infoPoints={[
-          'Shows the share of road segments in High, Medium, and Low closeness tiers for the active scale.',
-          'Tiers are relative, not fixed planning zones: each segment is ranked against the min–max range for this scale.',
-          'High = top third of the value range (normalized ≥ ⅔), Medium = middle third (⅓–⅔), Low = bottom third (< ⅓).',
-          'Segment counts are not forced to 33% each — skewed networks can show more Low or more High segments.',
-          'Percentages update when you change the scale on the map; the same logic is used in segment popups (shown as Moderate there).',
-          'High tiers are the most accessible segments in the network at this scale.',
+          'Share of road segments in High, Medium, and Low closeness tiers for the active scale.',
+          'Tiers are relative to this scale’s value range — not fixed planning zones on the ground.',
+          'High = top third of the range, Medium = middle third, Low = bottom third.',
+          'Counts are not forced to 33% each; skewed networks can show more Low or more High segments.',
+          'Percentages update when you change the scale; popups use the same idea (middle tier labelled Moderate).',
         ]}
       />
 

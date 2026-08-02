@@ -24,10 +24,9 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Daily Needs Reach"
             points={[
-              'Six daily service types: Food, Education, Health, Transit, Finance, Open Space.',
-              'Reach % = share of analysis-ok hexes (≥90% complete and snapped within 100 m) within a 10-minute walk of that service.',
-              'Excluded hexes are outside this denominator.',
-              'Click a service card to open its walk-time map and fly to the longest-walk (worst access) cell.',
+              'Six everyday services: Food, Education, Health, Transit, Finance, and Open Space.',
+              'Reach % is how many reliable neighbourhood cells can walk to that service in about 10 minutes.',
+              'Click a service card to open its walk-time map and jump to the longest-walk (weakest) cell.',
             ]}
             ariaLabel="What Does Daily Needs Reach Show?"
           />
@@ -74,9 +73,9 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Desert Hexes"
             points={[
-              'Low-tier analysis-ok hexes with ≤2 daily needs within 10 minutes.',
-              'Excluded hexes are never counted as deserts — they failed completeness or the 100 m network snap.',
-              'Click a Cell ID to fly to that hex on the Access Score layer.',
+              'Neighbourhood cells with two or fewer daily needs within a 10-minute walk — local “destination deserts.”',
+              'Excluded cells are never counted as deserts; they could not be measured reliably.',
+              'Click a Cell ID to fly to that place on the Access Score map.',
             ]}
             ariaLabel="What Are Desert Hexes?"
           />
@@ -106,9 +105,9 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Centrality–Access Mismatch"
             points={[
-              'Analysis-ok hexes in the top quartile of mean BtA5000 with Access Score under 0.5.',
-              'High network betweenness without matching daily destination reach.',
-              'Click a Cell ID to fly to that hex on the Access Score layer.',
+              'Places that sit on busy through-movement corridors but still reach few daily destinations on foot (access score under 0.5).',
+              'High network importance does not guarantee shops, clinics, or schools nearby.',
+              'Click a Cell ID to fly to that place on the Access Score map.',
             ]}
             ariaLabel="What Is Centrality–Access Mismatch?"
           />

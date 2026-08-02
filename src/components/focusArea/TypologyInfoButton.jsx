@@ -115,18 +115,20 @@ export default function TypologyInfoButton() {
             <div className="mt-3 border-t border-[#2a3a4a]" />
 
             <div className="mt-4 space-y-3 text-[13px] leading-[1.7] text-[#cbd5e1]">
-              <p>This classification uses three morphological indices together:</p>
+              <p>
+                Typologies describe how packed and how open the buildings feel in each
+                neighbourhood cell — using three simple building measures together:
+              </p>
               <ul className="list-disc space-y-1 pl-5">
-                <li>FSI (Floor Space Index) — vertical intensity of development</li>
-                <li>GSI (Ground Space Index) — ground coverage by buildings</li>
-                <li>OSR (Open Space Ratio) — open space relative to floor area</li>
+                <li>FSI (Floor Space Index) — how much total floor space vs plot size (taller / denser)</li>
+                <li>GSI (Ground Space Index) — how much of the ground is covered by buildings</li>
+                <li>OSR (Open Space Ratio) — how much open ground there is relative to floor space</li>
               </ul>
               <p>
-                Each hex cell is compared against the median value of all valid cells. A cell
-                scoring above median FSI is &quot;high intensity&quot;, above median GSI is
-                &quot;high coverage&quot;, above median OSR is &quot;open&quot;.
+                Each cell is compared with the median of all valid cells. Above-median FSI =
+                high intensity, above-median GSI = high coverage, above-median OSR = more open.
               </p>
-              <p>This produces 8 urban typologies:</p>
+              <p>That combination produces eight urban typologies:</p>
               <ul className="space-y-1.5">
                 {TYPOLOGY_DESCRIPTORS.map((row) => {
                   const meta = DENSITY_TYPOLOGY[row.id]
@@ -145,7 +147,7 @@ export default function TypologyInfoButton() {
                   )
                 })}
               </ul>
-              <p>Based on the Spacematrix method (TU Delft).</p>
+              <p>Method basis: Spacematrix (TU Delft).</p>
             </div>
 
             <div className="mt-4 border-t border-[#2a3a4a] pt-3 text-[12px] text-[#94a3b8]">

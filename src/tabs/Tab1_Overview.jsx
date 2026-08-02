@@ -132,7 +132,7 @@ const LAND_USE_INFO = {
   title: 'Land Use Distribution',
   ariaLabel: 'What does the Land Use Distribution chart show?',
   points: [
-    'The donut shows the share of land area by land-use category (Main_C) for the selected GN division.',
+    'The donut shows the share of land area by land-use category for the selected GN division.',
     'Choose a division from the GN Divisions card (or click the map). “All GN Divisions” shows the full five-GN Primary Study Area.',
     'Percentages sum to 100% of classified land parcels in that selection.',
     'Use the legend colours to match slices with categories on the map when Land Use is on.',

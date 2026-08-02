@@ -35,12 +35,12 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
           Walk Accessibility
         </h2>
         <MetricInfoButton
-          title="Destination Walk Access"
+          title="Walk Accessibility"
           points={[
-            'Access score = share of six daily destination groups reachable within a 10-minute network walk (4.8 km/h).',
-            'Analysis-ok hexes = ≥90% of full hex area AND centroid snapped to the walk network within 100 m. KPIs use only those hexes.',
-            'Excluded hexes (incomplete or unsnapped) stay on the map for context but are outside score averages, coverage bars, and desert counts.',
-            'Destination reach is not the same as UMI network accessibility (NQPDA / BtA).',
+            'How many everyday destinations you can reach on foot in about 10 minutes from each neighbourhood cell (food, school, health, transit, finance, open space).',
+            'Scores use only cells we can measure reliably — mostly inside the study area and connected to the walkable street network.',
+            'Grey / Excluded cells stay on the map for context but are left out of averages, coverage bars, and desert counts.',
+            'This is destination reach — not the same as UMI’s network-accessibility score on the Maturation tab.',
           ]}
           ariaLabel="What does walk accessibility measure?"
         />
@@ -63,10 +63,11 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
         <div className="flex items-center gap-1.5">
           <h3 className="font-display text-sm font-semibold text-surface-100">Access Score</h3>
           <MetricInfoButton
-            title="Access Score Cards"
+            title="Access Score"
             points={[
-              'Min / Max / Average across analysis-ok hexes (≥90% complete and snapped within 100 m).',
-              'Click Minimum / Highest Cell ID to fly to that hex and open the Access Score layer.',
+              'Access score is the share of the six daily destination groups reachable within a 10-minute walk (0 = none, 1 = all six).',
+              'Min / Max / Average summarise the reliable neighbourhood cells only.',
+              'Click Minimum or Highest Cell ID to fly to that cell on the Access Score map.',
             ]}
             ariaLabel="What Do The Access Score Cards Show?"
           />
@@ -113,12 +114,12 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
         <div className="flex items-center gap-1.5">
           <h3 className="font-display text-sm font-semibold text-surface-50">Access Tier Rules</h3>
           <MetricInfoButton
-            title="Access Tier"
+            title="Access Tier Rules"
             points={[
-              'High: analysis-ok and ≥5 destination groups within 10 minutes.',
-              'Medium: analysis-ok and 3–4 groups within 10 minutes.',
-              'Low (desert): analysis-ok and ≤2 groups within 10 minutes.',
-              'Excluded: not analysis-ok — hex <90% inside the study area, or centroid could not snap to the walk network within 100 m. Still mapped (grey); not in KPI averages.',
+              'High: five or six daily needs within 10 minutes.',
+              'Medium: three or four groups within 10 minutes.',
+              'Low (desert): two or fewer groups within 10 minutes.',
+              'Excluded: cells we could not measure reliably (too incomplete or too far from the walk network). Still shown grey on the map; not in averages.',
             ]}
             ariaLabel="What Do Access Tiers Mean?"
           />
@@ -134,10 +135,10 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
             10-Minute Coverage By Group
           </h3>
           <MetricInfoButton
-            title="10-Minute Coverage"
+            title="10-Minute Coverage By Group"
             points={[
-              'Share of analysis-ok hexes (≥90% complete and snapped ≤100 m) that reach at least one destination in each group within 10 minutes.',
-              'Food is typically strongest; Health and Education are the thinnest essential groups.',
+              'For each daily need (food, health, etc.), the bar is the share of reliable neighbourhood cells that can reach at least one place of that type within 10 minutes.',
+              'Longer bars mean better coverage. Food is often strongest; health and education are often thinner.',
             ]}
             ariaLabel="What Do The Coverage Bars Show?"
           />

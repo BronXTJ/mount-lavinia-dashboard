@@ -28,8 +28,10 @@ export default function BuiltFormPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Floor Space Index (FSI)"
             points={[
-              'Ratio of total floor area to plot area.',
-              'Higher FSI = more vertical development intensity.',
+              'FSI compares total floor area in buildings to plot size — like how much building is stacked on the land.',
+              'These cards show the lowest, highest, and average FSI across neighbourhood cells we can measure reliably.',
+              'Higher FSI = more floor space relative to plot size (often taller or denser). Lower FSI = lighter built intensity.',
+              'Click Minimum / Highest Cell ID to fly to that cell on the map. Charts use mostly complete cells (≥90% filled).',
             ]}
             ariaLabel="What is Floor Space Index?"
           />
@@ -66,9 +68,9 @@ export default function BuiltFormPanel({ stats, loading, onFocusCell }) {
           infoTitle="FSI Value Distribution"
           infoAria="What does the FSI Value Distribution show?"
           infoPoints={[
-            'Equal-interval classes of analysis-grade hex cells (≥90% complete) by Floor Space Index (FSI).',
-            'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
-            'Edge hexes are on the map only; charts use valid cells.',
+            'This chart groups neighbourhood cells into equal FSI bands — the same colour ranges as the map legend.',
+            'Taller bars mean more cells fall in that FSI range (not that those cells are “better”).',
+            'High-FSI bands are more intensely built; low-FSI bands have less floor space. Thin edge scraps on the map are left out of the chart.',
           ]}
         />
       </div>
@@ -82,8 +84,10 @@ export default function BuiltFormPanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Ground Space Index (GSI)"
             points={[
-              'Ratio of building footprint to plot area.',
-              'Higher GSI = more ground covered.',
+              'GSI is the share of ground covered by building footprints — how much of the plot is built over at ground level.',
+              'These cards show the lowest, highest, and average GSI across neighbourhood cells we can measure reliably.',
+              'Higher GSI = more of the ground is covered by buildings. Lower GSI = more open ground between buildings.',
+              'Click Minimum / Highest Cell ID to fly to that cell on the map. Charts use mostly complete cells (≥90% filled).',
             ]}
             ariaLabel="What is Ground Space Index?"
           />
@@ -120,9 +124,9 @@ export default function BuiltFormPanel({ stats, loading, onFocusCell }) {
           infoTitle="GSI Value Distribution"
           infoAria="What does the GSI Value Distribution show?"
           infoPoints={[
-            'Equal-interval classes of analysis-grade hex cells (≥90% complete) by Ground Space Index (GSI).',
-            'Each bar matches a map / legend color range; bar heights show how many cells fall in each band.',
-            'Edge hexes are on the map only; charts use valid cells.',
+            'This chart groups neighbourhood cells into equal GSI bands — the same colour ranges as the map legend.',
+            'Taller bars mean more cells fall in that GSI range (not that those cells are “better”).',
+            'High-GSI bands have more ground covered by buildings; low-GSI bands leave more open ground. Thin edge scraps on the map are left out of the chart.',
           ]}
         />
       </div>

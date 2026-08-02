@@ -5,8 +5,9 @@ export const SYNTHESIS_INFO = {
     title: 'Synthesis — Integrated Findings',
     ariaLabel: 'About Synthesis',
     points: [
-      'Linked claims across Environmental, Density, Centrality, Maturation, and Issues & Potentials.',
-      'Each finding has observation, interpretation, and implication, with evidence links to the maps.',
+      'This page connects findings from Environmental, Density, Centrality, Maturation, and Issues into one story.',
+      'Each finding has an observation, interpretation, and implication, with links back to the maps.',
+      'Shannon = how balanced the land-use mix is; UMI (Urban Maturation Index) = how “complete” a place feels (mix + access + diversity).',
       'Key argument steps (1–6) set the reading order; use All findings in the header for the full list.',
     ],
   },
@@ -14,7 +15,7 @@ export const SYNTHESIS_INFO = {
     title: 'Key Argument',
     ariaLabel: 'About the key argument steps',
     points: [
-      'Six steps in order: Shannon and UMI profile, accessibility lag, corridors, heat, identity, coupled response.',
+      'Six steps in order: land-use mix (Shannon) and maturation (UMI), accessibility lag, corridors, heat, identity, coupled response.',
       'Previous / Next move along this path; selecting a step opens that finding.',
     ],
   },
