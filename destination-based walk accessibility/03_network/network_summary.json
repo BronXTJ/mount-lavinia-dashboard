@@ -2,9 +2,14 @@
   "node_count": 6776,
   "edge_count": 7013,
   "total_length_km": 120.907,
+  "component_count": 11,
   "kept_components_min_edges": 11,
   "dropped_tiny_nodes": 19,
+  "largest_component_nodes": 6553,
+  "largest_component_share": 0.9671,
   "node_snap_m": 1.0,
   "edge_densify_m": 25.0,
-  "source_roads": "03_network\\roads_walk_aoi.geojson"
+  "min_component_edges": 5,
+  "node_count_after_snap": 7255,
+  "edge_count_after_snap": 7492
 }

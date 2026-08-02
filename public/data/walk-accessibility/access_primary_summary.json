@@ -10,6 +10,7 @@
     "sliver": 65,
     "unknown": 0
   },
+  "legacy_is_edge_note": "is_edge uses Hex_area/Hex_area_full<0.999; retained for reference only",
   "walk_speed_kmh": 4.8,
   "walk_m_per_min": 80.0,
   "thresholds_m": {

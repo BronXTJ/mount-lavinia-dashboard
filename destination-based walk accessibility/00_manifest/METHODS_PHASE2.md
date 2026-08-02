@@ -18,9 +18,11 @@ Build a routable pedestrian network for the 500 m access AOI, prepare hex origin
 
 Fresh OSM Overpass ways with `highway=*` inside the AOI bbox, then client-side walkable filter:
 
-**Keep:** trunk, primary, primary_link, secondary, secondary_link, tertiary, tertiary_link, residential, living_street, unclassified, service, footway, path, pedestrian, steps
+**Keep:** every `highway=*` type except the drop list below (Sri Lanka road-walking: motorway, cycleway, track, footway, trunk_link, etc. are included when present)
 
-**Drop:** motorway, motorway_link; `access=no`; `foot=no`
+**Drop (highway type):** `construction`, `proposed`, `abandoned`, `disused`
+
+**Drop (access tags):** `access=no`; `foot=no`
 
 Outputs: `03_network/raw/roads_osm_raw.geojson`, `03_network/roads_walk_aoi.geojson`
 

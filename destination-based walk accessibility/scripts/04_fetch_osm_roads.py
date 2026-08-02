@@ -19,22 +19,13 @@ OUT_RAW = PACKAGE_ROOT / "03_network" / "raw" / "roads_osm_raw.geojson"
 OUT_WALK = PACKAGE_ROOT / "03_network" / "roads_walk_aoi.geojson"
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 
-WALKABLE = {
-    "trunk",
-    "primary",
-    "primary_link",
-    "secondary",
-    "secondary_link",
-    "tertiary",
-    "tertiary_link",
-    "residential",
-    "living_street",
-    "unclassified",
-    "service",
-    "footway",
-    "path",
-    "pedestrian",
-    "steps",
+# Sri Lanka: pedestrians use almost any existing way. Exclude only non-existent /
+# non-usable highway statuses; still honour explicit foot/access bans.
+NON_WALKABLE_HIGHWAY = {
+    "construction",
+    "proposed",
+    "abandoned",
+    "disused",
 }
 
 
@@ -83,7 +74,7 @@ def fetch_overpass(query: str, retries: int = 4) -> dict:
 
 def is_walkable(tags: dict) -> bool:
     highway = tags.get("highway")
-    if highway not in WALKABLE:
+    if not highway or highway in NON_WALKABLE_HIGHWAY:
         return False
     if tags.get("access") == "no":
         return False

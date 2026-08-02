@@ -1,7 +1,6 @@
 {
   "snap_tolerance_m": 50,
   "role": "primary_locked_baseline_archive",
-  "phase": 7,
-  "note": "Refreshed after Phase 7 open_space cleanup + 50 m recompute",
-  "source": "package root after scripts/13_phase7_clean_and_recompute.py"
+  "note": "Refreshed after walk-network denylist filter + 50 m recompute",
+  "source": "package root after scripts/04-09 with NON_WALKABLE_HIGHWAY denylist"
 }

@@ -391,7 +391,7 @@ export const findings = [
       'Accessibility about 0.11 (from 5000 m closeness and betweenness).',
       'Shannon and diversity are the stronger maturation readings.',
       'Weak accessibility pulls the composite UMI down to about 0.34—below what mix alone would suggest.',
-      'Destination walk access averages about 0.879 across 323 analysis hexes, but health (80.8%) and education (83.0%) 10-minute coverage still lag food (99.4%).',
+      'Destination walk access averages about 0.873 across 323 analysis hexes, but health (80.8%) and education (83.0%) 10-minute coverage still lag food (99.4%).',
     ],
     interpretation: [
       'A mid UMI does not mean “no mix.”',
