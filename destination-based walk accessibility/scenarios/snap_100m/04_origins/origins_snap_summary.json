@@ -4,11 +4,14 @@
   "hex_count": 447,
   "hex_snap_ok": 429,
   "hex_snap_ok_share": 0.9597,
-  "hex_snap_fail": 18,
+  "hex_non_edge_count": 322,
+  "hex_non_edge_snap_ok": 322,
   "poi_count": 257,
   "poi_snap_ok": 256,
   "poi_snap_ok_share": 0.9961,
+  "hex_snap_fail": 18,
   "poi_snap_fail": 1,
   "graph_nodes_after_snap": 7266,
-  "graph_edges_after_snap": 7503
+  "graph_edges_after_snap": 7503,
+  "hex_non_edge_snap_ok_share": 1.0
 }

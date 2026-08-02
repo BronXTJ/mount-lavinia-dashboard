@@ -91,7 +91,7 @@ def main() -> None:
             "id": "WA1",
             "label": "Food Access Is Strong; Health and Education Lag",
             "observation": [
-                f"Among {analysis_n} analysis hexes (area_ratio≥0.90 and snapped), mean destination access_score is {mean_score:.3f}.",
+                f"Among {analysis_n} analysis hexes (area_ratio≥0.90 and snapped within 100 m), mean destination access_score is {mean_score:.3f}.",
                 f"Within a 10-minute walk, food coverage is {pct(coverage_10['food'])} while health is {pct(coverage_10['health'])} and education is {pct(coverage_10['education'])}.",
                 f"Transit ({pct(coverage_10['transit'])}), finance ({pct(coverage_10['finance'])}), and open space ({pct(coverage_10['open_space'])}) sit between those extremes.",
             ],
@@ -112,7 +112,7 @@ def main() -> None:
             "observation": [
                 f"{desert_count} analysis hexes are low-tier deserts (groups_within_10 ≤ 2), about {pct(float(s3.get('desert_share') or 0))} of the analysis set.",
                 f"Tier among all 447 hexes: high {tiers.get('high', 0)}, medium {tiers.get('medium', 0)}, low {tiers.get('low', 0)}, excluded {tiers.get('excluded', 0)}.",
-                "Excluded cells are incomplete (<90% area) or unsnapped; they remain mapped but are outside KPI denominators.",
+                "Excluded cells are incomplete (<90% area) or unsnapped (>100 m from the walk network); they remain mapped but are outside KPI denominators.",
             ],
             "interpretation": [
                 "Most of the primary area already reaches five or more destination groups within 10 minutes.",
@@ -120,7 +120,7 @@ def main() -> None:
                 "Treating only legacy is_edge cells as ‘invalid’ would mis-state the problem; the analysis_ok gate keeps near-complete boundary hexes in the evidence.",
             ],
             "implication": [
-                "Treat the 27 desert hexes as priority zones for missing daily destinations or safer walk links into existing clusters.",
+                f"Treat the {desert_count} desert hexes as priority zones for missing daily destinations or safer walk links into existing clusters.",
                 "Keep deserts visible on map02 alongside high-access fabric so interventions stay place-specific.",
                 "Re-check deserts after any POI inventory update (health/education especially).",
             ],
@@ -154,12 +154,12 @@ def main() -> None:
         },
         {
             "rank": 2,
-            "action": "Target the 27 destination-desert hexes for service insertion or walk-link upgrades",
+            "action": f"Target the {desert_count} destination-desert hexes for service insertion or walk-link upgrades",
             "why": "Localized low-tier cells with ≤2 destination groups within 10 minutes.",
         },
         {
             "rank": 3,
-            "action": "Upgrade the 5 centrality–access mismatch corridors",
+            "action": f"Upgrade the {mismatch_n} centrality–access mismatch corridors",
             "why": "High betweenness with weak destination reach — align with F8 pressure corridors.",
         },
         {

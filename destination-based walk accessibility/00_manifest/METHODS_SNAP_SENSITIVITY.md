@@ -3,28 +3,26 @@
 ## Purpose
 
 Measure how destination walk accessibility changes when hex/POI snap tolerance
-widens from **50 m** (locked baseline used by the dashboard) to **100 m**
-(analysis-only sensitivity run).
+narrows from **100 m** (locked baseline used by the dashboard) to **50 m**
+(analysis-only sensitivity archive).
 
-## Phase 8 refresh
+## Current baseline
 
-After Phase 7 open_space cleanup, Phase 8 re-ran `snap_100m` and rebuilt
-`scenarios/compare/` against the refreshed Phase 7 `snap_50m` archive.
-Compare headline KPIs must match the cleaned-inventory 50 m baseline
-(mean access_score ~0.873), not the pre-cleanup figures.
+Package-root and live publish use **100 m** snap (`SNAP_TOL_M` in
+`scripts/06_prepare_origins_snaps.py`). The **50 m** chain is kept under
+`scenarios/snap_50m/` for compare only.
 
-See [`METHODS_PHASE8.md`](METHODS_PHASE8.md).
+See also [`METHODS_PHASE8.md`](METHODS_PHASE8.md) (historical Phase 8 notes)
+and the current `validate_phase8.py` gate (package / public / `snap_100m` = 100 m).
 
 ## Isolation rule
 
 [`scripts/06_prepare_origins_snaps.py`](../scripts/06_prepare_origins_snaps.py) mutates
-`03_network/network_graph.graphml` in place. The 100 m run **must not** overwrite
-package-root network or origins.
-
-Use:
+`03_network/network_graph.graphml` in place. Sensitivity runs that must not overwrite
+package-root network or origins should use:
 
 ```bash
-python scripts/10_run_snap_scenario.py --snap-m 100
+python scripts/10_run_snap_scenario.py --snap-m 50
 python scripts/11_compare_snap_scenarios.py
 ```
 
@@ -32,18 +30,16 @@ Outputs live under:
 
 | Path | Role |
 |------|------|
-| `scenarios/snap_50m/` | Archive of locked 50 m Phase 2–5 outputs |
-| `scenarios/snap_100m/` | Isolated rebuild + snap 100 m + access + maps + findings |
+| `scenarios/snap_100m/` | Archive of locked **100 m** Phase 2–5 outputs (matches package / dashboard) |
+| `scenarios/snap_50m/` | Sensitivity archive at **50 m** |
 | `scenarios/compare/` | KPI table, hex ID diffs, difference map, `COMPARE.md` |
 
 ## Dashboard
 
-Live publish stays on **50 m**:
+Live publish is **100 m**:
 
 - `public/data/walk-accessibility/`
 - Focus Area → Walk Accessibility (`/focus-area?sub=walk-access`)
-
-Do not republish from `snap_100m` unless an explicit product decision changes the primary scenario.
 
 ## North arrows
 
@@ -52,6 +48,7 @@ place the north arrow in the **top-right**. map04 (bar chart) has no north arrow
 
 ## Expected reading
 
-100 m usually snaps more mid-area hexes (fewer empty holes). Newly included hexes can be
-low-access, so desert count may rise even if mean access score stays similar. Treat 50 m as
-the conservative primary evidence; cite 100 m as sensitivity.
+100 m snaps more mid-area hexes (fewer empty holes) and matches Sri Lanka road-walking
+practice on a 100 m hex grid. 50 m is the stricter sensitivity case: more unsnapped /
+Excluded hexes, slightly different desert counts. Treat 100 m as the primary evidence;
+cite 50 m as sensitivity.

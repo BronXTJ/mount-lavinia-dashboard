@@ -122,5 +122,5 @@
     "mismatch_gained": 0,
     "mismatch_lost": 0
   },
-  "dashboard_note": "Live dashboard remains on 50 m snap results."
+  "dashboard_note": "Live dashboard uses 100 m snap results; 50 m is sensitivity-only."
 }

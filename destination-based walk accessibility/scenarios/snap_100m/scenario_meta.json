@@ -1,12 +1,6 @@
 {
-  "snap_tolerance_m": 100.0,
-  "role": "sensitivity_scenario",
-  "dashboard_publish": "unchanged \u2014 live dashboard stays on 50 m",
-  "outputs": {
-    "network": "03_network/",
-    "origins": "04_origins/",
-    "accessibility": "05_accessibility/",
-    "maps": "06_maps/",
-    "findings": "07_findings/"
-  }
+  "snap_tolerance_m": 100,
+  "role": "primary_locked_baseline_archive",
+  "note": "Locked 100 m dashboard baseline; mirrors package root after SNAP_TOL_M=100 recompute",
+  "source": "package root after scripts/05-09 with 100 m snap"
 }

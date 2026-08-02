@@ -391,7 +391,7 @@ export const findings = [
       'Accessibility about 0.11 (from 5000 m closeness and betweenness).',
       'Shannon and diversity are the stronger maturation readings.',
       'Weak accessibility pulls the composite UMI down to about 0.34—below what mix alone would suggest.',
-      'Destination walk access averages about 0.873 across 323 analysis hexes, but health (80.8%) and education (83.0%) 10-minute coverage still lag food (99.4%).',
+      'Destination walk access averages about 0.872 across 341 analysis hexes, but health (80.3%) and education (82.7%) 10-minute coverage still lag food (99.4%).',
     ],
     interpretation: [
       'A mid UMI does not mean “no mix.”',
@@ -464,9 +464,9 @@ export const findings = [
     label: 'Food Access Is Strong; Health and Education Lag',
     domains: ['walk', 'morphology'],
     observation: [
-      'Among 323 analysis hexes (area_ratio≥0.90 and snapped), mean destination access_score is 0.873.',
-      'Within a 10-minute walk, food coverage is 99.4% while health is 80.8% and education is 83.0%.',
-      'Transit (89.5%), finance (87.9%), and open space (83.3%) sit between those extremes.',
+      'Among 341 analysis hexes (area_ratio≥0.90 and snapped within 100 m), mean destination access_score is 0.872.',
+      'Within a 10-minute walk, food coverage is 99.4% while health is 80.3% and education is 82.7%.',
+      'Transit (89.7%), finance (88.0%), and open space (83.0%) sit between those extremes.',
     ],
     interpretation: [
       'Daily retail/food destinations are already dense relative to other essential services.',
@@ -493,9 +493,9 @@ export const findings = [
     label: 'Destination Deserts Are Localized',
     domains: ['walk', 'morphology'],
     observation: [
-      '27 analysis hexes are low-tier deserts (groups_within_10 ≤ 2), about 8.4% of the analysis set.',
-      'Tier among all 447 hexes: high 257, medium 39, low 27, excluded 124.',
-      'Excluded cells are incomplete (<90% area) or unsnapped; they remain mapped but are outside KPI denominators.',
+      '29 analysis hexes are low-tier deserts (groups_within_10 ≤ 2), about 8.5% of the analysis set.',
+      'Tier among all 447 hexes: high 272, medium 40, low 29, excluded 106.',
+      'Excluded cells are incomplete (<90% area) or unsnapped (>100 m from the walk network); they remain mapped but are outside KPI denominators.',
     ],
     interpretation: [
       'Most of the primary area already reaches five or more destination groups within 10 minutes.',
@@ -503,7 +503,7 @@ export const findings = [
       'Treating only legacy is_edge cells as invalid would mis-state the problem; the analysis_ok gate keeps near-complete boundary hexes in the evidence.',
     ],
     implication: [
-      'Treat the 27 desert hexes as priority zones for missing daily destinations or safer walk links into existing clusters.',
+      'Treat the 29 desert hexes as priority zones for missing daily destinations or safer walk links into existing clusters.',
       'Keep deserts visible alongside high-access fabric so interventions stay place-specific.',
       'Re-check deserts after any POI inventory update (health/education especially).',
     ],

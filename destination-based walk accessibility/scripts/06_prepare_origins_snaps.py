@@ -34,7 +34,7 @@ OUT_HEX = PACKAGE_ROOT / "04_origins" / "hex_origins_primary.geojson"
 OUT_POIS = PACKAGE_ROOT / "04_origins" / "pois_snapped.geojson"
 OUT_SUMMARY = PACKAGE_ROOT / "04_origins" / "origins_snap_summary.json"
 
-SNAP_TOL_M = 50.0
+SNAP_TOL_M = 100.0
 
 
 def write_geojson(path: Path, name: str, features: list[dict]) -> None:

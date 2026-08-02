@@ -1,49 +1,33 @@
-# Phase 8 — Refresh 100 m sensitivity (post open_space cleanup)
+# Phase 8+ — Snap baseline now 100 m
 
-## Purpose
+## Purpose (updated)
 
-Re-run the isolated **100 m** snap sensitivity scenario and rebuild the 50-vs-100 compare package after Phase 7 removed parking misclassification from `open_space`. The live dashboard stays on the locked **50 m** baseline.
+The live Walk Accessibility dashboard baseline is **100 m** snap tolerance.
+`scenarios/snap_50m/` remains the narrower sensitivity archive; `scenarios/snap_100m/`
+mirrors package-root Phase 2–5 outputs used for publish.
 
-## Why
-
-Phase 7 refreshed package-root 50 m outputs and `scenarios/snap_50m/`, but deferred 100 m. Pre-cleanup `scenarios/snap_100m/` and `scenarios/compare/` were therefore stale relative to the cleaned POI inventory.
-
-## Locked defaults
+## Locked defaults (current)
 
 | Item | Value |
 |------|-------|
-| Primary / dashboard | **50 m** (unchanged; no republish) |
-| Sensitivity | **100 m** under `scenarios/snap_100m/` only |
-| POI inventory | Phase 7 cleaned `02_pois/pois_access_primary.geojson` |
-| Package-root network/origins | Must not be mutated by the 100 m runner |
+| Primary / dashboard | **100 m** |
+| Sensitivity | **50 m** under `scenarios/snap_50m/` |
+| Package-root snap | `SNAP_TOL_M = 100` in `scripts/06_prepare_origins_snaps.py` |
 
-## Commands
+## Historical note
 
-```bash
-python scripts/10_run_snap_scenario.py --snap-m 100
-python scripts/11_compare_snap_scenarios.py
-python 00_manifest/validate_phase8.py
-```
-
-## Outputs
-
-| Path | Role |
-|------|------|
-| `scenarios/snap_100m/` | Isolated clean-graph + 100 m snap + access + maps + findings |
-| `scenarios/snap_50m/` | Phase 7 archive (compare baseline; not rebuilt in Phase 8) |
-| `scenarios/compare/` | KPI table, hex ID diffs, difference map, `COMPARE.md` |
-
-## Dashboard
-
-`public/data/walk-accessibility/` and synthesis WA1–WA3 are **not** updated in this phase.
+Original Phase 8 re-ran an isolated **100 m** sensitivity while the dashboard stayed on
+**50 m**. That product decision was reversed: 100 m is now primary.
 
 ## Validation
 
-`python 00_manifest/validate_phase8.py` → **PASS**
+`python 00_manifest/validate_phase8.py` → **PASS** (package / public / snap_100m at 100 m;
+snap_50m at 50 m; 100 m hex_snap_ok ≥ 50 m).
 
 ## Done when
 
-- `snap_100m` regenerated from cleaned POIs
-- Compare KPIs consistent with Phase 7 50 m baseline
-- Package-root snap tolerance remains 50 m
-- Validator prints **PASS**
+- Package-root snap tolerance is 100 m
+- Dashboard publish matches package mean
+- `snap_100m` archive matches package
+- `snap_50m` retained as sensitivity
+- Compare rebuilt; validator prints **PASS**

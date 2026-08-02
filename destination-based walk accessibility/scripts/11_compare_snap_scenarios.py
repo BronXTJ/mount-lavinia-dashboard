@@ -148,7 +148,7 @@ def main() -> None:
             "mismatch_gained": len(mismatch100 - mismatch50),
             "mismatch_lost": len(mismatch50 - mismatch100),
         },
-        "dashboard_note": "Live dashboard remains on 50 m snap results.",
+        "dashboard_note": "Live dashboard uses 100 m snap results; 50 m is sensitivity-only.",
     }
     (OUT / "compare_summary.json").write_text(json.dumps(compare, indent=2) + "\n", encoding="utf-8")
 
@@ -236,7 +236,7 @@ def main() -> None:
 ## Purpose
 
 Test how walk-accessibility KPIs and empty mid-area hexes change when the network snap tolerance
-widens from **50 m** (locked baseline / dashboard) to **100 m** (analysis-only).
+widens from **50 m** (sensitivity archive) to **100 m** (locked baseline / dashboard).
 
 ## Headline differences
 
@@ -264,7 +264,7 @@ count may rise even while mean score stays similar.
 
 ## Dashboard
 
-The live dashboard (`public/data/walk-accessibility/`) stays on the **50 m** baseline.
+The live dashboard (`public/data/walk-accessibility/`) uses the **100 m** baseline.
 """
     (OUT / "COMPARE.md").write_text(md, encoding="utf-8")
     print(f"Wrote {OUT}")

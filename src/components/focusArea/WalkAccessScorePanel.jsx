@@ -10,7 +10,7 @@ const ACCENT = '#0d9488'
 
 const WALK_KEY_FINDINGS = [
   'Food coverage within 10 minutes is near-universal; health and education lag.',
-  'Destination deserts are localized pockets (~8% of analysis hexes), not area-wide failure.',
+  'Destination deserts are localized pockets (~8.5% of analysis hexes), not area-wide failure.',
   'A few high-betweenness corridors still lack daily destination reach.',
 ]
 
@@ -38,7 +38,8 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
           title="Destination Walk Access"
           points={[
             'Access score = share of six daily destination groups reachable within a 10-minute network walk (4.8 km/h).',
-            'KPIs use analysis-grade hexes (≥90% complete). Partial / scrap cells stay off these cards.',
+            'Analysis-ok hexes = ≥90% of full hex area AND centroid snapped to the walk network within 100 m. KPIs use only those hexes.',
+            'Excluded hexes (incomplete or unsnapped) stay on the map for context but are outside score averages, coverage bars, and desert counts.',
             'Destination reach is not the same as UMI network accessibility (NQPDA / BtA).',
           ]}
           ariaLabel="What does walk accessibility measure?"
@@ -54,7 +55,7 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
           {formatWalkScore(stats?.meanAccessScore ?? summary?.avg)}
         </p>
         <p className="mt-2 text-center text-xs font-medium text-surface-200">
-          Mean access score · {analysisN} analysis-grade hexes (≥90% complete)
+          Mean access score · {analysisN} analysis-ok hexes (≥90% complete and snapped ≤100 m)
         </p>
       </div>
 
@@ -64,7 +65,7 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
           <MetricInfoButton
             title="Access Score Cards"
             points={[
-              'Min / Max / Average across analysis-grade hexes (≥90% complete).',
+              'Min / Max / Average across analysis-ok hexes (≥90% complete and snapped within 100 m).',
               'Click Minimum / Highest Cell ID to fly to that hex and open the Access Score layer.',
             ]}
             ariaLabel="What Do The Access Score Cards Show?"
@@ -110,13 +111,32 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
 
       <div className="rounded-lg border border-surface-700 bg-surface-800 p-4 shadow-card">
         <div className="flex items-center gap-1.5">
+          <h3 className="font-display text-sm font-semibold text-surface-50">Access Tier Rules</h3>
+          <MetricInfoButton
+            title="Access Tier"
+            points={[
+              'High: analysis-ok and ≥5 destination groups within 10 minutes.',
+              'Medium: analysis-ok and 3–4 groups within 10 minutes.',
+              'Low (desert): analysis-ok and ≤2 groups within 10 minutes.',
+              'Excluded: not analysis-ok — hex <90% inside the study area, or centroid could not snap to the walk network within 100 m. Still mapped (grey); not in KPI averages.',
+            ]}
+            ariaLabel="What Do Access Tiers Mean?"
+          />
+        </div>
+        <p className="mt-2 text-[11px] leading-snug text-surface-300">
+          Turn on the Access Tier map layer to see High / Medium / Low / Excluded colours.
+        </p>
+      </div>
+
+      <div className="rounded-lg border border-surface-700 bg-surface-800 p-4 shadow-card">
+        <div className="flex items-center gap-1.5">
           <h3 className="font-display text-sm font-semibold text-surface-50">
             10-Minute Coverage By Group
           </h3>
           <MetricInfoButton
             title="10-Minute Coverage"
             points={[
-              'Share of analysis-grade hexes that reach at least one destination in each group within 10 minutes.',
+              'Share of analysis-ok hexes (≥90% complete and snapped ≤100 m) that reach at least one destination in each group within 10 minutes.',
               'Food is typically strongest; Health and Education are the thinnest essential groups.',
             ]}
             ariaLabel="What Do The Coverage Bars Show?"

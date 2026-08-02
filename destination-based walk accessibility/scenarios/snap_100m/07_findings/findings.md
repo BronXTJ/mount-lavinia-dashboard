@@ -30,7 +30,7 @@ Network walk distance/time from primary hexes to six daily destination groups at
 ### WA1 — Food Access Is Strong; Health and Education Lag
 
 **Observation**
-- Among 341 analysis hexes (area_ratio≥0.90 and snapped), mean destination access_score is 0.872.
+- Among 341 analysis hexes (area_ratio≥0.90 and snapped within 100 m), mean destination access_score is 0.872.
 - Within a 10-minute walk, food coverage is 99.4% while health is 80.3% and education is 82.7%.
 - Transit (89.7%), finance (88.0%), and open space (83.0%) sit between those extremes.
 
@@ -49,7 +49,7 @@ Network walk distance/time from primary hexes to six daily destination groups at
 **Observation**
 - 29 analysis hexes are low-tier deserts (groups_within_10 ≤ 2), about 8.5% of the analysis set.
 - Tier among all 447 hexes: high 272, medium 40, low 29, excluded 106.
-- Excluded cells are incomplete (<90% area) or unsnapped; they remain mapped but are outside KPI denominators.
+- Excluded cells are incomplete (<90% area) or unsnapped (>100 m from the walk network); they remain mapped but are outside KPI denominators.
 
 **Interpretation**
 - Most of the primary area already reaches five or more destination groups within 10 minutes.
@@ -57,7 +57,7 @@ Network walk distance/time from primary hexes to six daily destination groups at
 - Treating only legacy is_edge cells as ‘invalid’ would mis-state the problem; the analysis_ok gate keeps near-complete boundary hexes in the evidence.
 
 **Implication**
-- Treat the 27 desert hexes as priority zones for missing daily destinations or safer walk links into existing clusters.
+- Treat the 29 desert hexes as priority zones for missing daily destinations or safer walk links into existing clusters.
 - Keep deserts visible on map02 alongside high-access fabric so interventions stay place-specific.
 - Re-check deserts after any POI inventory update (health/education especially).
 
@@ -87,7 +87,7 @@ Destination walk results should update the F8/F15 story: network centrality can 
 ## Design priorities
 
 1. **Close health and education 10-minute gaps** — Weakest groups at 10 min: health 80.3%, education 82.7%.
-2. **Target the 27 destination-desert hexes for service insertion or walk-link upgrades** — Localized low-tier cells with ≤2 destination groups within 10 minutes.
+2. **Target the 29 destination-desert hexes for service insertion or walk-link upgrades** — Localized low-tier cells with ≤2 destination groups within 10 minutes.
 3. **Upgrade the 5 centrality–access mismatch corridors** — High betweenness with weak destination reach — align with F8 pressure corridors.
 4. **Keep food/retail strength while diversifying essential services** — Food already at 99.4% within 10 min; do not mistake that for full daily access.
 

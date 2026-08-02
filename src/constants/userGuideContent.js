@@ -85,11 +85,12 @@ export const USER_GUIDE_SECTIONS = [
     icon: 'Footprints',
     bullets: [
       'Explore access score, access tier, and walk-time layers by destination group on the hex grid. Nearly complete cells are coloured; partial cells are dimmed; scraps stay unfilled.',
+      'Analysis-ok hexes (≥90% of full area and snapped to the walk network within 100 m) drive all KPI cards. Excluded hexes failed that gate — incomplete or unsnapped — and stay grey on Access Tier.',
+      'Access Tier: High ≥5 destination groups within 10 minutes; Medium 3–4; Low (desert) ≤2; Excluded = not analysis-ok.',
       'Toggle map layers with the FAB (metrics, desert / mismatch outlines, buildings, roads, access-destination POIs, analysis boundary).',
       'POIs use the same pink pulse ring + filled dot as Density; switch Streets / Satellite basemap in the FAB when you want imagery under the hexes.',
-      'KPIs use analysis-grade hexes (≥90% of full area). Click a coloured hex for layer-specific facts; click Minimum / Highest Cell ID to fly to extremes.',
-      'Desert and mismatch Cell ID chips on the right fly the map to those hexes. Destination reach is not the same as UMI network accessibility.',
-      'Key Findings chips (WA1–WA3) link straight into Synthesis.',
+      'Click a coloured hex for layer-specific facts; click Minimum / Highest Cell ID to fly to extremes. Desert and mismatch Cell ID chips on the right fly the map to those hexes.',
+      'Destination reach is not the same as UMI network accessibility. Key Findings chips (WA1–WA3) link straight into Synthesis.',
     ],
   },
   {
@@ -99,7 +100,7 @@ export const USER_GUIDE_SECTIONS = [
     bullets: [
       'Classifies junctions as 4-way (permeable), 3-way (tree-like), or cul-de-sac (dead-end) from street topology across the five GN study area.',
       'Use the scope selector to view All GNs or one GN division; the map fits to that boundary.',
-      'Toggle junction types, street pathways, and GN boundaries with the FAB; switch Streets / Satellite basemap.',
+      'Toggle junction types, street pathways, road labels, and GN boundaries with the FAB; switch Dark / Streets basemap.',
       'The right panel lists sample cul-de-sacs — click a row to fly the map to that dead-end.',
       'Read interior vs spine permeability in the overview charts before linking to Synthesis corridor findings.',
     ],

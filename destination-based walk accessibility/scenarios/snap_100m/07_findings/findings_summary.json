@@ -44,7 +44,7 @@
       "id": "WA1",
       "label": "Food Access Is Strong; Health and Education Lag",
       "observation": [
-        "Among 341 analysis hexes (area_ratio\u22650.90 and snapped), mean destination access_score is 0.872.",
+        "Among 341 analysis hexes (area_ratio\u22650.90 and snapped within 100 m), mean destination access_score is 0.872.",
         "Within a 10-minute walk, food coverage is 99.4% while health is 80.3% and education is 82.7%.",
         "Transit (89.7%), finance (88.0%), and open space (83.0%) sit between those extremes."
       ],
@@ -65,7 +65,7 @@
       "observation": [
         "29 analysis hexes are low-tier deserts (groups_within_10 \u2264 2), about 8.5% of the analysis set.",
         "Tier among all 447 hexes: high 272, medium 40, low 29, excluded 106.",
-        "Excluded cells are incomplete (<90% area) or unsnapped; they remain mapped but are outside KPI denominators."
+        "Excluded cells are incomplete (<90% area) or unsnapped (>100 m from the walk network); they remain mapped but are outside KPI denominators."
       ],
       "interpretation": [
         "Most of the primary area already reaches five or more destination groups within 10 minutes.",
@@ -73,7 +73,7 @@
         "Treating only legacy is_edge cells as \u2018invalid\u2019 would mis-state the problem; the analysis_ok gate keeps near-complete boundary hexes in the evidence."
       ],
       "implication": [
-        "Treat the 27 desert hexes as priority zones for missing daily destinations or safer walk links into existing clusters.",
+        "Treat the 29 desert hexes as priority zones for missing daily destinations or safer walk links into existing clusters.",
         "Keep deserts visible on map02 alongside high-access fabric so interventions stay place-specific.",
         "Re-check deserts after any POI inventory update (health/education especially)."
       ]
@@ -106,7 +106,7 @@
     },
     {
       "rank": 2,
-      "action": "Target the 27 destination-desert hexes for service insertion or walk-link upgrades",
+      "action": "Target the 29 destination-desert hexes for service insertion or walk-link upgrades",
       "why": "Localized low-tier cells with \u22642 destination groups within 10 minutes."
     },
     {

@@ -40,9 +40,10 @@ Outputs: `network_nodes.geojson`, `network_edges.geojson`, `network_graph.graphm
 ## Origins and snapping
 
 - Hex origins = projected centroids of primary hexes (`hex_id`, `is_edge`, `Hex_area`)
-- Snap method: nearest **edge** within **50 m**; mid-edge projection inserts a graph node and splits the edge
+- Snap method: nearest **edge** within **100 m** (live dashboard baseline); mid-edge projection inserts a graph node and splits the edge
 - Fields: `node_id`, `snap_dist_m`, `snap_ok`
-- Failed snaps (`snap_ok=false`) stay in the layer for QC; most failures are edge/coast hexes >50 m from any road
+- Failed snaps (`snap_ok=false`) stay in the layer for QC; most failures are edge/coast hexes >100 m from any road
+- Sensitivity archive: **50 m** snap remains under `scenarios/snap_50m/` for compare only
 
 Outputs: `04_origins/hex_origins_primary.geojson`, `04_origins/pois_snapped.geojson`, `04_origins/origins_snap_summary.json`
 

@@ -14,23 +14,23 @@
     "fix": "GMaps open_space no longer matches parking via substring 'park'",
     "open_space_definition": "OSM leisure=park|playground; GMaps word-safe park/playground only",
     "primary_snap_tolerance_m": 50,
-    "note": "Package-root 50 m chain recomputed from clean graph after POI rebuild; snap_50m archive refreshed. 100 m not re-run in Phase 7."
+    "note": "Historical Phase 7: package-root was 50 m. Live baseline later moved to 100 m."
   },
   "phase8_snap_sensitivity_refresh": {
     "methods": "00_manifest/METHODS_PHASE8.md",
-    "runner": "scripts/10_run_snap_scenario.py --snap-m 100",
+    "runner": "scripts/06_prepare_origins_snaps.py (package SNAP_TOL_M=100)",
     "compare": "scripts/11_compare_snap_scenarios.py",
-    "note": "Refreshed snap_100m + compare against Phase 7 cleaned POIs and snap_50m archive. Dashboard remains on 50 m; package-root network/origins not mutated."
+    "note": "Live dashboard and package-root use 100 m; snap_50m kept as sensitivity; snap_100m archive mirrors package."
   },
   "snap_sensitivity": {
-    "primary_snap_tolerance_m": 50,
-    "sensitivity_snap_tolerance_m": 100,
-    "dashboard_uses": 50,
+    "primary_snap_tolerance_m": 100,
+    "sensitivity_snap_tolerance_m": 50,
+    "dashboard_uses": 100,
     "scenarios_dir": "scenarios/",
     "runner": "scripts/10_run_snap_scenario.py",
     "compare": "scripts/11_compare_snap_scenarios.py",
     "methods": "00_manifest/METHODS_SNAP_SENSITIVITY.md",
-    "note": "100 m scenario is analysis-only; do not overwrite package-root 03_network/04_origins. Phase 8 refreshed after open_space cleanup."
+    "note": "Primary = 100 m package/dashboard; 50 m is sensitivity-only under scenarios/snap_50m/."
   },
   "geometry_crs_stored": {
     "name": "CRS84",
@@ -45,7 +45,7 @@
   "aoi": {
     "buffer_m": 500,
     "dedupe_m": 30,
-    "snap_tolerance_m": 50,
+    "snap_tolerance_m": 100,
     "edge_densify_m": 25,
     "walk_speed_kmh": 4.8,
     "area_ratio_analysis_threshold": 0.90,
@@ -236,12 +236,12 @@
     {
       "id": "scenario_snap_50m",
       "destination": "scenarios/snap_50m/",
-      "role": "Archived locked 50 m Phase 2–5 outputs"
+      "role": "Sensitivity archive at 50 m (not live dashboard)"
     },
     {
       "id": "scenario_snap_100m",
       "destination": "scenarios/snap_100m/",
-      "role": "Isolated 100 m snap sensitivity run (analysis-only)"
+      "role": "Locked 100 m Phase 2–5 archive matching package / dashboard"
     },
     {
       "id": "scenario_compare",

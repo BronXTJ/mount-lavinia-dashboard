@@ -1,17 +1,17 @@
 {
-  "snap_tolerance_m": 50.0,
+  "snap_tolerance_m": 100.0,
   "snap_method": "nearest_edge_within_tolerance_insert_node",
   "hex_count": 447,
-  "hex_snap_ok": 389,
-  "hex_snap_ok_share": 0.8702,
+  "hex_snap_ok": 429,
+  "hex_snap_ok_share": 0.9597,
   "hex_non_edge_count": 322,
-  "hex_non_edge_snap_ok": 311,
+  "hex_non_edge_snap_ok": 322,
   "poi_count": 257,
-  "poi_snap_ok": 247,
-  "poi_snap_ok_share": 0.9611,
-  "hex_snap_fail": 58,
-  "poi_snap_fail": 10,
-  "graph_nodes_after_snap": 7255,
-  "graph_edges_after_snap": 7492,
-  "hex_non_edge_snap_ok_share": 0.9658
+  "poi_snap_ok": 256,
+  "poi_snap_ok_share": 0.9961,
+  "hex_snap_fail": 18,
+  "poi_snap_fail": 1,
+  "graph_nodes_after_snap": 7266,
+  "graph_edges_after_snap": 7503,
+  "hex_non_edge_snap_ok_share": 1.0
 }

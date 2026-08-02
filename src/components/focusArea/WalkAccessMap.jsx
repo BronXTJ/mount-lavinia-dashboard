@@ -108,6 +108,18 @@ function buildWalkPopup(props, activeMetric = 'accessScore', metricClasses = nul
   if (activeMetric === 'accessTier') {
     const color = getWalkTierColor(props?.[WALK_PROPS.accessTier])
     const textColor = contrastTextForBg(color)
+    const tierKey = String(props?.[WALK_PROPS.accessTier] ?? '').toLowerCase()
+    const snapOk = props?.snap_ok
+    const areaRatio = Number(props?.area_ratio)
+    let excludeReason = '—'
+    if (tierKey === 'excluded') {
+      const incomplete = !(Number.isFinite(areaRatio) && areaRatio >= 0.9)
+      const unsnapped = snapOk === false || snapOk === 0 || snapOk === 'false'
+      if (incomplete && unsnapped) excludeReason = 'Incomplete (<90%) and unsnapped (>100 m)'
+      else if (incomplete) excludeReason = 'Incomplete hex (<90% of full area)'
+      else if (unsnapped) excludeReason = 'Unsnapped (centroid >100 m from network)'
+      else excludeReason = 'Not analysis-ok'
+    }
     return buildCellInfoPopupHtml({
       title: `Hex Cell #${id}`,
       primaryLabel: 'Access tier:',
@@ -121,6 +133,9 @@ function buildWalkPopup(props, activeMetric = 'accessScore', metricClasses = nul
           bar: null,
         },
         { label: 'Completeness', value: completeness, bar: null },
+        ...(tierKey === 'excluded'
+          ? [{ label: 'Why excluded', value: excludeReason, bar: null }]
+          : []),
       ],
       footer: { label: tierMeta.label, color, textColor },
     })

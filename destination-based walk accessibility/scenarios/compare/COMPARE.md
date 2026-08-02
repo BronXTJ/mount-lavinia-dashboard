@@ -3,7 +3,7 @@
 ## Purpose
 
 Test how walk-accessibility KPIs and empty mid-area hexes change when the network snap tolerance
-widens from **50 m** (locked baseline / dashboard) to **100 m** (analysis-only).
+widens from **50 m** (sensitivity archive) to **100 m** (locked baseline / dashboard).
 
 ## Headline differences
 
@@ -31,4 +31,4 @@ count may rise even while mean score stays similar.
 
 ## Dashboard
 
-The live dashboard (`public/data/walk-accessibility/`) stays on the **50 m** baseline.
+The live dashboard (`public/data/walk-accessibility/`) uses the **100 m** baseline.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Phase 8 gate: refreshed 100 m sensitivity after open_space cleanup. Exit 0 only on PASS."""
+"""Phase 8+ gate: package / dashboard / snap_100m at 100 m; snap_50m sensitivity. Exit 0 only on PASS."""
 
 from __future__ import annotations
 
@@ -55,10 +55,10 @@ def main() -> int:
             print(f"  - {e}")
         return 1
 
-    # Package root still 50 m primary
+    # Package root is 100 m primary
     root_snap = load_json(PACKAGE_ROOT / "04_origins/origins_snap_summary.json")
-    if float(root_snap.get("snap_tolerance_m") or 0) != 50.0:
-        fail(f"package-root snap_tolerance_m={root_snap.get('snap_tolerance_m')}, expected 50", errors)
+    if float(root_snap.get("snap_tolerance_m") or 0) != 100.0:
+        fail(f"package-root snap_tolerance_m={root_snap.get('snap_tolerance_m')}, expected 100", errors)
 
     s50 = load_json(SCENARIOS / "snap_50m/04_origins/origins_snap_summary.json")
     s100 = load_json(SCENARIOS / "snap_100m/04_origins/origins_snap_summary.json")
@@ -72,35 +72,35 @@ def main() -> int:
             errors,
         )
 
-    # Compare 50 m mean matches package / archive Phase 7 baseline
+    # Package mean matches snap_100m archive (live baseline)
     pkg_acc = load_json(PACKAGE_ROOT / "05_accessibility/access_primary_summary.json")
-    arch_acc = load_json(SCENARIOS / "snap_50m/05_accessibility/access_primary_summary.json")
+    arch_acc = load_json(SCENARIOS / "snap_100m/05_accessibility/access_primary_summary.json")
     cmp = load_json(SCENARIOS / "compare/compare_summary.json")
 
     pkg_mean = float(pkg_acc.get("mean_access_score") or 0)
     arch_mean = float(arch_acc.get("mean_access_score") or 0)
     if abs(pkg_mean - arch_mean) > 1e-6:
-        fail(f"package mean {pkg_mean} != snap_50m archive mean {arch_mean}", errors)
+        fail(f"package mean {pkg_mean} != snap_100m archive mean {arch_mean}", errors)
 
     table = cmp.get("table") or {}
     cmp_mean = None
-    if isinstance(table, dict) and "metric" in table and "snap_50m" in table:
+    if isinstance(table, dict) and "metric" in table and "snap_100m" in table:
         try:
             metrics = table["metric"]
             idx = metrics.index("mean_access_score")
-            cmp_mean = float(table["snap_50m"][idx])
+            cmp_mean = float(table["snap_100m"][idx])
         except (ValueError, IndexError, TypeError, KeyError):
             cmp_mean = None
     elif isinstance(table, list):
         for r in table:
-            if float(r.get("snap_tolerance_m") or r.get("snap_m") or 0) == 50:
+            if float(r.get("snap_tolerance_m") or r.get("snap_m") or 0) == 100:
                 cmp_mean = float(r.get("mean_access_score") or 0)
                 break
 
     if cmp_mean is None:
-        fail("compare_summary missing 50 m mean_access_score", errors)
+        fail("compare_summary missing 100 m mean_access_score", errors)
     elif abs(float(cmp_mean) - pkg_mean) > 0.001:
-        fail(f"compare 50 m mean {cmp_mean} != package mean {pkg_mean}", errors)
+        fail(f"compare 100 m mean {cmp_mean} != package mean {pkg_mean}", errors)
 
     # Clean open_space (Phase 7 QC)
     pois = load_json(PACKAGE_ROOT / "02_pois/pois_access_primary.geojson")["features"]
@@ -119,7 +119,7 @@ def main() -> int:
     if leaks:
         fail(f"{len(leaks)} open_space features still look like parking", errors)
 
-    # Dashboard still present (50 m publish; not overwritten by 100 m)
+    # Dashboard publish matches package (100 m)
     for name in (
         "access_hex_classified.geojson",
         "access_primary_summary.json",
@@ -132,21 +132,24 @@ def main() -> int:
     pub_acc = load_json(PUBLIC / "access_primary_summary.json")
     pub_mean = float(pub_acc.get("mean_access_score") or 0)
     if abs(pub_mean - pkg_mean) > 1e-6:
-        fail(f"dashboard mean {pub_mean} != package mean {pkg_mean} (dashboard should stay on 50 m)", errors)
+        fail(f"dashboard mean {pub_mean} != package mean {pkg_mean} (dashboard should be 100 m)", errors)
 
     manifest = load_json(PACKAGE_ROOT / "00_manifest/SOURCE_MANIFEST.json")
     if int(manifest.get("phase") or 0) != 8:
         fail(f"SOURCE_MANIFEST phase is {manifest.get('phase')}, expected 8", errors)
     if "phase8_snap_sensitivity_refresh" not in manifest:
         fail("SOURCE_MANIFEST missing phase8_snap_sensitivity_refresh", errors)
+    snap_block = manifest.get("snap_sensitivity") or {}
+    if int(snap_block.get("dashboard_uses") or 0) != 100:
+        fail(f"SOURCE_MANIFEST dashboard_uses={snap_block.get('dashboard_uses')}, expected 100", errors)
 
     methods8 = (PACKAGE_ROOT / "00_manifest/METHODS_PHASE8.md").read_text(encoding="utf-8")
     if "100 m" not in methods8 and "100m" not in methods8:
         fail("METHODS_PHASE8.md missing 100 m note", errors)
 
     snap_methods = (PACKAGE_ROOT / "00_manifest/METHODS_SNAP_SENSITIVITY.md").read_text(encoding="utf-8")
-    if "Phase 8" not in snap_methods:
-        fail("METHODS_SNAP_SENSITIVITY.md missing Phase 8 note", errors)
+    if "100 m" not in snap_methods and "100m" not in snap_methods:
+        fail("METHODS_SNAP_SENSITIVITY.md missing 100 m note", errors)
 
     if errors:
         print("FAIL")

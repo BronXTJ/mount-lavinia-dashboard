@@ -27,7 +27,9 @@ export default function WalkAccessLegend({ activeMetric, stats }) {
               <span>{tier.label}</span>
             </div>
           ))}
-          <p className="mt-1 text-[10px] text-surface-400">Excluded / Scrap Cells Stay Unfilled.</p>
+          <p className="mt-1 text-[10px] leading-snug text-surface-400">
+            Excluded (grey): &lt;90% complete or unsnapped (&gt;100 m from network). Mapped for context; not in KPIs.
+          </p>
         </div>
       </div>
     )

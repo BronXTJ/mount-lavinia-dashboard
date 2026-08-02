@@ -10,6 +10,6 @@
   "node_snap_m": 1.0,
   "edge_densify_m": 25.0,
   "min_component_edges": 5,
-  "node_count_after_snap": 7255,
-  "edge_count_after_snap": 7492
+  "node_count_after_snap": 7266,
+  "edge_count_after_snap": 7503
 }
