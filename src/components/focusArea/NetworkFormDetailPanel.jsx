@@ -124,12 +124,12 @@ export default function NetworkFormDetailPanel({
       icon: '≈',
     },
     {
-      label: 'IQR low (Q25)',
+      label: 'Shorter quarter (Q25)',
       value: spacing?.q25 != null ? `${spacing.q25} m` : '—',
       icon: '▾',
     },
     {
-      label: 'IQR high (Q75)',
+      label: 'Longer quarter (Q75)',
       value: spacing?.q75 != null ? `${spacing.q75} m` : '—',
       icon: '▴',
     },
@@ -203,7 +203,7 @@ export default function NetworkFormDetailPanel({
             title="Junction Spacing"
             points={[
               'How far apart junctions are along the street network in the selected area.',
-              'Median is the typical distance; the middle half of all link lengths sits between Q25 and Q75.',
+              'Q25 = shorter quarter of link lengths; Median = typical distance; Q75 = longer quarter. The middle half of links sits between Q25 and Q75.',
               'Shorter spacing usually means a finer-grain street pattern; longer spacing means longer blocks between junctions.',
             ]}
             ariaLabel="What does junction spacing show?"
@@ -220,9 +220,9 @@ export default function NetworkFormDetailPanel({
             title="Cul-de-sacs"
             points={[
               `Dead-end street ends inside ${scopeLabel} — places where the street stops instead of continuing through.`,
-              'Stub length is how far that dead-end is from the next junction (short < 50 m, medium 50–150 m, long > 150 m).',
-              'Cards show count, density per km², typical stub length, and the short/medium/long mix.',
-              'Click a sample row to fly the map to that dead-end.',
+              'Stub length is how long the dead-end spur is from the last junction to the end of the road.',
+              'Typical stub (median) is the middle value — half of dead-ends are shorter, half are longer. Depth mix splits them into short (<50 m), medium (50–150 m), and long (>150 m).',
+              'Cards show count, density per km², typical stub length, and that short/medium/long mix. Click a sample row to fly the map to that dead-end.',
             ]}
             ariaLabel="What do cul-de-sac stats show?"
           />
@@ -242,10 +242,10 @@ export default function NetworkFormDetailPanel({
             hint="Per square kilometre"
           />
           <DensityStatCard
-            label="Median stub"
+            label="Typical stub"
             value={medianStub != null ? `${medianStub} m` : '—'}
             topBorderColor={NETWORK_FORM_ICONS.culdesac.color}
-            hint="Dead-end edge length"
+            hint="Dead-end spur length"
           />
           <DensityStatCard
             label="Depth mix"
@@ -269,7 +269,7 @@ export default function NetworkFormDetailPanel({
                 title="Cul-de-sac Spatial Pattern"
                 points={[
                   'Ranks the five GNs by how many cul-de-sacs they have per square kilometre (not just raw count).',
-                  'Long % is the share of dead-ends with stub length over 150 m.',
+                  'Typ. stub = typical dead-end spur length in that GN (half shorter, half longer). Long % = share of dead-ends with stub length over 150 m.',
                   'On the map, turn on Cul-de-sac Hex Density to see how many dead-ends fall in each 100 m cell.',
                   'Hex colours cover the primary study-area grid; GN ranking still covers all five divisions.',
                 ]}
@@ -291,7 +291,7 @@ export default function NetworkFormDetailPanel({
                   <tr>
                     <th className="px-2 py-1.5 font-semibold">GN</th>
                     <th className="px-2 py-1.5 font-semibold">/km²</th>
-                    <th className="px-2 py-1.5 font-semibold">Med stub</th>
+                    <th className="px-2 py-1.5 font-semibold">Typ. stub</th>
                     <th className="px-2 py-1.5 font-semibold">Long %</th>
                   </tr>
                 </thead>
@@ -332,6 +332,7 @@ export default function NetworkFormDetailPanel({
                 points={[
                   'Each dead-end is scored by how well its 100 m neighbourhood reaches daily destinations on foot (same idea as Walk Accessibility).',
                   'Desert = few daily needs nearby (low tier). Excluded = cells we could not measure reliably.',
+                  'Typ. stub in the table is the typical dead-end spur length for cul-de-sacs in that access tier (half shorter, half longer).',
                   'The table counts cul-de-sacs in each access tier; the map FAB Cul-de-sac × Walk Access colours those hexes by tier.',
                 ]}
                 ariaLabel="How to read cul-de-sac walk-access overlay?"
@@ -355,7 +356,7 @@ export default function NetworkFormDetailPanel({
                     <th className="px-2 py-1.5 font-semibold">Tier</th>
                     <th className="px-2 py-1.5 font-semibold">n</th>
                     <th className="px-2 py-1.5 font-semibold">Share</th>
-                    <th className="px-2 py-1.5 font-semibold">Med stub</th>
+                    <th className="px-2 py-1.5 font-semibold">Typ. stub</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -401,6 +402,7 @@ export default function NetworkFormDetailPanel({
                 points={[
                   'Each dead-end inherits building intensity (FSI) and Urban Maturation Index (UMI) from its 100 m neighbourhood cell.',
                   'UMI summarises how “complete” that cell feels (mix + access + diversity); FSI is how much floor space is built relative to the plot.',
+                  'Typ. stub in the table is the typical dead-end spur length for cul-de-sacs in that maturation tier (half shorter, half longer).',
                   'The table groups cul-de-sacs by maturation tier; the map FAB Cul-de-sac × UMI colours those hexes by UMI.',
                 ]}
                 ariaLabel="How to read cul-de-sac density and UMI overlay?"
@@ -421,7 +423,7 @@ export default function NetworkFormDetailPanel({
                     <th className="px-2 py-1.5 font-semibold">Tier</th>
                     <th className="px-2 py-1.5 font-semibold">n</th>
                     <th className="px-2 py-1.5 font-semibold">Share</th>
-                    <th className="px-2 py-1.5 font-semibold">Med stub</th>
+                    <th className="px-2 py-1.5 font-semibold">Typ. stub</th>
                     <th className="px-2 py-1.5 font-semibold">Mean FSI</th>
                   </tr>
                 </thead>

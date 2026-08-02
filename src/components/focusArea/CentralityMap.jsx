@@ -366,9 +366,8 @@ export default function CentralityMap({
             </>
           )}
 
-          {/* White text road name labels — toggled by the Road Labels checkbox.
-              Rendered as permanent Leaflet tooltips with the centrality-road-label
-              CSS class (transparent background, white text, text-shadow for contrast). */}
+          {/* Road name labels — toggled by the Road Labels checkbox.
+              Permanent Leaflet tooltips; centrality-road-label = minimal white chip. */}
           {showRoadLabels && namedRoads && (
             <GeoJSON
               key="road-labels"

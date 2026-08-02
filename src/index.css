@@ -45,42 +45,38 @@
   color: #e2e8f0;
 }
 
-/* Minimalist road name labels on the Centrality Analysis map.
-   Override Leaflet's default .leaflet-tooltip white-box style with
-   higher-specificity selectors. Labels float transparently over the basemap;
-   double text-shadow provides contrast on the dark tiles. */
+/* Minimal white chips for road name labels (Centrality + Network Form).
+   Semi-transparent box + dark type for scannable contrast on dark tiles. */
 .leaflet-tooltip.centrality-road-label {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid rgba(15, 23, 42, 0.1) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18) !important;
+  padding: 2px 6px !important;
   font-size: 9px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(15, 23, 42, 0.9);
   pointer-events: none;
   white-space: nowrap;
-  text-shadow:
-    0 0 4px rgba(0, 0, 0, 1),
-    0 0 8px rgba(0, 0, 0, 0.8);
+  text-shadow: none;
 }
 .leaflet-tooltip.centrality-road-label::before {
   display: none !important;
 }
 
-/* Behaviour map road labels — same floating style as Centrality, lower opacity */
+/* Behaviour map road labels — same chip family, quieter opacity */
 .leaflet-tooltip.behaviour-road-label {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.14) !important;
+  padding: 2px 6px !important;
   font-size: 9px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(15, 23, 42, 0.75);
   pointer-events: none;
   white-space: nowrap;
-  text-shadow:
-    0 0 4px rgba(0, 0, 0, 1),
-    0 0 8px rgba(0, 0, 0, 0.8);
+  text-shadow: none;
 }
 .leaflet-tooltip.behaviour-road-label::before {
   display: none !important;

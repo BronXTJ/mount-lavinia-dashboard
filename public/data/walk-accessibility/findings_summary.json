@@ -165,5 +165,5 @@
     "map04_coverage_10min": "map04_coverage_10min.png",
     "map05_centrality_mismatch": "map05_centrality_mismatch.png"
   },
-  "umi_contrast_note": "UMI accessibility (~0.11) is normalized NQPDA5000/BtA5000 network potential; destination access_score is share of six daily groups within a 10-minute network walk."
+  "umi_contrast_note": "Daily-needs walk reach (share of six services within a 10-minute walk) is not the same as Maturation’s network-accessibility score (~0.11), which reflects how well streets connect for movement."
 }

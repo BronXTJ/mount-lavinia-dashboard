@@ -131,7 +131,7 @@ export default function WalkAccessGroupsPanel({ stats, loading, onFocusCell }) {
 
       <p className="rounded-lg border border-surface-700 bg-surface-800/80 p-3 text-[11px] leading-relaxed text-surface-300">
         {stats?.umiContrastNote ||
-          'Daily Needs Reach ≠ UMI Network Accessibility (NQPDA / BtA).'}
+          'Daily-needs walk reach is not the same as Maturation’s network-accessibility score (how well streets connect for movement).'}
       </p>
     </div>
   )

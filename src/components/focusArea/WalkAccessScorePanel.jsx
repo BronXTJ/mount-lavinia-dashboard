@@ -106,7 +106,7 @@ export default function WalkAccessScorePanel({ stats, loading, onFocusCell }) {
           label="Mismatch Hexes"
           value={String(stats?.mismatchCount ?? 0)}
           topBorderColor="#7c3aed"
-          hint="High BtA + Weak Access"
+          hint="Busy corridor, weak daily access"
         />
       </div>
 

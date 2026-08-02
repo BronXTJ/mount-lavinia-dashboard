@@ -232,7 +232,7 @@ export function buildWalkAccessibilityStats(statsFeatures, summary = null) {
     analysisHexCount: summary?.kpis?.analysis_hex_count ?? analysisFeatures.length,
     umiContrastNote:
       summary?.umi_contrast_note ??
-      'Destination reach ≠ UMI network accessibility (NQPDA/BtA).',
+      'Daily-needs walk reach is not the same as Maturation’s network-accessibility score (how well streets connect for movement).',
     findings: summary?.draft_findings ?? [],
   }
 }
