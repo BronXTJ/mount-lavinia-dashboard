@@ -1,0 +1,113 @@
+{
+  "phase": 3,
+  "primary_culdesac_n": 259,
+  "hex_assigned_n": 259,
+  "hex_outside_grid_n": 0,
+  "hex_with_culdesacs_n": 172,
+  "walk_join_missing_hex_n": 0,
+  "hex_coverage_note": "Walk attrs join on hex_id from access_hex_classified (same primary 100 m grid). Points outside the primary hex grid remain unjoined; excluded tier means not analysis-ok (incomplete area or snap > 100 m).",
+  "by_access_tier": [
+    {
+      "access_tier": "high",
+      "n": 182,
+      "share": 0.7027,
+      "median_stub_m": 60.7,
+      "mean_stub_m": 70.4,
+      "depth_class_counts": {
+        "short": 73,
+        "medium": 96,
+        "long": 13
+      },
+      "analysis_ok_n": 182
+    },
+    {
+      "access_tier": "medium",
+      "n": 35,
+      "share": 0.1351,
+      "median_stub_m": 63.3,
+      "mean_stub_m": 69.8,
+      "depth_class_counts": {
+        "short": 12,
+        "medium": 23,
+        "long": 0
+      },
+      "analysis_ok_n": 35
+    },
+    {
+      "access_tier": "low",
+      "n": 33,
+      "share": 0.1274,
+      "median_stub_m": 61.5,
+      "mean_stub_m": 70.4,
+      "depth_class_counts": {
+        "short": 12,
+        "medium": 19,
+        "long": 2
+      },
+      "analysis_ok_n": 33
+    },
+    {
+      "access_tier": "excluded",
+      "n": 9,
+      "share": 0.0347,
+      "median_stub_m": 45.7,
+      "mean_stub_m": 45.3,
+      "depth_class_counts": {
+        "short": 8,
+        "medium": 1,
+        "long": 0
+      },
+      "analysis_ok_n": 0
+    }
+  ],
+  "desert": {
+    "culdesac_n": 33,
+    "hex_n": 19,
+    "hex_ids": [
+      6,
+      13,
+      39,
+      47,
+      49,
+      56,
+      57,
+      73,
+      74,
+      104,
+      266,
+      282,
+      311,
+      328,
+      329,
+      348,
+      364,
+      365,
+      367
+    ],
+    "share_of_assigned": 0.1274
+  },
+  "mean_access_among_culdesac_hexes": 0.8354,
+  "median_access_among_culdesac_hexes": 1.0,
+  "analysis_ok_culdesac_hex_n": 164,
+  "depth_x_tier": {
+    "short": {
+      "high": 73,
+      "medium": 12,
+      "low": 12,
+      "excluded": 8
+    },
+    "medium": {
+      "high": 96,
+      "medium": 23,
+      "low": 19,
+      "excluded": 1
+    },
+    "long": {
+      "high": 13,
+      "medium": 0,
+      "low": 2,
+      "excluded": 0
+    }
+  },
+  "hex_culdesac_n_sum": 259
+}
