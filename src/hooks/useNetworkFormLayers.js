@@ -37,6 +37,8 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
   const [findingsByScope, setFindingsByScope] = useState(null)
   const [culdesacDepth, setCuldesacDepth] = useState(null)
   const [culdesacDepthSummary, setCuldesacDepthSummary] = useState(null)
+  const [culdesacHex, setCuldesacHex] = useState(null)
+  const [culdesacSpatialSummary, setCuldesacSpatialSummary] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -44,15 +46,18 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
 
     async function load() {
       setLoading(true)
-      const [gn, streetFc, junc, met, find, depthFc, depthSum] = await Promise.all([
-        fetchJson(networkFormGeoUrl('gn5_divisions.geojson')),
-        fetchJson(networkFormGeoUrl('roads_streets.geojson')),
-        fetchJson(networkFormGeoUrl('junctions_classified.geojson')),
-        fetchJson(networkFormGeoUrl('metrics_by_scope.json')),
-        fetchJson(networkFormGeoUrl('findings_by_scope.json')),
-        fetchJson(networkFormGeoUrl('culdesacs_depth.geojson')),
-        fetchJson(networkFormGeoUrl('culdesac_depth_summary.json')),
-      ])
+      const [gn, streetFc, junc, met, find, depthFc, depthSum, hexFc, spatialSum] =
+        await Promise.all([
+          fetchJson(networkFormGeoUrl('gn5_divisions.geojson')),
+          fetchJson(networkFormGeoUrl('roads_streets.geojson')),
+          fetchJson(networkFormGeoUrl('junctions_classified.geojson')),
+          fetchJson(networkFormGeoUrl('metrics_by_scope.json')),
+          fetchJson(networkFormGeoUrl('findings_by_scope.json')),
+          fetchJson(networkFormGeoUrl('culdesacs_depth.geojson')),
+          fetchJson(networkFormGeoUrl('culdesac_depth_summary.json')),
+          fetchJson(networkFormGeoUrl('culdesac_hex_counts.geojson')),
+          fetchJson(networkFormGeoUrl('culdesac_spatial_summary.json')),
+        ])
       if (cancelled) return
       setGn5(gn)
       setStreetsAll(streetFc)
@@ -61,6 +66,8 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
       setFindingsByScope(find)
       setCuldesacDepth(depthFc)
       setCuldesacDepthSummary(depthSum)
+      setCuldesacHex(hexFc)
+      setCuldesacSpatialSummary(spatialSum)
       setLoading(false)
     }
 
@@ -130,6 +137,8 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
     culdesacRows,
     culdesacDepthStats,
     culdesacDepth,
+    culdesacHex,
+    culdesacSpatialSummary,
     loading,
     selectedScope,
   }

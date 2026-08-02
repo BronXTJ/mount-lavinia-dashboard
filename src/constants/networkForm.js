@@ -54,7 +54,9 @@ export const NETWORK_FORM_FAB_JUNCTION_LAYERS = [
 ]
 
 export const NETWORK_FORM_FAB_CONTEXT_LAYERS = [
+  { id: 'culdesacHex', label: 'Cul-de-sac Hex Density', dot: '#f59e0b' },
   { id: 'roads', label: 'Street Pathways', dot: NETWORK_FORM_ROAD_COLOR },
+  { id: 'roadLabels', label: 'Road Labels', dot: '#e0e0e0' },
   { id: 'gnBoundary', label: 'GN Boundaries', dot: NETWORK_FORM_GN_COLOR },
 ]
 
@@ -62,8 +64,27 @@ export const DEFAULT_NETWORK_FORM_VISIBLE = {
   four_way: true,
   three_way: true,
   culdesac: true,
+  culdesacHex: false,
   roads: true,
+  roadLabels: false,
   gnBoundary: true,
+}
+
+/** Stepped fills for cul-de-sac count choropleth. */
+export const CULDESAC_HEX_COUNT_STOPS = [
+  { max: 1, color: '#fef3c7' },
+  { max: 2, color: '#fcd34d' },
+  { max: 3, color: '#f59e0b' },
+  { max: Infinity, color: '#b45309' },
+]
+
+export function colorForCuldesacHexCount(n) {
+  const count = Number(n)
+  if (!Number.isFinite(count) || count < 1) return '#94a3b8'
+  for (const stop of CULDESAC_HEX_COUNT_STOPS) {
+    if (count <= stop.max) return stop.color
+  }
+  return '#b45309'
 }
 
 export function networkFormGeoUrl(fileName) {

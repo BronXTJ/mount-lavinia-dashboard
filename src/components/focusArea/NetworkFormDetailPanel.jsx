@@ -73,11 +73,17 @@ function SpacingRangeBar({ q25, median, q75 }) {
   )
 }
 
+function formatLongPct(share) {
+  if (!Number.isFinite(Number(share))) return '—'
+  return `${(Number(share) * 100).toFixed(0)}%`
+}
+
 export default function NetworkFormDetailPanel({
   findings,
   metrics,
   culdesacRows,
   culdesacDepthStats,
+  culdesacSpatialSummary,
   loading,
   selectedScope,
   onJunctionClick,
@@ -91,6 +97,8 @@ export default function NetworkFormDetailPanel({
   const culPerKm2 = metrics?.culdesac_per_km2
   const medianStub = culdesacDepthStats?.stub_length_m?.median
   const depthCounts = culdesacDepthStats?.depth_class_counts
+  const gnRank = culdesacSpatialSummary?.by_gn_rank ?? []
+  const culCorridor = culdesacSpatialSummary?.corridor_vs_interior
 
   const ratio =
     Number.isFinite(Number(shareC)) && Number.isFinite(Number(shareI)) && Number(shareI) > 0
@@ -241,6 +249,69 @@ export default function NetworkFormDetailPanel({
             hint="Short / medium / long"
           />
         </div>
+
+        {gnRank.length > 0 && (
+          <div className="mb-3">
+            <div className="mb-1.5 flex items-center gap-1.5">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-surface-400">
+                GN ranking (by density)
+              </p>
+              <MetricInfoButton
+                title="Cul-de-sac Spatial Pattern"
+                points={[
+                  'Ranking uses cul-de-sac density per km² across all five GNs.',
+                  'Long % = share of cul-de-sacs with stub length > 150 m.',
+                  'Hex choropleth (map FAB) counts Phase 1 cul-de-sacs in 100 m primary hex cells.',
+                  culdesacSpatialSummary?.hex_coverage_note ||
+                    'Hex grid covers the primary Mount Lavinia study area only.',
+                ]}
+                ariaLabel="How to read cul-de-sac ranking and hex density?"
+              />
+            </div>
+            {culCorridor && (
+              <p className="mb-2 text-[11px] leading-relaxed text-surface-400">
+                Corridor {culCorridor.corridor_n ?? '—'} · Interior{' '}
+                {culCorridor.interior_n ?? '—'}
+                {culCorridor.corridor_share != null
+                  ? ` (${formatPct(culCorridor.corridor_share)} on corridor)`
+                  : ''}
+              </p>
+            )}
+            <div className="overflow-x-auto rounded-md border border-surface-700/80">
+              <table className="w-full min-w-[280px] text-left text-[11px]">
+                <thead className="bg-surface-900/80 text-surface-400">
+                  <tr>
+                    <th className="px-2 py-1.5 font-semibold">GN</th>
+                    <th className="px-2 py-1.5 font-semibold">/km²</th>
+                    <th className="px-2 py-1.5 font-semibold">Med stub</th>
+                    <th className="px-2 py-1.5 font-semibold">Long %</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gnRank.map((row) => (
+                    <tr
+                      key={row.gn_name}
+                      className="border-t border-surface-700/60 text-surface-100"
+                    >
+                      <td className="px-2 py-1.5">
+                        <span className="text-surface-400">{row.rank}.</span> {row.gn_name}
+                      </td>
+                      <td className="px-2 py-1.5 font-mono">
+                        {row.culdesac_per_km2 != null ? row.culdesac_per_km2 : '—'}
+                      </td>
+                      <td className="px-2 py-1.5 font-mono">
+                        {row.median_stub_m != null ? `${row.median_stub_m} m` : '—'}
+                      </td>
+                      <td className="px-2 py-1.5 font-mono">
+                        {formatLongPct(row.long_share)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
         <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-surface-400">
           Sample Cul-de-sacs

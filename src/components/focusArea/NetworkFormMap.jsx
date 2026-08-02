@@ -19,6 +19,7 @@ import {
   NETWORK_FORM_ROAD_WEIGHT_ON_STREETS,
   NETWORK_FORM_SCOPE_ALL,
   NETWORK_FORM_SELECTED_ZOOM,
+  colorForCuldesacHexCount,
 } from '../../constants/networkForm.js'
 import {
   DEFAULT_NETWORK_FORM_BASEMAP,
@@ -169,6 +170,7 @@ export default function NetworkFormMap({
   selectedScope,
   streets,
   junctions,
+  culdesacHex,
   counts,
   loading,
   selectedJunctionId,
@@ -181,6 +183,22 @@ export default function NetworkFormMap({
   const showRoads = Boolean(visibleLayers?.roads)
   const showRoadLabels = Boolean(visibleLayers?.roadLabels)
   const showGn = Boolean(visibleLayers?.gnBoundary)
+  const showCuldesacHex = Boolean(visibleLayers?.culdesacHex)
+
+  const culdesacHexStyle = useMemo(
+    () => (feature) => {
+      const n = feature?.properties?.culdesac_n
+      const fill = colorForCuldesacHexCount(n)
+      return {
+        color: '#92400e',
+        weight: 0.6,
+        fillColor: fill,
+        fillOpacity: 0.55,
+        opacity: 0.8,
+      }
+    },
+    [],
+  )
 
   const namedStreets = useMemo(() => {
     if (!streets?.features) return null
@@ -237,6 +255,22 @@ export default function NetworkFormMap({
 
         {fitData && (
           <FitBoundsToScope data={fitData} scopeKey={selectedScope} padding={[28, 28]} />
+        )}
+
+        {showCuldesacHex && culdesacHex && (
+          <GeoJSON
+            key="culdesac-hex-density"
+            data={culdesacHex}
+            style={culdesacHexStyle}
+            onEachFeature={(feature, layer) => {
+              const p = feature.properties || {}
+              layer.bindTooltip(
+                `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs` +
+                  (p.median_stub_m != null ? ` · median stub ${p.median_stub_m} m` : ''),
+                { sticky: true },
+              )
+            }}
+          />
         )}
 
         {showMutedOthers && (
