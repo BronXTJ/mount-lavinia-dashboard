@@ -4,6 +4,7 @@ import FocusAreaStatGrid from './FocusAreaStatGrid.jsx'
 import MetricInfoButton from './MetricInfoButton.jsx'
 import { formatPct } from '../../utils/networkFormStats.js'
 import {
+  CULDESAC_MATURATION_TIER_COLORS,
   CULDESAC_WALK_TIER_COLORS,
   NETWORK_FORM_ICONS,
   networkFormScopeLabel,
@@ -86,6 +87,7 @@ export default function NetworkFormDetailPanel({
   culdesacDepthStats,
   culdesacSpatialSummary,
   culdesacWalkSummary,
+  culdesacDensityUmiSummary,
   loading,
   selectedScope,
   onJunctionClick,
@@ -103,6 +105,7 @@ export default function NetworkFormDetailPanel({
   const culCorridor = culdesacSpatialSummary?.corridor_vs_interior
   const walkTiers = culdesacWalkSummary?.by_access_tier ?? []
   const desert = culdesacWalkSummary?.desert
+  const matTiers = culdesacDensityUmiSummary?.by_maturation_tier ?? []
 
   const ratio =
     Number.isFinite(Number(shareC)) && Number.isFinite(Number(shareI)) && Number(shareI) > 0
@@ -379,6 +382,78 @@ export default function NetworkFormDetailPanel({
                       <td className="px-2 py-1.5 font-mono">{formatPct(row.share)}</td>
                       <td className="px-2 py-1.5 font-mono">
                         {row.median_stub_m != null ? `${row.median_stub_m} m` : '—'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {matTiers.length > 0 && (
+          <div className="mb-3">
+            <div className="mb-1.5 flex items-center gap-1.5">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-surface-400">
+                By maturation tier
+              </p>
+              <MetricInfoButton
+                title="Cul-de-sac × Density / UMI"
+                points={[
+                  'Each cul-de-sac inherits FSI and UMI from its 100 m primary hex (Density + Urban Maturation layers).',
+                  'Maturation tier comes from the published maturation hex attribute.',
+                  'Map FAB “Cul-de-sac × UMI” colours hexes with ≥1 cul-de-sac by UMI.',
+                  culdesacDensityUmiSummary?.hex_coverage_note ||
+                    'Join uses density_primary_hex and maturation_primary_hex.',
+                ]}
+                ariaLabel="How to read cul-de-sac density and UMI overlay?"
+              />
+            </div>
+            <p className="mb-2 text-[11px] leading-relaxed text-surface-400">
+              Mean among cul-de-sac hexes: UMI{' '}
+              {culdesacDensityUmiSummary?.mean_umi_among_culdesac_hexes ?? '—'} · FSI{' '}
+              {culdesacDensityUmiSummary?.mean_fsi_among_culdesac_hexes ?? '—'}
+              {culdesacDensityUmiSummary?.high_umi_share != null
+                ? ` · high-tier share ${formatPct(culdesacDensityUmiSummary.high_umi_share)}`
+                : ''}
+            </p>
+            <div className="overflow-x-auto rounded-md border border-surface-700/80">
+              <table className="w-full min-w-[280px] text-left text-[11px]">
+                <thead className="bg-surface-900/80 text-surface-400">
+                  <tr>
+                    <th className="px-2 py-1.5 font-semibold">Tier</th>
+                    <th className="px-2 py-1.5 font-semibold">n</th>
+                    <th className="px-2 py-1.5 font-semibold">Share</th>
+                    <th className="px-2 py-1.5 font-semibold">Med stub</th>
+                    <th className="px-2 py-1.5 font-semibold">Mean FSI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {matTiers.map((row) => (
+                    <tr
+                      key={row.tier}
+                      className="border-t border-surface-700/60 text-surface-100"
+                    >
+                      <td className="px-2 py-1.5">
+                        <span className="inline-flex items-center gap-1.5">
+                          <span
+                            className="inline-block h-2 w-2 shrink-0 rounded-sm"
+                            style={{
+                              backgroundColor:
+                                CULDESAC_MATURATION_TIER_COLORS[row.tier] ?? '#64748b',
+                            }}
+                            aria-hidden
+                          />
+                          {row.tier}
+                        </span>
+                      </td>
+                      <td className="px-2 py-1.5 font-mono">{row.n ?? '—'}</td>
+                      <td className="px-2 py-1.5 font-mono">{formatPct(row.share)}</td>
+                      <td className="px-2 py-1.5 font-mono">
+                        {row.median_stub_m != null ? `${row.median_stub_m} m` : '—'}
+                      </td>
+                      <td className="px-2 py-1.5 font-mono">
+                        {row.mean_fsi != null ? row.mean_fsi : '—'}
                       </td>
                     </tr>
                   ))}

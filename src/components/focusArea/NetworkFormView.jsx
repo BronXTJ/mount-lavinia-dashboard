@@ -29,6 +29,8 @@ export default function NetworkFormView() {
     culdesacSpatialSummary,
     culdesacHexWalk,
     culdesacWalkSummary,
+    culdesacHexUmi,
+    culdesacDensityUmiSummary,
     loading,
   } = useNetworkFormLayers(selectedScope)
 
@@ -67,6 +69,7 @@ export default function NetworkFormView() {
             junctions={junctions}
             culdesacHex={culdesacHex}
             culdesacHexWalk={culdesacHexWalk}
+            culdesacHexUmi={culdesacHexUmi}
             counts={counts}
             loading={loading}
             selectedJunctionId={selectedJunctionId}
@@ -83,6 +86,7 @@ export default function NetworkFormView() {
           culdesacDepthStats={culdesacDepthStats}
           culdesacSpatialSummary={culdesacSpatialSummary}
           culdesacWalkSummary={culdesacWalkSummary}
+          culdesacDensityUmiSummary={culdesacDensityUmiSummary}
           loading={loading}
           selectedScope={selectedScope}
           onJunctionClick={setSelectedJunctionId}

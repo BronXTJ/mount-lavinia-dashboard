@@ -163,6 +163,39 @@ export function mergeCuldesacWalk(junctionsFc, walkFc) {
   }
 }
 
+/** Attach Phase-4 density/UMI fields onto cul-de-sac junctions by node_id. */
+export function mergeCuldesacDensityUmi(junctionsFc, densFc) {
+  if (!junctionsFc?.features?.length) return junctionsFc
+  const byId = new Map()
+  for (const f of densFc?.features ?? []) {
+    const id = f.properties?.node_id
+    if (id == null) continue
+    byId.set(String(id), f.properties)
+  }
+  if (!byId.size) return junctionsFc
+  return {
+    type: 'FeatureCollection',
+    features: junctionsFc.features.map((f) => {
+      if (f.properties?.jtype !== 'culdesac') return f
+      const dens = byId.get(String(f.properties?.node_id))
+      if (!dens) return f
+      return {
+        ...f,
+        properties: {
+          ...f.properties,
+          FSI: dens.FSI,
+          GSI: dens.GSI,
+          Density_V: dens.Density_V,
+          umi: dens.umi,
+          tier: dens.tier,
+          entropy_norm: dens.entropy_norm,
+          accessibility: dens.accessibility,
+        },
+      }
+    }),
+  }
+}
+
 export function scopeCuldesacDepthSummary(summary, scope) {
   if (!summary?.by_scope) return null
   return summary.by_scope[scope] ?? summary.by_scope.all ?? null

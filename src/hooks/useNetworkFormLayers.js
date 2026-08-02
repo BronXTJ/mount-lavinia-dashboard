@@ -11,6 +11,7 @@ import {
   gnFeaturesForScope,
   listCuldesacs,
   mergeCuldesacDepth,
+  mergeCuldesacDensityUmi,
   mergeCuldesacWalk,
   scopeCuldesacDepthSummary,
   scopeFindings,
@@ -42,6 +43,8 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
   const [culdesacSpatialSummary, setCuldesacSpatialSummary] = useState(null)
   const [culdesacHexWalk, setCuldesacHexWalk] = useState(null)
   const [culdesacWalkSummary, setCuldesacWalkSummary] = useState(null)
+  const [culdesacHexUmi, setCuldesacHexUmi] = useState(null)
+  const [culdesacDensityUmiSummary, setCuldesacDensityUmiSummary] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -62,6 +65,9 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
         hexWalkFc,
         walkPts,
         walkSum,
+        hexUmiFc,
+        densPts,
+        densSum,
       ] = await Promise.all([
         fetchJson(networkFormGeoUrl('gn5_divisions.geojson')),
         fetchJson(networkFormGeoUrl('roads_streets.geojson')),
@@ -75,11 +81,19 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
         fetchJson(networkFormGeoUrl('culdesac_hex_walk.geojson')),
         fetchJson(networkFormGeoUrl('culdesacs_walk.geojson')),
         fetchJson(networkFormGeoUrl('culdesac_walk_summary.json')),
+        fetchJson(networkFormGeoUrl('culdesac_hex_density_umi.geojson')),
+        fetchJson(networkFormGeoUrl('culdesacs_density_umi.geojson')),
+        fetchJson(networkFormGeoUrl('culdesac_density_umi_summary.json')),
       ])
       if (cancelled) return
       setGn5(gn)
       setStreetsAll(streetFc)
-      setJunctionsAll(mergeCuldesacWalk(mergeCuldesacDepth(junc, depthFc), walkPts))
+      setJunctionsAll(
+        mergeCuldesacDensityUmi(
+          mergeCuldesacWalk(mergeCuldesacDepth(junc, depthFc), walkPts),
+          densPts,
+        ),
+      )
       setMetricsByScope(met)
       setFindingsByScope(find)
       setCuldesacDepth(depthFc)
@@ -88,6 +102,8 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
       setCuldesacSpatialSummary(spatialSum)
       setCuldesacHexWalk(hexWalkFc)
       setCuldesacWalkSummary(walkSum)
+      setCuldesacHexUmi(hexUmiFc)
+      setCuldesacDensityUmiSummary(densSum)
       setLoading(false)
     }
 
@@ -161,6 +177,8 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
     culdesacSpatialSummary,
     culdesacHexWalk,
     culdesacWalkSummary,
+    culdesacHexUmi,
+    culdesacDensityUmiSummary,
     loading,
     selectedScope,
   }

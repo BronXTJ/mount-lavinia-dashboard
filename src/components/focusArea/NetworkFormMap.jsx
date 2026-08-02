@@ -20,6 +20,7 @@ import {
   NETWORK_FORM_SCOPE_ALL,
   NETWORK_FORM_SELECTED_ZOOM,
   colorForCuldesacHexCount,
+  colorForCuldesacUmi,
   colorForCuldesacWalkTier,
 } from '../../constants/networkForm.js'
 import {
@@ -114,6 +115,20 @@ function buildPopup(props) {
         bar: null,
       })
     }
+    const umi = props?.umi
+    const fsi = props?.FSI
+    if (umi != null || fsi != null) {
+      metrics.push({
+        label: 'UMI / FSI',
+        value: [
+          umi != null && Number.isFinite(Number(umi)) ? Number(umi).toFixed(3) : null,
+          fsi != null && Number.isFinite(Number(fsi)) ? `FSI ${Number(fsi).toFixed(2)}` : null,
+        ]
+          .filter(Boolean)
+          .join(' · ') || '—',
+        bar: null,
+      })
+    }
   }
   return buildCellInfoPopupHtml({
     title: NETWORK_FORM_JTYPE_LABEL[jtype] ?? 'Junction',
@@ -187,6 +202,7 @@ export default function NetworkFormMap({
   junctions,
   culdesacHex,
   culdesacHexWalk,
+  culdesacHexUmi,
   counts,
   loading,
   selectedJunctionId,
@@ -201,6 +217,7 @@ export default function NetworkFormMap({
   const showGn = Boolean(visibleLayers?.gnBoundary)
   const showCuldesacHex = Boolean(visibleLayers?.culdesacHex)
   const showCuldesacWalk = Boolean(visibleLayers?.culdesacWalk)
+  const showCuldesacUmi = Boolean(visibleLayers?.culdesacUmi)
 
   const culdesacHexStyle = useMemo(
     () => (feature) => {
@@ -222,6 +239,20 @@ export default function NetworkFormMap({
       const fill = colorForCuldesacWalkTier(feature?.properties?.access_tier)
       return {
         color: '#134e4a',
+        weight: 0.6,
+        fillColor: fill,
+        fillOpacity: 0.55,
+        opacity: 0.8,
+      }
+    },
+    [],
+  )
+
+  const culdesacUmiStyle = useMemo(
+    () => (feature) => {
+      const fill = colorForCuldesacUmi(feature?.properties?.umi)
+      return {
+        color: '#78350f',
         weight: 0.6,
         fillColor: fill,
         fillOpacity: 0.55,
@@ -317,6 +348,29 @@ export default function NetworkFormMap({
                   : '—'
               layer.bindTooltip(
                 `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs · ${p.access_tier ?? '—'} (${score})`,
+                { sticky: true },
+              )
+            }}
+          />
+        )}
+
+        {showCuldesacUmi && culdesacHexUmi && (
+          <GeoJSON
+            key="culdesac-hex-umi"
+            data={culdesacHexUmi}
+            style={culdesacUmiStyle}
+            onEachFeature={(feature, layer) => {
+              const p = feature.properties || {}
+              const umi =
+                p.umi != null && Number.isFinite(Number(p.umi))
+                  ? Number(p.umi).toFixed(3)
+                  : '—'
+              const fsi =
+                p.FSI != null && Number.isFinite(Number(p.FSI))
+                  ? Number(p.FSI).toFixed(2)
+                  : '—'
+              layer.bindTooltip(
+                `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs · UMI ${umi} · FSI ${fsi}`,
                 { sticky: true },
               )
             }}

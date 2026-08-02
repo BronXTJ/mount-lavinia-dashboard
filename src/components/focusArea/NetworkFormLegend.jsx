@@ -1,5 +1,6 @@
 import {
   CULDESAC_HEX_COUNT_STOPS,
+  CULDESAC_UMI_STOPS,
   CULDESAC_WALK_TIER_COLORS,
   CULDESAC_WALK_TIER_ORDER,
   NETWORK_FORM_ICONS,
@@ -65,8 +66,9 @@ export default function NetworkFormLegend({ counts, visibleLayers }) {
 
   const showHex = Boolean(visibleLayers?.culdesacHex)
   const showWalk = Boolean(visibleLayers?.culdesacWalk)
+  const showUmi = Boolean(visibleLayers?.culdesacUmi)
 
-  if (rows.length === 0 && !showHex && !showWalk) return null
+  if (rows.length === 0 && !showHex && !showWalk && !showUmi) return null
 
   return (
     <div className="pointer-events-none absolute bottom-6 left-3 z-[1000] w-52 rounded-lg border border-surface-700 bg-surface-900/95 p-3 shadow-card backdrop-blur">
@@ -127,6 +129,32 @@ export default function NetworkFormLegend({ counts, visibleLayers }) {
                   aria-hidden
                 />
                 <span className="flex-1 text-surface-200">{TIER_LABELS[tier]}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {showUmi && (
+        <div
+          className={
+            rows.length > 0 || showHex || showWalk
+              ? 'mt-3 border-t border-surface-700/80 pt-2.5'
+              : ''
+          }
+        >
+          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.08em] text-surface-300">
+            UMI
+          </p>
+          <ul className="space-y-1.5">
+            {CULDESAC_UMI_STOPS.map((stop) => (
+              <li key={stop.label} className="flex items-center gap-2 text-xs text-surface-100">
+                <span
+                  className="inline-block h-2.5 w-3.5 shrink-0 rounded-sm border border-surface-600"
+                  style={{ backgroundColor: stop.color }}
+                  aria-hidden
+                />
+                <span className="flex-1 font-mono text-surface-200">{stop.label}</span>
               </li>
             ))}
           </ul>
