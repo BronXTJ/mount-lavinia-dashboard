@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { GeoJSON, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
+import MapFullscreenShell from '../MapFullscreenShell.jsx'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
 import NetworkFormLegend from './NetworkFormLegend.jsx'
 import NetworkFormMapLayerFab from './NetworkFormMapLayerFab.jsx'
@@ -74,6 +75,30 @@ function junctionIcon(jtype, selected) {
 function buildPopup(props) {
   const jtype = props?.jtype
   const color = NETWORK_FORM_ICONS[jtype]?.color ?? '#64748b'
+  const metrics = [
+    { label: 'Degree', value: String(props?.degree ?? '—'), bar: null },
+    { label: 'GN', value: props?.gn_name ?? '—', bar: null },
+  ]
+  if (jtype === 'culdesac') {
+    const stub = props?.stub_length_m
+    const depth = props?.depth_class
+    const dist = props?.dist_to_junction_m
+    metrics.push({
+      label: 'Stub length',
+      value: stub != null && Number.isFinite(Number(stub)) ? `${Number(stub).toFixed(1)} m` : '—',
+      bar: null,
+    })
+    metrics.push({
+      label: 'Depth class',
+      value: depth ? String(depth) : '—',
+      bar: null,
+    })
+    metrics.push({
+      label: 'Dist. to junction',
+      value: dist != null && Number.isFinite(Number(dist)) ? `${Number(dist).toFixed(1)} m` : '—',
+      bar: null,
+    })
+  }
   return buildCellInfoPopupHtml({
     title: NETWORK_FORM_JTYPE_LABEL[jtype] ?? 'Junction',
     primaryLabel: 'Node',
@@ -83,10 +108,7 @@ function buildPopup(props) {
       color,
       textColor: '#ffffff',
     },
-    metrics: [
-      { label: 'Degree', value: String(props?.degree ?? '—'), bar: null },
-      { label: 'GN', value: props?.gn_name ?? '—', bar: null },
-    ],
+    metrics,
   })
 }
 
@@ -157,7 +179,14 @@ export default function NetworkFormMap({
   const roadStyle = useMemo(() => roadStyleForBasemap(basemapId), [basemapId])
 
   const showRoads = Boolean(visibleLayers?.roads)
+  const showRoadLabels = Boolean(visibleLayers?.roadLabels)
   const showGn = Boolean(visibleLayers?.gnBoundary)
+
+  const namedStreets = useMemo(() => {
+    if (!streets?.features) return null
+    const features = streets.features.filter((f) => f.properties?.name)
+    return features.length ? features : null
+  }, [streets])
 
   const markers = useMemo(() => {
     if (!junctions?.features) return []
@@ -172,7 +201,10 @@ export default function NetworkFormMap({
     showGn && selectedScope !== NETWORK_FORM_SCOPE_ALL && allGnBoundary?.features?.length
 
   return (
-    <div className="relative h-full min-h-[320px] w-full overflow-hidden rounded-lg border border-surface-700">
+    <MapFullscreenShell
+      className="min-h-[320px]"
+      innerClassName="rounded-lg border border-surface-700"
+    >
       <NetworkFormMapLayerFab
         visibleLayers={visibleLayers}
         onToggle={onToggleLayer}
@@ -225,6 +257,23 @@ export default function NetworkFormMap({
           />
         )}
 
+        {showRoadLabels && namedStreets && (
+          <GeoJSON
+            key={`road-labels-${selectedScope}`}
+            data={{ type: 'FeatureCollection', features: namedStreets }}
+            style={{ weight: 0, opacity: 0, fill: false }}
+            onEachFeature={(feature, layer) => {
+              if (feature.properties?.name) {
+                layer.bindTooltip(feature.properties.name, {
+                  permanent: true,
+                  direction: 'center',
+                  className: 'centrality-road-label',
+                })
+              }
+            }}
+          />
+        )}
+
         {markers.map((feature) => {
           const ll = junctionLatLng(feature)
           if (!ll) return null
@@ -267,6 +316,6 @@ export default function NetworkFormMap({
             )
           })()}
       </MapContainer>
-    </div>
+    </MapFullscreenShell>
   )
 }

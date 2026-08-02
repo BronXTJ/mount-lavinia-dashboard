@@ -10,6 +10,8 @@ import {
   filterStreetsByGnFeatures,
   gnFeaturesForScope,
   listCuldesacs,
+  mergeCuldesacDepth,
+  scopeCuldesacDepthSummary,
   scopeFindings,
   scopeMetrics,
 } from '../utils/networkFormStats.js'
@@ -33,6 +35,8 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
   const [junctionsAll, setJunctionsAll] = useState(null)
   const [metricsByScope, setMetricsByScope] = useState(null)
   const [findingsByScope, setFindingsByScope] = useState(null)
+  const [culdesacDepth, setCuldesacDepth] = useState(null)
+  const [culdesacDepthSummary, setCuldesacDepthSummary] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -40,19 +44,23 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
 
     async function load() {
       setLoading(true)
-      const [gn, streetFc, junc, met, find] = await Promise.all([
+      const [gn, streetFc, junc, met, find, depthFc, depthSum] = await Promise.all([
         fetchJson(networkFormGeoUrl('gn5_divisions.geojson')),
         fetchJson(networkFormGeoUrl('roads_streets.geojson')),
         fetchJson(networkFormGeoUrl('junctions_classified.geojson')),
         fetchJson(networkFormGeoUrl('metrics_by_scope.json')),
         fetchJson(networkFormGeoUrl('findings_by_scope.json')),
+        fetchJson(networkFormGeoUrl('culdesacs_depth.geojson')),
+        fetchJson(networkFormGeoUrl('culdesac_depth_summary.json')),
       ])
       if (cancelled) return
       setGn5(gn)
       setStreetsAll(streetFc)
-      setJunctionsAll(junc)
+      setJunctionsAll(mergeCuldesacDepth(junc, depthFc))
       setMetricsByScope(met)
       setFindingsByScope(find)
+      setCuldesacDepth(depthFc)
+      setCuldesacDepthSummary(depthSum)
       setLoading(false)
     }
 
@@ -105,6 +113,11 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
     [findingsByScope, selectedScope],
   )
 
+  const culdesacDepthStats = useMemo(
+    () => scopeCuldesacDepthSummary(culdesacDepthSummary, selectedScope),
+    [culdesacDepthSummary, selectedScope],
+  )
+
   return {
     gnBoundary,
     allGnBoundary,
@@ -115,6 +128,8 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
     counts,
     typeZones,
     culdesacRows,
+    culdesacDepthStats,
+    culdesacDepth,
     loading,
     selectedScope,
   }

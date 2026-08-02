@@ -1,0 +1,114 @@
+{
+  "phase": 1,
+  "depth_class_thresholds_m": {
+    "short_lt": 50.0,
+    "medium_to": 150.0,
+    "long_gt": 150.0
+  },
+  "inventory_primary_n": 259,
+  "inventory_total_n": 353,
+  "by_scope": {
+    "all": {
+      "scope": "All GN Divisions",
+      "n": 259,
+      "stub_length_m": {
+        "median": 59.6,
+        "mean": 69.5,
+        "min": 7.1,
+        "max": 381.5
+      },
+      "depth_class_counts": {
+        "short": 105,
+        "medium": 139,
+        "long": 15
+      },
+      "corridor_n": 12,
+      "interior_n": 247
+    },
+    "Mount Lavinia": {
+      "scope": "Mount Lavinia",
+      "n": 65,
+      "stub_length_m": {
+        "median": 70.2,
+        "mean": 82.0,
+        "min": 17.3,
+        "max": 381.5
+      },
+      "depth_class_counts": {
+        "short": 21,
+        "medium": 36,
+        "long": 8
+      },
+      "corridor_n": 3,
+      "interior_n": 62
+    },
+    "Kawdana West": {
+      "scope": "Kawdana West",
+      "n": 58,
+      "stub_length_m": {
+        "median": 52.3,
+        "mean": 64.1,
+        "min": 7.1,
+        "max": 257.3
+      },
+      "depth_class_counts": {
+        "short": 27,
+        "medium": 27,
+        "long": 4
+      },
+      "corridor_n": 8,
+      "interior_n": 50
+    },
+    "Watarappala": {
+      "scope": "Watarappala",
+      "n": 44,
+      "stub_length_m": {
+        "median": 39.0,
+        "mean": 52.4,
+        "min": 17.7,
+        "max": 173.2
+      },
+      "depth_class_counts": {
+        "short": 30,
+        "medium": 13,
+        "long": 1
+      },
+      "corridor_n": 1,
+      "interior_n": 43
+    },
+    "Wathumulla": {
+      "scope": "Wathumulla",
+      "n": 38,
+      "stub_length_m": {
+        "median": 67.6,
+        "mean": 74.6,
+        "min": 14.6,
+        "max": 164.2
+      },
+      "depth_class_counts": {
+        "short": 9,
+        "medium": 28,
+        "long": 1
+      },
+      "corridor_n": 0,
+      "interior_n": 38
+    },
+    "Wedikanda": {
+      "scope": "Wedikanda",
+      "n": 54,
+      "stub_length_m": {
+        "median": 67.2,
+        "mean": 70.5,
+        "min": 21.8,
+        "max": 186.8
+      },
+      "depth_class_counts": {
+        "short": 18,
+        "medium": 35,
+        "long": 1
+      },
+      "corridor_n": 0,
+      "interior_n": 54
+    }
+  }
+}

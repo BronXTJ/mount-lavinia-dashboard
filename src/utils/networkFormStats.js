@@ -85,11 +85,56 @@ export function listCuldesacs(features, limit = 12) {
   return features
     .filter((f) => f.properties?.jtype === 'culdesac')
     .slice(0, limit)
-    .map((f) => ({
-      nodeId: f.properties.node_id,
-      degree: f.properties.degree,
-      label: `Cul-de-sac ${f.properties.node_id}`,
-    }))
+    .map((f) => {
+      const stub = f.properties?.stub_length_m
+      const depth = f.properties?.depth_class
+      const stubLabel =
+        stub != null && Number.isFinite(Number(stub)) ? `${Number(stub).toFixed(0)} m` : null
+      return {
+        nodeId: f.properties.node_id,
+        degree: f.properties.degree,
+        stubLengthM: stub != null ? Number(stub) : null,
+        depthClass: depth ?? null,
+        label: `Cul-de-sac ${f.properties.node_id}`,
+        meta: [depth, stubLabel].filter(Boolean).join(' · ') || null,
+      }
+    })
+}
+
+/** Attach Phase-1 depth fields onto cul-de-sac junction features by node_id. */
+export function mergeCuldesacDepth(junctionsFc, depthFc) {
+  if (!junctionsFc?.features?.length) return junctionsFc
+  const byId = new Map()
+  for (const f of depthFc?.features ?? []) {
+    const id = f.properties?.node_id
+    if (id == null) continue
+    byId.set(String(id), f.properties)
+  }
+  if (!byId.size) return junctionsFc
+  return {
+    type: 'FeatureCollection',
+    features: junctionsFc.features.map((f) => {
+      if (f.properties?.jtype !== 'culdesac') return f
+      const depth = byId.get(String(f.properties?.node_id))
+      if (!depth) return f
+      return {
+        ...f,
+        properties: {
+          ...f.properties,
+          stub_length_m: depth.stub_length_m,
+          neighbor_node_id: depth.neighbor_node_id,
+          neighbor_jtype: depth.neighbor_jtype,
+          dist_to_junction_m: depth.dist_to_junction_m,
+          depth_class: depth.depth_class,
+        },
+      }
+    }),
+  }
+}
+
+export function scopeCuldesacDepthSummary(summary, scope) {
+  if (!summary?.by_scope) return null
+  return summary.by_scope[scope] ?? summary.by_scope.all ?? null
 }
 
 /** Ray-cast point-in-ring (ring = [[lon,lat],...], no holes). */

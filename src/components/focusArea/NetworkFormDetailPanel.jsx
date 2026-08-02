@@ -77,6 +77,7 @@ export default function NetworkFormDetailPanel({
   findings,
   metrics,
   culdesacRows,
+  culdesacDepthStats,
   loading,
   selectedScope,
   onJunctionClick,
@@ -88,6 +89,8 @@ export default function NetworkFormDetailPanel({
   const spacing = metrics?.junction_spacing_m
   const nCuldesac = metrics?.counts?.n_culdesac
   const culPerKm2 = metrics?.culdesac_per_km2
+  const medianStub = culdesacDepthStats?.stub_length_m?.median
+  const depthCounts = culdesacDepthStats?.depth_class_counts
 
   const ratio =
     Number.isFinite(Number(shareC)) && Number.isFinite(Number(shareI)) && Number(shareI) > 0
@@ -199,7 +202,9 @@ export default function NetworkFormDetailPanel({
           <MetricInfoButton
             title="Cul-de-sacs"
             points={[
-              `Degree-1 ends inside ${scopeLabel} after true-intersection topology.`,
+              `Degree-1 ends inside ${scopeLabel} after true-intersection topology (degree-2 collapsed).`,
+              'Stub length = length of the single incident topology edge from the dead-end to the next remaining node.',
+              'Depth class by stub length: short < 50 m, medium 50–150 m, long > 150 m.',
               'Click a row to fly to that cul-de-sac on the map.',
             ]}
             ariaLabel="What do cul-de-sac stats show?"
@@ -218,6 +223,22 @@ export default function NetworkFormDetailPanel({
             value={culPerKm2 != null ? `${culPerKm2}/km²` : '—'}
             topBorderColor={NETWORK_FORM_ICONS.culdesac.color}
             hint="Per square kilometre"
+          />
+          <DensityStatCard
+            label="Median stub"
+            value={medianStub != null ? `${medianStub} m` : '—'}
+            topBorderColor={NETWORK_FORM_ICONS.culdesac.color}
+            hint="Dead-end edge length"
+          />
+          <DensityStatCard
+            label="Depth mix"
+            value={
+              depthCounts
+                ? `${depthCounts.short ?? 0}/${depthCounts.medium ?? 0}/${depthCounts.long ?? 0}`
+                : '—'
+            }
+            topBorderColor={NETWORK_FORM_ICONS.culdesac.color}
+            hint="Short / medium / long"
           />
         </div>
 
@@ -239,7 +260,12 @@ export default function NetworkFormDetailPanel({
                     className="inline-block h-2 w-2 shrink-0 rounded-full"
                     style={{ backgroundColor: NETWORK_FORM_ICONS.culdesac.color }}
                   />
-                  <span className="min-w-0 flex-1 truncate">{row.label}</span>
+                  <span className="min-w-0 flex-1 truncate">
+                    {row.label}
+                    {row.meta ? (
+                      <span className="text-surface-400"> · {row.meta}</span>
+                    ) : null}
+                  </span>
                   <span className="shrink-0 text-[10px] font-semibold text-[#00b4d8]">
                     Fly to
                   </span>
