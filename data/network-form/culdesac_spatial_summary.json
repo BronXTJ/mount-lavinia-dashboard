@@ -1,0 +1,219 @@
+{
+  "phase": 2,
+  "primary_culdesac_n": 259,
+  "hex_assigned_n": 244,
+  "hex_outside_grid_n": 15,
+  "hex_with_culdesacs_n": 165,
+  "hex_coverage_note": "Cul-de-sac hex counts use density-analysis hex_grid_primary_100m (Mount Lavinia primary study area). Points outside that grid are excluded from the choropleth but remain in GN ranking.",
+  "by_gn_rank": [
+    {
+      "gn_name": "Watarappala",
+      "n": 44,
+      "culdesac_per_km2": 111.4,
+      "median_stub_m": 39.0,
+      "mean_stub_m": 52.4,
+      "depth_class_counts": {
+        "short": 30,
+        "medium": 13,
+        "long": 1
+      },
+      "long_share": 0.0227,
+      "corridor_n": 1,
+      "interior_n": 43,
+      "rank": 1
+    },
+    {
+      "gn_name": "Kawdana West",
+      "n": 58,
+      "culdesac_per_km2": 110.47,
+      "median_stub_m": 52.3,
+      "mean_stub_m": 64.1,
+      "depth_class_counts": {
+        "short": 27,
+        "medium": 27,
+        "long": 4
+      },
+      "long_share": 0.069,
+      "corridor_n": 8,
+      "interior_n": 50,
+      "rank": 2
+    },
+    {
+      "gn_name": "Wedikanda",
+      "n": 54,
+      "culdesac_per_km2": 80.53,
+      "median_stub_m": 67.2,
+      "mean_stub_m": 70.5,
+      "depth_class_counts": {
+        "short": 18,
+        "medium": 35,
+        "long": 1
+      },
+      "long_share": 0.0185,
+      "corridor_n": 0,
+      "interior_n": 54,
+      "rank": 3
+    },
+    {
+      "gn_name": "Wathumulla",
+      "n": 38,
+      "culdesac_per_km2": 69.19,
+      "median_stub_m": 67.6,
+      "mean_stub_m": 74.6,
+      "depth_class_counts": {
+        "short": 9,
+        "medium": 28,
+        "long": 1
+      },
+      "long_share": 0.0263,
+      "corridor_n": 0,
+      "interior_n": 38,
+      "rank": 4
+    },
+    {
+      "gn_name": "Mount Lavinia",
+      "n": 65,
+      "culdesac_per_km2": 56.52,
+      "median_stub_m": 70.2,
+      "mean_stub_m": 82.0,
+      "depth_class_counts": {
+        "short": 21,
+        "medium": 36,
+        "long": 8
+      },
+      "long_share": 0.1231,
+      "corridor_n": 3,
+      "interior_n": 62,
+      "rank": 5
+    }
+  ],
+  "corridor_vs_interior": {
+    "corridor_n": 12,
+    "interior_n": 247,
+    "corridor_share": 0.0463
+  },
+  "top_hexes_by_count": [
+    {
+      "hex_id": 411,
+      "culdesac_n": 5,
+      "mean_stub_m": 43.4,
+      "median_stub_m": 36.7
+    },
+    {
+      "hex_id": 355,
+      "culdesac_n": 4,
+      "mean_stub_m": 79.3,
+      "median_stub_m": 86.2
+    },
+    {
+      "hex_id": 308,
+      "culdesac_n": 4,
+      "mean_stub_m": 40.7,
+      "median_stub_m": 38.5
+    },
+    {
+      "hex_id": 279,
+      "culdesac_n": 3,
+      "mean_stub_m": 149.0,
+      "median_stub_m": 147.4
+    },
+    {
+      "hex_id": 317,
+      "culdesac_n": 3,
+      "mean_stub_m": 96.4,
+      "median_stub_m": 78.2
+    },
+    {
+      "hex_id": 328,
+      "culdesac_n": 3,
+      "mean_stub_m": 94.4,
+      "median_stub_m": 72.4
+    },
+    {
+      "hex_id": 88,
+      "culdesac_n": 3,
+      "mean_stub_m": 83.9,
+      "median_stub_m": 89.8
+    },
+    {
+      "hex_id": 106,
+      "culdesac_n": 3,
+      "mean_stub_m": 75.3,
+      "median_stub_m": 77.8
+    },
+    {
+      "hex_id": 443,
+      "culdesac_n": 3,
+      "mean_stub_m": 72.3,
+      "median_stub_m": 97.8
+    },
+    {
+      "hex_id": 290,
+      "culdesac_n": 3,
+      "mean_stub_m": 70.7,
+      "median_stub_m": 36.8
+    }
+  ],
+  "top_hexes_by_mean_stub_n2": [
+    {
+      "hex_id": 333,
+      "culdesac_n": 2,
+      "mean_stub_m": 222.9,
+      "median_stub_m": 222.9
+    },
+    {
+      "hex_id": 279,
+      "culdesac_n": 3,
+      "mean_stub_m": 149.0,
+      "median_stub_m": 147.4
+    },
+    {
+      "hex_id": 296,
+      "culdesac_n": 2,
+      "mean_stub_m": 146.5,
+      "median_stub_m": 146.5
+    },
+    {
+      "hex_id": 412,
+      "culdesac_n": 2,
+      "mean_stub_m": 145.4,
+      "median_stub_m": 145.4
+    },
+    {
+      "hex_id": 77,
+      "culdesac_n": 2,
+      "mean_stub_m": 123.6,
+      "median_stub_m": 123.6
+    },
+    {
+      "hex_id": 314,
+      "culdesac_n": 2,
+      "mean_stub_m": 121.9,
+      "median_stub_m": 121.9
+    },
+    {
+      "hex_id": 228,
+      "culdesac_n": 2,
+      "mean_stub_m": 121.1,
+      "median_stub_m": 121.1
+    },
+    {
+      "hex_id": 32,
+      "culdesac_n": 2,
+      "mean_stub_m": 120.5,
+      "median_stub_m": 120.5
+    },
+    {
+      "hex_id": 425,
+      "culdesac_n": 2,
+      "mean_stub_m": 107.6,
+      "median_stub_m": 107.6
+    },
+    {
+      "hex_id": 121,
+      "culdesac_n": 2,
+      "mean_stub_m": 104.2,
+      "median_stub_m": 104.2
+    }
+  ]
+}
