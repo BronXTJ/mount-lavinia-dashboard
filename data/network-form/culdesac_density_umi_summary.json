@@ -1,0 +1,77 @@
+{
+  "phase": 4,
+  "primary_culdesac_n": 259,
+  "hex_assigned_n": 259,
+  "hex_outside_grid_n": 0,
+  "hex_with_culdesacs_n": 172,
+  "density_join_missing_hex_n": 0,
+  "maturation_join_missing_hex_n": 0,
+  "hex_coverage_note": "Density (FSI/GSI/Density_V) and maturation (umi/tier/entropy_norm) join on hex_id from density_primary_hex and maturation_primary_hex (same primary 100 m grid). Mean FSI/UMI among cul-de-sac hexes use is_valid / is_valid_maturation gates.",
+  "by_maturation_tier": [
+    {
+      "tier": "high",
+      "n": 62,
+      "share": 0.2394,
+      "median_stub_m": 54.6,
+      "mean_fsi": 2.198,
+      "mean_umi": 0.4167,
+      "depth_class_counts": {
+        "short": 28,
+        "medium": 30,
+        "long": 4
+      }
+    },
+    {
+      "tier": "medium",
+      "n": 193,
+      "share": 0.7452,
+      "median_stub_m": 61.5,
+      "mean_fsi": 1.808,
+      "mean_umi": 0.2717,
+      "depth_class_counts": {
+        "short": 76,
+        "medium": 106,
+        "long": 11
+      }
+    },
+    {
+      "tier": "low",
+      "n": 4,
+      "share": 0.0154,
+      "median_stub_m": 71.2,
+      "mean_fsi": 1.28,
+      "mean_umi": 0.1483,
+      "depth_class_counts": {
+        "short": 1,
+        "medium": 3,
+        "long": 0
+      }
+    }
+  ],
+  "mean_fsi_among_culdesac_hexes": 1.861,
+  "median_fsi_among_culdesac_hexes": 1.811,
+  "mean_umi_among_culdesac_hexes": 0.3119,
+  "median_umi_among_culdesac_hexes": 0.3009,
+  "valid_density_culdesac_hex_n": 156,
+  "valid_maturation_culdesac_hex_n": 155,
+  "high_umi_share": 0.2394,
+  "low_umi_share": 0.0154,
+  "depth_x_tier": {
+    "short": {
+      "high": 28,
+      "medium": 76,
+      "low": 1
+    },
+    "medium": {
+      "high": 30,
+      "medium": 106,
+      "low": 3
+    },
+    "long": {
+      "high": 4,
+      "medium": 11,
+      "low": 0
+    }
+  },
+  "hex_culdesac_n_sum": 259
+}
