@@ -143,8 +143,12 @@ export default function NetworkFormOverviewPanel({
     findings?.cards?.map((c) => ({
       id: c.id,
       label: c.id,
-      to: '/synthesis',
-    })) ?? []
+      to: `/synthesis?f=${c.id}`,
+    })) ?? [
+      { id: 'NF1', label: 'NF1', to: '/synthesis?f=NF1' },
+      { id: 'NF2', label: 'NF2', to: '/synthesis?f=NF2' },
+      { id: 'NF3', label: 'NF3', to: '/synthesis?f=NF3' },
+    ]
 
   return (
     <div className="flex flex-col gap-4">
@@ -220,7 +224,7 @@ export default function NetworkFormOverviewPanel({
               ]
         }
         chips={chips}
-        synthesisTo="/synthesis"
+        synthesisTo="/synthesis?f=NF1"
       />
     </div>
   )

@@ -11,6 +11,7 @@ export const DOMAIN_META = {
   social: { label: 'Social', color: '#fb923c' },
   governance: { label: 'Governance', color: '#c4b5fd' },
   walk: { label: 'Walk Access', color: '#0d9488' },
+  network: { label: 'Network Form', color: '#f59e0b' },
 }
 
 export const EDGE_TYPE_META = {
@@ -547,6 +548,105 @@ export const findings = [
     ],
     issuesLinks: ['PT1', 'SE7'],
   },
+  {
+    id: 'NF1',
+    label: 'Tree-like Fabric and Cul-de-sac Depth',
+    domains: ['network', 'morphology'],
+    observation: [
+      'Across five GNs, junctions are 3-way dominated (4-way : 3-way ≈ 0.09 : 0.91; 4-way share ~9%).',
+      '259 primary cul-de-sacs; median stub length 59.6 m; depth mix short/medium/long = 105 / 139 / 15.',
+      '247 cul-de-sacs sit in the interior versus only 12 within 50 m of corridor spines.',
+    ],
+    interpretation: [
+      'The residential street fabric is tree-like rather than a permeable grid — dead-ends and T-junctions dominate local choice.',
+      'Most stubs are short-to-medium (<150 m); long stubs (>150 m) are rare but still present as deep enclosures.',
+      'Cul-de-sacs concentrate off the spines, so interior blocks absorb most enclosure.',
+    ],
+    implication: [
+      'Prioritise interior permeability upgrades (through-links, mid-block paths) instead of assuming destination walk scores prove a grid form.',
+      'Treat long stubs as candidate cut-through or shared-path sites where ownership and safety allow.',
+      'Cite Network Form stub depth alongside junction mix when arguing for finer-grain connectivity.',
+    ],
+    evidence: [
+      {
+        tab: 'network',
+        label: 'Network Form · cul-de-sac depth',
+        path: '/focus-area',
+        focusSub: 'network-form',
+      },
+    ],
+    issuesLinks: ['GOV1', 'PT1'],
+  },
+  {
+    id: 'NF2',
+    label: 'Cul-de-sac Density Concentrates in Smaller GNs',
+    domains: ['network', 'morphology'],
+    observation: [
+      'By cul-de-sacs per km², Watarappala leads (~111.4/km²) and Kawdana West is close (~110.5/km²).',
+      'Mount Lavinia has the highest count (65) but the lowest density among the five (~56.5/km²).',
+      'All-GN corridor 4-way share (~13%) exceeds interior (~8%); spines remain relatively more permeable.',
+    ],
+    interpretation: [
+      'Enclosure intensity is uneven across GNs — smaller, denser residential GNs pack more dead-ends per hectare.',
+      'Raw cul-de-sac counts alone understate pressure in Watarappala and Kawdana West.',
+      'Corridor-versus-interior still holds: permeability rides spines while interiors stay tree-like.',
+    ],
+    implication: [
+      'Target permeability pilots where density of cul-de-sacs is highest (Watarappala / Kawdana West), not only where absolute counts peak.',
+      'Keep GN ranking and hex density layers visible when scoping local through-block interventions.',
+      'Do not read Mount Lavinia’s larger count as higher enclosure intensity without normalising by area.',
+    ],
+    evidence: [
+      {
+        tab: 'network',
+        label: 'Network Form · GN ranking / hex density',
+        path: '/focus-area',
+        focusSub: 'network-form',
+      },
+    ],
+    issuesLinks: ['GOV1'],
+  },
+  {
+    id: 'NF3',
+    label: 'Walk Access and UMI Do Not Prove Grid Permeability',
+    domains: ['network', 'walk', 'maturation', 'density'],
+    observation: [
+      '33 primary cul-de-sacs (~12.7%) fall in walk-access desert hexes (19 hexes); ~70% sit in high walk-access tier.',
+      'Mean destination access among cul-de-sac hexes is ~0.835 — still high even where form is tree-like.',
+      'Among valid cul-de-sac hexes, mean UMI is ~0.312 and mean FSI ~1.86; ~75% of cul-de-sacs sit in medium maturation tier.',
+    ],
+    interpretation: [
+      'Strong destination reach on many dead-end streets can coexist with low junction permeability — access scores are not a proxy for grid form.',
+      'A minority of cul-de-sacs co-locate with destination deserts; those pockets need both connectivity and service attention.',
+      'Moderate UMI/FSI in cul-de-sac hexes shows built intensity without implying mature, mixed, permeable blocks.',
+    ],
+    implication: [
+      'When reading WA2 deserts or F8/F15 access claims, cite Network Form so high walk scores are not mistaken for permeable interiors.',
+      'Pair desert-cul-de-sac hexes for joint walk + permeability upgrades.',
+      'Prefer interior through-links over assuming maturation or density alone will open the fabric.',
+    ],
+    evidence: [
+      {
+        tab: 'network',
+        label: 'Network Form · walk / UMI overlays',
+        path: '/focus-area',
+        focusSub: 'network-form',
+      },
+      {
+        tab: 'walk',
+        label: 'Walk Accessibility · deserts',
+        path: '/focus-area',
+        focusSub: 'walk-access',
+      },
+      {
+        tab: 'maturation',
+        label: 'Urban Maturation · UMI',
+        path: '/focus-area',
+        focusSub: 'maturation',
+      },
+    ],
+    issuesLinks: ['GOV1', 'PT1'],
+  },
 ]
 
 /** Typed edges for the claim interconnection diagram. */
@@ -583,6 +683,11 @@ export const findingEdges = [
   { source: 'WA2', target: 'WA1', type: 'co_located', strength: 2 },
   { source: 'WA3', target: 'F8', type: 'amplifies', strength: 2 },
   { source: 'WA3', target: 'F15', type: 'caused_by', strength: 2 },
+  { source: 'NF1', target: 'NF2', type: 'amplifies', strength: 2 },
+  { source: 'NF2', target: 'NF3', type: 'amplifies', strength: 2 },
+  { source: 'NF3', target: 'WA2', type: 'co_located', strength: 2 },
+  { source: 'NF3', target: 'F8', type: 'amplifies', strength: 1 },
+  { source: 'NF3', target: 'F15', type: 'caused_by', strength: 2 },
 ]
 
 /**
