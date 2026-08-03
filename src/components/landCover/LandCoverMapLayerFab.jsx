@@ -90,6 +90,7 @@ export default function LandCoverMapLayerFab({
           </p>
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
 
+          <div className="max-h-[min(70vh,560px)] overflow-y-auto overscroll-contain">
           <div className="py-1">
             {overlayLayers.map((layer) => {
               const checked = Boolean(visibleLayers?.[layer.id])
@@ -204,6 +205,7 @@ export default function LandCoverMapLayerFab({
                 </button>
               )
             })}
+          </div>
           </div>
         </div>
       )}

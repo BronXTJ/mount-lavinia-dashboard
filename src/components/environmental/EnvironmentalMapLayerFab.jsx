@@ -83,7 +83,7 @@ export default function EnvironmentalMapLayerFab({ visibleLayers, onToggle, base
           <BasemapChips basemapId={basemapId} onBasemapChange={onBasemapChange} />
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
 
-          <div className="py-1">
+          <div className="max-h-[min(70vh,560px)] overflow-y-auto overscroll-contain py-1">
             {ENV_FAB_LAYERS.map((layer) => {
               const checked = Boolean(visibleLayers?.[layer.id])
               return (

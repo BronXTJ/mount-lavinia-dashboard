@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { Layers, X } from 'lucide-react'
+import L from 'leaflet'
 import {
   NETWORK_FORM_FAB_CONTEXT_LAYERS,
   NETWORK_FORM_FAB_JUNCTION_LAYERS,
 } from '../../constants/networkForm.js'
 import { NETWORK_FORM_BASEMAPS } from '../../constants/basemaps.js'
 import BasemapChips from '../BasemapChips.jsx'
+import { useMapFullscreen } from '../MapFullscreenShell.jsx'
 
 function LayerRow({ layer, checked, onToggle }) {
   return (
@@ -47,6 +49,14 @@ export default function NetworkFormMapLayerFab({
 }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
+  const fullscreen = useMapFullscreen()
+
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el) return
+    L.DomEvent.disableClickPropagation(el)
+    L.DomEvent.disableScrollPropagation(el)
+  }, [])
 
   useEffect(() => {
     if (!open) return
@@ -64,7 +74,9 @@ export default function NetworkFormMapLayerFab({
   return (
     <div
       ref={rootRef}
-      className="pointer-events-auto absolute top-4 right-4 z-[1000] flex flex-col items-end gap-2.5"
+      className={`pointer-events-auto absolute top-4 z-[1000] flex flex-col items-end gap-2.5 ${
+        fullscreen ? 'right-16' : 'right-4'
+      }`}
     >
       <span className="relative flex h-12 w-12 items-center justify-center">
         {!open && (
@@ -114,40 +126,42 @@ export default function NetworkFormMapLayerFab({
             options={NETWORK_FORM_BASEMAPS}
           />
 
-          <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
-          <p
-            className="px-4 pb-1 pt-2.5 text-[11px] font-bold uppercase tracking-[0.1em]"
-            style={{ color: '#94a3b8' }}
-          >
-            Junctions
-          </p>
-          <div className="py-1">
-            {NETWORK_FORM_FAB_JUNCTION_LAYERS.map((layer) => (
-              <LayerRow
-                key={layer.id}
-                layer={layer}
-                checked={Boolean(visibleLayers?.[layer.id])}
-                onToggle={onToggle}
-              />
-            ))}
-          </div>
+          <div className="max-h-[min(70vh,560px)] overflow-y-auto overscroll-contain">
+            <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
+            <p
+              className="px-4 pb-1 pt-2.5 text-[11px] font-bold uppercase tracking-[0.1em]"
+              style={{ color: '#94a3b8' }}
+            >
+              Junctions
+            </p>
+            <div className="py-1">
+              {NETWORK_FORM_FAB_JUNCTION_LAYERS.map((layer) => (
+                <LayerRow
+                  key={layer.id}
+                  layer={layer}
+                  checked={Boolean(visibleLayers?.[layer.id])}
+                  onToggle={onToggle}
+                />
+              ))}
+            </div>
 
-          <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
-          <p
-            className="px-4 pb-1 pt-2.5 text-[11px] font-bold uppercase tracking-[0.1em]"
-            style={{ color: '#94a3b8' }}
-          >
-            Context
-          </p>
-          <div className="pb-1">
-            {NETWORK_FORM_FAB_CONTEXT_LAYERS.map((layer) => (
-              <LayerRow
-                key={layer.id}
-                layer={layer}
-                checked={Boolean(visibleLayers?.[layer.id])}
-                onToggle={onToggle}
-              />
-            ))}
+            <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
+            <p
+              className="px-4 pb-1 pt-2.5 text-[11px] font-bold uppercase tracking-[0.1em]"
+              style={{ color: '#94a3b8' }}
+            >
+              Context
+            </p>
+            <div className="pb-1">
+              {NETWORK_FORM_FAB_CONTEXT_LAYERS.map((layer) => (
+                <LayerRow
+                  key={layer.id}
+                  layer={layer}
+                  checked={Boolean(visibleLayers?.[layer.id])}
+                  onToggle={onToggle}
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}

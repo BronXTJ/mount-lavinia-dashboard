@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import L from 'leaflet'
 import { MAP_LAYERS } from '../constants/mapLayers.js'
 import LayerToggle from './LayerToggle.jsx'
 import BasemapChips from './BasemapChips.jsx'
@@ -11,16 +12,25 @@ import { useMapFullscreen } from './MapFullscreenShell.jsx'
  */
 export default function MapLayerFab({ activeLayers, onToggle, basemapId, onBasemapChange }) {
   const [open, setOpen] = useState(false)
+  const rootRef = useRef(null)
   const fullscreen = useMapFullscreen()
+
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el) return
+    L.DomEvent.disableClickPropagation(el)
+    L.DomEvent.disableScrollPropagation(el)
+  }, [])
 
   return (
     <div
+      ref={rootRef}
       className={`pointer-events-auto absolute top-4 z-[1000] flex flex-col items-end gap-2 ${
         fullscreen ? 'right-16' : 'right-4'
       }`}
     >
       {open && (
-        <div className="w-64 rounded-lg border border-surface-700 bg-surface-850/95 p-3 shadow-card backdrop-blur">
+        <div className="w-64 overflow-hidden rounded-lg border border-surface-700 bg-surface-850/95 p-3 shadow-card backdrop-blur">
           <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-wide text-surface-200">
             Map Layers
           </p>
@@ -29,7 +39,7 @@ export default function MapLayerFab({ activeLayers, onToggle, basemapId, onBasem
             <BasemapChips basemapId={basemapId} onBasemapChange={onBasemapChange} />
           </div>
           <div className="-mx-3 mb-1 border-t border-surface-700" />
-          <div>
+          <div className="max-h-[min(70vh,560px)] overflow-y-auto overscroll-contain">
             {MAP_LAYERS.map((layer) => (
               <LayerToggle
                 key={layer.id}

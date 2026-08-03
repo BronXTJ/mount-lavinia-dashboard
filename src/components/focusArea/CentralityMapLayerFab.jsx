@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Layers, X } from 'lucide-react'
+import L from 'leaflet'
 import {
   CENTRALITY_FAB_BOUNDARY_LAYERS,
   CENTRALITY_FAB_METRIC_LAYERS,
@@ -45,6 +46,13 @@ export default function CentralityMapLayerFab({ visibleLayers, onToggle }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
   const fullscreen = useMapFullscreen()
+
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el) return
+    L.DomEvent.disableClickPropagation(el)
+    L.DomEvent.disableScrollPropagation(el)
+  }, [])
 
   useEffect(() => {
     if (!open) return
@@ -109,33 +117,35 @@ export default function CentralityMapLayerFab({ visibleLayers, onToggle }) {
           </p>
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
 
-          <div className="py-1">
-            {CENTRALITY_FAB_METRIC_LAYERS.map((layer) => (
-              <LayerRow
-                key={layer.id}
-                layer={layer}
-                checked={Boolean(visibleLayers?.[layer.id])}
-                onToggle={onToggle}
-              />
-            ))}
-          </div>
+          <div className="max-h-[min(70vh,560px)] overflow-y-auto overscroll-contain">
+            <div className="py-1">
+              {CENTRALITY_FAB_METRIC_LAYERS.map((layer) => (
+                <LayerRow
+                  key={layer.id}
+                  layer={layer}
+                  checked={Boolean(visibleLayers?.[layer.id])}
+                  onToggle={onToggle}
+                />
+              ))}
+            </div>
 
-          <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
-          <p
-            className="px-4 pb-1 pt-2.5 text-[11px] font-bold uppercase tracking-[0.1em]"
-            style={{ color: '#94a3b8' }}
-          >
-            Boundaries
-          </p>
-          <div className="pb-1">
-            {CENTRALITY_FAB_BOUNDARY_LAYERS.map((layer) => (
-              <LayerRow
-                key={layer.id}
-                layer={layer}
-                checked={Boolean(visibleLayers?.[layer.id])}
-                onToggle={onToggle}
-              />
-            ))}
+            <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
+            <p
+              className="px-4 pb-1 pt-2.5 text-[11px] font-bold uppercase tracking-[0.1em]"
+              style={{ color: '#94a3b8' }}
+            >
+              Boundaries
+            </p>
+            <div className="pb-1">
+              {CENTRALITY_FAB_BOUNDARY_LAYERS.map((layer) => (
+                <LayerRow
+                  key={layer.id}
+                  layer={layer}
+                  checked={Boolean(visibleLayers?.[layer.id])}
+                  onToggle={onToggle}
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}

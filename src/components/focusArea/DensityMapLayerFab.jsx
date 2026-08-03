@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Layers, X } from 'lucide-react'
+import L from 'leaflet'
 import { DENSITY_FAB_LAYERS } from '../../constants/density.js'
 import BasemapChips from '../BasemapChips.jsx'
 import { useMapFullscreen } from '../MapFullscreenShell.jsx'
@@ -12,6 +13,13 @@ export default function DensityMapLayerFab({ visibleLayers, onToggle, basemapId,
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
   const fullscreen = useMapFullscreen()
+
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el) return
+    L.DomEvent.disableClickPropagation(el)
+    L.DomEvent.disableScrollPropagation(el)
+  }, [])
 
   useEffect(() => {
     if (!open) return
@@ -78,7 +86,7 @@ export default function DensityMapLayerFab({ visibleLayers, onToggle, basemapId,
           <BasemapChips basemapId={basemapId} onBasemapChange={onBasemapChange} />
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
 
-          <div className="py-1">
+          <div className="max-h-[min(70vh,560px)] overflow-y-auto overscroll-contain py-1">
             {DENSITY_FAB_LAYERS.map((layer) => {
               const checked = Boolean(visibleLayers?.[layer.id])
               return (
