@@ -36,9 +36,24 @@ export default function MicroclimatePanel({ stats, loading, onFocusCell }) {
           </p>
         )}
         <div className="grid grid-cols-3 gap-3">
-          <DensityStatCard label="Min" value={formatEnvValue(uhi?.min)} topBorderColor="#2166ac" />
-          <DensityStatCard label="Max" value={formatEnvValue(uhi?.max)} topBorderColor="#b2182b" />
-          <DensityStatCard label="Mean" value={formatEnvValue(uhi?.avg)} topBorderColor="#ef8a62" />
+          <DensityStatCard
+            label="Min"
+            value={formatEnvValue(uhi?.min)}
+            unit={uhi?.min != null ? '°C' : undefined}
+            topBorderColor="#2166ac"
+          />
+          <DensityStatCard
+            label="Max"
+            value={formatEnvValue(uhi?.max)}
+            unit={uhi?.max != null ? '°C' : undefined}
+            topBorderColor="#b2182b"
+          />
+          <DensityStatCard
+            label="Mean"
+            value={formatEnvValue(uhi?.avg)}
+            unit={uhi?.avg != null ? '°C' : undefined}
+            topBorderColor="#ef8a62"
+          />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <DensityStatCard

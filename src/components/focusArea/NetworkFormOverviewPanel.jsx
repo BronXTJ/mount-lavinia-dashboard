@@ -132,8 +132,18 @@ export default function NetworkFormOverviewPanel({
   const statItems = [
     { label: '4-way : 3-way', value: ratio, icon: '◇' },
     { label: '4-way share', value: share, icon: '▲' },
-    { label: 'Cul-de-sacs / km²', value: String(culKm2), icon: '●' },
-    { label: 'Median spacing', value: median === '—' ? '—' : `${median} m`, icon: '↔' },
+    {
+      label: 'Cul-de-sacs',
+      value: String(culKm2),
+      unit: culKm2 !== '—' ? '/km²' : undefined,
+      icon: '●',
+    },
+    {
+      label: 'Median spacing',
+      value: median === '—' ? '—' : String(median),
+      unit: median === '—' ? undefined : 'm',
+      icon: '↔',
+    },
   ]
 
   const findingBullets =

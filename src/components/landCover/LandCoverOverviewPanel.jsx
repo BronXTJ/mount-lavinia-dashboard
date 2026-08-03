@@ -35,6 +35,7 @@ export default function LandCoverOverviewPanel({ selectedGn, onSelectGn }) {
               key={kpi.id}
               label={kpi.label}
               value={kpi.value}
+              unit={kpi.unit}
               hint={kpi.hint}
               topBorderColor={kpi.color}
             />

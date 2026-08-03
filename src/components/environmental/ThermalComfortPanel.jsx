@@ -123,7 +123,8 @@ export default function ThermalComfortPanel({ stats, loading, onFocusCell }) {
       <div className="grid grid-cols-2 gap-3">
         <DensityStatCard
           label="Coolest spot"
-          value={utci?.min != null ? `${formatEnvValue(utci.min, 1)} °C` : '—'}
+          value={utci?.min != null ? formatEnvValue(utci.min, 1) : '—'}
+          unit={utci?.min != null ? '°C' : undefined}
           topBorderColor="#4575b4"
           hint={utci?.lowestId != null ? 'Click to locate on map' : undefined}
           interactive={utci?.lowestId != null}
@@ -131,7 +132,8 @@ export default function ThermalComfortPanel({ stats, loading, onFocusCell }) {
         />
         <DensityStatCard
           label="Hottest spot"
-          value={utci?.max != null ? `${formatEnvValue(utci.max, 1)} °C` : '—'}
+          value={utci?.max != null ? formatEnvValue(utci.max, 1) : '—'}
+          unit={utci?.max != null ? '°C' : undefined}
           topBorderColor="#a50026"
           hint={utci?.highestId != null ? 'Click to locate on map' : undefined}
           interactive={utci?.highestId != null}

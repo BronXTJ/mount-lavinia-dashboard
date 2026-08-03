@@ -46,7 +46,7 @@ export default function KPICard({
 
       <div className="mt-2 flex items-baseline gap-1">
         <span className="font-display text-2xl font-bold text-surface-50">{value}</span>
-        {unit && <span className="text-xs font-medium text-surface-200">{unit}</span>}
+        {unit && <span className="text-sm font-semibold text-surface-100">{unit}</span>}
       </div>
 
       {trend && (

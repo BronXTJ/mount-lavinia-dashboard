@@ -115,22 +115,26 @@ export default function NetworkFormDetailPanel({
   const spacingItems = [
     {
       label: 'Median',
-      value: spacing?.median != null ? `${spacing.median} m` : '—',
+      value: spacing?.median != null ? String(spacing.median) : '—',
+      unit: spacing?.median != null ? 'm' : undefined,
       icon: '↔',
     },
     {
       label: 'Mean',
-      value: spacing?.mean != null ? `${spacing.mean} m` : '—',
+      value: spacing?.mean != null ? String(spacing.mean) : '—',
+      unit: spacing?.mean != null ? 'm' : undefined,
       icon: '≈',
     },
     {
       label: 'Shorter quarter (Q25)',
-      value: spacing?.q25 != null ? `${spacing.q25} m` : '—',
+      value: spacing?.q25 != null ? String(spacing.q25) : '—',
+      unit: spacing?.q25 != null ? 'm' : undefined,
       icon: '▾',
     },
     {
       label: 'Longer quarter (Q75)',
-      value: spacing?.q75 != null ? `${spacing.q75} m` : '—',
+      value: spacing?.q75 != null ? String(spacing.q75) : '—',
+      unit: spacing?.q75 != null ? 'm' : undefined,
       icon: '▴',
     },
   ]
@@ -237,13 +241,15 @@ export default function NetworkFormDetailPanel({
           />
           <DensityStatCard
             label="Density"
-            value={culPerKm2 != null ? `${culPerKm2}/km²` : '—'}
+            value={culPerKm2 != null ? String(culPerKm2) : '—'}
+            unit={culPerKm2 != null ? '/km²' : undefined}
             topBorderColor={NETWORK_FORM_ICONS.culdesac.color}
             hint="Per square kilometre"
           />
           <DensityStatCard
             label="Typical stub"
-            value={medianStub != null ? `${medianStub} m` : '—'}
+            value={medianStub != null ? String(medianStub) : '—'}
+            unit={medianStub != null ? 'm' : undefined}
             topBorderColor={NETWORK_FORM_ICONS.culdesac.color}
             hint="Dead-end spur length"
           />

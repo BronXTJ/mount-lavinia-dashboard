@@ -2,6 +2,7 @@
 export default function DensityStatCard({
   label,
   value,
+  unit,
   topBorderColor,
   onClick,
   interactive = false,
@@ -32,7 +33,12 @@ export default function DensityStatCard({
       }
     >
       <p className="text-[11px] font-medium uppercase tracking-wide text-surface-200">{label}</p>
-      <p className="mt-2 font-display text-2xl font-bold text-surface-50">{value}</p>
+      <div className="mt-2 flex min-w-0 flex-wrap items-baseline gap-x-1 gap-y-0.5">
+        <span className="font-display text-xl font-bold tabular-nums text-surface-50">{value}</span>
+        {unit ? (
+          <span className="text-sm font-semibold text-surface-100">{unit}</span>
+        ) : null}
+      </div>
       {hint ? <p className="mt-1.5 text-[10px] leading-snug text-surface-400">{hint}</p> : null}
     </div>
   )

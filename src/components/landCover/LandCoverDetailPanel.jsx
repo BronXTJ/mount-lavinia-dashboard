@@ -28,16 +28,16 @@ import {
 
 function formatSignedHa(n) {
   const v = Number(n)
-  if (!Number.isFinite(v)) return '—'
+  if (!Number.isFinite(v)) return { value: '—', unit: undefined }
   const sign = v > 0 ? '+' : ''
-  return `${sign}${v.toFixed(1)} ha`
+  return { value: `${sign}${v.toFixed(1)}`, unit: 'ha' }
 }
 
 function formatSignedPp(n) {
   const v = Number(n)
-  if (!Number.isFinite(v)) return '—'
+  if (!Number.isFinite(v)) return { value: '—', unit: undefined }
   const sign = v > 0 ? '+' : ''
-  return `${sign}${v.toFixed(1)} pp`
+  return { value: `${sign}${v.toFixed(1)}`, unit: 'pp' }
 }
 
 function ClassShareBars({ epochRow }) {
@@ -125,6 +125,7 @@ function S2MetricsChart({ gnName }) {
 function GnS2KpiCards({ gnName }) {
   const kpis = getGnS2Kpis(gnName)
   if (!kpis) return null
+  const builtChange = formatSignedPp(kpis.built_up_change_pp)
 
   return (
     <FocusAreaPanelCard>
@@ -138,25 +139,29 @@ function GnS2KpiCards({ gnName }) {
       <div className="grid grid-cols-2 gap-3">
         <DensityStatCard
           label="Built-up"
-          value={`${kpis.built_up_pct.toFixed(1)}%`}
+          value={kpis.built_up_pct.toFixed(1)}
+          unit="%"
           hint="Share of GN area · Sentinel-2 ~2025"
           topBorderColor="#d73027"
         />
         <DensityStatCard
           label="Green"
-          value={`${kpis.green_pct.toFixed(1)}%`}
+          value={kpis.green_pct.toFixed(1)}
+          unit="%"
           hint="Green only · part of Soft · Sentinel-2 ~2025"
           topBorderColor="#1a9850"
         />
         <DensityStatCard
           label="Soft surface"
-          value={`${kpis.soft_surface_pct.toFixed(1)}%`}
+          value={kpis.soft_surface_pct.toFixed(1)}
+          unit="%"
           hint="Non-built (includes Green + open + water + beach) · Sentinel-2 ~2025"
           topBorderColor="#4575b4"
         />
         <DensityStatCard
           label="Built-up change"
-          value={formatSignedPp(kpis.built_up_change_pp)}
+          value={builtChange.value}
+          unit={builtChange.unit}
           hint="Percentage points · Sentinel-2 2018→2025"
           topBorderColor="#fc8d59"
         />
@@ -289,30 +294,44 @@ export default function LandCoverDetailPanel({ selectedGn, epochId }) {
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
+                {(() => {
+                  const built = formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.built_up.change)
+                  const veg = formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.vegetation.change)
+                  const open = formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.open_bare.change)
+                  const beach = formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.beach_sand.change)
+                  return (
+                    <>
                 <DensityStatCard
                   label="Built-up"
-                  value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.built_up.change)}
+                  value={built.value}
+                  unit={built.unit}
                   hint={`${LC_MOUNT_LAVINIA_LANDSAT.built_up.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.built_up.y2025} ha`}
                   topBorderColor="#d73027"
                 />
                 <DensityStatCard
                   label="Vegetation"
-                  value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.vegetation.change)}
+                  value={veg.value}
+                  unit={veg.unit}
                   hint={`${LC_MOUNT_LAVINIA_LANDSAT.vegetation.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.vegetation.y2025} ha`}
                   topBorderColor="#1a9850"
                 />
                 <DensityStatCard
                   label="Open / bare"
-                  value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.open_bare.change)}
+                  value={open.value}
+                  unit={open.unit}
                   hint={`${LC_MOUNT_LAVINIA_LANDSAT.open_bare.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.open_bare.y2025} ha`}
                   topBorderColor="#fdae61"
                 />
                 <DensityStatCard
                   label="Beach / sand"
-                  value={formatSignedHa(LC_MOUNT_LAVINIA_LANDSAT.beach_sand.change)}
+                  value={beach.value}
+                  unit={beach.unit}
                   hint={`${LC_MOUNT_LAVINIA_LANDSAT.beach_sand.y2000} → ${LC_MOUNT_LAVINIA_LANDSAT.beach_sand.y2025} ha`}
                   topBorderColor="#ffffbf"
                 />
+                    </>
+                  )
+                })()}
               </div>
             </FocusAreaPanelCard>
           )}
