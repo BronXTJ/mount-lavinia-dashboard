@@ -20,6 +20,7 @@ import {
 } from 'recharts'
 import LoadingSpinner from './LoadingSpinner.jsx'
 import MetricInfoButton from './focusArea/MetricInfoButton.jsx'
+import { useDocumentMapFullscreen } from './MapFullscreenShell.jsx'
 import useChartAnimation from '../hooks/useChartAnimation.js'
 import { MAP_CENTER } from '../constants/mapLayers.js'
 
@@ -116,6 +117,7 @@ export default function LiveDataPanel({ coords }) {
   const [error, setError] = useState(null)
   const [updatedAt, setUpdatedAt] = useState(null)
   const requestId = useRef(0)
+  const mapFullscreen = useDocumentMapFullscreen()
 
   const lat = coords?.lat ?? MAP_CENTER[0]
   const lng = coords?.lng ?? MAP_CENTER[1]
@@ -196,13 +198,16 @@ export default function LiveDataPanel({ coords }) {
 
   return (
     <div
-      className={`relative overflow-hidden rounded-lg border bg-surface-800 px-4 py-3.5 shadow-card transition-[border-color,box-shadow] duration-300 ${
+      className={`relative z-0 overflow-hidden rounded-lg border bg-surface-800 px-4 py-3.5 shadow-card transition-[border-color,box-shadow] duration-300 ${
+        mapFullscreen ? 'invisible pointer-events-none' : ''
+      } ${
         loading
           ? 'border-primary-400/60 shadow-[0_0_0_1px_rgba(0,180,216,0.25),0_0_24px_rgba(0,180,216,0.18)]'
           : 'border-surface-700'
       }`}
+      aria-hidden={mapFullscreen || undefined}
     >
-      {loading && (
+      {loading && !mapFullscreen && (
         <div
           className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1 overflow-hidden bg-primary-500/25"
           aria-hidden

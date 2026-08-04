@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, useSyncExternalStore } from 'react'
 import { Maximize2, X } from 'lucide-react'
 
 const MapFullscreenContext = createContext(false)
@@ -10,6 +10,12 @@ export function useMapFullscreen() {
 
 /** How many map shells are currently viewport-expanded (module ref-count). */
 let mapFullscreenCount = 0
+const mapFullscreenListeners = new Set()
+
+function emitMapFullscreenChange() {
+  window.dispatchEvent(new Event('map-fullscreen-change'))
+  mapFullscreenListeners.forEach((listener) => listener())
+}
 
 function setDocumentMapFullscreen(active) {
   mapFullscreenCount = Math.max(0, mapFullscreenCount + (active ? 1 : -1))
@@ -18,7 +24,21 @@ function setDocumentMapFullscreen(active) {
   } else {
     delete document.documentElement.dataset.mapFullscreen
   }
-  window.dispatchEvent(new Event('map-fullscreen-change'))
+  emitMapFullscreenChange()
+}
+
+function subscribeMapFullscreen(listener) {
+  mapFullscreenListeners.add(listener)
+  return () => mapFullscreenListeners.delete(listener)
+}
+
+function getMapFullscreenSnapshot() {
+  return document.documentElement.dataset.mapFullscreen === 'true'
+}
+
+/** True while any map shell is viewport-enlarged (works outside the shell tree). */
+export function useDocumentMapFullscreen() {
+  return useSyncExternalStore(subscribeMapFullscreen, getMapFullscreenSnapshot, () => false)
 }
 
 const btnClass =
@@ -60,7 +80,7 @@ export default function MapFullscreenShell({ children, className = '', innerClas
         <div
           className={
             expanded
-              ? 'fixed bottom-0 right-0 top-0 z-[2500] bg-surface-950'
+              ? 'fixed bottom-0 right-0 top-0 z-[2500] isolate bg-surface-950'
               : `absolute inset-0 overflow-hidden ${innerClassName}`.trim()
           }
           style={

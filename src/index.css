@@ -105,8 +105,12 @@
   animation: pulse-glow 1.8s ease-in-out infinite;
 }
 
-/* Study-area live indicator on sidebar city identity card */
-@keyframes pulse {
+/* While a map is viewport-enlarged, keep in-flow Overview content from
+   painting above the fixed map surface (e.g. LiveData load bar glow). */
+html[data-map-fullscreen] main {
+  isolation: isolate;
+  z-index: 0;
+}
   0%,
   100% {
     opacity: 1;

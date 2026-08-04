@@ -22,6 +22,7 @@ import {
 } from 'lucide-react'
 import DeveloperModal from './DeveloperModal.jsx'
 import UserGuideModal from './UserGuideModal.jsx'
+import { useDocumentMapFullscreen } from './MapFullscreenShell.jsx'
 
 const TEAL = '#00b4d8'
 const VIOLET_SOFT = '#a78bfa'
@@ -56,21 +57,10 @@ export default function Sidebar({
   const [focusFlyoutOpen, setFocusFlyoutOpen] = useState(false)
   const [guideOpen, setGuideOpen] = useState(false)
   const [developerOpen, setDeveloperOpen] = useState(false)
-  const [mapFullscreen, setMapFullscreen] = useState(
-    () => typeof document !== 'undefined' && document.documentElement.dataset.mapFullscreen === 'true',
-  )
+  const mapFullscreen = useDocumentMapFullscreen()
 
   const isFocusArea =
     location.pathname === '/focus-area' || location.pathname.endsWith('/focus-area')
-
-  useEffect(() => {
-    function syncMapFullscreen() {
-      setMapFullscreen(document.documentElement.dataset.mapFullscreen === 'true')
-    }
-    syncMapFullscreen()
-    window.addEventListener('map-fullscreen-change', syncMapFullscreen)
-    return () => window.removeEventListener('map-fullscreen-change', syncMapFullscreen)
-  }, [])
 
   // Mobile overlay is full-width: use accordion. Desktop collapsed: use flyout.
   const showFocusAccordion = isMobile || expanded
