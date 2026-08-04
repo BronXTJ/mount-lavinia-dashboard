@@ -226,7 +226,7 @@ export default function Tab1_Overview() {
 
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-      <div className="flex flex-col gap-6 lg:w-[67%]">
+      <div className="overview-side-column flex flex-col gap-6 lg:w-[67%]">
         <div className="flex flex-col gap-3">
           <div>
             <div className="mb-1 flex items-center gap-2">

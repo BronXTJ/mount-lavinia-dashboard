@@ -112,6 +112,19 @@ html[data-map-fullscreen] main {
   z-index: 0;
 }
 
+html[data-map-fullscreen] .live-data-panel,
+html[data-map-fullscreen] .live-data-load-track,
+html[data-map-fullscreen] .weather-load-bar {
+  display: none !important;
+  animation: none !important;
+  box-shadow: none !important;
+}
+
+/* Overview left column stays under the enlarged map (no load-bar bleed). */
+html[data-map-fullscreen] .overview-side-column {
+  visibility: hidden;
+}
+
 /* Study-area live indicator on sidebar city identity card */
 @keyframes pulse {
   0%,

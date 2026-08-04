@@ -198,8 +198,8 @@ export default function LiveDataPanel({ coords }) {
 
   return (
     <div
-      className={`relative z-0 overflow-hidden rounded-lg border bg-surface-800 px-4 py-3.5 shadow-card transition-[border-color,box-shadow] duration-300 ${
-        mapFullscreen ? 'invisible pointer-events-none' : ''
+      className={`live-data-panel relative z-0 overflow-hidden rounded-lg border bg-surface-800 px-4 py-3.5 shadow-card transition-[border-color,box-shadow] duration-300 ${
+        mapFullscreen ? 'hidden' : ''
       } ${
         loading
           ? 'border-primary-400/60 shadow-[0_0_0_1px_rgba(0,180,216,0.25),0_0_24px_rgba(0,180,216,0.18)]'
@@ -209,7 +209,7 @@ export default function LiveDataPanel({ coords }) {
     >
       {loading && !mapFullscreen && (
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1 overflow-hidden bg-primary-500/25"
+          className="live-data-load-track pointer-events-none absolute inset-x-0 top-0 z-10 h-1 overflow-hidden bg-primary-500/25"
           aria-hidden
         >
           <div className="weather-load-bar h-full" />

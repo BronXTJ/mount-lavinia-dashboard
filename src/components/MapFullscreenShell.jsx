@@ -8,8 +8,6 @@ export function useMapFullscreen() {
   return useContext(MapFullscreenContext)
 }
 
-/** How many map shells are currently viewport-expanded (module ref-count). */
-let mapFullscreenCount = 0
 const mapFullscreenListeners = new Set()
 
 function emitMapFullscreenChange() {
@@ -17,13 +15,10 @@ function emitMapFullscreenChange() {
   mapFullscreenListeners.forEach((listener) => listener())
 }
 
-function setDocumentMapFullscreen(active) {
-  mapFullscreenCount = Math.max(0, mapFullscreenCount + (active ? 1 : -1))
-  if (mapFullscreenCount > 0) {
-    document.documentElement.dataset.mapFullscreen = 'true'
-  } else {
-    delete document.documentElement.dataset.mapFullscreen
-  }
+/** Sync document flag so CSS + panels outside the map tree can react before paint. */
+function setMapFullscreenFlag(on) {
+  if (on) document.documentElement.dataset.mapFullscreen = 'true'
+  else delete document.documentElement.dataset.mapFullscreen
   emitMapFullscreenChange()
 }
 
@@ -56,23 +51,40 @@ const btnClass =
 export default function MapFullscreenShell({ children, className = '', innerClassName = '' }) {
   const [expanded, setExpanded] = useState(false)
 
+  function openExpanded() {
+    setMapFullscreenFlag(true)
+    setExpanded(true)
+  }
+
+  function closeExpanded() {
+    setExpanded(false)
+    setMapFullscreenFlag(false)
+  }
+
   useEffect(() => {
     if (!expanded) return undefined
 
-    setDocumentMapFullscreen(true)
+    // Re-assert after Strict Mode remount so CSS hide rules stay active.
+    setMapFullscreenFlag(true)
+
     const onKey = (e) => {
-      if (e.key === 'Escape') setExpanded(false)
+      if (e.key === 'Escape') closeExpanded()
     }
     document.addEventListener('keydown', onKey)
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
     return () => {
-      setDocumentMapFullscreen(false)
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = prevOverflow
     }
   }, [expanded])
+
+  useEffect(() => {
+    return () => {
+      setMapFullscreenFlag(false)
+    }
+  }, [])
 
   return (
     <MapFullscreenContext.Provider value={expanded}>
@@ -97,7 +109,7 @@ export default function MapFullscreenShell({ children, className = '', innerClas
               className={`${btnClass} absolute right-4 top-4 z-[2100]`}
               aria-label="Close full map"
               title="Close full map"
-              onClick={() => setExpanded(false)}
+              onClick={closeExpanded}
             >
               <X className="h-5 w-5" aria-hidden />
             </button>
@@ -107,7 +119,7 @@ export default function MapFullscreenShell({ children, className = '', innerClas
               className={`${btnClass} absolute left-3 top-[4.75rem] z-[1000]`}
               aria-label="Enlarge map"
               title="Enlarge map"
-              onClick={() => setExpanded(true)}
+              onClick={openExpanded}
             >
               <Maximize2 className="h-4 w-4" aria-hidden />
             </button>
