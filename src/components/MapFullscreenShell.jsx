@@ -8,6 +8,19 @@ export function useMapFullscreen() {
   return useContext(MapFullscreenContext)
 }
 
+/** How many map shells are currently viewport-expanded (module ref-count). */
+let mapFullscreenCount = 0
+
+function setDocumentMapFullscreen(active) {
+  mapFullscreenCount = Math.max(0, mapFullscreenCount + (active ? 1 : -1))
+  if (mapFullscreenCount > 0) {
+    document.documentElement.dataset.mapFullscreen = 'true'
+  } else {
+    delete document.documentElement.dataset.mapFullscreen
+  }
+  window.dispatchEvent(new Event('map-fullscreen-change'))
+}
+
 const btnClass =
   'pointer-events-auto flex h-10 w-10 items-center justify-center rounded-lg border border-surface-700 bg-surface-850/95 text-surface-100 shadow-card backdrop-blur transition hover:bg-surface-800 hover:text-white'
 
@@ -26,6 +39,7 @@ export default function MapFullscreenShell({ children, className = '', innerClas
   useEffect(() => {
     if (!expanded) return undefined
 
+    setDocumentMapFullscreen(true)
     const onKey = (e) => {
       if (e.key === 'Escape') setExpanded(false)
     }
@@ -34,6 +48,7 @@ export default function MapFullscreenShell({ children, className = '', innerClas
     document.body.style.overflow = 'hidden'
 
     return () => {
+      setDocumentMapFullscreen(false)
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = prevOverflow
     }

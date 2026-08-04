@@ -56,9 +56,21 @@ export default function Sidebar({
   const [focusFlyoutOpen, setFocusFlyoutOpen] = useState(false)
   const [guideOpen, setGuideOpen] = useState(false)
   const [developerOpen, setDeveloperOpen] = useState(false)
+  const [mapFullscreen, setMapFullscreen] = useState(
+    () => typeof document !== 'undefined' && document.documentElement.dataset.mapFullscreen === 'true',
+  )
 
   const isFocusArea =
     location.pathname === '/focus-area' || location.pathname.endsWith('/focus-area')
+
+  useEffect(() => {
+    function syncMapFullscreen() {
+      setMapFullscreen(document.documentElement.dataset.mapFullscreen === 'true')
+    }
+    syncMapFullscreen()
+    window.addEventListener('map-fullscreen-change', syncMapFullscreen)
+    return () => window.removeEventListener('map-fullscreen-change', syncMapFullscreen)
+  }, [])
 
   // Mobile overlay is full-width: use accordion. Desktop collapsed: use flyout.
   const showFocusAccordion = isMobile || expanded
@@ -98,7 +110,9 @@ export default function Sidebar({
 
   return (
     <aside
-      className="fixed left-0 top-0 z-50 flex h-screen flex-col"
+      className={`fixed left-0 top-0 flex h-screen flex-col overflow-visible ${
+        mapFullscreen ? 'z-[2600]' : 'z-50'
+      }`}
       style={{
         width,
         transform: isVisible ? 'translateX(0)' : 'translateX(-100%)',
