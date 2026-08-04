@@ -111,6 +111,9 @@ html[data-map-fullscreen] main {
   isolation: isolate;
   z-index: 0;
 }
+
+/* Study-area live indicator on sidebar city identity card */
+@keyframes pulse {
   0%,
   100% {
     opacity: 1;
