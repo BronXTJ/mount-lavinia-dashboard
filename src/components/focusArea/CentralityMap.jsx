@@ -8,8 +8,6 @@ import {
   CENTRALITY_MAP_CENTER,
   CENTRALITY_MAP_ZOOM,
   CENTRALITY_SCALES,
-  CLOSENESS_RAMP,
-  BETWEENNESS_RAMP,
   boundaryGeoUrl,
   boundaryLayerId,
   scaleLabel,
@@ -18,7 +16,7 @@ import {
   DEFAULT_NETWORK_FORM_BASEMAP,
   getNetworkFormBasemap,
 } from '../../constants/basemaps.js'
-import { WHAT_IF_DRAW_TOOLS, WHAT_IF_MODES } from '../../constants/centralityWhatIf.js'
+import { WHAT_IF_DRAW_TOOLS, WHAT_IF_MODES, WHAT_IF_PROPOSED_COLOR } from '../../constants/centralityWhatIf.js'
 import {
   colorForValue,
   formatMetricValue,
@@ -480,13 +478,7 @@ export default function CentralityMap({
               onEraseLink={whatIf.onEraseLink}
               hideFinishedProposed={Boolean(whatIf.hideFinishedProposed)}
               forceShowFinishedForErase={whatIf.drawing.tool === WHAT_IF_DRAW_TOOLS.erase}
-              pendingLineColor={
-                showCloseness
-                  ? CLOSENESS_RAMP.stops[2]
-                  : showBetweenness
-                    ? BETWEENNESS_RAMP.stops[2]
-                    : CLOSENESS_RAMP.stops[2]
-              }
+              pendingLineColor={WHAT_IF_PROPOSED_COLOR}
             />
           ) : null}
         </MapContainer>

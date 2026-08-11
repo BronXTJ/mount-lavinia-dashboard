@@ -191,6 +191,9 @@ export default function CentralityAnalysisView() {
     if (drawing.tool === WHAT_IF_DRAW_TOOLS.erase) {
       return 'Erase mode — click one drawn link to delete it'
     }
+    if (scenarioApi.sdnaMissing) {
+      return 'Worker reachable but sDNA missing — install to C:\\Program Files (x86)\\sDNA'
+    }
     if (scenarioApi.status === WHAT_IF_STATUS.computing) {
       return 'Computing sDNA on local worker…'
     }
@@ -226,6 +229,7 @@ export default function CentralityAnalysisView() {
     scenarioApi.status,
     scenarioApi.error,
     scenarioApi.workerOnline,
+    scenarioApi.sdnaMissing,
     drawing.tool,
     drawing.hasLinks,
   ])
@@ -258,6 +262,7 @@ export default function CentralityAnalysisView() {
             error={scenarioApi.error}
             deltaBlock={scenarioApi.deltaBlock}
             workerOnline={scenarioApi.workerOnline}
+            sdnaMissing={scenarioApi.sdnaMissing}
             linkCount={linkCount}
             onSegmentClick={setSelectedSegmentId}
           />
@@ -325,6 +330,7 @@ export default function CentralityAnalysisView() {
             error={scenarioApi.error}
             deltaBlock={scenarioApi.deltaBlock}
             workerOnline={scenarioApi.workerOnline}
+            sdnaMissing={scenarioApi.sdnaMissing}
             linkCount={linkCount}
             onSegmentClick={setSelectedSegmentId}
           />

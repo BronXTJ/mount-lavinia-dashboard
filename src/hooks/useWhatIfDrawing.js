@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { WHAT_IF_DRAW_TOOLS, WHAT_IF_SNAP_PX } from '../constants/centralityWhatIf.js'
 
 function distPx(map, latlng, nodeLatLng) {
@@ -107,22 +108,26 @@ export function useWhatIfDrawing(snapNodes) {
    * @returns {GeoJSON.FeatureCollection | null}
    */
   const finishLink = useCallback((extraLngLats = null) => {
+    const extras = Array.isArray(extraLngLats)
+      ? extraLngLats.filter((c) => c?.length >= 2).map((c) => [...c])
+      : []
     let geo = null
-    setState((s) => {
-      const extras = Array.isArray(extraLngLats) ? extraLngLats.filter((c) => c?.length >= 2) : []
-      const coords = extras.length ? [...s.draftCoords, ...extras.map((c) => [...c])] : s.draftCoords
-      if (coords.length < 2) return s
-      const id = s.nextId
-      const nextLinks = [...s.links, { id, coordinates: cloneCoords(coords) }]
-      geo = toGeoJson(nextLinks)
-      return {
-        ...s,
-        past: [...s.past, snapshotOf(s)],
-        future: [],
-        links: nextLinks,
-        draftCoords: [],
-        nextId: s.nextId + 1,
-      }
+    flushSync(() => {
+      setState((s) => {
+        const coords = extras.length ? [...s.draftCoords, ...extras] : s.draftCoords
+        if (coords.length < 2) return s
+        const id = s.nextId
+        const nextLinks = [...s.links, { id, coordinates: cloneCoords(coords) }]
+        geo = toGeoJson(nextLinks)
+        return {
+          ...s,
+          past: [...s.past, snapshotOf(s)],
+          future: [],
+          links: nextLinks,
+          draftCoords: [],
+          nextId: s.nextId + 1,
+        }
+      })
     })
     return geo
   }, [])

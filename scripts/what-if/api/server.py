@@ -18,7 +18,7 @@ import uuid
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
@@ -30,20 +30,44 @@ JOBS_ROOT = ROOT / "json_files" / "Urban_morpho_analysis" / "_what_if_work" / "j
 
 ALLOWED_ARTIFACT = re.compile(r"^(proposed_links|summary|closeness_\d+|betweenness_\d+)\.(geojson|json)$")
 
+CORS_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:4173",
+    "http://127.0.0.1:4173",
+    "https://bronxtj.github.io",
+    "https://BronXTJ.github.io",
+]
+
 app = FastAPI(title="What-if sDNA worker", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:4173",
-        "http://127.0.0.1:4173",
-        "https://BronXTJ.github.io",
-    ],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def private_network_access(request: Request, call_next):
+    """Allow HTTPS GitHub Pages → http://127.0.0.1 worker (Chrome PNA)."""
+    if request.method == "OPTIONS" and request.headers.get("access-control-request-private-network"):
+        origin = request.headers.get("origin", "")
+        headers = {
+            "Access-Control-Allow-Private-Network": "true",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Headers": request.headers.get(
+                "access-control-request-headers", "*"
+            ),
+        }
+        if origin in CORS_ORIGINS:
+            headers["Access-Control-Allow-Origin"] = origin
+        return Response(status_code=204, headers=headers)
+    response = await call_next(request)
+    if request.headers.get("origin") in CORS_ORIGINS:
+        response.headers["Access-Control-Allow-Private-Network"] = "true"
+    return response
 
 _lock = threading.Lock()
 _jobs: dict[str, dict[str, Any]] = {}

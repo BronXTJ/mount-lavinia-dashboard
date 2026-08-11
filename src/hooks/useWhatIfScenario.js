@@ -16,6 +16,7 @@ async function fetchJson(url) {
 /**
  * Loads snap nodes; tracks What-if analysis status.
  * Prefers local FastAPI worker artifacts; falls back to offline export messaging.
+ * workerOnline means reachable AND sDNA present (ready to POST jobs).
  */
 export function useWhatIfScenario(scaleMeters, namedRoads) {
   const [snapNodes, setSnapNodes] = useState(null)
@@ -27,6 +28,8 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
   const [activeScenario, setActiveScenario] = useState(false)
   const [jobId, setJobId] = useState(null)
   const [workerOnline, setWorkerOnline] = useState(false)
+  const [workerReachable, setWorkerReachable] = useState(false)
+  const [sdnaMissing, setSdnaMissing] = useState(false)
   const abortRef = useRef(null)
   const jobIdRef = useRef(null)
 
@@ -45,7 +48,12 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     let cancelled = false
     const tick = () => {
       checkWorkerHealth().then((h) => {
-        if (!cancelled) setWorkerOnline(Boolean(h?.ok))
+        if (cancelled) return
+        const reachable = Boolean(h?.ok)
+        const sdnaOk = Boolean(h?.sdna)
+        setWorkerReachable(reachable)
+        setSdnaMissing(reachable && !sdnaOk)
+        setWorkerOnline(reachable && sdnaOk)
       })
     }
     tick()
@@ -123,6 +131,8 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
         if (ctrl.signal.aborted) return { ok: false, offline: false }
         applyScenarioPayload(result, result.jobId)
         setWorkerOnline(true)
+        setWorkerReachable(true)
+        setSdnaMissing(false)
         return { ok: true, offline: false }
       } catch (err) {
         if (ctrl.signal.aborted || err?.message === 'Aborted') {
@@ -130,9 +140,20 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
         }
         if (err?.code === 'WORKER_OFFLINE') {
           setWorkerOnline(false)
+          setWorkerReachable(false)
+          setSdnaMissing(false)
           setStatus(WHAT_IF_STATUS.needsCompute)
           setError(null)
           return { ok: false, offline: true }
+        }
+        if (err?.code === 'SDNA_MISSING') {
+          setWorkerReachable(true)
+          setWorkerOnline(false)
+          setSdnaMissing(true)
+          setStatus(WHAT_IF_STATUS.error)
+          setError('Worker online but sDNA not found at C:\\Program Files (x86)\\sDNA')
+          setActiveScenario(false)
+          return { ok: false, offline: false }
         }
         setStatus(WHAT_IF_STATUS.error)
         setError(err?.message || 'sDNA compute failed')
@@ -169,6 +190,8 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     error,
     activeScenario,
     workerOnline,
+    workerReachable,
+    sdnaMissing,
     scenarioCloseness,
     scenarioBetweenness,
     scenarioClosenessStats,

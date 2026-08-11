@@ -3,10 +3,10 @@ import { CircleMarker, GeoJSON, Polyline, useMap, useMapEvents } from 'react-lea
 import {
   WHAT_IF_DRAW_TOOLS,
   WHAT_IF_NEW_GLOW_COLOR,
+  WHAT_IF_PROPOSED_COLOR,
   WHAT_IF_SNAP_COLOR,
   WHAT_IF_SNAP_PX,
 } from '../../../constants/centralityWhatIf.js'
-import { CLOSENESS_RAMP } from '../../../constants/centrality.js'
 
 function distPointToSegPx(map, latlng, aLngLat, bLngLat) {
   const p = map.latLngToContainerPoint(latlng)
@@ -157,10 +157,10 @@ export default function WhatIfSnapDrawLayer({
   onRedo,
   links = [],
   onEraseLink,
-  /** When true, finished links are shown via ramp+glow layer — only drafts stay dotted. */
+  /** When true, finished links are hidden (sDNA map shows them) — only drafts stay dotted. */
   hideFinishedProposed = false,
-  /** Legend-ramp color for finished links before sDNA values exist (default: closeness mid). */
-  pendingLineColor = CLOSENESS_RAMP.stops[2],
+  /** Distinct proposal colour (not a metric ramp stop). */
+  pendingLineColor = WHAT_IF_PROPOSED_COLOR,
   /** Keep finished lines pickable in erase mode even after sDNA hides the overlay. */
   forceShowFinishedForErase = false,
 }) {
@@ -249,7 +249,7 @@ export default function WhatIfSnapDrawLayer({
         />
       ) : null}
 
-      {/* Finished proposals: solid legend-ramp + glow (hidden after sDNA unless erase mode) */}
+      {/* Finished proposals: solid orange + white glow (not a metric ramp colour) */}
       {showProposed && finishedFc ? (
         <>
           <GeoJSON

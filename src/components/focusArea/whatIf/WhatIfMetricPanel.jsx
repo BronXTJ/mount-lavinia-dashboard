@@ -91,17 +91,24 @@ export default function WhatIfMetricPanel({
   error,
   deltaBlock,
   workerOnline = false,
+  sdnaMissing = false,
   linkCount = 0,
   onSegmentClick,
 }) {
   const block = deltaBlock?.[metric] ?? null
   const title = metric === 'closeness' ? 'Closeness Δ' : 'Betweenness Δ'
   const infoPoints = metric === 'closeness' ? CLOSENESS_INFO : BETWEENNESS_INFO
-  const statusLine =
-    status === WHAT_IF_STATUS.needsCompute && workerOnline
+  const statusLine = sdnaMissing
+    ? 'sDNA missing on this PC'
+    : status === WHAT_IF_STATUS.needsCompute && workerOnline
       ? 'Ready — press ▶ to run sDNA'
       : (STATUS_LABEL[status] ?? status)
   const listHint = emptyListHint(status, linkCount, workerOnline)
+  const workerLabel = sdnaMissing
+    ? 'reachable · sDNA missing'
+    : workerOnline
+      ? 'online'
+      : 'offline'
 
   return (
     <div className="flex h-full min-h-0 flex-col gap-3 overflow-hidden p-3">
@@ -120,8 +127,13 @@ export default function WhatIfMetricPanel({
       <p className="shrink-0 rounded-md border border-surface-700 bg-surface-800 px-2.5 py-1.5 text-[11px] text-surface-200">
         {statusLine}
         {error ? <span className="mt-1 block text-rose-400">{error}</span> : null}
+        {sdnaMissing && !error ? (
+          <span className="mt-1 block text-rose-400">
+            Install sDNA to C:\Program Files (x86)\sDNA, then restart what-if:worker
+          </span>
+        ) : null}
         <span className="mt-1 block text-[10px] text-surface-500">
-          Worker: {workerOnline ? 'online' : 'offline'} · Links drawn: {linkCount}
+          Worker: {workerLabel} · Links drawn: {linkCount}
         </span>
       </p>
 
