@@ -1,4 +1,4 @@
-import { Gauge, Split } from 'lucide-react'
+import { Gauge, Pencil, Split } from 'lucide-react'
 import { formatMetricValue } from '../../../utils/centralityStats.js'
 import { WHAT_IF_STATUS } from '../../../constants/centralityWhatIf.js'
 import MetricInfoButton from '../MetricInfoButton.jsx'
@@ -15,47 +15,82 @@ function Kpi({ label, value, accent = 'primary' }) {
   )
 }
 
-function emptyListHint(status, linkCount, workerOnline) {
+function emptyStateCopy(status, linkCount, workerOnline, sdnaMissing) {
   if (status === WHAT_IF_STATUS.computing || status === WHAT_IF_STATUS.loading) {
-    return 'Computing sDNA… rankings appear when the job finishes.'
+    return {
+      headline: 'Computing sDNA…',
+      subline: 'Rankings appear when the job finishes',
+    }
   }
   if (status === WHAT_IF_STATUS.scenario) {
-    return 'No Segment Δ at this scale for the current scenario.'
+    return {
+      headline: 'No segment change at this scale',
+      subline: 'Try another radius or add more links',
+    }
+  }
+  if (sdnaMissing) {
+    return {
+      headline: 'sDNA missing on this PC',
+      subline: 'Install sDNA, restart what-if:worker, then finish a link',
+    }
   }
   if (status === WHAT_IF_STATUS.needsCompute || (!workerOnline && linkCount > 0)) {
-    return 'Start npm run what-if:worker, then ▶ — drawing alone does not fill Δ.'
+    return {
+      headline: 'Start the local worker',
+      subline: 'npm run what-if:worker, then finish a link or press ▶',
+    }
   }
   if (linkCount === 0) {
-    return 'Draw and finish a link on the map.'
+    return {
+      headline: 'Draw a proposed link',
+      subline: 'Finish with Esc / ✓ / double-click, then sDNA fills these rankings',
+    }
   }
-  return 'Finish a link with the local worker to see Δ rankings.'
+  return {
+    headline: 'Finish a link to compute',
+    subline: 'Local sDNA will fill Top Gainers and Top Losers here',
+  }
 }
 
-function TopList({ title, rows, onSelect, emptyHint, tone = 'gain' }) {
+function RankingsEmptyState({ accent = 'primary', headline, subline }) {
+  const isOrange = accent === 'orange'
+  const border = isOrange ? 'border-orange-400/50' : 'border-primary-400/50'
+  const bg = isOrange ? 'bg-orange-500/10' : 'bg-primary-500/10'
+  const ring = isOrange ? 'ring-orange-400/30' : 'ring-primary-400/30'
+  const ping = isOrange ? 'bg-orange-400/35' : 'bg-primary-400/35'
+  const iconWrap = isOrange ? 'bg-orange-500/20 text-orange-300' : 'bg-primary-500/20 text-primary-300'
+  const title = isOrange ? 'text-orange-300' : 'text-primary-300'
+
+  return (
+    <div
+      className={`relative flex min-h-0 flex-1 flex-col items-center justify-center gap-2 overflow-hidden rounded-md border-2 ${border} ${bg} px-3 py-5 text-center`}
+    >
+      <span className={`pointer-events-none absolute inset-0 rounded-md ring-2 ${ring} animate-pulse`} />
+      <span className="relative flex h-10 w-10 items-center justify-center">
+        <span className={`absolute inline-flex h-full w-full animate-ping rounded-full ${ping}`} />
+        <span className={`relative flex h-10 w-10 items-center justify-center rounded-full ${iconWrap}`}>
+          <Pencil className="h-5 w-5" aria-hidden />
+        </span>
+      </span>
+      <p className={`relative font-display text-sm font-semibold ${title}`}>{headline}</p>
+      <p className="relative max-w-[16rem] text-xs text-surface-200">{subline}</p>
+    </div>
+  )
+}
+
+function TopList({ title, rows, onSelect, tone = 'gain' }) {
   const headerClass =
     tone === 'loss'
       ? 'border-l-4 border-l-rose-500 bg-rose-500/10 text-rose-300'
       : 'border-l-4 border-l-emerald-500 bg-emerald-500/10 text-emerald-300'
 
-  const header = (
-    <h3
-      className={`shrink-0 rounded-md px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wide ${headerClass}`}
-    >
-      {title}
-    </h3>
-  )
-
-  if (!rows?.length) {
-    return (
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-        {header}
-        <p className="mt-1 text-[11px] text-surface-500">{emptyHint}</p>
-      </div>
-    )
-  }
   return (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-      {header}
+      <h3
+        className={`shrink-0 rounded-md px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wide ${headerClass}`}
+      >
+        {title}
+      </h3>
       <ul className="mt-1.5 min-h-0 flex-1 space-y-1 overflow-y-auto overflow-x-hidden pr-0.5">
         {rows.slice(0, 12).map((row) => (
           <li key={`${title}-${row.ID}`} className="min-w-0">
@@ -131,12 +166,14 @@ export default function WhatIfMetricPanel({
     : status === WHAT_IF_STATUS.needsCompute && workerOnline
       ? 'Ready — Press ▶ To Run sDNA'
       : (STATUS_LABEL[status] ?? status)
-  const listHint = emptyListHint(status, linkCount, workerOnline)
   const workerLabel = sdnaMissing
     ? 'reachable · sDNA missing'
     : workerOnline
       ? 'online'
       : 'offline'
+
+  const hasRankings = Boolean(block?.top_gainers?.length || block?.top_losers?.length)
+  const emptyCopy = emptyStateCopy(status, linkCount, workerOnline, sdnaMissing)
 
   return (
     <div className="flex h-full min-h-0 min-w-0 flex-col gap-3 overflow-hidden p-3">
@@ -185,22 +222,32 @@ export default function WhatIfMetricPanel({
         />
       </div>
 
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-3 overflow-hidden">
-        <TopList
-          title="Top Gainers"
-          tone="gain"
-          rows={block?.top_gainers}
-          onSelect={onSegmentClick}
-          emptyHint={listHint}
+      {hasRankings ? (
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-3 overflow-hidden">
+          {block?.top_gainers?.length ? (
+            <TopList
+              title="Top Gainers"
+              tone="gain"
+              rows={block.top_gainers}
+              onSelect={onSegmentClick}
+            />
+          ) : null}
+          {block?.top_losers?.length ? (
+            <TopList
+              title="Top Losers"
+              tone="loss"
+              rows={block.top_losers}
+              onSelect={onSegmentClick}
+            />
+          ) : null}
+        </div>
+      ) : (
+        <RankingsEmptyState
+          accent={kpiAccent}
+          headline={emptyCopy.headline}
+          subline={emptyCopy.subline}
         />
-        <TopList
-          title="Top Losers"
-          tone="loss"
-          rows={block?.top_losers}
-          onSelect={onSegmentClick}
-          emptyHint={listHint}
-        />
-      </div>
+      )}
 
       <p className="shrink-0 text-[10px] leading-snug text-surface-500">
         Start <code className="text-surface-400">npm run what-if:worker</code> for live sDNA after

@@ -112,8 +112,6 @@ export default function WhatIfDrawToolbar({
             title="What-if Drawing Tools"
             ariaLabel="What-if drawing help"
             points={TOOLBAR_INFO}
-            pulse={false}
-            variant="modal"
           />
         </div>
       </div>
