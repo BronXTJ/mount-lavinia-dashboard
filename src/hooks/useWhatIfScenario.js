@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { WHAT_IF_STATUS, whatIfDataUrl } from '../constants/centralityWhatIf.js'
+import { WHAT_IF_STATUS, whatIfDataUrl, whatIfWorkerArtifactUrl } from '../constants/centralityWhatIf.js'
 import { summarizeGeoJson } from '../utils/centralityStats.js'
 import { checkWorkerHealth, runWhatIfJob } from '../utils/whatIfWorker.js'
 
@@ -69,17 +69,11 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
 
   // Reload closeness/betweenness when scale changes for an active worker job
   useEffect(() => {
-    if (!activeScenario || !jobIdRef.current) return
-    const id = jobIdRef.current
+    if (!activeScenario || !jobId) return
     let cancelled = false
     Promise.all([
-      fetchJson(`${import.meta.env.VITE_WHAT_IF_UNUSED || ''}`.length && false),
-    ]).catch(() => null)
-
-    const base = `http://127.0.0.1:8787/v1/jobs/${id}/artifacts`
-    Promise.all([
-      fetchJson(`${base}/closeness_${scaleMeters}.geojson`),
-      fetchJson(`${base}/betweenness_${scaleMeters}.geojson`),
+      fetchJson(whatIfWorkerArtifactUrl(jobId, `closeness_${scaleMeters}.geojson`)),
+      fetchJson(whatIfWorkerArtifactUrl(jobId, `betweenness_${scaleMeters}.geojson`)),
     ]).then(([c, b]) => {
       if (cancelled) return
       if (c) setScenarioCloseness(c)

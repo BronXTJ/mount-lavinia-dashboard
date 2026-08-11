@@ -27,6 +27,7 @@ import {
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
 import CentralityLegend from './CentralityLegend.jsx'
 import CentralityMapLayerFab from './CentralityMapLayerFab.jsx'
+import MetricInfoButton from './MetricInfoButton.jsx'
 import WhatIfDrawToolbar from './whatIf/WhatIfDrawToolbar.jsx'
 import WhatIfSnapDrawLayer from './whatIf/WhatIfSnapDrawLayer.jsx'
 
@@ -290,28 +291,41 @@ export default function CentralityMap({
   return (
     <div className="relative flex h-full min-h-0 flex-col">
       <div className="flex shrink-0 flex-col items-center gap-2 bg-surface-900 px-3 py-2">
-        <div className="flex gap-1 rounded-lg bg-surface-950/70 p-1 ring-1 ring-surface-700/50">
-          {[
-            { id: WHAT_IF_MODES.baseline, label: 'Baseline' },
-            { id: WHAT_IF_MODES.whatIf, label: 'What-if' },
-          ].map((m) => {
-            const active = mode === m.id
-            return (
-              <button
-                key={m.id}
-                type="button"
-                onClick={() => onModeChange?.(m.id)}
-                className={[
-                  'rounded-md px-3 py-1 text-[11px] font-semibold transition',
-                  active
-                    ? 'bg-surface-700 text-primary-300 shadow-[0_0_0_1px_#00b4d8]'
-                    : 'text-surface-400 hover:text-surface-100',
-                ].join(' ')}
-              >
-                {m.label}
-              </button>
-            )
-          })}
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1 rounded-lg bg-surface-950/70 p-1 ring-1 ring-surface-700/50">
+            {[
+              { id: WHAT_IF_MODES.baseline, label: 'Baseline' },
+              { id: WHAT_IF_MODES.whatIf, label: 'What-if' },
+            ].map((m) => {
+              const active = mode === m.id
+              return (
+                <button
+                  key={m.id}
+                  type="button"
+                  onClick={() => onModeChange?.(m.id)}
+                  className={[
+                    'rounded-md px-3 py-1 text-[11px] font-semibold transition',
+                    active
+                      ? 'bg-surface-700 text-primary-300 shadow-[0_0_0_1px_#00b4d8]'
+                      : 'text-surface-400 hover:text-surface-100',
+                  ].join(' ')}
+                >
+                  {m.label}
+                </button>
+              )
+            })}
+          </div>
+          <MetricInfoButton
+            title="Baseline vs What-if"
+            ariaLabel="What is What-if mode?"
+            points={[
+              'Baseline shows the published sDNA closeness / betweenness network.',
+              'What-if lets you draw proposed links and recompute centrality with a local sDNA worker.',
+              'Start npm run what-if:worker on this Windows PC so finishing a link fills the Δ side panels.',
+              'Without the worker, ▶ still exports proposed_links.geojson for offline scripts.',
+              'Δ rankings need a finished sDNA job — drawing alone will not fill the side cards.',
+            ]}
+          />
         </div>
         <div className="flex gap-2 rounded-xl bg-surface-950/60 p-1.5 ring-1 ring-surface-700/50 backdrop-blur-sm">
           {CENTRALITY_SCALES.map((scale) => {
@@ -446,6 +460,8 @@ export default function CentralityMap({
               cancelDraft={whatIf.drawing.cancelDraft}
               setCursorLatLng={whatIf.drawing.setCursorLatLng}
               snapLatLng={whatIf.drawing.snapLatLng}
+              onUndo={whatIf.onUndo}
+              onRedo={whatIf.onRedo}
             />
           ) : null}
         </MapContainer>
@@ -464,12 +480,15 @@ export default function CentralityMap({
             onToolChange={whatIf.drawing.setTool}
             snapEnabled={whatIf.drawing.snapEnabled}
             onSnapToggle={whatIf.drawing.setSnapEnabled}
-            onUndo={whatIf.drawing.undo}
+            onUndo={whatIf.onUndo || whatIf.drawing.undo}
+            onRedo={whatIf.onRedo || whatIf.drawing.redo}
             onClear={whatIf.drawing.clearLinks}
             onFinishLink={whatIf.onFinishLink || whatIf.drawing.finishLink}
             onRun={whatIf.onRun}
             onReset={whatIf.onReset}
             canFinish={whatIf.drawing.draftCoords.length >= 2}
+            canUndo={whatIf.drawing.canUndo}
+            canRedo={whatIf.drawing.canRedo}
             runLabel={whatIf.runLabel}
             statusText={whatIf.statusText}
           />

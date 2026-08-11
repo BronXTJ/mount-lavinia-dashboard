@@ -42,6 +42,7 @@ export default function CentralityAnalysisView() {
   const drawing = useWhatIfDrawing(scenarioApi.snapNodes)
 
   const currentScaleLabel = scaleLabel(scaleMeters)
+  const linkCount = drawing.links.length
 
   function handleToggleLayer(id, checked) {
     if (isWhatIf) {
@@ -51,13 +52,25 @@ export default function CentralityAnalysisView() {
     }
   }
 
+  const maybeRecompute = useCallback(
+    (result) => {
+      if (!result?.changedFinished) return
+      if (result.geojson?.features?.length) {
+        void scenarioApi.runComputeJob(result.geojson)
+      } else {
+        scenarioApi.resetScenario()
+      }
+    },
+    [scenarioApi],
+  )
+
   const handleModeChange = useCallback(
     (next) => {
       setMode(next)
       setSelectedSegmentId(null)
       if (next === WHAT_IF_MODES.baseline) {
         scenarioApi.resetScenario()
-        drawing.clearLinks()
+        drawing.resetDrawing()
       }
     },
     [scenarioApi, drawing],
@@ -69,6 +82,16 @@ export default function CentralityAnalysisView() {
       void scenarioApi.runComputeJob(geo)
     }
   }, [drawing, scenarioApi])
+
+  const handleUndo = useCallback(() => {
+    const result = drawing.undo()
+    maybeRecompute(result)
+  }, [drawing, maybeRecompute])
+
+  const handleRedo = useCallback(() => {
+    const result = drawing.redo()
+    maybeRecompute(result)
+  }, [drawing, maybeRecompute])
 
   const handleRun = useCallback(async () => {
     if (!drawing.hasLinks) {
@@ -85,7 +108,7 @@ export default function CentralityAnalysisView() {
 
   const handleReset = useCallback(() => {
     scenarioApi.resetScenario()
-    drawing.clearLinks()
+    drawing.resetDrawing()
   }, [scenarioApi, drawing])
 
   const mapCloseness = useMemo(() => {
@@ -176,6 +199,7 @@ export default function CentralityAnalysisView() {
             error={scenarioApi.error}
             deltaBlock={scenarioApi.deltaBlock}
             workerOnline={scenarioApi.workerOnline}
+            linkCount={linkCount}
             onSegmentClick={setSelectedSegmentId}
           />
         ) : (
@@ -213,6 +237,8 @@ export default function CentralityAnalysisView() {
               statusText,
               runLabel,
               onFinishLink: handleFinishLink,
+              onUndo: handleUndo,
+              onRedo: handleRedo,
               onRun: handleRun,
               onReset: handleReset,
               showProposed: whatIfVisible.proposedLinks,
@@ -237,6 +263,7 @@ export default function CentralityAnalysisView() {
             error={scenarioApi.error}
             deltaBlock={scenarioApi.deltaBlock}
             workerOnline={scenarioApi.workerOnline}
+            linkCount={linkCount}
             onSegmentClick={setSelectedSegmentId}
           />
         ) : (

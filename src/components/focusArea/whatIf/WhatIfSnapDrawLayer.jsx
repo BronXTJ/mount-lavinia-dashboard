@@ -15,6 +15,8 @@ function DrawInteraction({
   setCursorLatLng,
   snapLatLng,
   draftCoords,
+  onUndo,
+  onRedo,
 }) {
   const map = useMap()
 
@@ -39,10 +41,19 @@ function DrawInteraction({
     function onKey(e) {
       if (e.key === 'Escape') cancelDraft()
       if (e.key === 'Enter' && draftCoords.length >= 2) finishLink()
+      const mod = e.ctrlKey || e.metaKey
+      if (mod && e.key.toLowerCase() === 'z' && !e.shiftKey) {
+        e.preventDefault()
+        onUndo?.()
+      }
+      if (mod && (e.key.toLowerCase() === 'y' || (e.key.toLowerCase() === 'z' && e.shiftKey))) {
+        e.preventDefault()
+        onRedo?.()
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [cancelDraft, finishLink, draftCoords.length])
+  }, [cancelDraft, finishLink, draftCoords.length, onUndo, onRedo])
 
   useMapEvents({
     click(e) {
@@ -84,6 +95,8 @@ export default function WhatIfSnapDrawLayer({
   cancelDraft,
   setCursorLatLng,
   snapLatLng,
+  onUndo,
+  onRedo,
 }) {
   const rubberPositions =
     draftCoords.length && cursorLatLng
@@ -103,6 +116,8 @@ export default function WhatIfSnapDrawLayer({
         setCursorLatLng={setCursorLatLng}
         snapLatLng={snapLatLng}
         draftCoords={draftCoords}
+        onUndo={onUndo}
+        onRedo={onRedo}
       />
 
       {showSnapNodes && snapNodes?.features?.length
