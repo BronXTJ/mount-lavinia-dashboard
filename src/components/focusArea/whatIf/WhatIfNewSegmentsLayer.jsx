@@ -17,8 +17,8 @@ export default function WhatIfNewSegmentsLayer({
   const data = useMemo(() => {
     if (!geojson?.features?.length || !newSegmentIds?.size) return null
     const features = geojson.features.filter((f) => {
-      const id = f.properties?.ID
-      return newSegmentIds.has(id) || newSegmentIds.has(Number(id))
+      const id = Number(f.properties?.ID)
+      return Number.isFinite(id) && newSegmentIds.has(id)
     })
     if (!features.length) return null
     return { type: 'FeatureCollection', features }

@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { CircleMarker, GeoJSON, Polyline, useMap, useMapEvents } from 'react-leaflet'
 import {
   WHAT_IF_DRAW_TOOLS,
+  WHAT_IF_NEW_GLOW_COLOR,
   WHAT_IF_PROPOSED_COLOR,
   WHAT_IF_RUBBER_COLOR,
   WHAT_IF_SNAP_COLOR,
@@ -108,13 +109,15 @@ export default function WhatIfSnapDrawLayer({
         ]
       : null
 
-  const overlayGeoJson = (() => {
-    if (!proposedGeoJson?.features?.length) return null
-    if (!hideFinishedProposed) return proposedGeoJson
-    const features = proposedGeoJson.features.filter((f) => f.properties?.draft)
-    if (!features.length) return null
-    return { type: 'FeatureCollection', features }
-  })()
+  const { draftFc, finishedFc } = useMemo(() => {
+    const features = proposedGeoJson?.features ?? []
+    const drafts = features.filter((f) => f.properties?.draft)
+    const finished = hideFinishedProposed ? [] : features.filter((f) => !f.properties?.draft)
+    return {
+      draftFc: drafts.length ? { type: 'FeatureCollection', features: drafts } : null,
+      finishedFc: finished.length ? { type: 'FeatureCollection', features: finished } : null,
+    }
+  }, [proposedGeoJson, hideFinishedProposed])
 
   return (
     <>
@@ -156,13 +159,43 @@ export default function WhatIfSnapDrawLayer({
             })
         : null}
 
-      {showProposed && overlayGeoJson?.features?.length ? (
+      {/* Finished proposals (pre-sDNA): solid orange + soft glow — never dotted */}
+      {showProposed && finishedFc ? (
+        <>
+          <GeoJSON
+            key={`proposed-finished-glow-${finishedFc.features.length}`}
+            data={finishedFc}
+            style={() => ({
+              color: WHAT_IF_NEW_GLOW_COLOR,
+              weight: 11,
+              opacity: 0.35,
+              lineCap: 'round',
+              lineJoin: 'round',
+              className: 'whatif-new-segment-glow',
+            })}
+          />
+          <GeoJSON
+            key={`proposed-finished-${finishedFc.features.length}`}
+            data={finishedFc}
+            style={() => ({
+              color: WHAT_IF_PROPOSED_COLOR,
+              weight: 4.5,
+              opacity: 1,
+              lineCap: 'round',
+              lineJoin: 'round',
+            })}
+          />
+        </>
+      ) : null}
+
+      {/* In-progress draft only: dotted */}
+      {showProposed && draftFc ? (
         <GeoJSON
-          key={`proposed-${overlayGeoJson.features.length}-${draftCoords.length}-${hideFinishedProposed}`}
-          data={overlayGeoJson}
-          style={(feature) => ({
-            color: feature?.properties?.draft ? WHAT_IF_RUBBER_COLOR : WHAT_IF_PROPOSED_COLOR,
-            weight: feature?.properties?.draft ? 3 : 4,
+          key={`proposed-draft-${draftFc.features.length}-${draftCoords.length}`}
+          data={draftFc}
+          style={() => ({
+            color: WHAT_IF_RUBBER_COLOR,
+            weight: 3,
             dashArray: '8 6',
             opacity: 0.95,
           })}

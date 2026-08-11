@@ -45,18 +45,32 @@ export default function CentralityAnalysisView() {
   const linkCount = drawing.links.length
 
   const newSegmentIds = useMemo(() => {
-    if (!scenarioApi.activeScenario || !scenarioApi.scenarioCloseness?.features || !closeness?.features) {
+    if (!scenarioApi.activeScenario || !scenarioApi.scenarioCloseness?.features?.length) {
       return null
     }
-    const baseIds = new Set(closeness.features.map((f) => f.properties?.ID))
+    const scenarioFeatures = scenarioApi.scenarioCloseness.features
+    const baseIds = new Set(
+      (closeness?.features ?? [])
+        .map((f) => Number(f.properties?.ID))
+        .filter((n) => Number.isFinite(n)),
+    )
     const ids = new Set()
-    for (const f of scenarioApi.scenarioCloseness.features) {
-      const id = f.properties?.ID
-      if (id == null) continue
-      if (!baseIds.has(id) && !baseIds.has(Number(id))) ids.add(id)
+    for (const f of scenarioFeatures) {
+      const id = Number(f.properties?.ID)
+      if (!Number.isFinite(id)) continue
+      if (!baseIds.has(id)) ids.add(id)
     }
-    return ids.size ? ids : null
-  }, [scenarioApi.activeScenario, scenarioApi.scenarioCloseness, closeness])
+    if (ids.size) return ids
+    // Fallback: sDNA appends new links at the high end of the ID range
+    if (linkCount > 0) {
+      const sorted = scenarioFeatures
+        .map((f) => Number(f.properties?.ID))
+        .filter((n) => Number.isFinite(n))
+        .sort((a, b) => b - a)
+      return new Set(sorted.slice(0, linkCount))
+    }
+    return null
+  }, [scenarioApi.activeScenario, scenarioApi.scenarioCloseness, closeness, linkCount])
 
   function handleToggleLayer(id, checked) {
     if (isWhatIf) {
@@ -258,7 +272,7 @@ export default function CentralityAnalysisView() {
               showProposed: whatIfVisible.proposedLinks,
               showSnapNodes: whatIfVisible.snapNodes,
               newSegmentIds,
-              hideFinishedProposed: Boolean(scenarioApi.activeScenario && newSegmentIds?.size),
+              hideFinishedProposed: Boolean(scenarioApi.activeScenario),
             }}
           />
         </div>
