@@ -253,7 +253,7 @@ export default function CentralityAnalysisView() {
       <div
         className={
           isWhatIf
-            ? 'order-2 min-h-0 overflow-y-auto lg:order-1'
+            ? 'order-2 min-h-0 min-w-0 overflow-hidden lg:order-1'
             : 'order-2 overflow-y-auto p-4 lg:order-1'
         }
       >
@@ -321,7 +321,7 @@ export default function CentralityAnalysisView() {
       <div
         className={
           isWhatIf
-            ? 'order-3 min-h-0 overflow-y-auto'
+            ? 'order-3 min-h-0 min-w-0 overflow-hidden'
             : 'order-3 overflow-y-auto p-4'
         }
       >

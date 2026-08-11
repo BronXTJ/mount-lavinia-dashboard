@@ -107,12 +107,13 @@ export default function WhatIfDrawToolbar({
           <RotateCcw size={18} />
         </ToolBtn>
         <div className="mx-1 h-6 w-px bg-surface-600" />
-        <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
+        <div className="relative flex h-10 w-10 items-center justify-center overflow-visible">
           <MetricInfoButton
             title="What-if Drawing Tools"
             ariaLabel="What-if drawing help"
             points={TOOLBAR_INFO}
             pulse={false}
+            variant="popover"
           />
         </div>
       </div>

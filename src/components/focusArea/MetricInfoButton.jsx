@@ -1,15 +1,28 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { Info, X } from 'lucide-react'
 
 /**
- * Teal info chip that opens a simple title + bullet-points modal.
- * Visual match for TypologyInfoButton; content is metric-specific.
- * @param {{ title: string, points?: string[], ariaLabel?: string, pulse?: boolean }} props
+ * Teal info chip — centered modal (default) or anchored popover above the trigger.
+ * @param {{
+ *   title: string,
+ *   points?: string[],
+ *   ariaLabel?: string,
+ *   pulse?: boolean,
+ *   variant?: 'modal' | 'popover',
+ * }} props
  */
-export default function MetricInfoButton({ title, points, ariaLabel, pulse = true }) {
+export default function MetricInfoButton({
+  title,
+  points,
+  ariaLabel,
+  pulse = true,
+  variant = 'modal',
+}) {
   const [open, setOpen] = useState(false)
   const [closing, setClosing] = useState(false)
   const titleId = useId()
+  const rootRef = useRef(null)
+  const isPopover = variant === 'popover'
 
   function requestClose() {
     if (closing) return
@@ -28,6 +41,20 @@ export default function MetricInfoButton({ title, points, ariaLabel, pulse = tru
       if (event.key === 'Escape') setClosing(true)
     }
 
+    if (isPopover) {
+      function onPointerDown(event) {
+        if (rootRef.current && !rootRef.current.contains(event.target)) {
+          setClosing(true)
+        }
+      }
+      document.addEventListener('keydown', onKeyDown)
+      document.addEventListener('mousedown', onPointerDown)
+      return () => {
+        document.removeEventListener('keydown', onKeyDown)
+        document.removeEventListener('mousedown', onPointerDown)
+      }
+    }
+
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     document.addEventListener('keydown', onKeyDown)
@@ -35,7 +62,7 @@ export default function MetricInfoButton({ title, points, ariaLabel, pulse = tru
       document.body.style.overflow = prevOverflow
       document.removeEventListener('keydown', onKeyDown)
     }
-  }, [open])
+  }, [open, isPopover])
 
   useEffect(() => {
     if (!closing) return
@@ -46,12 +73,43 @@ export default function MetricInfoButton({ title, points, ariaLabel, pulse = tru
     return () => window.clearTimeout(timer)
   }, [closing])
 
-  return (
+  const panelBody = (
     <>
+      <div className="flex items-start justify-between gap-3">
+        <h4 id={titleId} className="font-display text-[16px] font-bold text-[#e0e0e0]">
+          {title}
+        </h4>
+        <button
+          type="button"
+          onClick={requestClose}
+          aria-label={`Close ${title} info`}
+          className="inline-flex cursor-pointer items-center justify-center text-[#94a3b8] transition-colors hover:text-[#e0e0e0]"
+        >
+          <X size={18} strokeWidth={2.25} />
+        </button>
+      </div>
+
+      <div className="mt-3 border-t border-[#2a3a4a]" />
+
+      <ul className="mt-4 list-disc space-y-2 pl-5 text-[13px] leading-[1.7] text-[#cbd5e1]">
+        {(points ?? []).map((point) => (
+          <li key={point}>{point}</li>
+        ))}
+      </ul>
+
+      <div className="mt-4 border-t border-[#2a3a4a] pt-3 text-[12px] text-[#94a3b8]">
+        {isPopover ? 'Click outside to close' : 'Click anywhere outside to close'}
+      </div>
+    </>
+  )
+
+  return (
+    <div ref={rootRef} className={isPopover ? 'relative' : undefined}>
       <button
         type="button"
-        onClick={handleOpen}
+        onClick={() => (open ? requestClose() : handleOpen())}
         aria-label={ariaLabel ?? title}
+        aria-expanded={open}
         className="relative flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center overflow-visible rounded-full bg-[#00b4d8] text-white shadow-[0_0_0_2px_rgba(0,180,216,0.35)] transition-colors hover:bg-[#33c3e0]"
       >
         {pulse && !open && (
@@ -67,7 +125,21 @@ export default function MetricInfoButton({ title, points, ariaLabel, pulse = tru
         />
       </button>
 
-      {open && (
+      {open && isPopover ? (
+        <div
+          role="dialog"
+          aria-modal="false"
+          aria-labelledby={titleId}
+          className={`absolute bottom-full right-0 z-[1100] mb-2 w-[min(92vw,320px)] rounded-xl border border-[#2a3a4a] p-4 shadow-[0_16px_48px_rgba(0,0,0,0.6)] ${
+            closing ? 'typology-info-modal-exit' : 'typology-info-modal-enter'
+          }`}
+          style={{ backgroundColor: '#1a2535' }}
+        >
+          {panelBody}
+        </div>
+      ) : null}
+
+      {open && !isPopover ? (
         <div
           className={`fixed inset-0 z-[2000] flex items-center justify-center p-4 ${
             closing ? 'typology-info-overlay-exit' : 'typology-info-overlay-enter'
@@ -86,34 +158,10 @@ export default function MetricInfoButton({ title, points, ariaLabel, pulse = tru
             style={{ backgroundColor: '#1a2535' }}
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="flex items-start justify-between gap-3">
-              <h4 id={titleId} className="font-display text-[16px] font-bold text-[#e0e0e0]">
-                {title}
-              </h4>
-              <button
-                type="button"
-                onClick={requestClose}
-                aria-label={`Close ${title} info`}
-                className="inline-flex cursor-pointer items-center justify-center text-[#94a3b8] transition-colors hover:text-[#e0e0e0]"
-              >
-                <X size={18} strokeWidth={2.25} />
-              </button>
-            </div>
-
-            <div className="mt-3 border-t border-[#2a3a4a]" />
-
-            <ul className="mt-4 list-disc space-y-2 pl-5 text-[13px] leading-[1.7] text-[#cbd5e1]">
-              {(points ?? []).map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
-
-            <div className="mt-4 border-t border-[#2a3a4a] pt-3 text-[12px] text-[#94a3b8]">
-              Click anywhere outside to close
-            </div>
+            {panelBody}
           </div>
         </div>
-      )}
-    </>
+      ) : null}
+    </div>
   )
 }
