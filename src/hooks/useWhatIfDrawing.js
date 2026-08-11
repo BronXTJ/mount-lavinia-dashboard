@@ -87,7 +87,7 @@ export function useWhatIfDrawing(snapNodes) {
 
   const addVertex = useCallback(
     (map, leafletLatLng) => {
-      if (tool !== WHAT_IF_DRAW_TOOLS.pencil) return
+      if (tool !== WHAT_IF_DRAW_TOOLS.pencil) return null
       const snapped = snapLatLng(map, leafletLatLng)
       setState((s) => ({
         ...s,
@@ -95,16 +95,25 @@ export function useWhatIfDrawing(snapNodes) {
         future: [],
         draftCoords: [...s.draftCoords, snapped.lngLat],
       }))
+      return snapped.lngLat
     },
     [snapLatLng, tool],
   )
 
-  const finishLink = useCallback(() => {
+  /**
+   * Commit the current draft as a finished link.
+   * @param {number[][] | null} extraLngLats optional vertices to append in the same update
+   *   (avoids React setState race when double-click adds a point then finishes).
+   * @returns {GeoJSON.FeatureCollection | null}
+   */
+  const finishLink = useCallback((extraLngLats = null) => {
     let geo = null
     setState((s) => {
-      if (s.draftCoords.length < 2) return s
+      const extras = Array.isArray(extraLngLats) ? extraLngLats.filter((c) => c?.length >= 2) : []
+      const coords = extras.length ? [...s.draftCoords, ...extras.map((c) => [...c])] : s.draftCoords
+      if (coords.length < 2) return s
       const id = s.nextId
-      const nextLinks = [...s.links, { id, coordinates: cloneCoords(s.draftCoords) }]
+      const nextLinks = [...s.links, { id, coordinates: cloneCoords(coords) }]
       geo = toGeoJson(nextLinks)
       return {
         ...s,
@@ -117,6 +126,18 @@ export function useWhatIfDrawing(snapNodes) {
     })
     return geo
   }, [])
+
+  /** Snap a map click and finish the link in one state update (for double-click). */
+  const finishLinkAt = useCallback(
+    (map, leafletLatLng) => {
+      if (tool !== WHAT_IF_DRAW_TOOLS.pencil) {
+        return finishLink()
+      }
+      const snapped = snapLatLng(map, leafletLatLng)
+      return finishLink([snapped.lngLat])
+    },
+    [tool, snapLatLng, finishLink],
+  )
 
   const undo = useCallback(() => {
     let result = { changedFinished: false, geojson: null, can: false }
@@ -239,6 +260,7 @@ export function useWhatIfDrawing(snapNodes) {
     snapLatLng,
     addVertex,
     finishLink,
+    finishLinkAt,
     undo,
     redo,
     clearLinks,

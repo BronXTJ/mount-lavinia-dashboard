@@ -33,6 +33,8 @@ export default function CentralityAnalysisView() {
   const [whatIfVisible, setWhatIfVisible] = useState(DEFAULT_WHAT_IF_VISIBLE)
   const [selectedSegmentId, setSelectedSegmentId] = useState(null)
 
+  const [drawHint, setDrawHint] = useState(null)
+
   const isWhatIf = mode === WHAT_IF_MODES.whatIf
 
   const { closeness, betweenness, closenessStats, betweennessStats, loading, namedRoads } =
@@ -105,12 +107,22 @@ export default function CentralityAnalysisView() {
     [scenarioApi, drawing],
   )
 
-  const handleFinishLink = useCallback(() => {
-    const geo = drawing.finishLink()
-    if (geo?.features?.length) {
-      void scenarioApi.runComputeJob(geo)
-    }
-  }, [drawing, scenarioApi])
+  const handleFinishLink = useCallback(
+    (mapOrEvent, latlng) => {
+      const isMap = mapOrEvent && typeof mapOrEvent.latLngToContainerPoint === 'function'
+      const geo =
+        isMap && latlng
+          ? drawing.finishLinkAt(mapOrEvent, latlng)
+          : drawing.finishLink()
+      if (geo?.features?.length) {
+        setDrawHint(null)
+        void scenarioApi.runComputeJob(geo)
+        return
+      }
+      setDrawHint('Need at least 2 points — then Esc / ✓ / double-click to finish and run sDNA')
+    },
+    [drawing, scenarioApi],
+  )
 
   const handleUndo = useCallback(() => {
     const result = drawing.undo()
@@ -131,11 +143,16 @@ export default function CentralityAnalysisView() {
   )
 
   const handleRun = useCallback(async () => {
-    if (!drawing.hasLinks) {
+    let geo = drawing.exportProposedGeoJson()
+    if (!geo.features.length && drawing.draftCoords.length >= 2) {
+      geo = drawing.finishLink()
+    }
+    if (!geo?.features?.length) {
+      setDrawHint('Draw and finish at least one link (≥2 points) before ▶')
       scenarioApi.markNeedsCompute()
       return
     }
-    const geo = drawing.exportProposedGeoJson()
+    setDrawHint(null)
     const result = await scenarioApi.runComputeJob(geo)
     if (result?.offline) {
       downloadProposedGeoJson(geo)
@@ -170,6 +187,7 @@ export default function CentralityAnalysisView() {
 
   const statusText = useMemo(() => {
     if (!isWhatIf) return null
+    if (drawHint) return drawHint
     if (drawing.tool === WHAT_IF_DRAW_TOOLS.erase) {
       return 'Erase mode — click one drawn link to delete it'
     }
@@ -204,6 +222,7 @@ export default function CentralityAnalysisView() {
       : 'Worker offline — ▶ exports GeoJSON'
   }, [
     isWhatIf,
+    drawHint,
     scenarioApi.status,
     scenarioApi.error,
     scenarioApi.workerOnline,

@@ -108,7 +108,7 @@ export default function WhatIfDrawToolbar({
           <span className="text-[10px] font-bold">{snapEnabled ? 'SNAP' : 'FREE'}</span>
         </ToolBtn>
         {canFinish ? (
-          <ToolBtn active={false} onClick={onFinishLink} label="Finish link" accent>
+          <ToolBtn active={false} onClick={() => onFinishLink?.()} label="Finish link" accent>
             <Check size={18} />
           </ToolBtn>
         ) : null}

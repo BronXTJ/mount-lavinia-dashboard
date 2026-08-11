@@ -113,10 +113,9 @@ function DrawInteraction({
     dblclick(e) {
       if (tool !== WHAT_IF_DRAW_TOOLS.pencil) return
       e.originalEvent?.preventDefault?.()
-      if (draftCoords.length >= 1) {
-        addVertex(map, e.latlng)
-        finishLink()
-      }
+      e.originalEvent?.stopPropagation?.()
+      // Single atomic finish: append snapped vertex + commit (avoids setState race)
+      finishLink(map, e.latlng)
     },
     mousemove(e) {
       if (tool === WHAT_IF_DRAW_TOOLS.erase) {
