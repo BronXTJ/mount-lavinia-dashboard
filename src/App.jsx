@@ -20,7 +20,10 @@ export default function App() {
   const isDesktop = useMediaQuery('(min-width: 1024px)')
   const [sidebarExpanded, setSidebarExpanded] = useState(true)
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
-  const [activeFocusSubSection, setActiveFocusSubSection] = useState('centrality')
+  const [activeFocusSubSection, setActiveFocusSubSection] = useState(() => {
+    const sub = new URLSearchParams(window.location.search).get('sub')
+    return FOCUS_SUB_IDS.has(sub) ? sub : 'centrality'
+  })
 
   useEffect(() => {
     const isFocus = pathname === '/focus-area' || pathname.endsWith('/focus-area')
