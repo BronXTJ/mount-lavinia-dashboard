@@ -113,6 +113,7 @@ export default function WhatIfDrawToolbar({
             title="What-if Drawing Tools"
             ariaLabel="What-if drawing help"
             points={TOOLBAR_INFO}
+            variant="popover"
           />
         </div>
       </div>

@@ -116,7 +116,7 @@ export default function MapFullscreenShell({ children, className = '', innerClas
           ) : (
             <button
               type="button"
-              className={`${btnClass} absolute left-3 top-[4.75rem] z-[1000]`}
+              className={`${btnClass} map-enlarge-btn absolute z-[1000]`}
               aria-label="Enlarge map"
               title="Enlarge map"
               onClick={openExpanded}

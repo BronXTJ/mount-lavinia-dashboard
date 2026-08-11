@@ -2,6 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Map chrome column (top-left): Leaflet +/- and enlarge share the same
+  40px square, 12px inset, and 8px stack gap so controls read as one group.
+*/
+.leaflet-top.leaflet-left {
+  margin-top: 12px;
+  margin-left: 12px;
+}
+.leaflet-top.leaflet-left .leaflet-control {
+  margin-left: 0;
+  margin-top: 0;
+}
+.leaflet-control-zoom a {
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  font-size: 18px !important;
+  border-radius: 0 !important;
+}
+.leaflet-control-zoom a:first-child {
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+}
+.leaflet-control-zoom a:last-child {
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}
+.leaflet-control-zoom {
+  border: 1px solid rgb(55 65 81) !important; /* surface-700 */
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+.leaflet-control-zoom a {
+  background: rgb(30 41 59 / 0.95) !important; /* surface-850 */
+  color: rgb(241 245 249) !important;
+  border-bottom-color: rgb(55 65 81) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: rgb(51 65 85) !important; /* surface-800 */
+  color: #fff !important;
+}
+/* 12px inset + 80px zoom stack + 8px gap = 100px */
+.map-enlarge-btn {
+  left: 12px;
+  top: 100px;
+}
+
 /* GN division name labels rendered as permanent Leaflet tooltips — plain
    text (no glow/shadow on the letters), just a bordered box around it. */
 .gn-label {

@@ -50,7 +50,7 @@ export const DEFAULT_WHAT_IF_VISIBLE = {
 
 export const WHAT_IF_FAB_EXTRA_LAYERS = [
   { id: 'proposedLinks', label: 'Proposed Links', dot: WHAT_IF_PROPOSED_COLOR },
-  { id: 'snapNodes', label: 'Snap Nodes (draw mode)', dot: WHAT_IF_SNAP_COLOR },
+  { id: 'snapNodes', label: 'Snap Nodes', dot: WHAT_IF_SNAP_COLOR },
 ]
 
 export const WHAT_IF_STATUS = {

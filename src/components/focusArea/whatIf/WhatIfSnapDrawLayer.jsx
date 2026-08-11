@@ -41,6 +41,20 @@ function hitTestLinkId(map, latlng, links, tolPx = 12) {
   return bestId
 }
 
+/** Drawing only on the map surface — ignore off-pane / out-of-bounds events. */
+function isDrawEventOnMap(map, e) {
+  if (!map || !e?.latlng) return false
+  const container = map.getContainer?.()
+  const target = e.originalEvent?.target
+  if (container && target && !container.contains(target)) return false
+  const size = map.getSize?.()
+  if (size) {
+    const pt = map.latLngToContainerPoint(e.latlng)
+    if (pt.x < 0 || pt.y < 0 || pt.x > size.x || pt.y > size.y) return false
+  }
+  return map.getBounds?.().contains(e.latlng) ?? true
+}
+
 function DrawInteraction({
   tool,
   addVertex,
@@ -103,6 +117,7 @@ function DrawInteraction({
 
   useMapEvents({
     click(e) {
+      if (!isDrawEventOnMap(map, e)) return
       if (tool === WHAT_IF_DRAW_TOOLS.erase) {
         const id = hitTestLinkId(map, e.latlng, links)
         if (id != null) onEraseLink?.(id)
@@ -113,12 +128,18 @@ function DrawInteraction({
     },
     dblclick(e) {
       if (tool !== WHAT_IF_DRAW_TOOLS.pencil) return
+      if (!isDrawEventOnMap(map, e)) return
       e.originalEvent?.preventDefault?.()
       e.originalEvent?.stopPropagation?.()
       // Single atomic finish: append snapped vertex + commit (avoids setState race)
       finishLink(map, e.latlng)
     },
     mousemove(e) {
+      if (!isDrawEventOnMap(map, e)) {
+        setCursorLatLng(null)
+        setSnapPreview?.(null)
+        return
+      }
       if (tool === WHAT_IF_DRAW_TOOLS.erase) {
         setCursorLatLng(null)
         setSnapPreview?.(null)
@@ -134,6 +155,10 @@ function DrawInteraction({
       const snapped = snapLatLng(map, e.latlng)
       setCursorLatLng(snapped.latlng)
       setSnapPreview?.(snapped.snapped ? { latlng: snapped.latlng, nodeId: snapped.nodeId } : null)
+    },
+    mouseout() {
+      setCursorLatLng(null)
+      setSnapPreview?.(null)
     },
   })
 
@@ -205,8 +230,8 @@ export default function WhatIfSnapDrawLayer({
         setSnapPreview={setSnapPreview}
       />
 
-      {/* Snap nodes: only while drawing (pencil) — tool chrome, not a permanent map layer */}
-      {showSnapNodes && tool === WHAT_IF_DRAW_TOOLS.pencil && snapNodes?.features?.length
+      {/* Always-on snap nodes (small magenta dots) while What-if layer is enabled */}
+      {showSnapNodes && snapNodes?.features?.length
         ? snapNodes.features
             .filter((f) => {
               const role = f.properties?.role
@@ -215,7 +240,9 @@ export default function WhatIfSnapDrawLayer({
             .map((f) => {
               const [lng, lat] = f.geometry.coordinates
               const cul = f.properties?.role === 'culdesac'
+              const drawing = tool === WHAT_IF_DRAW_TOOLS.pencil
               const previewHit =
+                drawing &&
                 snapPreview &&
                 Math.abs(snapPreview.latlng[0] - lat) < 1e-8 &&
                 Math.abs(snapPreview.latlng[1] - lng) < 1e-8
@@ -223,12 +250,12 @@ export default function WhatIfSnapDrawLayer({
                 <CircleMarker
                   key={`snap-${f.properties?.id ?? `${lng}-${lat}`}`}
                   center={[lat, lng]}
-                  radius={previewHit ? 6 : cul ? 4 : 3}
+                  radius={previewHit ? 5 : cul ? 2.5 : 2}
                   pathOptions={{
                     color: WHAT_IF_SNAP_STROKE,
                     fillColor: WHAT_IF_SNAP_COLOR,
-                    fillOpacity: previewHit ? 1 : cul ? 0.95 : 0.85,
-                    weight: previewHit ? 2.5 : 2,
+                    fillOpacity: previewHit ? 1 : drawing ? (cul ? 0.95 : 0.85) : 0.75,
+                    weight: previewHit ? 2 : 1.25,
                     opacity: 1,
                   }}
                 />

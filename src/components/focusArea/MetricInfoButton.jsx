@@ -107,10 +107,20 @@ export default function MetricInfoButton({
     <div ref={rootRef} className={isPopover ? 'relative' : undefined}>
       <button
         type="button"
-        onClick={() => (open ? requestClose() : handleOpen())}
+        onClick={(event) => {
+          event.stopPropagation()
+          if (open) requestClose()
+          else handleOpen()
+        }}
         aria-label={ariaLabel ?? title}
         aria-expanded={open}
-        className="relative flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center overflow-visible rounded-full bg-[#00b4d8] text-white shadow-[0_0_0_2px_rgba(0,180,216,0.35)] transition-colors hover:bg-[#33c3e0]"
+        className={[
+          'relative flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center overflow-visible rounded-full bg-[#00b4d8] text-white shadow-[0_0_0_2px_rgba(0,180,216,0.35)] transition-colors hover:bg-[#33c3e0]',
+          // Keep trigger above modal overlay so a second click toggles closed
+          open && !isPopover ? 'z-[2100]' : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
       >
         {pulse && !open && (
           <span
