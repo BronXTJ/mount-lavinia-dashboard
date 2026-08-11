@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { DEFAULT_CENTRALITY_VISIBLE, scaleLabel } from '../../constants/centrality.js'
 import {
   DEFAULT_WHAT_IF_VISIBLE,
+  WHAT_IF_DRAW_TOOLS,
   WHAT_IF_MODES,
   WHAT_IF_STATUS,
 } from '../../constants/centralityWhatIf.js'
@@ -121,6 +122,14 @@ export default function CentralityAnalysisView() {
     maybeRecompute(result)
   }, [drawing, maybeRecompute])
 
+  const handleEraseLink = useCallback(
+    (linkId) => {
+      const result = drawing.removeLink(linkId)
+      maybeRecompute(result)
+    },
+    [drawing, maybeRecompute],
+  )
+
   const handleRun = useCallback(async () => {
     if (!drawing.hasLinks) {
       scenarioApi.markNeedsCompute()
@@ -161,6 +170,9 @@ export default function CentralityAnalysisView() {
 
   const statusText = useMemo(() => {
     if (!isWhatIf) return null
+    if (drawing.tool === WHAT_IF_DRAW_TOOLS.erase) {
+      return 'Erase mode — click one drawn link to delete it'
+    }
     if (scenarioApi.status === WHAT_IF_STATUS.computing) {
       return 'Computing sDNA on local worker…'
     }
@@ -267,6 +279,7 @@ export default function CentralityAnalysisView() {
               onFinishLink: handleFinishLink,
               onUndo: handleUndo,
               onRedo: handleRedo,
+              onEraseLink: handleEraseLink,
               onRun: handleRun,
               onReset: handleReset,
               showProposed: whatIfVisible.proposedLinks,

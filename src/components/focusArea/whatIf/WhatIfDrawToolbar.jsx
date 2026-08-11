@@ -29,11 +29,10 @@ function ToolBtn({ active, onClick, label, children, accent, disabled }) {
 
 const TOOLBAR_INFO = [
   'Pencil: click snap nodes to draw a proposed link; double-click, ✓, or Esc to finish at the last point.',
-  'Esc with fewer than 2 points cancels the current draft only.',
-  'SNAP pulls vertices to cul-de-sac / junction nodes; FREE places freehand points.',
-  'Undo / Redo: toolbar buttons or Ctrl+Z / Ctrl+Y (Ctrl+Shift+Z also redo).',
-  '▶ runs local sDNA when npm run what-if:worker is online; otherwise it exports GeoJSON.',
-  'After sDNA, new links use the legend colour ramp + glow (not orange).',
+  'SNAP: click near a blue node to stick to it. FREE: place vertices exactly where you click.',
+  'Eraser: click the tool, then click one drawn link to delete only that link (not all).',
+  'Undo / Redo: toolbar or Ctrl+Z / Ctrl+Y.',
+  '▶ runs local sDNA when npm run what-if:worker is online.',
 ]
 
 /** Floating draw toolbar for Centrality What-if mode. */
@@ -44,7 +43,6 @@ export default function WhatIfDrawToolbar({
   onSnapToggle,
   onUndo,
   onRedo,
-  onClear,
   onFinishLink,
   onRun,
   onReset,
@@ -89,19 +87,23 @@ export default function WhatIfDrawToolbar({
         >
           <Pencil size={18} />
         </ToolBtn>
+        <ToolBtn
+          active={tool === WHAT_IF_DRAW_TOOLS.erase}
+          onClick={() => onToolChange(WHAT_IF_DRAW_TOOLS.erase)}
+          label="Erase one link — then click a drawn segment"
+        >
+          <Eraser size={18} />
+        </ToolBtn>
         <ToolBtn active={false} onClick={onUndo} label="Undo" disabled={!canUndo}>
           <Undo2 size={18} />
         </ToolBtn>
         <ToolBtn active={false} onClick={onRedo} label="Redo" disabled={!canRedo}>
           <Redo2 size={18} />
         </ToolBtn>
-        <ToolBtn active={false} onClick={onClear} label="Clear proposed links">
-          <Eraser size={18} />
-        </ToolBtn>
         <ToolBtn
           active={snapEnabled}
           onClick={() => onSnapToggle(!snapEnabled)}
-          label={snapEnabled ? 'Snap on' : 'Snap off'}
+          label={snapEnabled ? 'Snap on — stick to blue nodes' : 'Snap off — free placement'}
         >
           <span className="text-[10px] font-bold">{snapEnabled ? 'SNAP' : 'FREE'}</span>
         </ToolBtn>
@@ -114,7 +116,7 @@ export default function WhatIfDrawToolbar({
         <ToolBtn active={false} onClick={onRun} label={runLabel} accent>
           <Play size={18} />
         </ToolBtn>
-        <ToolBtn active={false} onClick={onReset} label="Reset drawing">
+        <ToolBtn active={false} onClick={onReset} label="Reset all drawing">
           <RotateCcw size={18} />
         </ToolBtn>
       </div>

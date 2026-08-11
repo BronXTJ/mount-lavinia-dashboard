@@ -173,6 +173,26 @@ export function useWhatIfDrawing(snapNodes) {
     })
   }, [])
 
+  /** Remove one finished proposed link by id. Returns { changedFinished, geojson }. */
+  const removeLink = useCallback((linkId) => {
+    let result = { changedFinished: false, geojson: null }
+    setState((s) => {
+      const nextLinks = s.links.filter((l) => l.id !== linkId)
+      if (nextLinks.length === s.links.length) return s
+      result = {
+        changedFinished: true,
+        geojson: toGeoJson(nextLinks),
+      }
+      return {
+        ...s,
+        past: [...s.past, snapshotOf(s)],
+        future: [],
+        links: nextLinks,
+      }
+    })
+    return result
+  }, [])
+
   const cancelDraft = useCallback(() => {
     setState((s) => {
       if (!s.draftCoords.length) return s
@@ -222,6 +242,7 @@ export function useWhatIfDrawing(snapNodes) {
     undo,
     redo,
     clearLinks,
+    removeLink,
     cancelDraft,
     resetDrawing,
     proposedGeoJson,

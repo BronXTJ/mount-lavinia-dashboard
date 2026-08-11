@@ -8,6 +8,7 @@ export const WHAT_IF_MODES = {
 export const WHAT_IF_DRAW_TOOLS = {
   pan: 'pan',
   pencil: 'pencil',
+  erase: 'erase',
 }
 
 export const WHAT_IF_PROPOSED_COLOR = '#f97316'
@@ -17,7 +18,7 @@ export const WHAT_IF_RUBBER_COLOR = '#fb923c'
 export const WHAT_IF_NEW_GLOW_COLOR = '#ffffff'
 
 /** Magnetic snap radius in Leaflet CSS pixels. */
-export const WHAT_IF_SNAP_PX = 14
+export const WHAT_IF_SNAP_PX = 18
 
 /** Default folder name when writing local sDNA scenario outputs (user-chosen). */
 export const WHAT_IF_SCENARIO_ID = 'custom'

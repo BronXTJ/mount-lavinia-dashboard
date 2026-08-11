@@ -18,7 +18,7 @@ import {
   DEFAULT_NETWORK_FORM_BASEMAP,
   getNetworkFormBasemap,
 } from '../../constants/basemaps.js'
-import { WHAT_IF_MODES } from '../../constants/centralityWhatIf.js'
+import { WHAT_IF_DRAW_TOOLS, WHAT_IF_MODES } from '../../constants/centralityWhatIf.js'
 import {
   colorForValue,
   formatMetricValue,
@@ -476,7 +476,10 @@ export default function CentralityMap({
               snapLatLng={whatIf.drawing.snapLatLng}
               onUndo={whatIf.onUndo}
               onRedo={whatIf.onRedo}
+              links={whatIf.drawing.links}
+              onEraseLink={whatIf.onEraseLink}
               hideFinishedProposed={Boolean(whatIf.hideFinishedProposed)}
+              forceShowFinishedForErase={whatIf.drawing.tool === WHAT_IF_DRAW_TOOLS.erase}
               pendingLineColor={
                 showCloseness
                   ? CLOSENESS_RAMP.stops[2]
@@ -504,7 +507,6 @@ export default function CentralityMap({
             onSnapToggle={whatIf.drawing.setSnapEnabled}
             onUndo={whatIf.onUndo || whatIf.drawing.undo}
             onRedo={whatIf.onRedo || whatIf.drawing.redo}
-            onClear={whatIf.drawing.clearLinks}
             onFinishLink={whatIf.onFinishLink || whatIf.drawing.finishLink}
             onRun={whatIf.onRun}
             onReset={whatIf.onReset}
