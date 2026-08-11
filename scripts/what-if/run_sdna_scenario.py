@@ -252,8 +252,8 @@ def shp_to_public_geojson(integral_shp: Path, out_dir: Path, baseline_dir: Path)
                 "n_changed": len(deltas),
                 "max_delta": deltas[0]["delta"] if deltas else 0,
                 "min_delta": deltas[-1]["delta"] if deltas else 0,
-                "top_gainers": deltas[:5],
-                "top_losers": list(reversed(deltas[-5:])) if deltas else [],
+                "top_gainers": deltas[:12],
+                "top_losers": list(reversed(deltas[-12:])) if deltas else [],
             }
 
     (out_dir / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")

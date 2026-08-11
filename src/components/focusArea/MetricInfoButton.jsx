@@ -4,8 +4,9 @@ import { Info, X } from 'lucide-react'
 /**
  * Teal info chip that opens a simple title + bullet-points modal.
  * Visual match for TypologyInfoButton; content is metric-specific.
+ * @param {{ title: string, points?: string[], ariaLabel?: string, pulse?: boolean }} props
  */
-export default function MetricInfoButton({ title, points, ariaLabel }) {
+export default function MetricInfoButton({ title, points, ariaLabel, pulse = true }) {
   const [open, setOpen] = useState(false)
   const [closing, setClosing] = useState(false)
   const titleId = useId()
@@ -51,9 +52,9 @@ export default function MetricInfoButton({ title, points, ariaLabel }) {
         type="button"
         onClick={handleOpen}
         aria-label={ariaLabel ?? title}
-        className="relative flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#00b4d8] text-white shadow-[0_0_0_2px_rgba(0,180,216,0.35)] transition-colors hover:bg-[#33c3e0]"
+        className="relative flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center overflow-visible rounded-full bg-[#00b4d8] text-white shadow-[0_0_0_2px_rgba(0,180,216,0.35)] transition-colors hover:bg-[#33c3e0]"
       >
-        {!open && (
+        {pulse && !open && (
           <span
             className="typology-info-icon-pulse absolute inset-0 rounded-full border-2 border-[#00b4d8]/70"
             aria-hidden="true"
@@ -62,7 +63,7 @@ export default function MetricInfoButton({ title, points, ariaLabel }) {
         <Info
           size={14}
           strokeWidth={2.5}
-          className={!open ? 'typology-info-icon-breathe relative' : 'relative'}
+          className={pulse && !open ? 'typology-info-icon-breathe relative' : 'relative'}
         />
       </button>
 

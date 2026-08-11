@@ -32,6 +32,8 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
   const [sdnaMissing, setSdnaMissing] = useState(false)
   const abortRef = useRef(null)
   const jobIdRef = useRef(null)
+  /** Skip one scale-reload after applyScenarioPayload (layers already match scaleMeters). */
+  const skipScaleReloadRef = useRef(false)
 
   useEffect(() => {
     let cancelled = false
@@ -65,6 +67,7 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
   }, [])
 
   const applyScenarioPayload = useCallback((payload, nextJobId) => {
+    skipScaleReloadRef.current = true
     setScenarioCloseness(payload.closeness)
     setScenarioBetweenness(payload.betweenness)
     setSummary(payload.summary ?? null)
@@ -75,17 +78,34 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     setStatus(WHAT_IF_STATUS.scenario)
   }, [])
 
-  // Reload closeness/betweenness when scale changes for an active worker job
+  // Reload closeness/betweenness when scale changes for an active worker job.
+  // Clear immediately so stale NQPDA/BtA fields are never styled with the new radius.
   useEffect(() => {
     if (!activeScenario || !jobId) return
+    if (skipScaleReloadRef.current) {
+      skipScaleReloadRef.current = false
+      return
+    }
     let cancelled = false
+    setScenarioCloseness(null)
+    setScenarioBetweenness(null)
+    setStatus(WHAT_IF_STATUS.loading)
     Promise.all([
       fetchJson(whatIfWorkerArtifactUrl(jobId, `closeness_${scaleMeters}.geojson`)),
       fetchJson(whatIfWorkerArtifactUrl(jobId, `betweenness_${scaleMeters}.geojson`)),
     ]).then(([c, b]) => {
       if (cancelled) return
-      if (c) setScenarioCloseness(c)
-      if (b) setScenarioBetweenness(b)
+      if (c && b) {
+        setScenarioCloseness(c)
+        setScenarioBetweenness(b)
+        setError(null)
+        setStatus(WHAT_IF_STATUS.scenario)
+        return
+      }
+      setScenarioCloseness(null)
+      setScenarioBetweenness(null)
+      setError(`Failed to load ${scaleMeters}m scenario layers from the worker`)
+      setStatus(WHAT_IF_STATUS.error)
     })
     return () => {
       cancelled = true

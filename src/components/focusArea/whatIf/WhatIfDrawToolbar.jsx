@@ -55,23 +55,10 @@ export default function WhatIfDrawToolbar({
   return (
     <div className="pointer-events-auto absolute bottom-4 left-1/2 z-[1000] flex -translate-x-1/2 flex-col items-center gap-2">
       {statusText ? (
-        <div className="flex max-w-[min(92vw,520px)] items-center gap-2 rounded-md border border-surface-600 bg-surface-900/95 px-3 py-1 text-[11px] text-surface-200 shadow-card backdrop-blur">
-          <p className="min-w-0 flex-1">{statusText}</p>
-          <MetricInfoButton
-            title="What-if drawing tools"
-            ariaLabel="What-if drawing help"
-            points={TOOLBAR_INFO}
-          />
+        <div className="max-w-[min(92vw,520px)] rounded-md border border-surface-600 bg-surface-900/95 px-3 py-1 text-[11px] text-surface-200 shadow-card backdrop-blur">
+          <p className="min-w-0">{statusText}</p>
         </div>
-      ) : (
-        <div className="flex items-center">
-          <MetricInfoButton
-            title="What-if drawing tools"
-            ariaLabel="What-if drawing help"
-            points={TOOLBAR_INFO}
-          />
-        </div>
-      )}
+      ) : null}
       <div className="flex items-center gap-1.5 rounded-xl border border-surface-600 bg-surface-900/95 p-1.5 shadow-card backdrop-blur">
         <ToolBtn
           active={tool === WHAT_IF_DRAW_TOOLS.pan}
@@ -119,6 +106,15 @@ export default function WhatIfDrawToolbar({
         <ToolBtn active={false} onClick={onReset} label="Reset all drawing">
           <RotateCcw size={18} />
         </ToolBtn>
+        <div className="mx-1 h-6 w-px bg-surface-600" />
+        <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
+          <MetricInfoButton
+            title="What-if Drawing Tools"
+            ariaLabel="What-if drawing help"
+            points={TOOLBAR_INFO}
+            pulse={false}
+          />
+        </div>
       </div>
     </div>
   )

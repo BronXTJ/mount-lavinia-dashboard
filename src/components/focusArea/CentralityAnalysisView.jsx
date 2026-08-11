@@ -194,6 +194,9 @@ export default function CentralityAnalysisView() {
     if (scenarioApi.sdnaMissing) {
       return 'Worker reachable but sDNA missing — install to C:\\Program Files (x86)\\sDNA'
     }
+    if (scenarioApi.status === WHAT_IF_STATUS.loading) {
+      return 'Loading scenario layers for this scale…'
+    }
     if (scenarioApi.status === WHAT_IF_STATUS.computing) {
       return 'Computing sDNA on local worker…'
     }
@@ -237,7 +240,7 @@ export default function CentralityAnalysisView() {
   const runLabel = scenarioApi.workerOnline ? 'Run sDNA (local)' : 'Export proposed links'
 
   const gridClass = isWhatIf
-    ? 'grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[20%_60%_20%] lg:overflow-hidden'
+    ? 'grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[24%_52%_24%] lg:overflow-hidden'
     : 'grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[30%_40%_30%] lg:overflow-hidden'
 
   const computing =
@@ -250,7 +253,7 @@ export default function CentralityAnalysisView() {
       <div
         className={
           isWhatIf
-            ? 'order-2 min-h-0 overflow-hidden lg:order-1'
+            ? 'order-2 min-h-0 overflow-y-auto lg:order-1'
             : 'order-2 overflow-y-auto p-4 lg:order-1'
         }
       >
@@ -318,7 +321,7 @@ export default function CentralityAnalysisView() {
       <div
         className={
           isWhatIf
-            ? 'order-3 min-h-0 overflow-hidden'
+            ? 'order-3 min-h-0 overflow-y-auto'
             : 'order-3 overflow-y-auto p-4'
         }
       >
