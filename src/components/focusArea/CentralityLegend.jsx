@@ -51,8 +51,8 @@ export default function CentralityLegend({
     <div
       className={[
         'pointer-events-none absolute left-3 z-[1000] rounded-lg border border-surface-700 bg-surface-900/95 p-4 shadow-card backdrop-blur',
-        /* ~5% wider than prior w-56 / w-72 so class labels stay readable */
-        whatIfMode ? 'bottom-32 w-[14.7rem]' : 'bottom-6 w-[18.9rem]',
+        /* ~15% wider than prior so Very Low…Very High labels stay readable */
+        whatIfMode ? 'bottom-32 w-[16.9rem]' : 'bottom-6 w-[21.7rem]',
       ].join(' ')}
     >
       <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-surface-200">Legend</p>
