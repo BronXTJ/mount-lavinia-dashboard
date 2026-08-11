@@ -28,8 +28,9 @@ function ToolBtn({ active, onClick, label, children, accent, disabled }) {
 }
 
 const TOOLBAR_INFO = [
-  'Pencil: click snap nodes to draw a proposed link; double-click, ✓, or Esc to finish at the last point.',
-  'SNAP: click near a blue node to stick to it. FREE: place vertices exactly where you click.',
+  'Pencil: click magenta snap nodes on the network to draw a proposed link; double-click, ✓, or Esc to finish.',
+  'SNAP: stick to network nodes. FREE: place vertices exactly where you click.',
+  'Snap nodes appear only while the pencil tool is active, and only on the analysis road network.',
   'Eraser: click the tool, then click one drawn link to delete only that link (not all).',
   'Undo / Redo: toolbar or Ctrl+Z / Ctrl+Y.',
   '▶ runs local sDNA when npm run what-if:worker is online.',

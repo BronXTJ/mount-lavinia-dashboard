@@ -12,7 +12,9 @@ export const WHAT_IF_DRAW_TOOLS = {
 }
 
 export const WHAT_IF_PROPOSED_COLOR = '#f97316'
-export const WHAT_IF_SNAP_COLOR = '#38bdf8'
+/** Snap UI chrome — off both centrality ramps; readable on light + dark basemaps. */
+export const WHAT_IF_SNAP_COLOR = '#d946ef'
+export const WHAT_IF_SNAP_STROKE = '#ffffff'
 export const WHAT_IF_RUBBER_COLOR = '#fb923c'
 /** Soft outer halo so newly added (post-sDNA) segments stay identifiable. */
 export const WHAT_IF_NEW_GLOW_COLOR = '#ffffff'
@@ -48,7 +50,7 @@ export const DEFAULT_WHAT_IF_VISIBLE = {
 
 export const WHAT_IF_FAB_EXTRA_LAYERS = [
   { id: 'proposedLinks', label: 'Proposed Links', dot: WHAT_IF_PROPOSED_COLOR },
-  { id: 'snapNodes', label: 'Snap Nodes', dot: WHAT_IF_SNAP_COLOR },
+  { id: 'snapNodes', label: 'Snap Nodes (draw mode)', dot: WHAT_IF_SNAP_COLOR },
 ]
 
 export const WHAT_IF_STATUS = {

@@ -1,13 +1,19 @@
-"""Build snap_nodes.geojson from centrality network endpoints + cul-de-sac junctions."""
+"""Build snap_nodes.geojson from the centrality (sDNA) network only.
+
+Each link endpoint is a snap target. Degree-1 ends are labelled culdesac;
+degree ≥ 2 ends are junctions. No Network Form / orphan points are included,
+so every snap sits on the same graph used for What-if drawing and analysis.
+"""
 from __future__ import annotations
 
 import json
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 CENT = ROOT / "public/data/urban-morpho/centrality/betweenness_500.geojson"
-JUNCTIONS = ROOT / "public/data/network-form"
 OUT = ROOT / "public/data/urban-morpho/what-if/snap_nodes.geojson"
+NDIGITS = 5
 
 
 def endpoints_from_line(coords):
@@ -16,9 +22,9 @@ def endpoints_from_line(coords):
     return [coords[0][:2], coords[-1][:2]]
 
 
-def collect_from_centrality(path: Path) -> list[tuple[float, float]]:
+def collect_endpoint_keys(path: Path) -> list[tuple[float, float]]:
     data = json.loads(path.read_text(encoding="utf-8"))
-    pts = []
+    pts: list[tuple[float, float]] = []
     for f in data["features"]:
         g = f["geometry"]
         if g["type"] == "LineString":
@@ -29,59 +35,31 @@ def collect_from_centrality(path: Path) -> list[tuple[float, float]]:
     return pts
 
 
-def collect_culdesacs() -> list[tuple[float, float, dict]]:
-    """Prefer network-form geojson if present."""
-    candidates = list((ROOT / "public/data").rglob("*culde*.geojson"))
-    candidates += list((ROOT / "public/data").rglob("*junction*.geojson"))
-    out = []
-    for path in candidates:
-        try:
-            data = json.loads(path.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-        for f in data.get("features") or []:
-            props = f.get("properties") or {}
-            jtype = str(props.get("jtype") or props.get("type") or props.get("junction_type") or "").lower()
-            g = f.get("geometry") or {}
-            if g.get("type") == "Point":
-                coords = g["coordinates"][:2]
-                role = "culdesac" if "cul" in jtype or "dead" in jtype else "junction"
-                out.append((float(coords[0]), float(coords[1]), {"role": role, "source": path.name}))
-    return out
+def main() -> None:
+    if not CENT.is_file():
+        raise SystemExit(f"missing centrality network: {CENT}")
 
-
-def dedupe(points, ndigits=5):
-    seen = {}
-    for item in points:
-        if len(item) == 2:
-            x, y = item
-            meta = {"role": "endpoint"}
-        else:
-            x, y, meta = item
-        key = (round(x, ndigits), round(y, ndigits))
-        # Prefer culdesac over endpoint
-        if key not in seen or meta.get("role") == "culdesac":
-            seen[key] = meta
-    return seen
-
-
-def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    pts = [(x, y, {"role": "endpoint"}) for x, y in collect_from_centrality(CENT)]
-    pts += collect_culdesacs()
-    deduped = dedupe(pts)
+    raw = collect_endpoint_keys(CENT)
+    keys = [(round(x, NDIGITS), round(y, NDIGITS)) for x, y in raw]
+    degree = Counter(keys)
+
     features = []
-    for i, ((x, y), meta) in enumerate(deduped.items()):
+    for i, ((x, y), deg) in enumerate(sorted(degree.items())):
+        role = "culdesac" if deg == 1 else "junction"
         features.append(
             {
                 "type": "Feature",
-                "properties": {"id": i, "role": meta.get("role", "endpoint")},
+                "properties": {"id": i, "role": role, "degree": deg},
                 "geometry": {"type": "Point", "coordinates": [x, y]},
             }
         )
+
     fc = {"type": "FeatureCollection", "features": features}
     OUT.write_text(json.dumps(fc), encoding="utf-8")
-    print(f"wrote {OUT} n={len(features)}")
+    n_cul = sum(1 for f in features if f["properties"]["role"] == "culdesac")
+    n_junc = len(features) - n_cul
+    print(f"wrote {OUT} n={len(features)} culdesac={n_cul} junction={n_junc}")
 
 
 if __name__ == "__main__":

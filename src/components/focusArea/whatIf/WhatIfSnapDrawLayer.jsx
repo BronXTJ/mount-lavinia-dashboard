@@ -6,6 +6,7 @@ import {
   WHAT_IF_PROPOSED_COLOR,
   WHAT_IF_SNAP_COLOR,
   WHAT_IF_SNAP_PX,
+  WHAT_IF_SNAP_STROKE,
 } from '../../../constants/centralityWhatIf.js'
 
 function distPointToSegPx(map, latlng, aLngLat, bLngLat) {
@@ -204,7 +205,8 @@ export default function WhatIfSnapDrawLayer({
         setSnapPreview={setSnapPreview}
       />
 
-      {showSnapNodes && snapNodes?.features?.length
+      {/* Snap nodes: only while drawing (pencil) — tool chrome, not a permanent map layer */}
+      {showSnapNodes && tool === WHAT_IF_DRAW_TOOLS.pencil && snapNodes?.features?.length
         ? snapNodes.features
             .filter((f) => {
               const role = f.properties?.role
@@ -221,13 +223,13 @@ export default function WhatIfSnapDrawLayer({
                 <CircleMarker
                   key={`snap-${f.properties?.id ?? `${lng}-${lat}`}`}
                   center={[lat, lng]}
-                  radius={previewHit ? 7 : cul ? 4 : 3}
+                  radius={previewHit ? 6 : cul ? 4 : 3}
                   pathOptions={{
-                    color: WHAT_IF_SNAP_COLOR,
+                    color: WHAT_IF_SNAP_STROKE,
                     fillColor: WHAT_IF_SNAP_COLOR,
-                    fillOpacity: previewHit ? 1 : cul ? 0.9 : 0.55,
-                    weight: previewHit ? 2 : 1,
-                    opacity: 0.85,
+                    fillOpacity: previewHit ? 1 : cul ? 0.95 : 0.85,
+                    weight: previewHit ? 2.5 : 2,
+                    opacity: 1,
                   }}
                 />
               )
@@ -242,8 +244,8 @@ export default function WhatIfSnapDrawLayer({
           pathOptions={{
             color: WHAT_IF_SNAP_COLOR,
             fill: false,
-            weight: 1,
-            opacity: 0.45,
+            weight: 1.5,
+            opacity: 0.55,
             dashArray: '2 4',
           }}
         />
