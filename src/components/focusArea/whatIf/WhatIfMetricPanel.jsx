@@ -31,19 +31,32 @@ function emptyListHint(status, linkCount, workerOnline) {
   return 'Finish a link with the local worker to see Δ rankings.'
 }
 
-function TopList({ title, rows, onSelect, emptyHint }) {
+function TopList({ title, rows, onSelect, emptyHint, tone = 'gain' }) {
+  const headerClass =
+    tone === 'loss'
+      ? 'border-l-4 border-l-rose-500 bg-rose-500/10 text-rose-300'
+      : 'border-l-4 border-l-emerald-500 bg-emerald-500/10 text-emerald-300'
+
+  const header = (
+    <h3
+      className={`shrink-0 rounded-md px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wide ${headerClass}`}
+    >
+      {title}
+    </h3>
+  )
+
   if (!rows?.length) {
     return (
       <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-        <h3 className="shrink-0 text-xs font-semibold text-surface-300">{title}</h3>
+        {header}
         <p className="mt-1 text-[11px] text-surface-500">{emptyHint}</p>
       </div>
     )
   }
   return (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-      <h3 className="shrink-0 text-xs font-semibold text-surface-300">{title}</h3>
-      <ul className="mt-1 min-h-0 flex-1 space-y-1 overflow-y-auto overflow-x-hidden pr-0.5">
+      {header}
+      <ul className="mt-1.5 min-h-0 flex-1 space-y-1 overflow-y-auto overflow-x-hidden pr-0.5">
         {rows.slice(0, 12).map((row) => (
           <li key={`${title}-${row.ID}`} className="min-w-0">
             <button
@@ -175,12 +188,14 @@ export default function WhatIfMetricPanel({
       <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-3 overflow-hidden">
         <TopList
           title="Top Gainers"
+          tone="gain"
           rows={block?.top_gainers}
           onSelect={onSegmentClick}
           emptyHint={listHint}
         />
         <TopList
           title="Top Losers"
+          tone="loss"
           rows={block?.top_losers}
           onSelect={onSegmentClick}
           emptyHint={listHint}
