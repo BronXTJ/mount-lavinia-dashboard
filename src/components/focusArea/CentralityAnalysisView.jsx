@@ -25,6 +25,8 @@ function downloadProposedGeoJson(geojson) {
   URL.revokeObjectURL(url)
 }
 
+const CENTRALITY_METRIC_IDS = ['closeness', 'betweenness']
+
 /** Sub-section 1 — centrality analysis; owns Baseline vs What-if layout. */
 export default function CentralityAnalysisView() {
   const [mode, setMode] = useState(WHAT_IF_MODES.baseline)
@@ -76,11 +78,17 @@ export default function CentralityAnalysisView() {
   }, [scenarioApi.activeScenario, scenarioApi.scenarioCloseness, closeness, linkCount])
 
   function handleToggleLayer(id, checked) {
-    if (isWhatIf) {
-      setWhatIfVisible((prev) => ({ ...prev, [id]: checked }))
-    } else {
-      setVisibleLayers((prev) => ({ ...prev, [id]: checked }))
+    const apply = (prev) => {
+      const next = { ...prev, [id]: checked }
+      if (checked && CENTRALITY_METRIC_IDS.includes(id)) {
+        for (const m of CENTRALITY_METRIC_IDS) {
+          if (m !== id) next[m] = false
+        }
+      }
+      return next
     }
+    if (isWhatIf) setWhatIfVisible(apply)
+    else setVisibleLayers(apply)
   }
 
   const maybeRecompute = useCallback(
