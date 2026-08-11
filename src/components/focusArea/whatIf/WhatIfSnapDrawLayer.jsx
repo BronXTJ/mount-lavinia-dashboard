@@ -3,10 +3,9 @@ import { CircleMarker, GeoJSON, Polyline, useMap, useMapEvents } from 'react-lea
 import {
   WHAT_IF_DRAW_TOOLS,
   WHAT_IF_NEW_GLOW_COLOR,
-  WHAT_IF_PROPOSED_COLOR,
-  WHAT_IF_RUBBER_COLOR,
   WHAT_IF_SNAP_COLOR,
 } from '../../../constants/centralityWhatIf.js'
+import { CLOSENESS_RAMP } from '../../../constants/centrality.js'
 
 function DrawInteraction({
   tool,
@@ -40,7 +39,12 @@ function DrawInteraction({
 
   useEffect(() => {
     function onKey(e) {
-      if (e.key === 'Escape') cancelDraft()
+      if (e.key === 'Escape') {
+        // End the current stroke at the last vertex; only clear if too short to finish
+        if (draftCoords.length >= 2) finishLink()
+        else cancelDraft()
+        return
+      }
       if (e.key === 'Enter' && draftCoords.length >= 2) finishLink()
       const mod = e.ctrlKey || e.metaKey
       if (mod && e.key.toLowerCase() === 'z' && !e.shiftKey) {
@@ -100,6 +104,8 @@ export default function WhatIfSnapDrawLayer({
   onRedo,
   /** When true, finished links are shown via ramp+glow layer — only drafts stay dotted. */
   hideFinishedProposed = false,
+  /** Legend-ramp color for finished links before sDNA values exist (default: closeness mid). */
+  pendingLineColor = CLOSENESS_RAMP.stops[2],
 }) {
   const rubberPositions =
     draftCoords.length && cursorLatLng
@@ -159,7 +165,7 @@ export default function WhatIfSnapDrawLayer({
             })
         : null}
 
-      {/* Finished proposals (pre-sDNA): solid orange + soft glow — never dotted */}
+      {/* Finished proposals (pre-sDNA): solid legend-ramp color + glow — never orange/dotted */}
       {showProposed && finishedFc ? (
         <>
           <GeoJSON
@@ -175,10 +181,10 @@ export default function WhatIfSnapDrawLayer({
             })}
           />
           <GeoJSON
-            key={`proposed-finished-${finishedFc.features.length}`}
+            key={`proposed-finished-${finishedFc.features.length}-${pendingLineColor}`}
             data={finishedFc}
             style={() => ({
-              color: WHAT_IF_PROPOSED_COLOR,
+              color: pendingLineColor,
               weight: 4.5,
               opacity: 1,
               lineCap: 'round',
@@ -188,13 +194,13 @@ export default function WhatIfSnapDrawLayer({
         </>
       ) : null}
 
-      {/* In-progress draft only: dotted */}
+      {/* In-progress draft only: dotted (legend-family colour, not orange) */}
       {showProposed && draftFc ? (
         <GeoJSON
           key={`proposed-draft-${draftFc.features.length}-${draftCoords.length}`}
           data={draftFc}
           style={() => ({
-            color: WHAT_IF_RUBBER_COLOR,
+            color: pendingLineColor,
             weight: 3,
             dashArray: '8 6',
             opacity: 0.95,
@@ -206,7 +212,7 @@ export default function WhatIfSnapDrawLayer({
         <Polyline
           positions={rubberPositions}
           pathOptions={{
-            color: WHAT_IF_RUBBER_COLOR,
+            color: pendingLineColor,
             weight: 2,
             dashArray: '4 6',
             opacity: 0.85,

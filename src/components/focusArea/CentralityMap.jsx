@@ -8,6 +8,8 @@ import {
   CENTRALITY_MAP_CENTER,
   CENTRALITY_MAP_ZOOM,
   CENTRALITY_SCALES,
+  CLOSENESS_RAMP,
+  BETWEENNESS_RAMP,
   boundaryGeoUrl,
   boundaryLayerId,
   scaleLabel,
@@ -475,6 +477,13 @@ export default function CentralityMap({
               onUndo={whatIf.onUndo}
               onRedo={whatIf.onRedo}
               hideFinishedProposed={Boolean(whatIf.hideFinishedProposed)}
+              pendingLineColor={
+                showCloseness
+                  ? CLOSENESS_RAMP.stops[2]
+                  : showBetweenness
+                    ? BETWEENNESS_RAMP.stops[2]
+                    : CLOSENESS_RAMP.stops[2]
+              }
             />
           ) : null}
         </MapContainer>

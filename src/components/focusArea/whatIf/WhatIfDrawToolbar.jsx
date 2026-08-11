@@ -28,11 +28,12 @@ function ToolBtn({ active, onClick, label, children, accent, disabled }) {
 }
 
 const TOOLBAR_INFO = [
-  'Pencil: click snap nodes to draw a proposed link; double-click or ✓ to finish.',
+  'Pencil: click snap nodes to draw a proposed link; double-click, ✓, or Esc to finish at the last point.',
+  'Esc with fewer than 2 points cancels the current draft only.',
   'SNAP pulls vertices to cul-de-sac / junction nodes; FREE places freehand points.',
-  'Undo / Redo step through drawing changes (also Ctrl+Z / Ctrl+Y).',
+  'Undo / Redo: toolbar buttons or Ctrl+Z / Ctrl+Y (Ctrl+Shift+Z also redo).',
   '▶ runs local sDNA when npm run what-if:worker is online; otherwise it exports GeoJSON.',
-  'Δ panels fill only after sDNA finishes — not from drawing alone.',
+  'After sDNA, new links use the legend colour ramp + glow (not orange).',
 ]
 
 /** Floating draw toolbar for Centrality What-if mode. */
