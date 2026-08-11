@@ -14,6 +14,16 @@ import CentralityMap from './CentralityMap.jsx'
 import ClosenessPanel from './ClosenessPanel.jsx'
 import WhatIfMetricPanel from './whatIf/WhatIfMetricPanel.jsx'
 
+function downloadProposedGeoJson(geojson) {
+  const blob = new Blob([JSON.stringify(geojson, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'proposed_links.geojson'
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 /** Sub-section 1 — centrality analysis; owns Baseline vs What-if layout. */
 export default function CentralityAnalysisView() {
   const [mode, setMode] = useState(WHAT_IF_MODES.baseline)
@@ -53,21 +63,24 @@ export default function CentralityAnalysisView() {
     [scenarioApi, drawing],
   )
 
-  const handleRun = useCallback(() => {
+  const handleFinishLink = useCallback(() => {
+    const geo = drawing.finishLink()
+    if (geo?.features?.length) {
+      void scenarioApi.runComputeJob(geo)
+    }
+  }, [drawing, scenarioApi])
+
+  const handleRun = useCallback(async () => {
     if (!drawing.hasLinks) {
       scenarioApi.markNeedsCompute()
       return
     }
-    const blob = new Blob([JSON.stringify(drawing.exportProposedGeoJson(), null, 2)], {
-      type: 'application/json',
-    })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'proposed_links.geojson'
-    a.click()
-    URL.revokeObjectURL(url)
-    scenarioApi.markNeedsCompute()
+    const geo = drawing.exportProposedGeoJson()
+    const result = await scenarioApi.runComputeJob(geo)
+    if (result?.offline) {
+      downloadProposedGeoJson(geo)
+      scenarioApi.markNeedsCompute()
+    }
   }, [drawing, scenarioApi])
 
   const handleReset = useCallback(() => {
@@ -97,24 +110,54 @@ export default function CentralityAnalysisView() {
 
   const statusText = useMemo(() => {
     if (!isWhatIf) return null
-    if (scenarioApi.status === WHAT_IF_STATUS.needsCompute) {
-      return 'Links exported — run scripts/what-if/run_sdna_scenario.py, then refresh'
+    if (scenarioApi.status === WHAT_IF_STATUS.computing) {
+      return 'Computing sDNA on local worker…'
+    }
+    if (scenarioApi.status === WHAT_IF_STATUS.error) {
+      return scenarioApi.error || 'sDNA error — check worker log'
     }
     if (scenarioApi.status === WHAT_IF_STATUS.scenario) {
-      return 'Showing local sDNA scenario results'
+      return scenarioApi.workerOnline
+        ? 'Showing sDNA scenario results (local worker)'
+        : 'Showing sDNA scenario results'
+    }
+    if (scenarioApi.status === WHAT_IF_STATUS.needsCompute) {
+      return scenarioApi.workerOnline
+        ? 'Press ▶ to run sDNA on the local worker'
+        : 'Worker offline — ▶ exports GeoJSON for offline sDNA'
     }
     if (drawing.tool === 'pencil') {
-      return 'Click snap nodes · double-click or ✓ to finish link · Esc cancels'
+      return scenarioApi.workerOnline
+        ? 'Click snap nodes · finish link to auto-run sDNA'
+        : 'Click snap nodes · finish link · start npm run what-if:worker for auto sDNA'
     }
     if (!drawing.hasLinks) {
-      return 'Draw proposed links with the pencil, then ▶ to export for sDNA'
+      return scenarioApi.workerOnline
+        ? 'Draw proposed links — finish a link to compute'
+        : 'Draw links · start what-if:worker for live sDNA (or ▶ to export)'
     }
-    return 'Press ▶ to export proposed_links.geojson for local sDNA'
-  }, [isWhatIf, scenarioApi.status, drawing.tool, drawing.hasLinks])
+    return scenarioApi.workerOnline
+      ? 'Press ▶ to re-run sDNA'
+      : 'Worker offline — ▶ exports GeoJSON'
+  }, [
+    isWhatIf,
+    scenarioApi.status,
+    scenarioApi.error,
+    scenarioApi.workerOnline,
+    drawing.tool,
+    drawing.hasLinks,
+  ])
+
+  const runLabel = scenarioApi.workerOnline ? 'Run sDNA (local)' : 'Export proposed links'
 
   const gridClass = isWhatIf
     ? 'grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[20%_60%_20%] lg:overflow-hidden'
     : 'grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[30%_40%_30%] lg:overflow-hidden'
+
+  const computing =
+    loading ||
+    scenarioApi.status === WHAT_IF_STATUS.loading ||
+    scenarioApi.status === WHAT_IF_STATUS.computing
 
   return (
     <div className={gridClass}>
@@ -132,6 +175,7 @@ export default function CentralityAnalysisView() {
             status={scenarioApi.status}
             error={scenarioApi.error}
             deltaBlock={scenarioApi.deltaBlock}
+            workerOnline={scenarioApi.workerOnline}
             onSegmentClick={setSelectedSegmentId}
           />
         ) : (
@@ -158,7 +202,7 @@ export default function CentralityAnalysisView() {
             betweenness={mapBetweenness}
             closenessStats={mapClosenessStats}
             betweennessStats={mapBetweennessStats}
-            loading={loading || scenarioApi.status === WHAT_IF_STATUS.loading}
+            loading={computing}
             namedRoads={namedRoads}
             selectedSegmentId={selectedSegmentId}
             mode={mode}
@@ -167,6 +211,8 @@ export default function CentralityAnalysisView() {
               drawing,
               snapNodes: scenarioApi.snapNodes,
               statusText,
+              runLabel,
+              onFinishLink: handleFinishLink,
               onRun: handleRun,
               onReset: handleReset,
               showProposed: whatIfVisible.proposedLinks,
@@ -190,6 +236,7 @@ export default function CentralityAnalysisView() {
             status={scenarioApi.status}
             error={scenarioApi.error}
             deltaBlock={scenarioApi.deltaBlock}
+            workerOnline={scenarioApi.workerOnline}
             onSegmentClick={setSelectedSegmentId}
           />
         ) : (

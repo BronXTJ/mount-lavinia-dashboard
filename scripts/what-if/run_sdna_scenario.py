@@ -260,14 +260,10 @@ def shp_to_public_geojson(integral_shp: Path, out_dir: Path, baseline_dir: Path)
     return summary
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--links", required=True, type=Path)
-    ap.add_argument("--out-dir", required=True, type=Path)
-    args = ap.parse_args()
-    # Resolve before sDNA chdirs into its install folder
-    links_path = args.links.resolve()
-    out_dir = args.out_dir.resolve()
+def run_scenario(links: Path, out_dir: Path) -> dict:
+    """Merge proposed links, run sDNA Integral, write GeoJSON + summary to out_dir."""
+    links_path = links.resolve()
+    out_dir = out_dir.resolve()
 
     if not PREPARED.exists():
         raise SystemExit(f"missing prepared network: {PREPARED}")
@@ -330,6 +326,16 @@ def main():
     summary = shp_to_public_geojson(integral, out_dir, baseline)
     print("wrote scenario to", out_dir)
     print(json.dumps({k: v.get("n_changed") for k, v in summary["metrics"].items()}, indent=2))
+    return summary
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--links", required=True, type=Path)
+    ap.add_argument("--out-dir", required=True, type=Path)
+    args = ap.parse_args()
+    # Resolve before sDNA chdirs into its install folder
+    run_scenario(args.links, args.out_dir)
 
 
 if __name__ == "__main__":

@@ -60,14 +60,21 @@ export function useWhatIfDrawing(snapNodes) {
   )
 
   const finishLink = useCallback(() => {
-    setDraftCoords((prev) => {
-      if (prev.length < 2) return prev
-      const id = nextId
-      setNextId((n) => n + 1)
-      setLinks((linksPrev) => [...linksPrev, { id, coordinates: prev }])
-      return []
-    })
-  }, [nextId])
+    if (draftCoords.length < 2) return null
+    const id = nextId
+    const nextLinks = [...links, { id, coordinates: draftCoords }]
+    setNextId((n) => n + 1)
+    setLinks(nextLinks)
+    setDraftCoords([])
+    return {
+      type: 'FeatureCollection',
+      features: nextLinks.map((link) => ({
+        type: 'Feature',
+        properties: { id: link.id, name: `Proposed ${link.id}` },
+        geometry: { type: 'LineString', coordinates: link.coordinates },
+      })),
+    }
+  }, [draftCoords, links, nextId])
 
   const undo = useCallback(() => {
     setDraftCoords((prev) => {

@@ -442,7 +442,7 @@ export default function CentralityMap({
               draftCoords={whatIf.drawing.draftCoords}
               cursorLatLng={whatIf.drawing.cursorLatLng}
               addVertex={whatIf.drawing.addVertex}
-              finishLink={whatIf.drawing.finishLink}
+              finishLink={whatIf.onFinishLink || whatIf.drawing.finishLink}
               cancelDraft={whatIf.drawing.cancelDraft}
               setCursorLatLng={whatIf.drawing.setCursorLatLng}
               snapLatLng={whatIf.drawing.snapLatLng}
@@ -466,15 +466,17 @@ export default function CentralityMap({
             onSnapToggle={whatIf.drawing.setSnapEnabled}
             onUndo={whatIf.drawing.undo}
             onClear={whatIf.drawing.clearLinks}
-            onFinishLink={whatIf.drawing.finishLink}
+            onFinishLink={whatIf.onFinishLink || whatIf.drawing.finishLink}
             onRun={whatIf.onRun}
             onReset={whatIf.onReset}
             canFinish={whatIf.drawing.draftCoords.length >= 2}
+            runLabel={whatIf.runLabel}
             statusText={whatIf.statusText}
           />
         ) : null}
 
         <CentralityLegend
+          whatIfMode={isWhatIf}
           showCloseness={showCloseness}
           showBetweenness={showBetweenness}
           closenessStats={closenessStats}
