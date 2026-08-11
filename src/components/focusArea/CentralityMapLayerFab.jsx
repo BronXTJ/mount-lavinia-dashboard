@@ -5,6 +5,9 @@ import {
   CENTRALITY_FAB_BOUNDARY_LAYERS,
   CENTRALITY_FAB_METRIC_LAYERS,
 } from '../../constants/centrality.js'
+import { WHAT_IF_FAB_EXTRA_LAYERS } from '../../constants/centralityWhatIf.js'
+import { NETWORK_FORM_BASEMAPS } from '../../constants/basemaps.js'
+import BasemapChips from '../BasemapChips.jsx'
 import { useMapFullscreen } from '../MapFullscreenShell.jsx'
 
 function LayerRow({ layer, checked, onToggle }) {
@@ -42,7 +45,13 @@ function LayerRow({ layer, checked, onToggle }) {
  * Centrality Analysis map FAB — teal pulse + collapsible layer toggles
  * (metrics, road labels, boundaries). Matches Density/Maturation FABs.
  */
-export default function CentralityMapLayerFab({ visibleLayers, onToggle }) {
+export default function CentralityMapLayerFab({
+  visibleLayers,
+  onToggle,
+  basemapId,
+  onBasemapChange,
+  whatIfMode = false,
+}) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
   const fullscreen = useMapFullscreen()
@@ -116,6 +125,11 @@ export default function CentralityMapLayerFab({ visibleLayers, onToggle }) {
             Map Layers
           </p>
           <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
+          <BasemapChips
+            basemapId={basemapId}
+            onBasemapChange={onBasemapChange}
+            options={NETWORK_FORM_BASEMAPS}
+          />
 
           <div className="max-h-[min(70vh,560px)] overflow-y-auto overscroll-contain">
             <div className="py-1">
@@ -127,25 +141,39 @@ export default function CentralityMapLayerFab({ visibleLayers, onToggle }) {
                   onToggle={onToggle}
                 />
               ))}
+              {whatIfMode
+                ? WHAT_IF_FAB_EXTRA_LAYERS.map((layer) => (
+                    <LayerRow
+                      key={layer.id}
+                      layer={layer}
+                      checked={Boolean(visibleLayers?.[layer.id])}
+                      onToggle={onToggle}
+                    />
+                  ))
+                : null}
             </div>
 
-            <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
-            <p
-              className="px-4 pb-1 pt-2.5 text-[11px] font-bold uppercase tracking-[0.1em]"
-              style={{ color: '#94a3b8' }}
-            >
-              Boundaries
-            </p>
-            <div className="pb-1">
-              {CENTRALITY_FAB_BOUNDARY_LAYERS.map((layer) => (
-                <LayerRow
-                  key={layer.id}
-                  layer={layer}
-                  checked={Boolean(visibleLayers?.[layer.id])}
-                  onToggle={onToggle}
-                />
-              ))}
-            </div>
+            {!whatIfMode ? (
+              <>
+                <div className="mx-0 border-t" style={{ borderColor: '#2a3a4a' }} />
+                <p
+                  className="px-4 pb-1 pt-2.5 text-[11px] font-bold uppercase tracking-[0.1em]"
+                  style={{ color: '#94a3b8' }}
+                >
+                  Boundaries
+                </p>
+                <div className="pb-1">
+                  {CENTRALITY_FAB_BOUNDARY_LAYERS.map((layer) => (
+                    <LayerRow
+                      key={layer.id}
+                      layer={layer}
+                      checked={Boolean(visibleLayers?.[layer.id])}
+                      onToggle={onToggle}
+                    />
+                  ))}
+                </div>
+              </>
+            ) : null}
           </div>
         </div>
       )}

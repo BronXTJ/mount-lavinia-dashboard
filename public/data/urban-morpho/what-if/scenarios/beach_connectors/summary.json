@@ -1,0 +1,643 @@
+{
+  "radii": [
+    500,
+    2000,
+    3000,
+    5000
+  ],
+  "metrics": {
+    "closeness_500": {
+      "n_changed": 34,
+      "max_delta": 0.02502346225,
+      "min_delta": -0.0028658625699999997,
+      "top_gainers": [
+        {
+          "ID": 2118,
+          "baseline": 0.0,
+          "scenario": 0.02502346225,
+          "delta": 0.02502346225,
+          "new_link": true
+        },
+        {
+          "ID": 2117,
+          "baseline": 0.0,
+          "scenario": 0.02049786039,
+          "delta": 0.02049786039,
+          "new_link": true
+        },
+        {
+          "ID": 2119,
+          "baseline": 0.0,
+          "scenario": 0.01860168763,
+          "delta": 0.01860168763,
+          "new_link": true
+        },
+        {
+          "ID": 707,
+          "baseline": 0.00979688391,
+          "scenario": 0.02347549796,
+          "delta": 0.013678614050000001,
+          "new_link": false
+        },
+        {
+          "ID": 278,
+          "baseline": 0.03326933831,
+          "scenario": 0.04637680575,
+          "delta": 0.01310746744,
+          "new_link": false
+        }
+      ],
+      "top_losers": [
+        {
+          "ID": 1161,
+          "baseline": 0.00555521669,
+          "scenario": 0.00268935412,
+          "delta": -0.0028658625699999997,
+          "new_link": false
+        },
+        {
+          "ID": 248,
+          "baseline": 0.01435152628,
+          "scenario": 0.01188864186,
+          "delta": -0.0024628844200000003,
+          "new_link": false
+        },
+        {
+          "ID": 6,
+          "baseline": 0.01138728485,
+          "scenario": 0.0089437142,
+          "delta": -0.002443570650000001,
+          "new_link": false
+        },
+        {
+          "ID": 3,
+          "baseline": 0.0174230095,
+          "scenario": 0.01528707054,
+          "delta": -0.00213593896,
+          "new_link": false
+        },
+        {
+          "ID": 434,
+          "baseline": 0.00555552356,
+          "scenario": 0.00402151933,
+          "delta": -0.0015340042300000002,
+          "new_link": false
+        }
+      ]
+    },
+    "betweenness_500": {
+      "n_changed": 34,
+      "max_delta": 21.921407103539998,
+      "min_delta": -1.0683870315499995,
+      "top_gainers": [
+        {
+          "ID": 625,
+          "baseline": 1.02140676975,
+          "scenario": 22.94281387329,
+          "delta": 21.921407103539998,
+          "new_link": false
+        },
+        {
+          "ID": 1167,
+          "baseline": 38.31340408325,
+          "scenario": 54.92738342285,
+          "delta": 16.6139793396,
+          "new_link": false
+        },
+        {
+          "ID": 292,
+          "baseline": 2.78600120544,
+          "scenario": 18.33333206177,
+          "delta": 15.547330856330001,
+          "new_link": false
+        },
+        {
+          "ID": 2118,
+          "baseline": 0.0,
+          "scenario": 12.22725296021,
+          "delta": 12.22725296021,
+          "new_link": true
+        },
+        {
+          "ID": 1,
+          "baseline": 91.43816375732,
+          "scenario": 99.93213653564,
+          "delta": 8.49397277832,
+          "new_link": false
+        }
+      ],
+      "top_losers": [
+        {
+          "ID": 3,
+          "baseline": 5.42816352844,
+          "scenario": 4.35977649689,
+          "delta": -1.0683870315499995,
+          "new_link": false
+        },
+        {
+          "ID": 248,
+          "baseline": 3.85612940788,
+          "scenario": 2.89427876472,
+          "delta": -0.96185064316,
+          "new_link": false
+        },
+        {
+          "ID": 40,
+          "baseline": 10.27330589294,
+          "scenario": 9.87694072723,
+          "delta": -0.3963651657099998,
+          "new_link": false
+        },
+        {
+          "ID": 1161,
+          "baseline": 0.33333334327,
+          "scenario": 0.0487254113,
+          "delta": -0.28460793197,
+          "new_link": false
+        },
+        {
+          "ID": 5,
+          "baseline": 1.33333325386,
+          "scenario": 1.05767786503,
+          "delta": -0.27565538882999996,
+          "new_link": false
+        }
+      ]
+    },
+    "closeness_2000": {
+      "n_changed": 63,
+      "max_delta": 0.06751398742,
+      "min_delta": -0.0028658625699999997,
+      "top_gainers": [
+        {
+          "ID": 2119,
+          "baseline": 0.0,
+          "scenario": 0.06751398742,
+          "delta": 0.06751398742,
+          "new_link": true
+        },
+        {
+          "ID": 2118,
+          "baseline": 0.0,
+          "scenario": 0.06325379014,
+          "delta": 0.06325379014,
+          "new_link": true
+        },
+        {
+          "ID": 2117,
+          "baseline": 0.0,
+          "scenario": 0.05274801329,
+          "delta": 0.05274801329,
+          "new_link": true
+        },
+        {
+          "ID": 707,
+          "baseline": 0.00979688391,
+          "scenario": 0.05991782248,
+          "delta": 0.05012093857,
+          "new_link": false
+        },
+        {
+          "ID": 462,
+          "baseline": 0.00481019216,
+          "scenario": 0.05208712816,
+          "delta": 0.047276936000000006,
+          "new_link": false
+        }
+      ],
+      "top_losers": [
+        {
+          "ID": 1161,
+          "baseline": 0.00555521669,
+          "scenario": 0.00268935412,
+          "delta": -0.0028658625699999997,
+          "new_link": false
+        },
+        {
+          "ID": 248,
+          "baseline": 0.03028601222,
+          "scenario": 0.02782312781,
+          "delta": -0.0024628844099999977,
+          "new_link": false
+        },
+        {
+          "ID": 6,
+          "baseline": 0.02998463251,
+          "scenario": 0.02754106373,
+          "delta": -0.002443568780000002,
+          "new_link": false
+        },
+        {
+          "ID": 3,
+          "baseline": 0.03265849501,
+          "scenario": 0.03106319159,
+          "delta": -0.001595303419999996,
+          "new_link": false
+        },
+        {
+          "ID": 40,
+          "baseline": 0.03376178443,
+          "scenario": 0.03286327794,
+          "delta": -0.0008985064899999992,
+          "new_link": false
+        }
+      ]
+    },
+    "betweenness_2000": {
+      "n_changed": 51,
+      "max_delta": 301.06604003906,
+      "min_delta": -0.28460793197,
+      "top_gainers": [
+        {
+          "ID": 1167,
+          "baseline": 111.2868347168,
+          "scenario": 412.35287475586,
+          "delta": 301.06604003906,
+          "new_link": false
+        },
+        {
+          "ID": 2118,
+          "baseline": 0.0,
+          "scenario": 265.12927246094,
+          "delta": 265.12927246094,
+          "new_link": true
+        },
+        {
+          "ID": 278,
+          "baseline": 24.90566825867,
+          "scenario": 286.73153686523,
+          "delta": 261.82586860656,
+          "new_link": false
+        },
+        {
+          "ID": 1,
+          "baseline": 188.87873840332,
+          "scenario": 417.15042114258,
+          "delta": 228.27168273926,
+          "new_link": false
+        },
+        {
+          "ID": 604,
+          "baseline": 274.00900268555,
+          "scenario": 431.25451660156,
+          "delta": 157.24551391601,
+          "new_link": false
+        }
+      ],
+      "top_losers": [
+        {
+          "ID": 1161,
+          "baseline": 0.33333334327,
+          "scenario": 0.0487254113,
+          "delta": -0.28460793197,
+          "new_link": false
+        },
+        {
+          "ID": 226,
+          "baseline": 4.11589241028,
+          "scenario": 4.11589288712,
+          "delta": 4.76840000374068e-07,
+          "new_link": false
+        },
+        {
+          "ID": 227,
+          "baseline": 10.33333206177,
+          "scenario": 10.33333301544,
+          "delta": 9.536699998591303e-07,
+          "new_link": false
+        },
+        {
+          "ID": 94,
+          "baseline": 0.33333334327,
+          "scenario": 0.35996249318,
+          "delta": 0.026629149909999983,
+          "new_link": false
+        },
+        {
+          "ID": 2115,
+          "baseline": 0.0,
+          "scenario": 0.32869455218,
+          "delta": 0.32869455218,
+          "new_link": true
+        }
+      ]
+    },
+    "closeness_3000": {
+      "n_changed": 67,
+      "max_delta": 0.07110930979,
+      "min_delta": -0.0028658625699999997,
+      "top_gainers": [
+        {
+          "ID": 2119,
+          "baseline": 0.0,
+          "scenario": 0.07110930979,
+          "delta": 0.07110930979,
+          "new_link": true
+        },
+        {
+          "ID": 2118,
+          "baseline": 0.0,
+          "scenario": 0.06619390845,
+          "delta": 0.06619390845,
+          "new_link": true
+        },
+        {
+          "ID": 2117,
+          "baseline": 0.0,
+          "scenario": 0.05711494386,
+          "delta": 0.05711494386,
+          "new_link": true
+        },
+        {
+          "ID": 707,
+          "baseline": 0.00979688391,
+          "scenario": 0.06391774863,
+          "delta": 0.054120864719999995,
+          "new_link": false
+        },
+        {
+          "ID": 462,
+          "baseline": 0.00481019216,
+          "scenario": 0.05640561879,
+          "delta": 0.05159542663,
+          "new_link": false
+        }
+      ],
+      "top_losers": [
+        {
+          "ID": 1161,
+          "baseline": 0.00555521669,
+          "scenario": 0.00268935412,
+          "delta": -0.0028658625699999997,
+          "new_link": false
+        },
+        {
+          "ID": 248,
+          "baseline": 0.03028601222,
+          "scenario": 0.02782312781,
+          "delta": -0.0024628844099999977,
+          "new_link": false
+        },
+        {
+          "ID": 6,
+          "baseline": 0.02998463251,
+          "scenario": 0.02754106373,
+          "delta": -0.002443568780000002,
+          "new_link": false
+        },
+        {
+          "ID": 3,
+          "baseline": 0.03265849501,
+          "scenario": 0.03106319159,
+          "delta": -0.001595303419999996,
+          "new_link": false
+        },
+        {
+          "ID": 40,
+          "baseline": 0.03376178443,
+          "scenario": 0.03286327794,
+          "delta": -0.0008985064899999992,
+          "new_link": false
+        }
+      ]
+    },
+    "betweenness_3000": {
+      "n_changed": 55,
+      "max_delta": 351.57468414306,
+      "min_delta": -0.28460793197,
+      "top_gainers": [
+        {
+          "ID": 1167,
+          "baseline": 125.79717254639,
+          "scenario": 477.37185668945,
+          "delta": 351.57468414306,
+          "new_link": false
+        },
+        {
+          "ID": 2118,
+          "baseline": 0.0,
+          "scenario": 305.8883972168,
+          "delta": 305.8883972168,
+          "new_link": true
+        },
+        {
+          "ID": 278,
+          "baseline": 27.35151863098,
+          "scenario": 329.93649291992,
+          "delta": 302.58497428894,
+          "new_link": false
+        },
+        {
+          "ID": 1,
+          "baseline": 207.85852050781,
+          "scenario": 484.17681884766,
+          "delta": 276.31829833985,
+          "new_link": false
+        },
+        {
+          "ID": 604,
+          "baseline": 310.9821472168,
+          "scenario": 516.27429199219,
+          "delta": 205.29214477539,
+          "new_link": false
+        }
+      ],
+      "top_losers": [
+        {
+          "ID": 1161,
+          "baseline": 0.33333334327,
+          "scenario": 0.0487254113,
+          "delta": -0.28460793197,
+          "new_link": false
+        },
+        {
+          "ID": 226,
+          "baseline": 4.11589241028,
+          "scenario": 4.11589288712,
+          "delta": 4.76840000374068e-07,
+          "new_link": false
+        },
+        {
+          "ID": 227,
+          "baseline": 10.33333206177,
+          "scenario": 10.33333301544,
+          "delta": 9.536699998591303e-07,
+          "new_link": false
+        },
+        {
+          "ID": 94,
+          "baseline": 0.33333334327,
+          "scenario": 0.35996249318,
+          "delta": 0.026629149909999983,
+          "new_link": false
+        },
+        {
+          "ID": 2115,
+          "baseline": 0.0,
+          "scenario": 0.32869455218,
+          "delta": 0.32869455218,
+          "new_link": true
+        }
+      ]
+    },
+    "closeness_5000": {
+      "n_changed": 74,
+      "max_delta": 0.07454731315,
+      "min_delta": -0.0028658625699999997,
+      "top_gainers": [
+        {
+          "ID": 2119,
+          "baseline": 0.0,
+          "scenario": 0.07454731315,
+          "delta": 0.07454731315,
+          "new_link": true
+        },
+        {
+          "ID": 2118,
+          "baseline": 0.0,
+          "scenario": 0.06813622266,
+          "delta": 0.06813622266,
+          "new_link": true
+        },
+        {
+          "ID": 2117,
+          "baseline": 0.0,
+          "scenario": 0.0591163449,
+          "delta": 0.0591163449,
+          "new_link": true
+        },
+        {
+          "ID": 707,
+          "baseline": 0.00979688391,
+          "scenario": 0.06578265131,
+          "delta": 0.0559857674,
+          "new_link": false
+        },
+        {
+          "ID": 462,
+          "baseline": 0.00481019216,
+          "scenario": 0.05839023739,
+          "delta": 0.053580045230000005,
+          "new_link": false
+        }
+      ],
+      "top_losers": [
+        {
+          "ID": 1161,
+          "baseline": 0.00555521669,
+          "scenario": 0.00268935412,
+          "delta": -0.0028658625699999997,
+          "new_link": false
+        },
+        {
+          "ID": 248,
+          "baseline": 0.03028601222,
+          "scenario": 0.02782312781,
+          "delta": -0.0024628844099999977,
+          "new_link": false
+        },
+        {
+          "ID": 6,
+          "baseline": 0.02998463251,
+          "scenario": 0.02754106373,
+          "delta": -0.002443568780000002,
+          "new_link": false
+        },
+        {
+          "ID": 3,
+          "baseline": 0.03265849501,
+          "scenario": 0.03106319159,
+          "delta": -0.001595303419999996,
+          "new_link": false
+        },
+        {
+          "ID": 40,
+          "baseline": 0.03376178443,
+          "scenario": 0.03286327794,
+          "delta": -0.0008985064899999992,
+          "new_link": false
+        }
+      ]
+    },
+    "betweenness_5000": {
+      "n_changed": 62,
+      "max_delta": 387.10615539551,
+      "min_delta": -0.28460793197,
+      "top_gainers": [
+        {
+          "ID": 1167,
+          "baseline": 140.49015808105,
+          "scenario": 527.59631347656,
+          "delta": 387.10615539551,
+          "new_link": false
+        },
+        {
+          "ID": 2118,
+          "baseline": 0.0,
+          "scenario": 332.14993286133,
+          "delta": 332.14993286133,
+          "new_link": true
+        },
+        {
+          "ID": 278,
+          "baseline": 30.33333206177,
+          "scenario": 358.72476196289,
+          "delta": 328.39142990112,
+          "new_link": false
+        },
+        {
+          "ID": 1,
+          "baseline": 231.92994689941,
+          "scenario": 536.06231689453,
+          "delta": 304.13236999512003,
+          "new_link": false
+        },
+        {
+          "ID": 604,
+          "baseline": 358.13403320312,
+          "scenario": 591.240234375,
+          "delta": 233.10620117188,
+          "new_link": false
+        }
+      ],
+      "top_losers": [
+        {
+          "ID": 1161,
+          "baseline": 0.33333334327,
+          "scenario": 0.0487254113,
+          "delta": -0.28460793197,
+          "new_link": false
+        },
+        {
+          "ID": 226,
+          "baseline": 4.11589241028,
+          "scenario": 4.11589288712,
+          "delta": 4.76840000374068e-07,
+          "new_link": false
+        },
+        {
+          "ID": 227,
+          "baseline": 10.33333206177,
+          "scenario": 10.33333301544,
+          "delta": 9.536699998591303e-07,
+          "new_link": false
+        },
+        {
+          "ID": 94,
+          "baseline": 0.33333334327,
+          "scenario": 0.35996249318,
+          "delta": 0.026629149909999983,
+          "new_link": false
+        },
+        {
+          "ID": 2115,
+          "baseline": 0.0,
+          "scenario": 0.32869455218,
+          "delta": 0.32869455218,
+          "new_link": true
+        }
+      ]
+    }
+  },
+  "note": "Delta vs fresh sDNA baseline (no proposed links), same ANGULAR settings."
+}

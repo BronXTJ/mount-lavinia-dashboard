@@ -13,6 +13,11 @@ import {
   scaleLabel,
 } from '../../constants/centrality.js'
 import {
+  DEFAULT_NETWORK_FORM_BASEMAP,
+  getNetworkFormBasemap,
+} from '../../constants/basemaps.js'
+import { WHAT_IF_MODES } from '../../constants/centralityWhatIf.js'
+import {
   colorForValue,
   formatMetricValue,
   getMetricValue,
@@ -22,6 +27,8 @@ import {
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
 import CentralityLegend from './CentralityLegend.jsx'
 import CentralityMapLayerFab from './CentralityMapLayerFab.jsx'
+import WhatIfDrawToolbar from './whatIf/WhatIfDrawToolbar.jsx'
+import WhatIfSnapDrawLayer from './whatIf/WhatIfSnapDrawLayer.jsx'
 
 const boundaryStyle = (color) => ({ color, weight: 2, fill: false, dashArray: '6 4', opacity: 0.9 })
 
@@ -176,11 +183,22 @@ export default function CentralityMap({
   loading,
   namedRoads,
   selectedSegmentId,
+  mode = WHAT_IF_MODES.baseline,
+  onModeChange,
+  whatIf,
 }) {
+  const isWhatIf = mode === WHAT_IF_MODES.whatIf
   const [boundaries, setBoundaries] = useState({})
+  const [basemapId, setBasemapId] = useState(DEFAULT_NETWORK_FORM_BASEMAP)
+  const basemap = useMemo(() => getNetworkFormBasemap(basemapId), [basemapId])
   const showCloseness = Boolean(visibleLayers?.closeness)
   const showBetweenness = Boolean(visibleLayers?.betweenness)
   const showRoadLabels = Boolean(visibleLayers?.roadLabels)
+
+  // What-if defaults to Streets for drawing readability; Baseline keeps Dark.
+  useEffect(() => {
+    setBasemapId(isWhatIf ? 'streets' : DEFAULT_NETWORK_FORM_BASEMAP)
+  }, [isWhatIf])
 
   // Dedicated SVG renderer for the animated highlight layers.
   // preferCanvas is set on the MapContainer for performance on the large
@@ -271,8 +289,30 @@ export default function CentralityMap({
 
   return (
     <div className="relative flex h-full min-h-0 flex-col">
-      {/* Modern pill segmented-control — replaces flat rectangular tabs */}
-      <div className="flex shrink-0 items-center justify-center bg-surface-900 px-3 py-2">
+      <div className="flex shrink-0 flex-col items-center gap-2 bg-surface-900 px-3 py-2">
+        <div className="flex gap-1 rounded-lg bg-surface-950/70 p-1 ring-1 ring-surface-700/50">
+          {[
+            { id: WHAT_IF_MODES.baseline, label: 'Baseline' },
+            { id: WHAT_IF_MODES.whatIf, label: 'What-if' },
+          ].map((m) => {
+            const active = mode === m.id
+            return (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => onModeChange?.(m.id)}
+                className={[
+                  'rounded-md px-3 py-1 text-[11px] font-semibold transition',
+                  active
+                    ? 'bg-surface-700 text-primary-300 shadow-[0_0_0_1px_#00b4d8]'
+                    : 'text-surface-400 hover:text-surface-100',
+                ].join(' ')}
+              >
+                {m.label}
+              </button>
+            )
+          })}
+        </div>
         <div className="flex gap-2 rounded-xl bg-surface-950/60 p-1.5 ring-1 ring-surface-700/50 backdrop-blur-sm">
           {CENTRALITY_SCALES.map((scale) => {
             const isActive = scaleMeters === scale.meters
@@ -310,12 +350,12 @@ export default function CentralityMap({
           scrollWheelZoom
         >
           <MapInvalidateOnResize />
-          {/* CartoDB Dark Matter with default labels always visible */}
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            subdomains="abcd"
-            maxZoom={19}
+            key={basemap.id}
+            attribution={basemap.attribution}
+            url={basemap.url}
+            {...(basemap.subdomains ? { subdomains: basemap.subdomains } : {})}
+            {...(basemap.maxZoom != null ? { maxZoom: basemap.maxZoom } : {})}
           />
 
           {CENTRALITY_BOUNDARIES.map(({ meters, color }) =>
@@ -391,9 +431,48 @@ export default function CentralityMap({
             closeness={closeness}
             betweenness={betweenness}
           />
+
+          {isWhatIf && whatIf?.drawing ? (
+            <WhatIfSnapDrawLayer
+              tool={whatIf.drawing.tool}
+              snapNodes={whatIf.snapNodes}
+              showSnapNodes={whatIf.showSnapNodes}
+              proposedGeoJson={whatIf.drawing.proposedGeoJson}
+              showProposed={whatIf.showProposed}
+              draftCoords={whatIf.drawing.draftCoords}
+              cursorLatLng={whatIf.drawing.cursorLatLng}
+              addVertex={whatIf.drawing.addVertex}
+              finishLink={whatIf.drawing.finishLink}
+              cancelDraft={whatIf.drawing.cancelDraft}
+              setCursorLatLng={whatIf.drawing.setCursorLatLng}
+              snapLatLng={whatIf.drawing.snapLatLng}
+            />
+          ) : null}
         </MapContainer>
 
-        <CentralityMapLayerFab visibleLayers={visibleLayers} onToggle={onToggleLayer} />
+        <CentralityMapLayerFab
+          visibleLayers={visibleLayers}
+          onToggle={onToggleLayer}
+          basemapId={basemapId}
+          onBasemapChange={setBasemapId}
+          whatIfMode={isWhatIf}
+        />
+
+        {isWhatIf && whatIf?.drawing ? (
+          <WhatIfDrawToolbar
+            tool={whatIf.drawing.tool}
+            onToolChange={whatIf.drawing.setTool}
+            snapEnabled={whatIf.drawing.snapEnabled}
+            onSnapToggle={whatIf.drawing.setSnapEnabled}
+            onUndo={whatIf.drawing.undo}
+            onClear={whatIf.drawing.clearLinks}
+            onFinishLink={whatIf.drawing.finishLink}
+            onRun={whatIf.onRun}
+            onReset={whatIf.onReset}
+            canFinish={whatIf.drawing.draftCoords.length >= 2}
+            statusText={whatIf.statusText}
+          />
+        ) : null}
 
         <CentralityLegend
           showCloseness={showCloseness}

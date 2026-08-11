@@ -19,11 +19,11 @@ export const APP_BASEMAPS = [
 /** Default for Overview / Density / Maturation / Environmental. */
 export const DEFAULT_APP_BASEMAP = 'streets'
 
-/** Network Form — Dark Matter (default) + Streets (Carto light). */
+/** Network Form — Dark (default) + Streets. */
 export const NETWORK_FORM_BASEMAPS = [
   {
     id: 'dark',
-    label: 'Dark Matter',
+    label: 'Dark',
     url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
