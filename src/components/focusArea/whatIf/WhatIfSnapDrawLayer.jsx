@@ -97,6 +97,8 @@ export default function WhatIfSnapDrawLayer({
   snapLatLng,
   onUndo,
   onRedo,
+  /** When true, finished links are shown via ramp+glow layer — only drafts stay dotted. */
+  hideFinishedProposed = false,
 }) {
   const rubberPositions =
     draftCoords.length && cursorLatLng
@@ -105,6 +107,14 @@ export default function WhatIfSnapDrawLayer({
           cursorLatLng,
         ]
       : null
+
+  const overlayGeoJson = (() => {
+    if (!proposedGeoJson?.features?.length) return null
+    if (!hideFinishedProposed) return proposedGeoJson
+    const features = proposedGeoJson.features.filter((f) => f.properties?.draft)
+    if (!features.length) return null
+    return { type: 'FeatureCollection', features }
+  })()
 
   return (
     <>
@@ -146,10 +156,10 @@ export default function WhatIfSnapDrawLayer({
             })
         : null}
 
-      {showProposed && proposedGeoJson?.features?.length ? (
+      {showProposed && overlayGeoJson?.features?.length ? (
         <GeoJSON
-          key={`proposed-${proposedGeoJson.features.length}-${draftCoords.length}`}
-          data={proposedGeoJson}
+          key={`proposed-${overlayGeoJson.features.length}-${draftCoords.length}-${hideFinishedProposed}`}
+          data={overlayGeoJson}
           style={(feature) => ({
             color: feature?.properties?.draft ? WHAT_IF_RUBBER_COLOR : WHAT_IF_PROPOSED_COLOR,
             weight: feature?.properties?.draft ? 3 : 4,

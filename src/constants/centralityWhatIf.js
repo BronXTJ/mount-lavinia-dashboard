@@ -13,6 +13,8 @@ export const WHAT_IF_DRAW_TOOLS = {
 export const WHAT_IF_PROPOSED_COLOR = '#f97316'
 export const WHAT_IF_SNAP_COLOR = '#38bdf8'
 export const WHAT_IF_RUBBER_COLOR = '#fb923c'
+/** Soft outer halo so newly added (post-sDNA) segments stay identifiable. */
+export const WHAT_IF_NEW_GLOW_COLOR = '#ffffff'
 
 /** Magnetic snap radius in Leaflet CSS pixels. */
 export const WHAT_IF_SNAP_PX = 14

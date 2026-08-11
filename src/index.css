@@ -161,6 +161,20 @@ html[data-map-fullscreen] .overview-side-column {
   animation: centrality-pulse 1.6s ease-in-out infinite;
 }
 
+/* Soft outer halo for newly added What-if segments (post-sDNA). */
+@keyframes whatif-new-glow {
+  0%,
+  100% {
+    stroke-opacity: 0.28;
+  }
+  50% {
+    stroke-opacity: 0.5;
+  }
+}
+.whatif-new-segment-glow {
+  animation: whatif-new-glow 2.2s ease-in-out infinite;
+}
+
 /* Pulsing cyan glow around a focused Density Analysis hex cell. */
 @keyframes density-hex-pulse {
   0%,

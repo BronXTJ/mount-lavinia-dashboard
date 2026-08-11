@@ -44,6 +44,20 @@ export default function CentralityAnalysisView() {
   const currentScaleLabel = scaleLabel(scaleMeters)
   const linkCount = drawing.links.length
 
+  const newSegmentIds = useMemo(() => {
+    if (!scenarioApi.activeScenario || !scenarioApi.scenarioCloseness?.features || !closeness?.features) {
+      return null
+    }
+    const baseIds = new Set(closeness.features.map((f) => f.properties?.ID))
+    const ids = new Set()
+    for (const f of scenarioApi.scenarioCloseness.features) {
+      const id = f.properties?.ID
+      if (id == null) continue
+      if (!baseIds.has(id) && !baseIds.has(Number(id))) ids.add(id)
+    }
+    return ids.size ? ids : null
+  }, [scenarioApi.activeScenario, scenarioApi.scenarioCloseness, closeness])
+
   function handleToggleLayer(id, checked) {
     if (isWhatIf) {
       setWhatIfVisible((prev) => ({ ...prev, [id]: checked }))
@@ -243,6 +257,8 @@ export default function CentralityAnalysisView() {
               onReset: handleReset,
               showProposed: whatIfVisible.proposedLinks,
               showSnapNodes: whatIfVisible.snapNodes,
+              newSegmentIds,
+              hideFinishedProposed: Boolean(scenarioApi.activeScenario && newSegmentIds?.size),
             }}
           />
         </div>

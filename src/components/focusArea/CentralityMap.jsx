@@ -29,6 +29,7 @@ import CentralityLegend from './CentralityLegend.jsx'
 import CentralityMapLayerFab from './CentralityMapLayerFab.jsx'
 import MetricInfoButton from './MetricInfoButton.jsx'
 import WhatIfDrawToolbar from './whatIf/WhatIfDrawToolbar.jsx'
+import WhatIfNewSegmentsLayer from './whatIf/WhatIfNewSegmentsLayer.jsx'
 import WhatIfSnapDrawLayer from './whatIf/WhatIfSnapDrawLayer.jsx'
 
 const boundaryStyle = (color) => ({ color, weight: 2, fill: false, dashArray: '6 4', opacity: 0.9 })
@@ -446,6 +447,17 @@ export default function CentralityMap({
             betweenness={betweenness}
           />
 
+          {isWhatIf && whatIf?.newSegmentIds?.size && (showCloseness || showBetweenness) ? (
+            <WhatIfNewSegmentsLayer
+              geojson={showCloseness ? closeness : betweenness}
+              newSegmentIds={whatIf.newSegmentIds}
+              metric={showCloseness ? 'closeness' : 'betweenness'}
+              scaleMeters={scaleMeters}
+              stats={showCloseness ? closenessStats : betweennessStats}
+              renderer={highlightRenderer}
+            />
+          ) : null}
+
           {isWhatIf && whatIf?.drawing ? (
             <WhatIfSnapDrawLayer
               tool={whatIf.drawing.tool}
@@ -462,6 +474,7 @@ export default function CentralityMap({
               snapLatLng={whatIf.drawing.snapLatLng}
               onUndo={whatIf.onUndo}
               onRedo={whatIf.onRedo}
+              hideFinishedProposed={Boolean(whatIf.hideFinishedProposed)}
             />
           ) : null}
         </MapContainer>
