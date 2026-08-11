@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import {
-  WHAT_IF_SCENARIO_ID,
-  WHAT_IF_STATUS,
-  whatIfDataUrl,
-  whatIfScenarioUrl,
-} from '../constants/centralityWhatIf.js'
+import { WHAT_IF_STATUS, whatIfDataUrl, whatIfScenarioUrl } from '../constants/centralityWhatIf.js'
 import { summarizeGeoJson } from '../utils/centralityStats.js'
 
 async function fetchJson(url) {
@@ -18,30 +13,24 @@ async function fetchJson(url) {
 }
 
 /**
- * Loads snap nodes + beach demo scenario; tracks What-if analysis status.
+ * Loads snap nodes; tracks What-if analysis status.
+ * Scenario layers load only from a user-computed scenario folder (local sDNA), not a baked demo.
  */
 export function useWhatIfScenario(scaleMeters, namedRoads) {
   const [snapNodes, setSnapNodes] = useState(null)
-  const [demoLinks, setDemoLinks] = useState(null)
   const [summary, setSummary] = useState(null)
   const [scenarioCloseness, setScenarioCloseness] = useState(null)
   const [scenarioBetweenness, setScenarioBetweenness] = useState(null)
   const [status, setStatus] = useState(WHAT_IF_STATUS.draft)
   const [error, setError] = useState(null)
   const [activeScenario, setActiveScenario] = useState(false)
+  const [scenarioId, setScenarioId] = useState(null)
 
   useEffect(() => {
     let cancelled = false
-    Promise.all([
-      fetchJson(whatIfDataUrl('snap_nodes.geojson')),
-      fetchJson(whatIfScenarioUrl(WHAT_IF_SCENARIO_ID, 'proposed_links.geojson')),
-      fetchJson(whatIfScenarioUrl(WHAT_IF_SCENARIO_ID, 'summary.json')),
-    ]).then(([nodes, links, sum]) => {
+    fetchJson(whatIfDataUrl('snap_nodes.geojson')).then((nodes) => {
       if (cancelled) return
       setSnapNodes(nodes)
-      setDemoLinks(links)
-      setSummary(sum)
-      if (links?.features?.length && sum) setStatus(WHAT_IF_STATUS.readyDemo)
     })
     return () => {
       cancelled = true
@@ -49,13 +38,18 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
   }, [])
 
   const loadScenarioLayers = useCallback(
-    async (scenarioId = WHAT_IF_SCENARIO_ID) => {
+    async (id) => {
+      if (!id) {
+        setStatus(WHAT_IF_STATUS.error)
+        setError('No scenario id. Run scripts/what-if/run_sdna_scenario.py locally.')
+        return false
+      }
       setStatus(WHAT_IF_STATUS.loading)
       setError(null)
       const [c, b, sum] = await Promise.all([
-        fetchJson(whatIfScenarioUrl(scenarioId, `closeness_${scaleMeters}.geojson`)),
-        fetchJson(whatIfScenarioUrl(scenarioId, `betweenness_${scaleMeters}.geojson`)),
-        fetchJson(whatIfScenarioUrl(scenarioId, 'summary.json')),
+        fetchJson(whatIfScenarioUrl(id, `closeness_${scaleMeters}.geojson`)),
+        fetchJson(whatIfScenarioUrl(id, `betweenness_${scaleMeters}.geojson`)),
+        fetchJson(whatIfScenarioUrl(id, 'summary.json')),
       ])
       if (!c || !b) {
         setStatus(WHAT_IF_STATUS.error)
@@ -66,6 +60,7 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
       setScenarioCloseness(c)
       setScenarioBetweenness(b)
       if (sum) setSummary(sum)
+      setScenarioId(id)
       setActiveScenario(true)
       setStatus(WHAT_IF_STATUS.scenario)
       return true
@@ -73,13 +68,12 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     [scaleMeters],
   )
 
-  // Refresh scenario layers when scale changes while scenario active
   useEffect(() => {
-    if (!activeScenario) return
+    if (!activeScenario || !scenarioId) return
     let cancelled = false
     Promise.all([
-      fetchJson(whatIfScenarioUrl(WHAT_IF_SCENARIO_ID, `closeness_${scaleMeters}.geojson`)),
-      fetchJson(whatIfScenarioUrl(WHAT_IF_SCENARIO_ID, `betweenness_${scaleMeters}.geojson`)),
+      fetchJson(whatIfScenarioUrl(scenarioId, `closeness_${scaleMeters}.geojson`)),
+      fetchJson(whatIfScenarioUrl(scenarioId, `betweenness_${scaleMeters}.geojson`)),
     ]).then(([c, b]) => {
       if (cancelled) return
       if (c) setScenarioCloseness(c)
@@ -88,27 +82,28 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     return () => {
       cancelled = true
     }
-  }, [scaleMeters, activeScenario])
+  }, [scaleMeters, activeScenario, scenarioId])
 
   const resetScenario = useCallback(() => {
     setScenarioCloseness(null)
     setScenarioBetweenness(null)
+    setSummary(null)
     setActiveScenario(false)
+    setScenarioId(null)
     setError(null)
-    setStatus(demoLinks ? WHAT_IF_STATUS.readyDemo : WHAT_IF_STATUS.draft)
-  }, [demoLinks])
+    setStatus(WHAT_IF_STATUS.draft)
+  }, [])
 
   const markNeedsCompute = useCallback(() => {
     setActiveScenario(false)
     setScenarioCloseness(null)
     setScenarioBetweenness(null)
+    setSummary(null)
+    setScenarioId(null)
     setStatus(WHAT_IF_STATUS.needsCompute)
   }, [])
 
-  const metricKey = useCallback(
-    (metric) => `${metric}_${scaleMeters}`,
-    [scaleMeters],
-  )
+  const metricKey = useCallback((metric) => `${metric}_${scaleMeters}`, [scaleMeters])
 
   const deltaBlock = useMemo(() => {
     if (!summary?.metrics) return null
@@ -129,7 +124,6 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
 
   return {
     snapNodes,
-    demoLinks,
     summary,
     status,
     error,

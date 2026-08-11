@@ -15,7 +15,7 @@ function TopList({ title, rows, onSelect }) {
     return (
       <div>
         <h3 className="text-xs font-semibold text-surface-300">{title}</h3>
-        <p className="mt-1 text-[11px] text-surface-500">Run the beach demo to see Δ rankings.</p>
+        <p className="mt-1 text-[11px] text-surface-500">Export links and run local sDNA to see Δ rankings.</p>
       </div>
     )
   }
@@ -45,10 +45,9 @@ function TopList({ title, rows, onSelect }) {
 
 const STATUS_LABEL = {
   [WHAT_IF_STATUS.draft]: 'Draft — draw links',
-  [WHAT_IF_STATUS.readyDemo]: 'Demo ready (sDNA)',
   [WHAT_IF_STATUS.loading]: 'Loading scenario…',
   [WHAT_IF_STATUS.scenario]: 'Scenario active (sDNA)',
-  [WHAT_IF_STATUS.needsCompute]: 'Custom links — run local sDNA script',
+  [WHAT_IF_STATUS.needsCompute]: 'Exported — run local sDNA script',
   [WHAT_IF_STATUS.error]: 'Scenario error',
 }
 
@@ -89,8 +88,9 @@ export default function WhatIfMetricPanel({
       </div>
 
       <p className="shrink-0 text-[10px] leading-snug text-surface-500">
-        Scores are sDNA angular NQPDA / BtA. Custom drawings need{' '}
-        <code className="text-surface-400">scripts/what-if/run_sdna_scenario.py</code>.
+        Draw links, export with ▶, then run{' '}
+        <code className="text-surface-400">scripts/what-if/run_sdna_scenario.py</code> for
+        accurate NQPDA / BtA.
       </p>
     </div>
   )

@@ -111,17 +111,6 @@ export function useWhatIfDrawing(snapNodes) {
     }
   }, [links])
 
-  const loadDemoLinks = useCallback((geojson) => {
-    if (!geojson?.features?.length) return
-    const loaded = geojson.features.map((f, i) => ({
-      id: f.properties?.id ?? i + 1,
-      coordinates: f.geometry.coordinates,
-    }))
-    setLinks(loaded)
-    setDraftCoords([])
-    setNextId(loaded.length + 1)
-  }, [])
-
   return {
     tool,
     setTool,
@@ -139,7 +128,6 @@ export function useWhatIfDrawing(snapNodes) {
     cancelDraft,
     proposedGeoJson,
     exportProposedGeoJson,
-    loadDemoLinks,
     hasDraft: draftCoords.length > 0,
     hasLinks: links.length > 0,
   }

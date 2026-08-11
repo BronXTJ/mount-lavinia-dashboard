@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { DEFAULT_CENTRALITY_VISIBLE, scaleLabel } from '../../constants/centrality.js'
 import {
   DEFAULT_WHAT_IF_VISIBLE,
@@ -31,15 +31,6 @@ export default function CentralityAnalysisView() {
   const scenarioApi = useWhatIfScenario(scaleMeters, namedRoads)
   const drawing = useWhatIfDrawing(scenarioApi.snapNodes)
 
-  // Load beach demo proposed links when entering What-if
-  useEffect(() => {
-    if (!isWhatIf) return
-    if (scenarioApi.demoLinks && !drawing.hasLinks) {
-      drawing.loadDemoLinks(scenarioApi.demoLinks)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only seed once demo arrives
-  }, [isWhatIf, scenarioApi.demoLinks])
-
   const currentScaleLabel = scaleLabel(scaleMeters)
 
   function handleToggleLayer(id, checked) {
@@ -56,39 +47,32 @@ export default function CentralityAnalysisView() {
       setSelectedSegmentId(null)
       if (next === WHAT_IF_MODES.baseline) {
         scenarioApi.resetScenario()
+        drawing.clearLinks()
       }
     },
-    [scenarioApi],
+    [scenarioApi, drawing],
   )
 
-  const handleRun = useCallback(async () => {
-    // Beach demo: accurate precomputed sDNA. Custom-only drawings need local script.
-    const usingDemoOnly =
-      drawing.links.length > 0 &&
-      scenarioApi.demoLinks?.features?.length &&
-      drawing.links.length === scenarioApi.demoLinks.features.length
-
-    if (!usingDemoOnly && drawing.hasLinks) {
-      // allow download of custom geometry for offline sDNA
-      const blob = new Blob([JSON.stringify(drawing.exportProposedGeoJson(), null, 2)], {
-        type: 'application/json',
-      })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = 'proposed_links.geojson'
-      a.click()
-      URL.revokeObjectURL(url)
+  const handleRun = useCallback(() => {
+    if (!drawing.hasLinks) {
       scenarioApi.markNeedsCompute()
       return
     }
-    await scenarioApi.loadScenarioLayers()
+    const blob = new Blob([JSON.stringify(drawing.exportProposedGeoJson(), null, 2)], {
+      type: 'application/json',
+    })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'proposed_links.geojson'
+    a.click()
+    URL.revokeObjectURL(url)
+    scenarioApi.markNeedsCompute()
   }, [drawing, scenarioApi])
 
   const handleReset = useCallback(() => {
     scenarioApi.resetScenario()
-    if (scenarioApi.demoLinks) drawing.loadDemoLinks(scenarioApi.demoLinks)
-    else drawing.clearLinks()
+    drawing.clearLinks()
   }, [scenarioApi, drawing])
 
   const mapCloseness = useMemo(() => {
@@ -114,16 +98,19 @@ export default function CentralityAnalysisView() {
   const statusText = useMemo(() => {
     if (!isWhatIf) return null
     if (scenarioApi.status === WHAT_IF_STATUS.needsCompute) {
-      return 'Custom links exported — run scripts/what-if/run_sdna_scenario.py then refresh'
+      return 'Links exported — run scripts/what-if/run_sdna_scenario.py, then refresh'
     }
     if (scenarioApi.status === WHAT_IF_STATUS.scenario) {
-      return 'Showing sDNA scenario (beach connectors)'
+      return 'Showing local sDNA scenario results'
     }
     if (drawing.tool === 'pencil') {
       return 'Click snap nodes · double-click or ✓ to finish link · Esc cancels'
     }
-    return 'Load beach demo with ▶ or draw custom links'
-  }, [isWhatIf, scenarioApi.status, drawing.tool])
+    if (!drawing.hasLinks) {
+      return 'Draw proposed links with the pencil, then ▶ to export for sDNA'
+    }
+    return 'Press ▶ to export proposed_links.geojson for local sDNA'
+  }, [isWhatIf, scenarioApi.status, drawing.tool, drawing.hasLinks])
 
   const gridClass = isWhatIf
     ? 'grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[20%_60%_20%] lg:overflow-hidden'

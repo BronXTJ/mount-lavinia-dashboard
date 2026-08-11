@@ -17,7 +17,8 @@ export const WHAT_IF_RUBBER_COLOR = '#fb923c'
 /** Magnetic snap radius in Leaflet CSS pixels. */
 export const WHAT_IF_SNAP_PX = 14
 
-export const WHAT_IF_SCENARIO_ID = 'beach_connectors'
+/** Default folder name when writing local sDNA scenario outputs (user-chosen). */
+export const WHAT_IF_SCENARIO_ID = 'custom'
 
 export function whatIfDataUrl(relPath) {
   return `${import.meta.env.BASE_URL}data/urban-morpho/what-if/${relPath}`
@@ -42,7 +43,6 @@ export const WHAT_IF_FAB_EXTRA_LAYERS = [
 
 export const WHAT_IF_STATUS = {
   draft: 'draft',
-  readyDemo: 'readyDemo',
   loading: 'loading',
   scenario: 'scenario',
   needsCompute: 'needsCompute',

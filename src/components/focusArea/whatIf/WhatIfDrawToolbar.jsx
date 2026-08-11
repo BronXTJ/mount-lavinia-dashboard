@@ -35,7 +35,7 @@ export default function WhatIfDrawToolbar({
   onRun,
   onReset,
   canFinish,
-  runLabel = 'Run beach demo (sDNA)',
+  runLabel = 'Export proposed links',
   statusText,
 }) {
   return (
@@ -82,7 +82,7 @@ export default function WhatIfDrawToolbar({
         <ToolBtn active={false} onClick={onRun} label={runLabel} accent>
           <Play size={18} />
         </ToolBtn>
-        <ToolBtn active={false} onClick={onReset} label="Reset to baseline">
+        <ToolBtn active={false} onClick={onReset} label="Reset drawing">
           <RotateCcw size={18} />
         </ToolBtn>
       </div>

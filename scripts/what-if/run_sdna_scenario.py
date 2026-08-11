@@ -2,8 +2,8 @@
 
 Usage:
   python scripts/what-if/run_sdna_scenario.py \\
-    --links public/data/urban-morpho/what-if/scenarios/beach_connectors/proposed_links.geojson \\
-    --out-dir public/data/urban-morpho/what-if/scenarios/beach_connectors
+    --links public/data/urban-morpho/what-if/scenarios/custom/proposed_links.geojson \\
+    --out-dir public/data/urban-morpho/what-if/scenarios/custom
 
 Requires: sDNA at C:\\Program Files (x86)\\sDNA, geopandas/shapefile/proj4.
 """
