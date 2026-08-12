@@ -1,4 +1,4 @@
-import { Gauge, GitCompareArrows, Pencil, Split, TrendingDown, TrendingUp, Waypoints } from 'lucide-react'
+import { ArrowDownToLine, ArrowUpToLine, Gauge, GitCompareArrows, Pencil, PenLine, Split } from 'lucide-react'
 import { formatMetricValue } from '../../../utils/centralityStats.js'
 import { WHAT_IF_STATUS } from '../../../constants/centralityWhatIf.js'
 import MetricInfoButton from '../MetricInfoButton.jsx'
@@ -254,7 +254,7 @@ export default function WhatIfMetricPanel({
           label="Links Drawn"
           value={linkCount}
           accent={kpiAccent}
-          icon={<Waypoints className="h-3.5 w-3.5" aria-hidden />}
+          icon={<PenLine className="h-3.5 w-3.5" aria-hidden />}
         />
         <Kpi
           label="Changed Segs"
@@ -266,13 +266,13 @@ export default function WhatIfMetricPanel({
           label="Max Δ"
           value={block ? formatMetricValue(block.max_delta) : '—'}
           accent={kpiAccent}
-          icon={<TrendingUp className="h-3.5 w-3.5" aria-hidden />}
+          icon={<ArrowUpToLine className="h-3.5 w-3.5" aria-hidden />}
         />
         <Kpi
           label="Min Δ"
           value={block ? formatMetricValue(block.min_delta) : '—'}
           accent={kpiAccent}
-          icon={<TrendingDown className="h-3.5 w-3.5" aria-hidden />}
+          icon={<ArrowDownToLine className="h-3.5 w-3.5" aria-hidden />}
         />
       </div>
 
