@@ -70,6 +70,7 @@ function DrawInteraction({
   links,
   onEraseLink,
   setSnapPreview,
+  onToolChange,
 }) {
   const map = useMap()
 
@@ -97,9 +98,29 @@ function DrawInteraction({
   useEffect(() => {
     function onKey(e) {
       if (e.key === 'Escape') {
-        if (tool === WHAT_IF_DRAW_TOOLS.erase) return
-        if (draftCoords.length >= 2) finishLink()
-        else cancelDraft()
+        e.preventDefault()
+        // Erase: Esc exits back to pan
+        if (tool === WHAT_IF_DRAW_TOOLS.erase) {
+          onToolChange?.(WHAT_IF_DRAW_TOOLS.pan)
+          return
+        }
+        if (tool === WHAT_IF_DRAW_TOOLS.pencil) {
+          // ≥2 points: finish link (+ sDNA via onFinishLink)
+          if (draftCoords.length >= 2) {
+            finishLink()
+            return
+          }
+          // 1 point: clear unfinished draft
+          if (draftCoords.length === 1) {
+            cancelDraft()
+            setCursorLatLng(null)
+            setSnapPreview?.(null)
+            return
+          }
+          // No draft: exit pencil → pan
+          onToolChange?.(WHAT_IF_DRAW_TOOLS.pan)
+          return
+        }
         return
       }
       if (e.key === 'Enter' && draftCoords.length >= 2) finishLink()
@@ -117,7 +138,19 @@ function DrawInteraction({
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [cancelDraft, finishLink, draftCoords.length, onUndo, onRedo, canUndo, canRedo, tool])
+  }, [
+    cancelDraft,
+    finishLink,
+    draftCoords.length,
+    onUndo,
+    onRedo,
+    canUndo,
+    canRedo,
+    tool,
+    onToolChange,
+    setCursorLatLng,
+    setSnapPreview,
+  ])
 
   useMapEvents({
     click(e) {
@@ -198,6 +231,7 @@ export default function WhatIfSnapDrawLayer({
   forceShowFinishedForErase = false,
   canUndo = false,
   canRedo = false,
+  onToolChange,
 }) {
   const [snapPreview, setSnapPreview] = useState(null)
 
@@ -244,6 +278,7 @@ export default function WhatIfSnapDrawLayer({
         links={links}
         onEraseLink={onEraseLink}
         setSnapPreview={setSnapPreview}
+        onToolChange={onToolChange}
       />
 
       {/* Always-on snap nodes (small magenta dots) while What-if layer is enabled */}

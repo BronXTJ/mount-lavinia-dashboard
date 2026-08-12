@@ -484,6 +484,7 @@ export default function CentralityMap({
               pendingLineColor={WHAT_IF_PENDING_COLOR}
               canUndo={whatIf.drawing.canUndo}
               canRedo={whatIf.drawing.canRedo}
+              onToolChange={whatIf.drawing.selectTool ?? whatIf.drawing.setTool}
             />
           ) : null}
         </MapContainer>

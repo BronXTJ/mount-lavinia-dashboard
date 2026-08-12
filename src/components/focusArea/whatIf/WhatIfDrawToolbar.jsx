@@ -29,7 +29,8 @@ function ToolBtn({ active, onClick, label, children, accent, disabled }) {
 
 const TOOLBAR_INFO = [
   'Pencil / Eraser: click to activate; click the same icon again to deselect (back to pan). Choosing another tool quits the previous one.',
-  'Pencil: click magenta snap nodes on the network to draw a proposed link; double-click, ✓, or Esc to finish.',
+  'Pencil: click magenta snap nodes to draw. Finish with double-click, ✓, Enter, or Esc (when you have 2+ points) — that runs sDNA if the worker is online.',
+  'Esc with 1 point clears the draft; Esc with no draft (or in Erase) returns to pan.',
   'Pending links are dashed light grey until sDNA finishes — then they take the active closeness/betweenness legend color.',
   'SNAP: stick to network nodes. FREE: place vertices exactly where you click.',
   'Magenta snap nodes stay on the analysis road network while Snap Nodes is enabled in layers.',
