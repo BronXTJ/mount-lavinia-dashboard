@@ -95,8 +95,10 @@ def copy_prepared(dest: Path) -> None:
 
 
 def append_links_and_close(w, max_id, lines_wgs, prj_src: Path, dest: Path, vert_index=None):
+    """Append proposed polylines. Returns (next_id_after, warnings list)."""
     next_id = max_id + 1
-    for line in lines_wgs:
+    warnings = []
+    for i, line in enumerate(lines_wgs):
         sld = []
         for lon, lat in line:
             x, y = wgs84_to_sld99(lon, lat)
@@ -106,20 +108,22 @@ def append_links_and_close(w, max_id, lines_wgs, prj_src: Path, dest: Path, vert
                     x, y = snapped
             sld.append((x, y))
         if len(sld) < 2:
+            warnings.append(f"Proposed link {i + 1} dropped (fewer than 2 vertices after snap)")
             continue
         if math.hypot(sld[0][0] - sld[-1][0], sld[0][1] - sld[-1][1]) < 1:
+            warnings.append(f"Proposed link {i + 1} dropped (collapsed to near-zero length after 50m snap)")
             continue
         pts = [[x, y, 0.0] for x, y in sld]
         length = 0.0
-        for i in range(len(sld) - 1):
-            length += math.hypot(sld[i + 1][0] - sld[i][0], sld[i + 1][1] - sld[i][1])
+        for j in range(len(sld) - 1):
+            length += math.hypot(sld[j + 1][0] - sld[j][0], sld[j + 1][1] - sld[j][1])
         w.linez([pts])
         w.record(next_id, 2, length, 1.0, 0.0, 1.0, 0.0)
         next_id += 1
     w.close()
     if prj_src.exists():
         dest.with_suffix(".prj").write_text(prj_src.read_text(encoding="utf-8"), encoding="utf-8")
-
+    return next_id, warnings
 
 def build_vert_snapper(shp_path: Path, lim_m: float = 50.0):
     import shapefile
@@ -207,7 +211,7 @@ def shp_to_public_geojson(integral_shp: Path, out_dir: Path, baseline_dir: Path)
     records = list(r.records())
     shapes = list(r.shapes())
 
-    summary = {"radii": RADII, "metrics": {}}
+    summary = {"radii": RADII, "metrics": {}, "warnings": []}
     for radius in RADII:
         for metric, prefix in [("closeness", "NQPDA"), ("betweenness", "BtA")]:
             field = f"{prefix}{radius}"
@@ -236,24 +240,52 @@ def shp_to_public_geojson(integral_shp: Path, out_dir: Path, baseline_dir: Path)
             # Delta vs baseline public file
             base_path = baseline_dir / f"{metric}_{radius}.geojson"
             deltas = []
+            base_ids = set()
             if base_path.exists():
                 base = json.loads(base_path.read_text(encoding="utf-8"))
                 for f in base["features"]:
                     iid = int(f["properties"]["ID"])
+                    base_ids.add(iid)
                     bval = float(f["properties"][field])
                     sval = values.get(iid)
                     if sval is None:
                         continue
                     d = sval - bval
                     if abs(d) > 1e-12:
-                        deltas.append({"ID": iid, "baseline": bval, "scenario": sval, "delta": d})
+                        deltas.append(
+                            {
+                                "ID": iid,
+                                "baseline": bval,
+                                "scenario": sval,
+                                "delta": d,
+                                "new_link": False,
+                            }
+                        )
+                # Newly added links (not in baseline) — delta from 0
+                for iid, sval in values.items():
+                    if iid in base_ids:
+                        continue
+                    deltas.append(
+                        {
+                            "ID": iid,
+                            "baseline": 0.0,
+                            "scenario": sval,
+                            "delta": sval,
+                            "new_link": True,
+                        }
+                    )
                 deltas.sort(key=lambda x: x["delta"], reverse=True)
+            gainers = deltas[:12]
+            gainer_ids = {row["ID"] for row in gainers}
+            losers_raw = list(reversed(deltas[-12:])) if deltas else []
+            # Avoid the same ID appearing in both lists when few segments changed
+            losers = [row for row in losers_raw if row["ID"] not in gainer_ids]
             summary["metrics"][f"{metric}_{radius}"] = {
                 "n_changed": len(deltas),
                 "max_delta": deltas[0]["delta"] if deltas else 0,
                 "min_delta": deltas[-1]["delta"] if deltas else 0,
-                "top_gainers": deltas[:12],
-                "top_losers": list(reversed(deltas[-12:])) if deltas else [],
+                "top_gainers": gainers,
+                "top_losers": losers,
             }
 
     (out_dir / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
@@ -304,7 +336,7 @@ def run_scenario(links: Path, out_dir: Path) -> dict:
         max_id = max(max_id, int(row[0]))
         w.record(*row)
 
-    append_links_and_close(
+    _next_id, merge_warnings = append_links_and_close(
         w,
         max_id,
         lines,
@@ -324,6 +356,9 @@ def run_scenario(links: Path, out_dir: Path) -> dict:
 
     baseline = ROOT / "public/data/urban-morpho/centrality"
     summary = shp_to_public_geojson(integral, out_dir, baseline)
+    if merge_warnings:
+        summary["warnings"] = list(merge_warnings)
+        (out_dir / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print("wrote scenario to", out_dir)
     print(json.dumps({k: v.get("n_changed") for k, v in summary["metrics"].items()}, indent=2))
     return summary

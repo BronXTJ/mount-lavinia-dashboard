@@ -352,7 +352,7 @@ export default function CentralityMap({
 
       <MapFullscreenShell className="min-h-0 flex-1">
         {loading && (
-          <div className="absolute inset-0 z-[1001] flex items-center justify-center bg-surface-900/60 backdrop-blur-sm">
+          <div className="pointer-events-none absolute inset-0 z-[900] flex items-center justify-center bg-surface-900/60 backdrop-blur-sm">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-500 border-t-transparent" />
           </div>
         )}
@@ -447,7 +447,10 @@ export default function CentralityMap({
             betweenness={betweenness}
           />
 
-          {isWhatIf && whatIf?.newSegmentIds?.size && (showCloseness || showBetweenness) ? (
+          {isWhatIf &&
+          whatIf?.showProposed &&
+          whatIf?.newSegmentIds?.size &&
+          (showCloseness || showBetweenness) ? (
             <WhatIfNewSegmentsLayer
               geojson={showCloseness ? closeness : betweenness}
               newSegmentIds={whatIf.newSegmentIds}
@@ -479,6 +482,8 @@ export default function CentralityMap({
               hideFinishedProposed={Boolean(whatIf.hideFinishedProposed)}
               forceShowFinishedForErase={whatIf.drawing.tool === WHAT_IF_DRAW_TOOLS.erase}
               pendingLineColor={WHAT_IF_PENDING_COLOR}
+              canUndo={whatIf.drawing.canUndo}
+              canRedo={whatIf.drawing.canRedo}
             />
           ) : null}
         </MapContainer>

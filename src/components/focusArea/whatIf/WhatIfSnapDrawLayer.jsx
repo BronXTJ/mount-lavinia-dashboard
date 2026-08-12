@@ -65,6 +65,8 @@ function DrawInteraction({
   draftCoords,
   onUndo,
   onRedo,
+  canUndo = false,
+  canRedo = false,
   links,
   onEraseLink,
   setSnapPreview,
@@ -103,17 +105,19 @@ function DrawInteraction({
       if (e.key === 'Enter' && draftCoords.length >= 2) finishLink()
       const mod = e.ctrlKey || e.metaKey
       if (mod && e.key.toLowerCase() === 'z' && !e.shiftKey) {
+        if (!canUndo) return
         e.preventDefault()
         onUndo?.()
       }
       if (mod && (e.key.toLowerCase() === 'y' || (e.key.toLowerCase() === 'z' && e.shiftKey))) {
+        if (!canRedo) return
         e.preventDefault()
         onRedo?.()
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [cancelDraft, finishLink, draftCoords.length, onUndo, onRedo, tool])
+  }, [cancelDraft, finishLink, draftCoords.length, onUndo, onRedo, canUndo, canRedo, tool])
 
   useMapEvents({
     click(e) {
@@ -192,6 +196,8 @@ export default function WhatIfSnapDrawLayer({
    * When scenario is active this is a neutral dashed pick target — not a fake ramp / branding color.
    */
   forceShowFinishedForErase = false,
+  canUndo = false,
+  canRedo = false,
 }) {
   const [snapPreview, setSnapPreview] = useState(null)
 
@@ -203,9 +209,10 @@ export default function WhatIfSnapDrawLayer({
         ]
       : null
 
-  // After sDNA: hide flat proposal overlay unless erase needs pick targets
   const showFinished = !hideFinishedProposed || forceShowFinishedForErase
   const erasePickOnly = hideFinishedProposed && forceShowFinishedForErase
+  const finishedKey = (links ?? []).map((l) => l.id).join('-') || 'none'
+  const draftKey = draftCoords.map((c) => `${c[0]},${c[1]}`).join(';') || 'empty'
 
   const { draftFc, finishedFc } = useMemo(() => {
     const features = proposedGeoJson?.features ?? []
@@ -216,6 +223,9 @@ export default function WhatIfSnapDrawLayer({
       finishedFc: finished.length ? { type: 'FeatureCollection', features: finished } : null,
     }
   }, [proposedGeoJson, showFinished])
+
+  const firstVertex =
+    draftCoords.length === 1 ? [draftCoords[0][1], draftCoords[0][0]] : null
 
   return (
     <>
@@ -229,6 +239,8 @@ export default function WhatIfSnapDrawLayer({
         draftCoords={draftCoords}
         onUndo={onUndo}
         onRedo={onRedo}
+        canUndo={canUndo}
+        canRedo={canRedo}
         links={links}
         onEraseLink={onEraseLink}
         setSnapPreview={setSnapPreview}
@@ -289,7 +301,7 @@ export default function WhatIfSnapDrawLayer({
       {showProposed && finishedFc ? (
         erasePickOnly ? (
           <GeoJSON
-            key={`proposed-erase-pick-${finishedFc.features.length}`}
+            key={`proposed-erase-pick-${finishedKey}`}
             data={finishedFc}
             style={() => ({
               color: pendingLineColor,
@@ -302,7 +314,7 @@ export default function WhatIfSnapDrawLayer({
           />
         ) : (
           <GeoJSON
-            key={`proposed-finished-pending-${finishedFc.features.length}-${pendingLineColor}`}
+            key={`proposed-finished-pending-${finishedKey}-${pendingLineColor}`}
             data={finishedFc}
             style={() => ({
               color: pendingLineColor,
@@ -318,7 +330,7 @@ export default function WhatIfSnapDrawLayer({
 
       {showProposed && draftFc ? (
         <GeoJSON
-          key={`proposed-draft-${draftFc.features.length}-${draftCoords.length}`}
+          key={`proposed-draft-${draftKey}`}
           data={draftFc}
           style={() => ({
             color: pendingLineColor,
@@ -326,6 +338,20 @@ export default function WhatIfSnapDrawLayer({
             dashArray: '8 6',
             opacity: 0.95,
           })}
+        />
+      ) : null}
+
+      {firstVertex ? (
+        <CircleMarker
+          center={firstVertex}
+          radius={4}
+          pathOptions={{
+            color: WHAT_IF_SNAP_STROKE,
+            fillColor: pendingLineColor,
+            fillOpacity: 0.95,
+            weight: 1.5,
+            opacity: 1,
+          }}
         />
       ) : null}
 

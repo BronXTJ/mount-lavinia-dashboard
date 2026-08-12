@@ -43,10 +43,16 @@ function emptyStateCopy(status, linkCount, workerOnline, sdnaMissing) {
       subline: 'Install sDNA, restart what-if:worker, then finish a link',
     }
   }
-  if (status === WHAT_IF_STATUS.needsCompute || (!workerOnline && linkCount > 0)) {
+  if (!workerOnline && linkCount > 0) {
     return {
       headline: 'Start the local worker',
       subline: 'npm run what-if:worker, then finish a link or press ▶',
+    }
+  }
+  if (status === WHAT_IF_STATUS.needsCompute) {
+    return {
+      headline: 'Run sDNA to fill rankings',
+      subline: 'Press ▶ or finish a link — worker is online',
     }
   }
   if (linkCount === 0) {

@@ -32,8 +32,20 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
   const [sdnaMissing, setSdnaMissing] = useState(false)
   const abortRef = useRef(null)
   const jobIdRef = useRef(null)
-  /** Skip one scale-reload after applyScenarioPayload (layers already match scaleMeters). */
+  const scaleMetersRef = useRef(scaleMeters)
+  const statusRef = useRef(status)
+  /** Skip one scale-reload after apply when payload scale already matches UI. */
   const skipScaleReloadRef = useRef(false)
+  /** Scale meters used for the in-flight / last applied job artifacts. */
+  const jobScaleRef = useRef(null)
+
+  useEffect(() => {
+    scaleMetersRef.current = scaleMeters
+  }, [scaleMeters])
+
+  useEffect(() => {
+    statusRef.current = status
+  }, [status])
 
   useEffect(() => {
     let cancelled = false
@@ -66,20 +78,58 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     }
   }, [])
 
-  const applyScenarioPayload = useCallback((payload, nextJobId) => {
-    skipScaleReloadRef.current = true
-    setScenarioCloseness(payload.closeness)
-    setScenarioBetweenness(payload.betweenness)
+  // Abort in-flight compute when the user changes scale mid-job.
+  useEffect(() => {
+    if (statusRef.current === WHAT_IF_STATUS.computing && abortRef.current) {
+      abortRef.current.abort()
+      abortRef.current = null
+      setStatus(WHAT_IF_STATUS.needsCompute)
+      setError(null)
+    }
+  }, [scaleMeters])
+
+  const applyScenarioPayload = useCallback((payload, nextJobId, jobScale) => {
+    const uiScale = scaleMetersRef.current
+    jobScaleRef.current = jobScale
     setSummary(payload.summary ?? null)
     setJobId(nextJobId)
     jobIdRef.current = nextJobId
     setActiveScenario(true)
     setError(null)
-    setStatus(WHAT_IF_STATUS.scenario)
+
+    if (jobScale === uiScale && payload.closeness && payload.betweenness) {
+      skipScaleReloadRef.current = true
+      setScenarioCloseness(payload.closeness)
+      setScenarioBetweenness(payload.betweenness)
+      setStatus(WHAT_IF_STATUS.scenario)
+      return
+    }
+
+    // UI scale differs from job fetch scale — load matching radius artifacts.
+    skipScaleReloadRef.current = false
+    setScenarioCloseness(null)
+    setScenarioBetweenness(null)
+    setStatus(WHAT_IF_STATUS.loading)
+    Promise.all([
+      fetchJson(whatIfWorkerArtifactUrl(nextJobId, `closeness_${uiScale}.geojson`)),
+      fetchJson(whatIfWorkerArtifactUrl(nextJobId, `betweenness_${uiScale}.geojson`)),
+    ]).then(([c, b]) => {
+      if (jobIdRef.current !== nextJobId) return
+      if (c && b) {
+        setScenarioCloseness(c)
+        setScenarioBetweenness(b)
+        setError(null)
+        setStatus(WHAT_IF_STATUS.scenario)
+        return
+      }
+      setScenarioCloseness(null)
+      setScenarioBetweenness(null)
+      setError(`Failed to load ${uiScale}m scenario layers from the worker`)
+      setStatus(WHAT_IF_STATUS.error)
+    })
   }, [])
 
   // Reload closeness/betweenness when scale changes for an active worker job.
-  // Clear immediately so stale NQPDA/BtA fields are never styled with the new radius.
   useEffect(() => {
     if (!activeScenario || !jobId) return
     if (skipScaleReloadRef.current) {
@@ -121,6 +171,7 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     setActiveScenario(false)
     setJobId(null)
     jobIdRef.current = null
+    jobScaleRef.current = null
     setError(null)
     setStatus(WHAT_IF_STATUS.draft)
   }, [])
@@ -132,6 +183,7 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     setSummary(null)
     setJobId(null)
     jobIdRef.current = null
+    jobScaleRef.current = null
     setStatus(WHAT_IF_STATUS.needsCompute)
   }, [])
 
@@ -144,12 +196,20 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
       abortRef.current?.abort()
       const ctrl = new AbortController()
       abortRef.current = ctrl
+      const jobScale = scaleMetersRef.current
+      // M1: clear stale scenario so old ramp colors (incl. deleted links) do not linger
+      setActiveScenario(false)
+      setScenarioCloseness(null)
+      setScenarioBetweenness(null)
+      setSummary(null)
+      setJobId(null)
+      jobIdRef.current = null
       setStatus(WHAT_IF_STATUS.computing)
       setError(null)
       try {
-        const result = await runWhatIfJob(geojson, scaleMeters, { signal: ctrl.signal })
-        if (ctrl.signal.aborted) return { ok: false, offline: false }
-        applyScenarioPayload(result, result.jobId)
+        const result = await runWhatIfJob(geojson, jobScale, { signal: ctrl.signal })
+        if (ctrl.signal.aborted) return { ok: false, offline: false, aborted: true }
+        applyScenarioPayload(result, result.jobId, jobScale)
         setWorkerOnline(true)
         setWorkerReachable(true)
         setSdnaMissing(false)
@@ -181,7 +241,7 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
         return { ok: false, offline: false }
       }
     },
-    [scaleMeters, applyScenarioPayload],
+    [applyScenarioPayload],
   )
 
   const metricKey = useCallback((metric) => `${metric}_${scaleMeters}`, [scaleMeters])

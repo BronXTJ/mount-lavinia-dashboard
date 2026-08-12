@@ -55,9 +55,11 @@ export default function CentralityAnalysisView() {
     if (!scenarioApi.activeScenario || !scenarioApi.scenarioCloseness?.features?.length) {
       return null
     }
+    // Wait for baseline so we do not treat the entire scenario as "new"
+    if (!closeness?.features?.length) return null
     const scenarioFeatures = scenarioApi.scenarioCloseness.features
     const baseIds = new Set(
-      (closeness?.features ?? [])
+      closeness.features
         .map((f) => Number(f.properties?.ID))
         .filter((n) => Number.isFinite(n)),
     )
@@ -214,6 +216,10 @@ export default function CentralityAnalysisView() {
       return scenarioApi.error || 'sDNA error — check worker log'
     }
     if (scenarioApi.status === WHAT_IF_STATUS.scenario) {
+      const warn = scenarioApi.summary?.warnings?.[0]
+      if (warn) {
+        return `sDNA results ready — note: ${warn}`
+      }
       return scenarioApi.workerOnline
         ? 'Showing sDNA scenario results (local worker)'
         : 'Showing sDNA scenario results'
@@ -243,6 +249,7 @@ export default function CentralityAnalysisView() {
     scenarioApi.error,
     scenarioApi.workerOnline,
     scenarioApi.sdnaMissing,
+    scenarioApi.summary,
     drawing.tool,
     drawing.hasLinks,
   ])

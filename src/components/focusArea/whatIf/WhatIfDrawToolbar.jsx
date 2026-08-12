@@ -97,7 +97,7 @@ export default function WhatIfDrawToolbar({
         <ToolBtn
           active={snapEnabled}
           onClick={() => onSnapToggle(!snapEnabled)}
-          label={snapEnabled ? 'Snap on — stick to blue nodes' : 'Snap off — free placement'}
+          label={snapEnabled ? 'Snap on — stick to magenta nodes' : 'Snap off — free placement'}
         >
           <span className="text-[10px] font-bold">{snapEnabled ? 'SNAP' : 'FREE'}</span>
         </ToolBtn>

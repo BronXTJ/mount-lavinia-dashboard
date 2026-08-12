@@ -108,12 +108,19 @@ export function useWhatIfDrawing(snapNodes) {
    * @returns {GeoJSON.FeatureCollection | null}
    */
   const finishLink = useCallback((extraLngLats = null) => {
-    const extras = Array.isArray(extraLngLats)
+    let extras = Array.isArray(extraLngLats)
       ? extraLngLats.filter((c) => c?.length >= 2).map((c) => [...c])
       : []
     let geo = null
     flushSync(() => {
       setState((s) => {
+        // Dedupe dblclick: click already appended the same snapped end vertex
+        const last = s.draftCoords[s.draftCoords.length - 1]
+        if (last && extras.length) {
+          extras = extras.filter(
+            (e) => !(Math.abs(e[0] - last[0]) < 1e-9 && Math.abs(e[1] - last[1]) < 1e-9),
+          )
+        }
         const coords = extras.length ? [...s.draftCoords, ...extras] : s.draftCoords
         if (coords.length < 2) return s
         const id = s.nextId
