@@ -1,3 +1,4 @@
+import { ChartNoAxesColumn, CircleDot, TrendingDown, TrendingUp } from 'lucide-react'
 import { BETWEENNESS_BAR_COLOR, PLACEHOLDER_TOP5 } from '../../constants/centrality.js'
 import { computeZoneDistribution, formatMetricValue } from '../../utils/centralityStats.js'
 import CentralityBarChart from './CentralityBarChart.jsx'
@@ -6,6 +7,8 @@ import KeyFindingsBridge from './KeyFindingsBridge.jsx'
 import MetricInfoButton from './MetricInfoButton.jsx'
 import ScaleComparisonChart from './ScaleComparisonChart.jsx'
 import ZoneStackedBar from './ZoneStackedBar.jsx'
+
+const kpiIconClass = 'h-3.5 w-3.5'
 
 const BETWEENNESS_KEY_FINDINGS = [
   'Highest betweenness values mark corridors that lie on many shortest paths between other places.',
@@ -31,10 +34,26 @@ export default function BetweennessPanel({
   const zones = computeZoneDistribution(currentGeoJson, 'betweenness', scaleMeters)
 
   const statItems = [
-    { label: 'Current Scale', value: scaleLabel, icon: '◎' },
-    { label: 'Highest Value', value: formatMetricValue(stats?.max), icon: '▲' },
-    { label: 'Lowest Value', value: formatMetricValue(stats?.min), icon: '▼' },
-    { label: 'Average Value', value: formatMetricValue(stats?.avg), icon: '◆' },
+    {
+      label: 'Current Scale',
+      value: scaleLabel,
+      icon: <CircleDot className={kpiIconClass} aria-hidden />,
+    },
+    {
+      label: 'Highest Value',
+      value: formatMetricValue(stats?.max),
+      icon: <TrendingUp className={kpiIconClass} aria-hidden />,
+    },
+    {
+      label: 'Lowest Value',
+      value: formatMetricValue(stats?.min),
+      icon: <TrendingDown className={kpiIconClass} aria-hidden />,
+    },
+    {
+      label: 'Average Value',
+      value: formatMetricValue(stats?.avg),
+      icon: <ChartNoAxesColumn className={kpiIconClass} aria-hidden />,
+    },
   ]
 
   return (

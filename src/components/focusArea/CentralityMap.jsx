@@ -16,7 +16,7 @@ import {
   DEFAULT_NETWORK_FORM_BASEMAP,
   getNetworkFormBasemap,
 } from '../../constants/basemaps.js'
-import { WHAT_IF_DRAW_TOOLS, WHAT_IF_MODES, WHAT_IF_PROPOSED_COLOR } from '../../constants/centralityWhatIf.js'
+import { WHAT_IF_DRAW_TOOLS, WHAT_IF_MODES, WHAT_IF_PENDING_COLOR } from '../../constants/centralityWhatIf.js'
 import {
   colorForValue,
   formatMetricValue,
@@ -385,7 +385,7 @@ export default function CentralityMap({
 
           {showCloseness && closeness && (
             <GeoJSON
-              key={`closeness-${scaleMeters}`}
+              key={`closeness-${scaleMeters}-${closeness.features?.length ?? 0}-${closenessStats?.min ?? 'x'}-${closenessStats?.max ?? 'x'}`}
               data={closeness}
               style={closenessStyle}
               onEachFeature={makeOnEach('closeness', closeness, closenessStats)}
@@ -394,7 +394,7 @@ export default function CentralityMap({
 
           {showBetweenness && betweenness && (
             <GeoJSON
-              key={`betweenness-${scaleMeters}`}
+              key={`betweenness-${scaleMeters}-${betweenness.features?.length ?? 0}-${betweennessStats?.min ?? 'x'}-${betweennessStats?.max ?? 'x'}`}
               data={betweenness}
               style={betweennessStyle}
               onEachFeature={makeOnEach('betweenness', betweenness, betweennessStats)}
@@ -478,7 +478,7 @@ export default function CentralityMap({
               onEraseLink={whatIf.onEraseLink}
               hideFinishedProposed={Boolean(whatIf.hideFinishedProposed)}
               forceShowFinishedForErase={whatIf.drawing.tool === WHAT_IF_DRAW_TOOLS.erase}
-              pendingLineColor={WHAT_IF_PROPOSED_COLOR}
+              pendingLineColor={WHAT_IF_PENDING_COLOR}
             />
           ) : null}
         </MapContainer>
@@ -494,7 +494,7 @@ export default function CentralityMap({
         {isWhatIf && whatIf?.drawing ? (
           <WhatIfDrawToolbar
             tool={whatIf.drawing.tool}
-            onToolChange={whatIf.drawing.setTool}
+            onToolChange={whatIf.drawing.selectTool ?? whatIf.drawing.setTool}
             snapEnabled={whatIf.drawing.snapEnabled}
             onSnapToggle={whatIf.drawing.setSnapEnabled}
             onUndo={whatIf.onUndo || whatIf.drawing.undo}

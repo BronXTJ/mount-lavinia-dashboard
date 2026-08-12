@@ -1,15 +1,24 @@
-import { Gauge, Pencil, Split } from 'lucide-react'
+import { Gauge, GitCompareArrows, Pencil, Split, TrendingDown, TrendingUp, Waypoints } from 'lucide-react'
 import { formatMetricValue } from '../../../utils/centralityStats.js'
 import { WHAT_IF_STATUS } from '../../../constants/centralityWhatIf.js'
 import MetricInfoButton from '../MetricInfoButton.jsx'
 
-function Kpi({ label, value, accent = 'primary' }) {
+function Kpi({ label, value, accent = 'primary', icon }) {
   const topBorder = accent === 'orange' ? 'border-t-orange-500' : 'border-t-primary-500'
+  const chip =
+    accent === 'orange' ? 'bg-orange-500/10 text-orange-300' : 'bg-primary-500/10 text-primary-300'
   return (
     <div
       className={`min-w-0 rounded-lg border border-surface-700 border-t-[3px] ${topBorder} bg-surface-800 px-2.5 py-2 shadow-card`}
     >
-      <p className="text-[11px] font-medium uppercase tracking-wide text-surface-200">{label}</p>
+      <div className="flex items-start justify-between gap-2">
+        <p className="text-[11px] font-medium uppercase tracking-wide text-surface-200">{label}</p>
+        {icon ? (
+          <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${chip}`}>
+            {icon}
+          </span>
+        ) : null}
+      </div>
       <p className="mt-1 font-display text-sm font-semibold tabular-nums text-surface-50">{value}</p>
     </div>
   )
@@ -208,17 +217,29 @@ export default function WhatIfMetricPanel({
       </p>
 
       <div className="grid shrink-0 grid-cols-2 gap-2">
-        <Kpi label="Links Drawn" value={linkCount} accent={kpiAccent} />
-        <Kpi label="Changed Segs" value={block?.n_changed ?? '—'} accent={kpiAccent} />
+        <Kpi
+          label="Links Drawn"
+          value={linkCount}
+          accent={kpiAccent}
+          icon={<Waypoints className="h-3.5 w-3.5" aria-hidden />}
+        />
+        <Kpi
+          label="Changed Segs"
+          value={block?.n_changed ?? '—'}
+          accent={kpiAccent}
+          icon={<GitCompareArrows className="h-3.5 w-3.5" aria-hidden />}
+        />
         <Kpi
           label="Max Δ"
           value={block ? formatMetricValue(block.max_delta) : '—'}
           accent={kpiAccent}
+          icon={<TrendingUp className="h-3.5 w-3.5" aria-hidden />}
         />
         <Kpi
           label="Min Δ"
           value={block ? formatMetricValue(block.min_delta) : '—'}
           accent={kpiAccent}
+          icon={<TrendingDown className="h-3.5 w-3.5" aria-hidden />}
         />
       </div>
 

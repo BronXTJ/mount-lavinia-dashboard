@@ -1,8 +1,11 @@
 import { useEffect, useId, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Info, X } from 'lucide-react'
 
 /**
  * Teal info chip — centered modal (default) or anchored popover above the trigger.
+ * Modal is portaled to document.body so parent transforms (e.g. toolbar -translate-x-1/2)
+ * cannot pin it to the bottom of the map.
  * @param {{
  *   title: string,
  *   points?: string[],
@@ -103,6 +106,34 @@ export default function MetricInfoButton({
     </>
   )
 
+  const modalOverlay =
+    open && !isPopover
+      ? createPortal(
+          <div
+            className={`fixed inset-0 z-[2000] flex items-center justify-center p-4 ${
+              closing ? 'typology-info-overlay-exit' : 'typology-info-overlay-enter'
+            }`}
+            style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
+            onClick={requestClose}
+            role="presentation"
+          >
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={titleId}
+              className={`w-full max-w-[420px] rounded-xl border border-[#2a3a4a] p-6 shadow-[0_16px_48px_rgba(0,0,0,0.6)] ${
+                closing ? 'typology-info-modal-exit' : 'typology-info-modal-enter'
+              }`}
+              style={{ backgroundColor: '#1a2535' }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              {panelBody}
+            </div>
+          </div>,
+          document.body,
+        )
+      : null
+
   return (
     <div ref={rootRef} className={isPopover ? 'relative' : undefined}>
       <button
@@ -114,13 +145,7 @@ export default function MetricInfoButton({
         }}
         aria-label={ariaLabel ?? title}
         aria-expanded={open}
-        className={[
-          'relative flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center overflow-visible rounded-full bg-[#00b4d8] text-white shadow-[0_0_0_2px_rgba(0,180,216,0.35)] transition-colors hover:bg-[#33c3e0]',
-          // Keep trigger above modal overlay so a second click toggles closed
-          open && !isPopover ? 'z-[2100]' : '',
-        ]
-          .filter(Boolean)
-          .join(' ')}
+        className="relative flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center overflow-visible rounded-full bg-[#00b4d8] text-white shadow-[0_0_0_2px_rgba(0,180,216,0.35)] transition-colors hover:bg-[#33c3e0]"
       >
         {pulse && !open && (
           <span
@@ -149,29 +174,7 @@ export default function MetricInfoButton({
         </div>
       ) : null}
 
-      {open && !isPopover ? (
-        <div
-          className={`fixed inset-0 z-[2000] flex items-center justify-center p-4 ${
-            closing ? 'typology-info-overlay-exit' : 'typology-info-overlay-enter'
-          }`}
-          style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
-          onClick={requestClose}
-          role="presentation"
-        >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={titleId}
-            className={`w-full max-w-[420px] rounded-xl border border-[#2a3a4a] p-6 shadow-[0_16px_48px_rgba(0,0,0,0.6)] ${
-              closing ? 'typology-info-modal-exit' : 'typology-info-modal-enter'
-            }`}
-            style={{ backgroundColor: '#1a2535' }}
-            onClick={(event) => event.stopPropagation()}
-          >
-            {panelBody}
-          </div>
-        </div>
-      ) : null}
+      {modalOverlay}
     </div>
   )
 }

@@ -4,7 +4,9 @@ import { colorForValue, getMetricValue } from '../../../utils/centralityStats.js
 import { WHAT_IF_NEW_GLOW_COLOR } from '../../../constants/centralityWhatIf.js'
 
 /**
- * After sDNA, newly added segments: solid ramp color + soft outer glow so they stay identifiable.
+ * After sDNA, newly added segments: exact ramp color via colorForValue (same as main
+ * network layer) + soft outer glow so they stay identifiable.
+ * `geojson` / `stats` must be the same scenario layers passed to CentralityMap.
  */
 export default function WhatIfNewSegmentsLayer({
   geojson,
@@ -43,7 +45,7 @@ export default function WhatIfNewSegmentsLayer({
   return (
     <>
       <GeoJSON
-        key={`whatif-new-glow-${metric}-${scaleMeters}-${data.features.length}`}
+        key={`whatif-new-glow-${metric}-${scaleMeters}-${data.features.length}-${stats?.min ?? 'x'}-${stats?.max ?? 'x'}`}
         data={data}
         style={() => ({
           color: WHAT_IF_NEW_GLOW_COLOR,
@@ -56,7 +58,7 @@ export default function WhatIfNewSegmentsLayer({
         renderer={renderer}
       />
       <GeoJSON
-        key={`whatif-new-line-${metric}-${scaleMeters}-${data.features.length}`}
+        key={`whatif-new-line-${metric}-${scaleMeters}-${data.features.length}-${stats?.min ?? 'x'}-${stats?.max ?? 'x'}`}
         data={data}
         style={lineStyle}
         renderer={renderer}

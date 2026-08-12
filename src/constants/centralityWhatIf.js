@@ -11,11 +11,17 @@ export const WHAT_IF_DRAW_TOOLS = {
   erase: 'erase',
 }
 
-export const WHAT_IF_PROPOSED_COLOR = '#f97316'
+/**
+ * Pending proposal stroke — used only before sDNA has metric values.
+ * Never a centrality ramp stop; post-sDNA color comes from colorForValue(NQPDA|BtA).
+ */
+export const WHAT_IF_PENDING_COLOR = '#e2e8f0'
+/** @deprecated Alias — prefer WHAT_IF_PENDING_COLOR */
+export const WHAT_IF_PROPOSED_COLOR = WHAT_IF_PENDING_COLOR
 /** Snap UI chrome — off both centrality ramps; readable on light + dark basemaps. */
 export const WHAT_IF_SNAP_COLOR = '#d946ef'
 export const WHAT_IF_SNAP_STROKE = '#ffffff'
-export const WHAT_IF_RUBBER_COLOR = '#fb923c'
+export const WHAT_IF_RUBBER_COLOR = WHAT_IF_PENDING_COLOR
 /** Soft outer halo so newly added (post-sDNA) segments stay identifiable. */
 export const WHAT_IF_NEW_GLOW_COLOR = '#ffffff'
 
@@ -49,7 +55,7 @@ export const DEFAULT_WHAT_IF_VISIBLE = {
 }
 
 export const WHAT_IF_FAB_EXTRA_LAYERS = [
-  { id: 'proposedLinks', label: 'Proposed Links', dot: WHAT_IF_PROPOSED_COLOR },
+  { id: 'proposedLinks', label: 'Proposed Links (pending)', dot: WHAT_IF_PENDING_COLOR },
   { id: 'snapNodes', label: 'Snap Nodes', dot: WHAT_IF_SNAP_COLOR },
 ]
 

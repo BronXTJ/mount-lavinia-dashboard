@@ -28,10 +28,12 @@ function ToolBtn({ active, onClick, label, children, accent, disabled }) {
 }
 
 const TOOLBAR_INFO = [
+  'Pencil / Eraser: click to activate; click the same icon again to deselect (back to pan). Choosing another tool quits the previous one.',
   'Pencil: click magenta snap nodes on the network to draw a proposed link; double-click, ✓, or Esc to finish.',
+  'Pending links are dashed light grey until sDNA finishes — then they take the active closeness/betweenness legend color.',
   'SNAP: stick to network nodes. FREE: place vertices exactly where you click.',
-  'Snap nodes appear only while the pencil tool is active, and only on the analysis road network.',
-  'Eraser: click the tool, then click one drawn link to delete only that link (not all).',
+  'Magenta snap nodes stay on the analysis road network while Snap Nodes is enabled in layers.',
+  'Eraser: activate, then click one drawn link to delete only that link (not all).',
   'Undo / Redo: toolbar or Ctrl+Z / Ctrl+Y.',
   '▶ runs local sDNA when npm run what-if:worker is online.',
 ]
@@ -53,6 +55,10 @@ export default function WhatIfDrawToolbar({
   runLabel = 'Export proposed links',
   statusText,
 }) {
+  function selectTool(next) {
+    onToolChange(tool === next ? WHAT_IF_DRAW_TOOLS.pan : next)
+  }
+
   return (
     <div className="pointer-events-auto absolute bottom-4 left-1/2 z-[1000] flex -translate-x-1/2 flex-col items-center gap-2">
       {statusText ? (
@@ -63,22 +69,22 @@ export default function WhatIfDrawToolbar({
       <div className="flex items-center gap-1.5 rounded-xl border border-surface-600 bg-surface-900/95 p-1.5 shadow-card backdrop-blur">
         <ToolBtn
           active={tool === WHAT_IF_DRAW_TOOLS.pan}
-          onClick={() => onToolChange(WHAT_IF_DRAW_TOOLS.pan)}
+          onClick={() => selectTool(WHAT_IF_DRAW_TOOLS.pan)}
           label="Pan map"
         >
           <Hand size={18} />
         </ToolBtn>
         <ToolBtn
           active={tool === WHAT_IF_DRAW_TOOLS.pencil}
-          onClick={() => onToolChange(WHAT_IF_DRAW_TOOLS.pencil)}
-          label="Draw link"
+          onClick={() => selectTool(WHAT_IF_DRAW_TOOLS.pencil)}
+          label="Draw link — click again to deselect"
         >
           <Pencil size={18} />
         </ToolBtn>
         <ToolBtn
           active={tool === WHAT_IF_DRAW_TOOLS.erase}
-          onClick={() => onToolChange(WHAT_IF_DRAW_TOOLS.erase)}
-          label="Erase one link — then click a drawn segment"
+          onClick={() => selectTool(WHAT_IF_DRAW_TOOLS.erase)}
+          label="Erase one link — click again to deselect"
         >
           <Eraser size={18} />
         </ToolBtn>
@@ -113,7 +119,6 @@ export default function WhatIfDrawToolbar({
             title="What-if Drawing Tools"
             ariaLabel="What-if drawing help"
             points={TOOLBAR_INFO}
-            variant="popover"
           />
         </div>
       </div>

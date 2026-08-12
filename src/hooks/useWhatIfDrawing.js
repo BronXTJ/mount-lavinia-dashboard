@@ -231,6 +231,18 @@ export function useWhatIfDrawing(snapNodes) {
     })
   }, [])
 
+  /** Switch tools; leaving pencil cancels an unfinished draft. */
+  const selectTool = useCallback(
+    (next) => {
+      if (tool === WHAT_IF_DRAW_TOOLS.pencil && next !== WHAT_IF_DRAW_TOOLS.pencil) {
+        setCursorLatLng(null)
+        cancelDraft()
+      }
+      setTool(next)
+    },
+    [tool, cancelDraft],
+  )
+
   const resetDrawing = useCallback(() => {
     setState(EMPTY)
   }, [])
@@ -255,7 +267,8 @@ export function useWhatIfDrawing(snapNodes) {
 
   return {
     tool,
-    setTool,
+    setTool: selectTool,
+    selectTool,
     snapEnabled,
     setSnapEnabled,
     draftCoords,

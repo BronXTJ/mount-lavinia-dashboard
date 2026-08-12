@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { CircleMarker, GeoJSON, Polyline, useMap, useMapEvents } from 'react-leaflet'
 import {
   WHAT_IF_DRAW_TOOLS,
-  WHAT_IF_NEW_GLOW_COLOR,
-  WHAT_IF_PROPOSED_COLOR,
+  WHAT_IF_PENDING_COLOR,
+  WHAT_IF_RUBBER_COLOR,
   WHAT_IF_SNAP_COLOR,
   WHAT_IF_SNAP_PX,
   WHAT_IF_SNAP_STROKE,
@@ -183,16 +183,18 @@ export default function WhatIfSnapDrawLayer({
   onRedo,
   links = [],
   onEraseLink,
-  /** When true, finished links are hidden (sDNA map shows them) — only drafts stay dotted. */
+  /** When true, finished links are hidden (sDNA map shows them with ramp colors). */
   hideFinishedProposed = false,
-  /** Distinct proposal colour (not a metric ramp stop). */
-  pendingLineColor = WHAT_IF_PROPOSED_COLOR,
-  /** Keep finished lines pickable in erase mode even after sDNA hides the overlay. */
+  /** Pending stroke only — never a metric ramp colour. */
+  pendingLineColor = WHAT_IF_PENDING_COLOR,
+  /**
+   * Erase mode: show finished link geometry for hit-testing.
+   * When scenario is active this is a neutral dashed pick target — not a fake ramp / branding color.
+   */
   forceShowFinishedForErase = false,
 }) {
   const [snapPreview, setSnapPreview] = useState(null)
 
-  // local state without importing useState at top awkwardly - fix import
   const rubberPositions =
     draftCoords.length && cursorLatLng
       ? [
@@ -201,7 +203,9 @@ export default function WhatIfSnapDrawLayer({
         ]
       : null
 
+  // After sDNA: hide flat proposal overlay unless erase needs pick targets
   const showFinished = !hideFinishedProposed || forceShowFinishedForErase
+  const erasePickOnly = hideFinishedProposed && forceShowFinishedForErase
 
   const { draftFc, finishedFc } = useMemo(() => {
     const features = proposedGeoJson?.features ?? []
@@ -278,33 +282,38 @@ export default function WhatIfSnapDrawLayer({
         />
       ) : null}
 
-      {/* Finished proposals: solid orange + white glow (not a metric ramp colour) */}
+      {/*
+        Finished proposals — pending only (pre-sDNA). After activeScenario these are hidden;
+        color comes from scenario GeoJSON + colorForValue. Erase may show dashed pick targets.
+      */}
       {showProposed && finishedFc ? (
-        <>
+        erasePickOnly ? (
           <GeoJSON
-            key={`proposed-finished-glow-${finishedFc.features.length}-${forceShowFinishedForErase}`}
-            data={finishedFc}
-            style={() => ({
-              color: WHAT_IF_NEW_GLOW_COLOR,
-              weight: 11,
-              opacity: forceShowFinishedForErase ? 0.55 : 0.35,
-              lineCap: 'round',
-              lineJoin: 'round',
-              className: 'whatif-new-segment-glow',
-            })}
-          />
-          <GeoJSON
-            key={`proposed-finished-${finishedFc.features.length}-${pendingLineColor}-${forceShowFinishedForErase}`}
+            key={`proposed-erase-pick-${finishedFc.features.length}`}
             data={finishedFc}
             style={() => ({
               color: pendingLineColor,
-              weight: forceShowFinishedForErase ? 6 : 4.5,
-              opacity: 1,
+              weight: 8,
+              opacity: 0.35,
+              dashArray: '6 8',
               lineCap: 'round',
               lineJoin: 'round',
             })}
           />
-        </>
+        ) : (
+          <GeoJSON
+            key={`proposed-finished-pending-${finishedFc.features.length}-${pendingLineColor}`}
+            data={finishedFc}
+            style={() => ({
+              color: pendingLineColor,
+              weight: 3.5,
+              opacity: 0.95,
+              dashArray: '8 6',
+              lineCap: 'round',
+              lineJoin: 'round',
+            })}
+          />
+        )
       ) : null}
 
       {showProposed && draftFc ? (
@@ -324,7 +333,7 @@ export default function WhatIfSnapDrawLayer({
         <Polyline
           positions={rubberPositions}
           pathOptions={{
-            color: pendingLineColor,
+            color: WHAT_IF_RUBBER_COLOR,
             weight: 2,
             dashArray: '4 6',
             opacity: 0.85,

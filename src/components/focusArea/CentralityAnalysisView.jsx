@@ -49,6 +49,8 @@ export default function CentralityAnalysisView() {
   const currentScaleLabel = scaleLabel(scaleMeters)
   const linkCount = drawing.links.length
 
+  // IDs present in scenario GeoJSON but not baseline — fed to WhatIfNewSegmentsLayer
+  // with the same mapCloseness/mapBetweenness + scenario stats as the main GeoJSON layer.
   const newSegmentIds = useMemo(() => {
     if (!scenarioApi.activeScenario || !scenarioApi.scenarioCloseness?.features?.length) {
       return null
