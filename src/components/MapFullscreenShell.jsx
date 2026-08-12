@@ -67,15 +67,11 @@ export default function MapFullscreenShell({ children, className = '', innerClas
     // Re-assert after Strict Mode remount so CSS hide rules stay active.
     setMapFullscreenFlag(true)
 
-    const onKey = (e) => {
-      if (e.key === 'Escape') closeExpanded()
-    }
-    document.addEventListener('keydown', onKey)
+    // Esc must NOT close enlarge — What-if drawing uses Esc; close only via X.
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
     return () => {
-      document.removeEventListener('keydown', onKey)
       document.body.style.overflow = prevOverflow
     }
   }, [expanded])
