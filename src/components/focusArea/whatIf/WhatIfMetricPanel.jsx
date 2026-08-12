@@ -93,7 +93,7 @@ function RankingsEmptyState({ accent = 'primary', headline, subline }) {
   )
 }
 
-function TopList({ title, rows, onSelect, tone = 'gain' }) {
+function TopList({ title, rows, onSelect, tone = 'gain', infoTitle, infoPoints, infoAria }) {
   const headerClass =
     tone === 'loss'
       ? 'border-l-4 border-l-rose-500 bg-rose-500/10 text-rose-300'
@@ -101,11 +101,19 @@ function TopList({ title, rows, onSelect, tone = 'gain' }) {
 
   return (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-      <h3
-        className={`shrink-0 rounded-md px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wide ${headerClass}`}
+      <div
+        className={`flex shrink-0 items-center justify-between gap-2 rounded-md px-2 py-1.5 ${headerClass}`}
       >
-        {title}
-      </h3>
+        <h3 className="text-[11px] font-semibold uppercase tracking-wide">{title}</h3>
+        {infoPoints?.length ? (
+          <MetricInfoButton
+            title={infoTitle ?? title}
+            ariaLabel={infoAria ?? `What does ${title} show?`}
+            points={infoPoints}
+            pulse={false}
+          />
+        ) : null}
+      </div>
       <ul className="mt-1.5 min-h-0 flex-1 space-y-1 overflow-y-auto overflow-x-hidden pr-0.5">
         {rows.slice(0, 12).map((row) => (
           <li key={`${title}-${row.ID}`} className="min-w-0">
@@ -145,15 +153,31 @@ const CLOSENESS_INFO = [
   'Closeness Change is the change in angular closeness (NQPDA) after your proposed links vs the baseline network.',
   'Drawing on the map alone does not fill these numbers — a local sDNA job must finish first.',
   'Start npm run what-if:worker on this PC, then finish a link or press ▶.',
-  'Click a Top Gainer / Top Loser to highlight that segment on the map.',
 ]
 
 const BETWEENNESS_INFO = [
   'Betweenness Change is the change in angular betweenness (BtA) after your proposed links vs the baseline network.',
   'These rankings appear only after local sDNA completes — not from drawing alone.',
   'Keep the What-if worker running (npm run what-if:worker) for live results.',
-  'Click a Top Gainer / Top Loser to highlight that segment on the map.',
 ]
+
+function gainersInfo(metricCode, label) {
+  return [
+    `Top Gainers are road segments with the largest positive Δ in ${label} (${metricCode}) after your proposed links vs the baseline.`,
+    'A higher Δ means that segment became more central (easier to reach / stronger through-route role) at the active scale.',
+    'Click a row to highlight that segment on the map.',
+    'Lists fill only after local sDNA finishes — drawing alone is not enough.',
+  ]
+}
+
+function losersInfo(metricCode, label) {
+  return [
+    `Top Losers are road segments with the largest negative Δ in ${label} (${metricCode}) after your proposed links vs the baseline.`,
+    'A lower Δ means that segment became less central (less reachable / weaker through-route role) at the active scale.',
+    'Click a row to highlight that segment on the map.',
+    'Lists fill only after local sDNA finishes — drawing alone is not enough.',
+  ]
+}
 
 /** What-if side panel for closeness or betweenness Δ rankings. */
 export default function WhatIfMetricPanel({
@@ -171,11 +195,14 @@ export default function WhatIfMetricPanel({
   const block = deltaBlock?.[metric] ?? null
   const title = isCloseness ? 'Closeness Change' : 'Betweenness Change'
   const metricCode = isCloseness ? 'NQPDA' : 'BtA'
+  const metricLabel = isCloseness ? 'angular closeness' : 'angular betweenness'
   const AccentIcon = isCloseness ? Gauge : Split
   const accentBorder = isCloseness ? 'border-primary-500' : 'border-orange-500'
   const accentIconClass = isCloseness ? 'text-primary-300' : 'text-orange-300'
   const kpiAccent = isCloseness ? 'primary' : 'orange'
   const infoPoints = isCloseness ? CLOSENESS_INFO : BETWEENNESS_INFO
+  const gainerPoints = gainersInfo(metricCode, metricLabel)
+  const loserPoints = losersInfo(metricCode, metricLabel)
   const statusLine = sdnaMissing
     ? 'sDNA Missing On This PC'
     : status === WHAT_IF_STATUS.needsCompute && workerOnline
@@ -257,6 +284,9 @@ export default function WhatIfMetricPanel({
               tone="gain"
               rows={block.top_gainers}
               onSelect={onSegmentClick}
+              infoTitle="Top Gainers"
+              infoAria="What do Top Gainers show?"
+              infoPoints={gainerPoints}
             />
           ) : null}
           {block?.top_losers?.length ? (
@@ -265,6 +295,9 @@ export default function WhatIfMetricPanel({
               tone="loss"
               rows={block.top_losers}
               onSelect={onSegmentClick}
+              infoTitle="Top Losers"
+              infoAria="What do Top Losers show?"
+              infoPoints={loserPoints}
             />
           ) : null}
         </div>
