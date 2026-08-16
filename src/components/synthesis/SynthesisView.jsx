@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { RotateCcw } from 'lucide-react'
+import MapFullscreenShell, { FullscreenEnlargeButton } from '../MapFullscreenShell.jsx'
 import MetricInfoButton from '../focusArea/MetricInfoButton.jsx'
 import FindingDetailPanel from './FindingDetailPanel.jsx'
 import FindingsForceGraph from './FindingsForceGraph.jsx'
@@ -33,7 +34,14 @@ export default function SynthesisView({ onFocusAreaSub, selectedId, onSelectFind
       <StorySpine selectedId={selectedId} onSelect={onSelectFinding} />
 
       <div className="flex min-h-[420px] flex-col gap-3 lg:h-[calc(100vh-14rem)] lg:min-h-[480px] lg:flex-row lg:gap-4">
-        <div className="flex min-h-[320px] flex-[58] flex-col overflow-hidden rounded-xl border border-surface-700 bg-surface-800 shadow-card lg:min-h-0">
+        <MapFullscreenShell
+          className="flex min-h-[320px] flex-[58] flex-col lg:min-h-0"
+          innerClassName="flex flex-col overflow-hidden rounded-xl border border-surface-700 bg-surface-800 shadow-card"
+          trackDocumentFullscreen={false}
+          showFloatingEnlarge={false}
+          enlargeLabel="Enlarge relationships graph"
+          closeLabel="Close relationships graph"
+        >
           <div className="flex flex-wrap items-center gap-2 border-b border-surface-700 px-3 py-2.5">
             <h2 className="font-display text-sm font-semibold text-surface-50">Relationships</h2>
             <MetricInfoButton
@@ -50,6 +58,10 @@ export default function SynthesisView({ onFocusAreaSub, selectedId, onSelectFind
                   </span>
                 ))}
               </div>
+              <FullscreenEnlargeButton
+                label="Enlarge relationships graph"
+                title="Enlarge relationships graph"
+              />
               <button
                 type="button"
                 onClick={() => setResetToken((t) => t + 1)}
@@ -105,7 +117,7 @@ export default function SynthesisView({ onFocusAreaSub, selectedId, onSelectFind
               activeDomains={activeDomains}
             />
           </div>
-        </div>
+        </MapFullscreenShell>
 
         <div className="flex min-h-[360px] flex-[42] flex-col lg:min-h-0">
           <FindingDetailPanel

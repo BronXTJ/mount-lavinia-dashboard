@@ -1,11 +1,42 @@
 import { createContext, useContext, useEffect, useState, useSyncExternalStore } from 'react'
 import { Maximize2, X } from 'lucide-react'
 
-const MapFullscreenContext = createContext(false)
+const FullscreenShellContext = createContext(null)
 
-/** True when the nearest MapFullscreenShell is expanded to the viewport. */
+/** True when the nearest fullscreen shell is expanded. */
 export function useMapFullscreen() {
-  return useContext(MapFullscreenContext)
+  const ctx = useContext(FullscreenShellContext)
+  return Boolean(ctx?.expanded)
+}
+
+/** Open / close controls for a parent-rendered enlarge button. */
+export function useFullscreenShell() {
+  return useContext(FullscreenShellContext)
+}
+
+export const fullscreenShellBtnClass =
+  'pointer-events-auto flex h-10 w-10 items-center justify-center rounded-lg border border-surface-700 bg-surface-850/95 text-surface-100 shadow-card backdrop-blur transition hover:bg-surface-800 hover:text-white'
+
+/** Header or toolbar enlarge control — pair with `showFloatingEnlarge={false}`. */
+export function FullscreenEnlargeButton({
+  className = '',
+  label = 'Enlarge',
+  title = label,
+}) {
+  const shell = useFullscreenShell()
+  if (!shell || shell.expanded) return null
+
+  return (
+    <button
+      type="button"
+      className={`${fullscreenShellBtnClass} ${className}`.trim()}
+      aria-label={label}
+      title={title}
+      onClick={shell.open}
+    >
+      <Maximize2 className="h-4 w-4" aria-hidden />
+    </button>
+  )
 }
 
 const mapFullscreenListeners = new Set()
@@ -36,54 +67,66 @@ export function useDocumentMapFullscreen() {
   return useSyncExternalStore(subscribeMapFullscreen, getMapFullscreenSnapshot, () => false)
 }
 
-const btnClass =
-  'pointer-events-auto flex h-10 w-10 items-center justify-center rounded-lg border border-surface-700 bg-surface-850/95 text-surface-100 shadow-card backdrop-blur transition hover:bg-surface-800 hover:text-white'
-
 /**
- * Keeps the map in layout while allowing a fixed full-viewport enlarge mode.
- * Same Leaflet instance is reused so pan/zoom are preserved.
+ * Keeps content in layout while allowing a fixed full-viewport enlarge mode.
+ * Maps reuse the same Leaflet instance so pan/zoom are preserved.
  *
  * @param {object} props
  * @param {React.ReactNode} props.children
  * @param {string} [props.className] — applied to the outer in-flow wrapper
- * @param {string} [props.innerClassName] — extra classes on the map surface (e.g. rounded border when collapsed)
+ * @param {string} [props.innerClassName] — extra classes on the surface when collapsed
+ * @param {boolean} [props.trackDocumentFullscreen] — set html[data-map-fullscreen] (maps only)
+ * @param {boolean} [props.showFloatingEnlarge] — built-in bottom-left / map enlarge button
+ * @param {string} [props.enlargeButtonClassName]
+ * @param {string} [props.enlargeLabel]
+ * @param {string} [props.closeLabel]
  */
-export default function MapFullscreenShell({ children, className = '', innerClassName = '' }) {
+export default function MapFullscreenShell({
+  children,
+  className = '',
+  innerClassName = '',
+  trackDocumentFullscreen = true,
+  showFloatingEnlarge = true,
+  enlargeButtonClassName = 'map-enlarge-btn',
+  enlargeLabel = 'Enlarge map',
+  closeLabel = 'Close full map',
+}) {
   const [expanded, setExpanded] = useState(false)
 
   function openExpanded() {
-    setMapFullscreenFlag(true)
+    if (trackDocumentFullscreen) setMapFullscreenFlag(true)
     setExpanded(true)
   }
 
   function closeExpanded() {
     setExpanded(false)
-    setMapFullscreenFlag(false)
+    if (trackDocumentFullscreen) setMapFullscreenFlag(false)
   }
 
   useEffect(() => {
     if (!expanded) return undefined
 
-    // Re-assert after Strict Mode remount so CSS hide rules stay active.
-    setMapFullscreenFlag(true)
+    if (trackDocumentFullscreen) setMapFullscreenFlag(true)
 
-    // Esc must NOT close enlarge — What-if drawing uses Esc; close only via X.
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
     return () => {
       document.body.style.overflow = prevOverflow
     }
-  }, [expanded])
+  }, [expanded, trackDocumentFullscreen])
 
   useEffect(() => {
+    if (!trackDocumentFullscreen) return undefined
     return () => {
       setMapFullscreenFlag(false)
     }
-  }, [])
+  }, [trackDocumentFullscreen])
+
+  const shellValue = { expanded, open: openExpanded, close: closeExpanded }
 
   return (
-    <MapFullscreenContext.Provider value={expanded}>
+    <FullscreenShellContext.Provider value={shellValue}>
       <div className={`relative h-full w-full ${className}`.trim()}>
         <div
           className={
@@ -102,26 +145,26 @@ export default function MapFullscreenShell({ children, className = '', innerClas
           {expanded ? (
             <button
               type="button"
-              className={`${btnClass} absolute right-4 top-4 z-[2100]`}
-              aria-label="Close full map"
-              title="Close full map"
+              className={`${fullscreenShellBtnClass} absolute right-4 top-4 z-[2100]`}
+              aria-label={closeLabel}
+              title={closeLabel}
               onClick={closeExpanded}
             >
               <X className="h-5 w-5" aria-hidden />
             </button>
-          ) : (
+          ) : showFloatingEnlarge ? (
             <button
               type="button"
-              className={`${btnClass} map-enlarge-btn absolute z-[1000]`}
-              aria-label="Enlarge map"
-              title="Enlarge map"
+              className={`${fullscreenShellBtnClass} ${enlargeButtonClassName} absolute z-[1000]`}
+              aria-label={enlargeLabel}
+              title={enlargeLabel}
               onClick={openExpanded}
             >
               <Maximize2 className="h-4 w-4" aria-hidden />
             </button>
-          )}
+          ) : null}
         </div>
       </div>
-    </MapFullscreenContext.Provider>
+    </FullscreenShellContext.Provider>
   )
 }
