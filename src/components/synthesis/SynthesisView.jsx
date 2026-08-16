@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { RotateCcw } from 'lucide-react'
-import MapFullscreenShell, { FullscreenEnlargeButton } from '../MapFullscreenShell.jsx'
+import MapFullscreenShell, { FullscreenCloseButton, FullscreenEnlargeButton } from '../MapFullscreenShell.jsx'
 import MetricInfoButton from '../focusArea/MetricInfoButton.jsx'
 import FindingDetailPanel from './FindingDetailPanel.jsx'
 import FindingsForceGraph from './FindingsForceGraph.jsx'
@@ -37,12 +37,14 @@ export default function SynthesisView({ onFocusAreaSub, selectedId, onSelectFind
         <MapFullscreenShell
           className="flex min-h-[320px] flex-[58] flex-col lg:min-h-0"
           innerClassName="flex flex-col overflow-hidden rounded-xl border border-surface-700 bg-surface-800 shadow-card"
+          expandedInnerClassName="flex h-full min-h-0 flex-col overflow-hidden bg-surface-800"
           trackDocumentFullscreen={false}
           showFloatingEnlarge={false}
+          showFloatingClose={false}
           enlargeLabel="Enlarge relationships graph"
           closeLabel="Close relationships graph"
         >
-          <div className="flex flex-wrap items-center gap-2 border-b border-surface-700 px-3 py-2.5">
+          <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-surface-700 px-3 py-2.5">
             <h2 className="font-display text-sm font-semibold text-surface-50">Relationships</h2>
             <MetricInfoButton
               title={SYNTHESIS_INFO.graph.title}
@@ -62,6 +64,10 @@ export default function SynthesisView({ onFocusAreaSub, selectedId, onSelectFind
                 label="Enlarge relationships graph"
                 title="Enlarge relationships graph"
               />
+              <FullscreenCloseButton
+                label="Close relationships graph"
+                title="Close relationships graph"
+              />
               <button
                 type="button"
                 onClick={() => setResetToken((t) => t + 1)}
@@ -73,7 +79,7 @@ export default function SynthesisView({ onFocusAreaSub, selectedId, onSelectFind
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-1.5 border-b border-surface-700 px-3 py-2">
+          <div className="flex shrink-0 flex-wrap items-center gap-1.5 border-b border-surface-700 px-3 py-2">
             {Object.entries(DOMAIN_META).map(([key, meta]) => {
               const on = activeDomains.has(key)
               return (

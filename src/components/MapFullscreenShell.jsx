@@ -39,6 +39,28 @@ export function FullscreenEnlargeButton({
   )
 }
 
+/** Header close control — pair with `showFloatingClose={false}`. */
+export function FullscreenCloseButton({
+  className = '',
+  label = 'Close',
+  title = label,
+}) {
+  const shell = useFullscreenShell()
+  if (!shell?.expanded) return null
+
+  return (
+    <button
+      type="button"
+      className={`${fullscreenShellBtnClass} ${className}`.trim()}
+      aria-label={label}
+      title={title}
+      onClick={shell.close}
+    >
+      <X className="h-4 w-4" aria-hidden />
+    </button>
+  )
+}
+
 const mapFullscreenListeners = new Set()
 
 function emitMapFullscreenChange() {
@@ -75,8 +97,10 @@ export function useDocumentMapFullscreen() {
  * @param {React.ReactNode} props.children
  * @param {string} [props.className] — applied to the outer in-flow wrapper
  * @param {string} [props.innerClassName] — extra classes on the surface when collapsed
+ * @param {string} [props.expandedInnerClassName] — extra classes when enlarged (panel chrome / flex column)
  * @param {boolean} [props.trackDocumentFullscreen] — set html[data-map-fullscreen] (maps only)
- * @param {boolean} [props.showFloatingEnlarge] — built-in bottom-left / map enlarge button
+ * @param {boolean} [props.showFloatingEnlarge] — built-in map enlarge button
+ * @param {boolean} [props.showFloatingClose] — built-in top-right close (maps); false when header owns close
  * @param {string} [props.enlargeButtonClassName]
  * @param {string} [props.enlargeLabel]
  * @param {string} [props.closeLabel]
@@ -85,8 +109,10 @@ export default function MapFullscreenShell({
   children,
   className = '',
   innerClassName = '',
+  expandedInnerClassName = '',
   trackDocumentFullscreen = true,
   showFloatingEnlarge = true,
+  showFloatingClose = true,
   enlargeButtonClassName = 'map-enlarge-btn',
   enlargeLabel = 'Enlarge map',
   closeLabel = 'Close full map',
@@ -131,7 +157,7 @@ export default function MapFullscreenShell({
         <div
           className={
             expanded
-              ? 'fixed bottom-0 right-0 top-0 z-[2500] isolate bg-surface-950'
+              ? `fixed inset-y-0 right-0 z-[2500] isolate h-full min-h-0 overflow-hidden bg-surface-950 ${expandedInnerClassName}`.trim()
               : `absolute inset-0 overflow-hidden ${innerClassName}`.trim()
           }
           style={
@@ -142,7 +168,7 @@ export default function MapFullscreenShell({
         >
           {children}
 
-          {expanded ? (
+          {expanded && showFloatingClose ? (
             <button
               type="button"
               className={`${fullscreenShellBtnClass} absolute right-4 top-4 z-[2100]`}
@@ -152,7 +178,8 @@ export default function MapFullscreenShell({
             >
               <X className="h-5 w-5" aria-hidden />
             </button>
-          ) : showFloatingEnlarge ? (
+          ) : null}
+          {!expanded && showFloatingEnlarge ? (
             <button
               type="button"
               className={`${fullscreenShellBtnClass} ${enlargeButtonClassName} absolute z-[1000]`}
