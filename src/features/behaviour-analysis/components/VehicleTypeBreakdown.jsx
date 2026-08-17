@@ -38,24 +38,24 @@ export default function VehicleTypeBreakdown({ junctionId, dayFilter, periodFilt
         )}
       </div>
 
-      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-x-4 sm:gap-y-3">
+      <div className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2">
         {VEHICLE_TYPE_ORDER.map((type) => {
           const seg = segments.find((s) => s.type === type)
           return (
             <div
               key={type}
-              className="flex items-start gap-2.5 rounded-md border border-surface-700/60 bg-surface-900/40 px-2.5 py-2 text-sm text-surface-200"
+              className="flex items-start gap-2 rounded-md border border-surface-700/60 bg-surface-900/40 px-2 py-1.5 text-xs text-surface-200"
             >
               <span
-                className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full"
+                className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{ backgroundColor: VEHICLE_TYPE_COLORS[type] }}
               />
               <span className="min-w-0 flex-1 leading-snug">
                 {VEHICLE_TYPE_LABELS[type] ?? type}
               </span>
-              <span className="ml-2 shrink-0 font-medium tabular-nums text-surface-50">
+              <span className="ml-1 shrink-0 font-medium tabular-nums text-surface-50">
                 {(seg?.count ?? 0).toLocaleString('en-US')}
-                <span className="ml-1.5 text-surface-200">
+                <span className="ml-1 text-surface-200">
                   ({(seg?.pct ?? 0).toFixed(0)}%)
                 </span>
               </span>
