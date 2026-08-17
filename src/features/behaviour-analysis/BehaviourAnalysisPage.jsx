@@ -38,7 +38,7 @@ export default function BehaviourAnalysisPage() {
         onPeriodChange={setPeriodFilter}
       />
 
-      <div className="grid min-h-0 flex-1 grid-cols-1 gap-3 p-3 lg:grid-cols-[25%_39%_36%]">
+      <div className="grid min-h-0 flex-1 grid-cols-1 gap-3 p-3 lg:grid-cols-[27%_39%_34%]">
         {/* Left panel */}
         <aside className="min-h-0 space-y-3 overflow-y-auto lg:pr-1">
           <JunctionCardList
