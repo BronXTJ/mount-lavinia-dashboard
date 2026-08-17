@@ -38,27 +38,29 @@ export default function VehicleTypeBreakdown({ junctionId, dayFilter, periodFilt
         )}
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2">
+      <div className="mt-4 grid grid-cols-2 grid-rows-2 gap-2">
         {VEHICLE_TYPE_ORDER.map((type) => {
           const seg = segments.find((s) => s.type === type)
           return (
             <div
               key={type}
-              className="flex items-start gap-2 rounded-md border border-surface-700/60 bg-surface-900/40 px-2 py-1.5 text-xs text-surface-200"
+              className="flex min-w-0 items-start gap-2 rounded-md border border-surface-700/60 bg-surface-900/40 px-2 py-1.5"
             >
               <span
                 className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{ backgroundColor: VEHICLE_TYPE_COLORS[type] }}
               />
-              <span className="min-w-0 flex-1 leading-snug">
-                {VEHICLE_TYPE_LABELS[type] ?? type}
-              </span>
-              <span className="ml-1 shrink-0 font-medium tabular-nums text-surface-50">
-                {(seg?.count ?? 0).toLocaleString('en-US')}
-                <span className="ml-1 text-surface-200">
-                  ({(seg?.pct ?? 0).toFixed(0)}%)
-                </span>
-              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs leading-snug text-surface-200">
+                  {VEHICLE_TYPE_LABELS[type] ?? type}
+                </p>
+                <p className="mt-0.5 text-xs font-medium tabular-nums text-surface-50">
+                  {(seg?.count ?? 0).toLocaleString('en-US')}
+                  <span className="ml-1 font-normal text-surface-200">
+                    ({(seg?.pct ?? 0).toFixed(0)}%)
+                  </span>
+                </p>
+              </div>
             </div>
           )
         })}
