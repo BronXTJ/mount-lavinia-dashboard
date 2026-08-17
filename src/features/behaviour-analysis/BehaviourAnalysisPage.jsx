@@ -10,6 +10,7 @@ import DirectionFlowChart from './components/DirectionFlowChart'
 import VehicleTypeBreakdown from './components/VehicleTypeBreakdown'
 import TimePeriodTrend from './components/TimePeriodTrend'
 import PedVehicleRatio from './components/PedVehicleRatio'
+import KeyFindingsBridge from '../../components/focusArea/KeyFindingsBridge.jsx'
 
 export default function BehaviourAnalysisPage() {
   const [dayFilter, setDayFilter] = useState('weekday')
@@ -46,6 +47,15 @@ export default function BehaviourAnalysisPage() {
           />
           <VolumeComparisonChart dayFilter={dayFilter} periodFilter={periodFilter} />
           <PedestrianOverviewChart dayFilter={dayFilter} />
+          <KeyFindingsBridge
+            bullets={[
+              'College Avenue–Galle Road is the busiest counted pedestrian junction (weekday morning 430).',
+              'That load sits on the same spine that centrality and the 800 m heat grid already flag.',
+              'Shade and sidewalk packages belong on this corridor first, not only as traffic works.',
+            ]}
+            chips={[{ id: 'MB1', label: 'MB1 Junction pedestrian load', to: '/synthesis?f=MB1' }]}
+            synthesisTo="/synthesis?f=MB1"
+          />
         </aside>
 
         {/* Center map */}
