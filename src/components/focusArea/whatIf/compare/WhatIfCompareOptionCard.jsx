@@ -57,8 +57,8 @@ export default function WhatIfCompareOptionCard({
       <div className="flex items-center justify-between gap-2">
         <span className="flex min-w-0 items-center gap-1.5">
           <span
-            className="flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-[10px] font-bold text-white"
-            style={{ backgroundColor: color.line }}
+            className="flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-[10px] font-bold"
+            style={{ backgroundColor: color.line, color: color.ink }}
           >
             {color.label}
           </span>

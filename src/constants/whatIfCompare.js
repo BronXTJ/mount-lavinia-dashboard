@@ -11,12 +11,15 @@ export const COMPARE_SLOT_STATUS = {
   error: 'error',
 }
 
-/** Colour + letter so A/B/C stay distinct without relying on hue alone. */
+/** Off-ramp identity colours (not NQPDA/BtA stops). Letter + ink keep chips readable. */
 export const COMPARE_SLOT_COLORS = {
-  A: { line: '#0891b2', label: 'A' },
-  B: { line: '#d97706', label: 'B' },
-  C: { line: '#7c3aed', label: 'C' },
+  A: { line: '#C5CAD3', ink: '#1e293b', label: 'A' },
+  B: { line: '#9A8B78', ink: '#1e293b', label: 'B' },
+  C: { line: '#4B5563', ink: '#f8fafc', label: 'C' },
 }
+
+/** Dark halo under Compare overlay strokes so light grey A still reads on Streets. */
+export const COMPARE_SLOT_HALO = '#1e293b'
 
 export const COMPARE_SESSION_KEY = 'ml.whatIf.compare.v1'
 export const COMPARE_TIP_SESSION_KEY = 'ml.whatIf.compare.tipDismissed'
