@@ -1,18 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, Plus } from 'lucide-react'
 import { DEFAULT_WHAT_IF_VISIBLE, WHAT_IF_DRAW_TOOLS, WHAT_IF_MODES } from '../../../../constants/centralityWhatIf.js'
-import { scaleLabel } from '../../../../constants/centrality.js'
 import {
   COMPARE_MAX_OPTIONS,
   COMPARE_SLOT_STATUS,
-  COMPARE_TIP_SESSION_KEY,
 } from '../../../../constants/whatIfCompare.js'
-import { COMPARE_HEADING_INFO, COMPARE_SCALE_INFO } from '../../../../constants/whatIfCompareHelpContent.js'
+import { COMPARE_HEADING_INFO } from '../../../../constants/whatIfCompareHelpContent.js'
 import { useWhatIfCompare } from '../../../../hooks/useWhatIfCompare.js'
 import { useWhatIfDrawing } from '../../../../hooks/useWhatIfDrawing.js'
 import { summarizeGeoJson } from '../../../../utils/centralityStats.js'
 import MetricInfoButton from '../../MetricInfoButton.jsx'
-import CentralityMap from '../../CentralityMap.jsx'
+import CentralityMap, { CentralityScaleChips } from '../../CentralityMap.jsx'
 import WhatIfCompareOptionCard from './WhatIfCompareOptionCard.jsx'
 import WhatIfCompareTable from './WhatIfCompareTable.jsx'
 
@@ -24,14 +22,6 @@ function downloadProposedGeoJson(geo) {
   a.download = 'proposed_links.geojson'
   a.click()
   URL.revokeObjectURL(url)
-}
-
-function readTipDismissed() {
-  try {
-    return sessionStorage.getItem(COMPARE_TIP_SESSION_KEY) === '1'
-  } catch {
-    return false
-  }
 }
 
 /** Compare workspace — alternative ideas A/B/C. Draw path stays in CentralityAnalysisView. */
@@ -61,7 +51,6 @@ export default function WhatIfCompareView({
   const lastSyncedSlot = useRef(null)
   const [selectedSegmentId, setSelectedSegmentId] = useState(null)
   const [whatIfVisible, setWhatIfVisible] = useState(DEFAULT_WHAT_IF_VISIBLE)
-  const [tipHidden, setTipHidden] = useState(readTipDismissed)
   const [drawHint, setDrawHint] = useState(null)
 
   const { slots, activeId, openedCount, readyCount } = compare
@@ -266,35 +255,28 @@ export default function WhatIfCompareView({
 
   const emptyWorkspace = openedCount === 1 && !slots.A.links.length && slots.A.status === COMPARE_SLOT_STATUS.empty
 
-  function dismissTip() {
-    setTipHidden(true)
-    try {
-      sessionStorage.setItem(COMPARE_TIP_SESSION_KEY, '1')
-    } catch {
-      /* ignore */
-    }
-  }
-
   return (
     <div className="what-if-compare-root flex min-h-0 flex-1 flex-col overflow-hidden pl-4">
-      <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-surface-700 px-3 py-2">
-        <div className="flex min-w-0 flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={handleBack}
-            className="inline-flex items-center gap-1 rounded-md border border-surface-600 px-2 py-1 text-[11px] text-surface-100 hover:bg-surface-800"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
-            Back to What-if
-          </button>
-          <h1 className="font-display text-sm font-semibold text-surface-50">Compare</h1>
-          <MetricInfoButton
-            title="What-if Compare"
-            ariaLabel="What does Compare show?"
-            points={COMPARE_HEADING_INFO}
-            pulse={false}
-          />
-          <p className="text-[11px] text-surface-400">You can compare up to 3 ideas</p>
+      <div className="flex shrink-0 flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b border-surface-700 px-3 py-1">
+        <div className="flex min-w-0 flex-wrap items-center gap-x-6 gap-y-1">
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={handleBack}
+              className="inline-flex items-center gap-1 rounded-md border border-surface-600 px-2 py-1 text-[11px] text-surface-100 hover:bg-surface-800"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
+              Back to What-if
+            </button>
+            <h1 className="font-display text-sm font-semibold text-surface-50">Compare</h1>
+            <MetricInfoButton
+              title="What-if Compare"
+              ariaLabel="What does Compare show?"
+              points={COMPARE_HEADING_INFO}
+              pulse={false}
+            />
+          </div>
+          <CentralityScaleChips scaleMeters={scaleMeters} onScaleChange={onScaleChange} />
         </div>
         <div className="flex flex-wrap items-center gap-2 text-[11px]">
           <span className={workerOnline ? 'text-emerald-400' : 'text-surface-400'}>
@@ -312,30 +294,8 @@ export default function WhatIfCompareView({
         </div>
       </div>
 
-      {!tipHidden ? (
-        <div className="flex shrink-0 items-start justify-between gap-2 border-b border-surface-800 bg-surface-850/60 px-3 py-1.5 text-[11px] text-surface-200">
-          <p>
-            Each card is a <strong className="font-semibold text-surface-50">different</strong> idea, not
-            another street on the same idea. Add a second idea to fill the comparison.
-          </p>
-          <button type="button" onClick={dismissTip} className="shrink-0 text-surface-400 hover:text-white">
-            Dismiss
-          </button>
-        </div>
-      ) : null}
-
       <div className="flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_30%] lg:overflow-hidden">
         <div className="flex min-h-[50vh] min-w-0 flex-1 flex-col lg:min-h-0">
-          <p className="flex shrink-0 flex-wrap items-center gap-2 px-3 py-1 text-[11px] text-surface-400">
-            <span>All options · {scaleLabel(scaleMeters)}</span>
-            <MetricInfoButton
-              title="Analysis radius"
-              ariaLabel="What do the radius chips do in Compare?"
-              points={COMPARE_SCALE_INFO}
-              pulse={false}
-            />
-            <span className="text-surface-200">Map: Option {activeId}</span>
-          </p>
           <div className="min-h-0 min-w-0 flex-1">
             <CentralityMap
               scaleMeters={scaleMeters}

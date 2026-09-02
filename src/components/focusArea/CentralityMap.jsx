@@ -175,6 +175,34 @@ function FlyToSegment({ segmentId, closeness, betweenness }) {
   return null
 }
 
+export function CentralityScaleChips({ scaleMeters, onScaleChange }) {
+  return (
+    <div className="flex shrink-0 flex-nowrap items-center gap-1.5 rounded-xl bg-surface-950/80 p-1 ring-1 ring-surface-700/50 backdrop-blur-sm">
+      {CENTRALITY_SCALES.map((scale) => {
+        const isActive = scaleMeters === scale.meters
+        return (
+          <button
+            key={scale.meters}
+            type="button"
+            title={scale.label}
+            aria-label={scale.label}
+            aria-pressed={isActive}
+            onClick={() => onScaleChange(scale.meters)}
+            className={[
+              'shrink-0 whitespace-nowrap rounded-[10px] px-3 py-1.5 text-[11px] transition-colors duration-200 ease-out select-none',
+              isActive
+                ? 'bg-surface-700 font-semibold text-primary-400 shadow-[0_0_0_1px_#00b4d8,0_4px_12px_rgba(0,180,216,0.22)]'
+                : 'font-medium text-surface-400 hover:bg-surface-700/50 hover:text-surface-100',
+            ].join(' ')}
+          >
+            {scale.chipLabel}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 function CentralityModeScaleControls({
   mode,
   onModeChange,
@@ -286,29 +314,7 @@ function CentralityModeScaleControls({
           points={BASELINE_VS_WHAT_IF_INFO}
         />
       </div>
-      <div className="flex shrink-0 flex-nowrap items-center gap-1.5 rounded-xl bg-surface-950/80 p-1 ring-1 ring-surface-700/50 backdrop-blur-sm">
-        {CENTRALITY_SCALES.map((scale) => {
-          const isActive = scaleMeters === scale.meters
-          return (
-            <button
-              key={scale.meters}
-              type="button"
-              title={scale.label}
-              aria-label={scale.label}
-              aria-pressed={isActive}
-              onClick={() => onScaleChange(scale.meters)}
-              className={[
-                'shrink-0 whitespace-nowrap rounded-[10px] px-3 py-1.5 text-[11px] transition-colors duration-200 ease-out select-none',
-                isActive
-                  ? 'bg-surface-700 font-semibold text-primary-400 shadow-[0_0_0_1px_#00b4d8,0_4px_12px_rgba(0,180,216,0.22)]'
-                  : 'font-medium text-surface-400 hover:bg-surface-700/50 hover:text-surface-100',
-              ].join(' ')}
-            >
-              {scale.chipLabel}
-            </button>
-          )
-        })}
-      </div>
+      <CentralityScaleChips scaleMeters={scaleMeters} onScaleChange={onScaleChange} />
     </div>
   )
 }
@@ -317,6 +323,7 @@ function CentralityModeScaleControls({
 function CentralityExpandedHud({ mode, onModeChange, scaleMeters, onScaleChange, whatIfView, onWhatIfViewChange }) {
   const expanded = useMapFullscreen()
   const rootRef = useRef(null)
+  const compareActive = mode === WHAT_IF_MODES.whatIf && whatIfView === WHAT_IF_VIEWS.compare
 
   useEffect(() => {
     const el = rootRef.current
@@ -333,14 +340,18 @@ function CentralityExpandedHud({ mode, onModeChange, scaleMeters, onScaleChange,
       ref={rootRef}
       className="pointer-events-auto absolute left-1/2 top-4 z-[2100] max-w-[calc(100%-9rem)] -translate-x-1/2"
     >
-      <CentralityModeScaleControls
-        mode={mode}
-        onModeChange={onModeChange}
-        scaleMeters={scaleMeters}
-        onScaleChange={onScaleChange}
-        whatIfView={whatIfView}
-        onWhatIfViewChange={onWhatIfViewChange}
-      />
+      {compareActive ? (
+        <CentralityScaleChips scaleMeters={scaleMeters} onScaleChange={onScaleChange} />
+      ) : (
+        <CentralityModeScaleControls
+          mode={mode}
+          onModeChange={onModeChange}
+          scaleMeters={scaleMeters}
+          onScaleChange={onScaleChange}
+          whatIfView={whatIfView}
+          onWhatIfViewChange={onWhatIfViewChange}
+        />
+      )}
     </div>
   )
 }
@@ -365,6 +376,7 @@ export default function CentralityMap({
   whatIf,
 }) {
   const isWhatIf = mode === WHAT_IF_MODES.whatIf
+  const isCompare = isWhatIf && whatIfView === WHAT_IF_VIEWS.compare
   const [boundaries, setBoundaries] = useState({})
   const [basemapId, setBasemapId] = useState(DEFAULT_NETWORK_FORM_BASEMAP)
   const basemap = useMemo(() => getNetworkFormBasemap(basemapId), [basemapId])
@@ -468,16 +480,18 @@ export default function CentralityMap({
 
   return (
     <div className="relative z-[1100] flex h-full min-h-0 flex-col">
-      <div className="relative z-[1200] flex shrink-0 items-center overflow-visible bg-surface-900 px-2 py-2">
-        <CentralityModeScaleControls
-          mode={mode}
-          onModeChange={onModeChange}
-          scaleMeters={scaleMeters}
-          onScaleChange={onScaleChange}
-          whatIfView={whatIfView}
-          onWhatIfViewChange={onWhatIfViewChange}
-        />
-      </div>
+      {!isCompare ? (
+        <div className="relative z-[1200] flex shrink-0 items-center overflow-visible bg-surface-900 px-2 py-2">
+          <CentralityModeScaleControls
+            mode={mode}
+            onModeChange={onModeChange}
+            scaleMeters={scaleMeters}
+            onScaleChange={onScaleChange}
+            whatIfView={whatIfView}
+            onWhatIfViewChange={onWhatIfViewChange}
+          />
+        </div>
+      ) : null}
 
       <MapFullscreenShell className="min-h-0 flex-1">
         {loading && (
