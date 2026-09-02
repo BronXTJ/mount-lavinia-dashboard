@@ -210,10 +210,12 @@ function CentralityModeScaleControls({
     onWhatIfViewChange?.(WHAT_IF_VIEWS.compare)
   }
 
+  const whatIfActive = mode === WHAT_IF_MODES.whatIf
+
   return (
-    <div className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-4 gap-y-2">
-      <div className="flex shrink-0 items-center gap-1.5">
-        <div className="flex gap-1 rounded-lg bg-surface-950/80 p-1 ring-1 ring-surface-700/50 backdrop-blur-sm">
+    <div className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-5 gap-y-2">
+      <div className="flex shrink-0 items-center gap-2.5">
+        <div className="flex items-stretch gap-1.5 rounded-lg bg-surface-950/80 p-1 ring-1 ring-surface-700/50 backdrop-blur-sm">
           <button
             type="button"
             onClick={() => onModeChange?.(WHAT_IF_MODES.baseline)}
@@ -226,36 +228,38 @@ function CentralityModeScaleControls({
           >
             Baseline
           </button>
-          <div ref={menuRef} className="relative flex overflow-visible">
-            <button
-              type="button"
-              onClick={handleWhatIfClick}
+          <div ref={menuRef} className="relative overflow-visible">
+            <div
               className={[
-                'whitespace-nowrap rounded-l-md px-2.5 py-1.5 text-[11px] font-semibold transition',
-                mode === WHAT_IF_MODES.whatIf
+                'flex items-stretch overflow-hidden rounded-md',
+                whatIfActive
                   ? 'bg-surface-700 text-primary-300 shadow-[0_0_0_1px_#00b4d8]'
-                  : 'bg-surface-800/80 text-surface-400 hover:text-surface-100',
+                  : 'bg-surface-800/80 text-surface-400',
               ].join(' ')}
             >
-              What-if
-            </button>
-            <button
-              type="button"
-              aria-label="What-if tools"
-              title="What-if tools"
-              aria-haspopup="menu"
-              aria-expanded={menuOpen}
-              onClick={() => setMenuOpen((open) => !open)}
-              className={[
-                'flex h-[26px] min-w-[28px] items-center justify-center rounded-r-md border-l px-1.5 text-[13px] font-bold leading-none transition',
-                mode === WHAT_IF_MODES.whatIf
-                  ? 'border-primary-500/40 bg-surface-700 text-primary-300 shadow-[0_0_0_1px_#00b4d8]'
-                  : 'border-surface-600 bg-surface-800/80 text-surface-200 hover:text-white',
-                compareActive ? 'bg-primary-500/20 text-primary-200' : '',
-              ].join(' ')}
-            >
-              <ChevronDown className="h-4 w-4 shrink-0" strokeWidth={2.5} aria-hidden />
-            </button>
+              <button
+                type="button"
+                onClick={handleWhatIfClick}
+                className="whitespace-nowrap rounded-l-md px-2.5 py-1.5 text-[11px] font-semibold transition hover:text-surface-100"
+              >
+                What-if
+              </button>
+              <button
+                type="button"
+                aria-label="What-if tools"
+                title="What-if tools"
+                aria-haspopup="menu"
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen((open) => !open)}
+                className={[
+                  'flex w-8 self-stretch items-center justify-center border-l transition',
+                  whatIfActive ? 'border-primary-500/40 hover:text-surface-100' : 'border-surface-600 hover:text-white',
+                  compareActive ? 'bg-primary-500/20 text-primary-200' : '',
+                ].join(' ')}
+              >
+                <ChevronDown className="h-4 w-4 shrink-0" strokeWidth={2.5} aria-hidden />
+              </button>
+            </div>
             {menuOpen ? (
               <div
                 role="menu"
@@ -282,7 +286,7 @@ function CentralityModeScaleControls({
           points={BASELINE_VS_WHAT_IF_INFO}
         />
       </div>
-      <div className="flex shrink-0 flex-nowrap items-center gap-1 rounded-xl bg-surface-950/80 p-1 ring-1 ring-surface-700/50 backdrop-blur-sm">
+      <div className="flex shrink-0 flex-nowrap items-center gap-1.5 rounded-xl bg-surface-950/80 p-1 ring-1 ring-surface-700/50 backdrop-blur-sm">
         {CENTRALITY_SCALES.map((scale) => {
           const isActive = scaleMeters === scale.meters
           return (
@@ -294,7 +298,7 @@ function CentralityModeScaleControls({
               aria-pressed={isActive}
               onClick={() => onScaleChange(scale.meters)}
               className={[
-                'shrink-0 whitespace-nowrap rounded-[10px] px-2.5 py-1.5 text-[11px] transition-colors duration-200 ease-out select-none',
+                'shrink-0 whitespace-nowrap rounded-[10px] px-3 py-1.5 text-[11px] transition-colors duration-200 ease-out select-none',
                 isActive
                   ? 'bg-surface-700 font-semibold text-primary-400 shadow-[0_0_0_1px_#00b4d8,0_4px_12px_rgba(0,180,216,0.22)]'
                   : 'font-medium text-surface-400 hover:bg-surface-700/50 hover:text-surface-100',
