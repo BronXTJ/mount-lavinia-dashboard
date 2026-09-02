@@ -12,6 +12,7 @@ import { Info, X } from 'lucide-react'
  *   ariaLabel?: string,
  *   pulse?: boolean,
  *   variant?: 'modal' | 'popover',
+ *   chipAccent?: 'teal' | 'orange',
  * }} props
  */
 export default function MetricInfoButton({
@@ -20,6 +21,7 @@ export default function MetricInfoButton({
   ariaLabel,
   pulse = true,
   variant = 'modal',
+  chipAccent = 'teal',
 }) {
   const [open, setOpen] = useState(false)
   const [closing, setClosing] = useState(false)
@@ -145,11 +147,17 @@ export default function MetricInfoButton({
         }}
         aria-label={ariaLabel ?? title}
         aria-expanded={open}
-        className="relative flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center overflow-visible rounded-full bg-[#00b4d8] text-white shadow-[0_0_0_2px_rgba(0,180,216,0.35)] transition-colors hover:bg-[#33c3e0]"
+        className={`relative flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center overflow-visible rounded-full text-white transition-colors ${
+          chipAccent === 'orange'
+            ? 'bg-orange-500 shadow-[0_0_0_2px_rgba(249,115,22,0.35)] hover:bg-orange-400'
+            : 'bg-[#00b4d8] shadow-[0_0_0_2px_rgba(0,180,216,0.35)] hover:bg-[#33c3e0]'
+        }`}
       >
         {pulse && !open && (
           <span
-            className="typology-info-icon-pulse absolute inset-0 rounded-full border-2 border-[#00b4d8]/70"
+            className={`typology-info-icon-pulse absolute inset-0 rounded-full border-2 ${
+              chipAccent === 'orange' ? 'border-orange-400/70' : 'border-[#00b4d8]/70'
+            }`}
             aria-hidden="true"
           />
         )}

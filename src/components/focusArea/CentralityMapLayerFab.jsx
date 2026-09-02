@@ -5,7 +5,7 @@ import {
   CENTRALITY_FAB_BOUNDARY_LAYERS,
   CENTRALITY_FAB_METRIC_LAYERS,
 } from '../../constants/centrality.js'
-import { WHAT_IF_FAB_EXTRA_LAYERS } from '../../constants/centralityWhatIf.js'
+import { WHAT_IF_FAB_EXTRA_LAYERS, whatIfPendingColor } from '../../constants/centralityWhatIf.js'
 import { NETWORK_FORM_BASEMAPS } from '../../constants/basemaps.js'
 import BasemapChips from '../BasemapChips.jsx'
 import { useMapFullscreen } from '../MapFullscreenShell.jsx'
@@ -145,7 +145,11 @@ export default function CentralityMapLayerFab({
                 ? WHAT_IF_FAB_EXTRA_LAYERS.map((layer) => (
                     <LayerRow
                       key={layer.id}
-                      layer={layer}
+                      layer={
+                        layer.id === 'proposedLinks'
+                          ? { ...layer, dot: whatIfPendingColor(basemapId) }
+                          : layer
+                      }
                       checked={Boolean(visibleLayers?.[layer.id])}
                       onToggle={onToggle}
                     />

@@ -3,7 +3,6 @@ import { CircleMarker, GeoJSON, Polyline, useMap, useMapEvents } from 'react-lea
 import {
   WHAT_IF_DRAW_TOOLS,
   WHAT_IF_PENDING_COLOR,
-  WHAT_IF_RUBBER_COLOR,
   WHAT_IF_SNAP_COLOR,
   WHAT_IF_SNAP_PX,
   WHAT_IF_SNAP_STROKE,
@@ -394,7 +393,7 @@ export default function WhatIfSnapDrawLayer({
         <Polyline
           positions={rubberPositions}
           pathOptions={{
-            color: WHAT_IF_RUBBER_COLOR,
+            color: pendingLineColor,
             weight: 2,
             dashArray: '4 6',
             opacity: 0.85,

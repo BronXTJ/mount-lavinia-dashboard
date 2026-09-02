@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { GeoJSON, MapContainer, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
+import { ChevronDown } from 'lucide-react'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
-import MapFullscreenShell from '../MapFullscreenShell.jsx'
+import MapFullscreenShell, { useMapFullscreen } from '../MapFullscreenShell.jsx'
 import {
   CENTRALITY_BOUNDARIES,
   CENTRALITY_MAP_CENTER,
@@ -16,7 +17,7 @@ import {
   DEFAULT_NETWORK_FORM_BASEMAP,
   getNetworkFormBasemap,
 } from '../../constants/basemaps.js'
-import { WHAT_IF_DRAW_TOOLS, WHAT_IF_MODES, WHAT_IF_PENDING_COLOR } from '../../constants/centralityWhatIf.js'
+import { WHAT_IF_DRAW_TOOLS, WHAT_IF_MODES, WHAT_IF_VIEWS, whatIfNewSegmentGlowColor, whatIfPendingColor } from '../../constants/centralityWhatIf.js'
 import {
   colorForValue,
   formatMetricValue,
@@ -27,10 +28,12 @@ import {
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
 import CentralityLegend from './CentralityLegend.jsx'
 import CentralityMapLayerFab from './CentralityMapLayerFab.jsx'
+import { BASELINE_VS_WHAT_IF_INFO } from '../../constants/whatIfHelpContent.js'
 import MetricInfoButton from './MetricInfoButton.jsx'
 import WhatIfDrawToolbar from './whatIf/WhatIfDrawToolbar.jsx'
 import WhatIfNewSegmentsLayer from './whatIf/WhatIfNewSegmentsLayer.jsx'
 import WhatIfSnapDrawLayer from './whatIf/WhatIfSnapDrawLayer.jsx'
+import WhatIfCompareOptionsLayer from './whatIf/compare/WhatIfCompareOptionsLayer.jsx'
 
 const boundaryStyle = (color) => ({ color, weight: 2, fill: false, dashArray: '6 4', opacity: 0.9 })
 
@@ -172,6 +175,172 @@ function FlyToSegment({ segmentId, closeness, betweenness }) {
   return null
 }
 
+function CentralityModeScaleControls({
+  mode,
+  onModeChange,
+  scaleMeters,
+  onScaleChange,
+  whatIfView = WHAT_IF_VIEWS.draw,
+  onWhatIfViewChange,
+}) {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef(null)
+  const compareActive = mode === WHAT_IF_MODES.whatIf && whatIfView === WHAT_IF_VIEWS.compare
+
+  useEffect(() => {
+    if (!menuOpen) return undefined
+    function onPointerDown(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) setMenuOpen(false)
+    }
+    document.addEventListener('mousedown', onPointerDown)
+    return () => document.removeEventListener('mousedown', onPointerDown)
+  }, [menuOpen])
+
+  function handleWhatIfClick() {
+    if (compareActive) {
+      onWhatIfViewChange?.(WHAT_IF_VIEWS.draw)
+      return
+    }
+    onModeChange?.(WHAT_IF_MODES.whatIf)
+  }
+
+  function handleCompare() {
+    setMenuOpen(false)
+    onModeChange?.(WHAT_IF_MODES.whatIf)
+    onWhatIfViewChange?.(WHAT_IF_VIEWS.compare)
+  }
+
+  return (
+    <div className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-4 gap-y-2">
+      <div className="flex shrink-0 items-center gap-1.5">
+        <div className="flex gap-1 rounded-lg bg-surface-950/80 p-1 ring-1 ring-surface-700/50 backdrop-blur-sm">
+          <button
+            type="button"
+            onClick={() => onModeChange?.(WHAT_IF_MODES.baseline)}
+            className={[
+              'whitespace-nowrap rounded-md px-2.5 py-1.5 text-[11px] font-semibold transition',
+              mode === WHAT_IF_MODES.baseline
+                ? 'bg-surface-700 text-primary-300 shadow-[0_0_0_1px_#00b4d8]'
+                : 'text-surface-400 hover:text-surface-100',
+            ].join(' ')}
+          >
+            Baseline
+          </button>
+          <div ref={menuRef} className="relative flex overflow-visible">
+            <button
+              type="button"
+              onClick={handleWhatIfClick}
+              className={[
+                'whitespace-nowrap rounded-l-md px-2.5 py-1.5 text-[11px] font-semibold transition',
+                mode === WHAT_IF_MODES.whatIf
+                  ? 'bg-surface-700 text-primary-300 shadow-[0_0_0_1px_#00b4d8]'
+                  : 'bg-surface-800/80 text-surface-400 hover:text-surface-100',
+              ].join(' ')}
+            >
+              What-if
+            </button>
+            <button
+              type="button"
+              aria-label="What-if tools"
+              title="What-if tools"
+              aria-haspopup="menu"
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((open) => !open)}
+              className={[
+                'flex h-[26px] min-w-[28px] items-center justify-center rounded-r-md border-l px-1.5 text-[13px] font-bold leading-none transition',
+                mode === WHAT_IF_MODES.whatIf
+                  ? 'border-primary-500/40 bg-surface-700 text-primary-300 shadow-[0_0_0_1px_#00b4d8]'
+                  : 'border-surface-600 bg-surface-800/80 text-surface-200 hover:text-white',
+                compareActive ? 'bg-primary-500/20 text-primary-200' : '',
+              ].join(' ')}
+            >
+              <ChevronDown className="h-4 w-4 shrink-0" strokeWidth={2.5} aria-hidden />
+            </button>
+            {menuOpen ? (
+              <div
+                role="menu"
+                className="absolute left-0 top-full z-[2200] mt-1 min-w-[10rem] rounded-md border border-surface-600 bg-surface-900 py-1 shadow-card"
+              >
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={handleCompare}
+                  className={[
+                    'block w-full px-3 py-1.5 text-left text-[11px] hover:bg-surface-800',
+                    compareActive ? 'font-semibold text-primary-300' : 'text-surface-100',
+                  ].join(' ')}
+                >
+                  Compare
+                </button>
+              </div>
+            ) : null}
+          </div>
+        </div>
+        <MetricInfoButton
+          title="Baseline vs What-if"
+          ariaLabel="What is What-if mode?"
+          points={BASELINE_VS_WHAT_IF_INFO}
+        />
+      </div>
+      <div className="flex shrink-0 flex-nowrap items-center gap-1 rounded-xl bg-surface-950/80 p-1 ring-1 ring-surface-700/50 backdrop-blur-sm">
+        {CENTRALITY_SCALES.map((scale) => {
+          const isActive = scaleMeters === scale.meters
+          return (
+            <button
+              key={scale.meters}
+              type="button"
+              title={scale.label}
+              aria-label={scale.label}
+              aria-pressed={isActive}
+              onClick={() => onScaleChange(scale.meters)}
+              className={[
+                'shrink-0 whitespace-nowrap rounded-[10px] px-2.5 py-1.5 text-[11px] transition-colors duration-200 ease-out select-none',
+                isActive
+                  ? 'bg-surface-700 font-semibold text-primary-400 shadow-[0_0_0_1px_#00b4d8,0_4px_12px_rgba(0,180,216,0.22)]'
+                  : 'font-medium text-surface-400 hover:bg-surface-700/50 hover:text-surface-100',
+              ].join(' ')}
+            >
+              {scale.chipLabel}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+/** Same mode + scale chips, shown only in enlarged map so they stay reachable. */
+function CentralityExpandedHud({ mode, onModeChange, scaleMeters, onScaleChange, whatIfView, onWhatIfViewChange }) {
+  const expanded = useMapFullscreen()
+  const rootRef = useRef(null)
+
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el) return undefined
+    L.DomEvent.disableClickPropagation(el)
+    L.DomEvent.disableScrollPropagation(el)
+    return undefined
+  }, [expanded])
+
+  if (!expanded) return null
+
+  return (
+    <div
+      ref={rootRef}
+      className="pointer-events-auto absolute left-1/2 top-4 z-[2100] max-w-[calc(100%-9rem)] -translate-x-1/2"
+    >
+      <CentralityModeScaleControls
+        mode={mode}
+        onModeChange={onModeChange}
+        scaleMeters={scaleMeters}
+        onScaleChange={onScaleChange}
+        whatIfView={whatIfView}
+        onWhatIfViewChange={onWhatIfViewChange}
+      />
+    </div>
+  )
+}
+
 /** Interactive centrality map — road network lines coloured by metric value. */
 export default function CentralityMap({
   scaleMeters,
@@ -187,12 +356,16 @@ export default function CentralityMap({
   selectedSegmentId,
   mode = WHAT_IF_MODES.baseline,
   onModeChange,
+  whatIfView = WHAT_IF_VIEWS.draw,
+  onWhatIfViewChange,
   whatIf,
 }) {
   const isWhatIf = mode === WHAT_IF_MODES.whatIf
   const [boundaries, setBoundaries] = useState({})
   const [basemapId, setBasemapId] = useState(DEFAULT_NETWORK_FORM_BASEMAP)
   const basemap = useMemo(() => getNetworkFormBasemap(basemapId), [basemapId])
+  const whatIfPendingLineColor = useMemo(() => whatIfPendingColor(basemapId), [basemapId])
+  const whatIfGlowColor = useMemo(() => whatIfNewSegmentGlowColor(basemapId), [basemapId])
   const showCloseness = Boolean(visibleLayers?.closeness)
   const showBetweenness = Boolean(visibleLayers?.betweenness)
   const showRoadLabels = Boolean(visibleLayers?.roadLabels)
@@ -290,64 +463,16 @@ export default function CentralityMap({
   )
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col">
-      <div className="flex shrink-0 flex-col items-center gap-2 bg-surface-900 px-3 py-2">
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1 rounded-lg bg-surface-950/70 p-1 ring-1 ring-surface-700/50">
-            {[
-              { id: WHAT_IF_MODES.baseline, label: 'Baseline' },
-              { id: WHAT_IF_MODES.whatIf, label: 'What-if' },
-            ].map((m) => {
-              const active = mode === m.id
-              return (
-                <button
-                  key={m.id}
-                  type="button"
-                  onClick={() => onModeChange?.(m.id)}
-                  className={[
-                    'rounded-md px-3 py-1 text-[11px] font-semibold transition',
-                    active
-                      ? 'bg-surface-700 text-primary-300 shadow-[0_0_0_1px_#00b4d8]'
-                      : 'text-surface-400 hover:text-surface-100',
-                  ].join(' ')}
-                >
-                  {m.label}
-                </button>
-              )
-            })}
-          </div>
-          <MetricInfoButton
-            title="Baseline vs What-if"
-            ariaLabel="What is What-if mode?"
-            points={[
-              'Baseline shows the published sDNA closeness / betweenness network.',
-              'What-if lets you draw proposed links and recompute centrality with a local sDNA worker.',
-              'Start npm run what-if:worker on this Windows PC so finishing a link fills the Δ side panels.',
-              'Without the worker, ▶ still exports proposed_links.geojson for offline scripts.',
-              'Δ rankings need a finished sDNA job — drawing alone will not fill the side cards.',
-            ]}
-          />
-        </div>
-        <div className="flex gap-2 rounded-xl bg-surface-950/60 p-1.5 ring-1 ring-surface-700/50 backdrop-blur-sm">
-          {CENTRALITY_SCALES.map((scale) => {
-            const isActive = scaleMeters === scale.meters
-            return (
-              <button
-                key={scale.meters}
-                type="button"
-                onClick={() => onScaleChange(scale.meters)}
-                className={[
-                  'rounded-[10px] px-3 py-1.5 text-[11px] transition-all duration-200 ease-out select-none',
-                  isActive
-                    ? 'bg-surface-700 font-semibold text-primary-400 shadow-[0_0_0_1px_#00b4d8,0_4px_12px_rgba(0,180,216,0.22)] scale-[1.03]'
-                    : 'font-medium text-surface-400 hover:bg-surface-700/50 hover:text-surface-100 hover:scale-[1.02]',
-                ].join(' ')}
-              >
-                {scale.label}
-              </button>
-            )
-          })}
-        </div>
+    <div className="relative z-[1100] flex h-full min-h-0 flex-col">
+      <div className="relative z-[1200] flex shrink-0 items-center overflow-visible bg-surface-900 px-2 py-2">
+        <CentralityModeScaleControls
+          mode={mode}
+          onModeChange={onModeChange}
+          scaleMeters={scaleMeters}
+          onScaleChange={onScaleChange}
+          whatIfView={whatIfView}
+          onWhatIfViewChange={onWhatIfViewChange}
+        />
       </div>
 
       <MapFullscreenShell className="min-h-0 flex-1">
@@ -356,6 +481,15 @@ export default function CentralityMap({
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-500 border-t-transparent" />
           </div>
         )}
+
+        <CentralityExpandedHud
+          mode={mode}
+          onModeChange={onModeChange}
+          scaleMeters={scaleMeters}
+          onScaleChange={onScaleChange}
+          whatIfView={whatIfView}
+          onWhatIfViewChange={onWhatIfViewChange}
+        />
 
         <MapContainer
           center={CENTRALITY_MAP_CENTER}
@@ -458,6 +592,7 @@ export default function CentralityMap({
               scaleMeters={scaleMeters}
               stats={showCloseness ? closenessStats : betweennessStats}
               renderer={highlightRenderer}
+              glowColor={whatIfGlowColor}
             />
           ) : null}
 
@@ -481,10 +616,18 @@ export default function CentralityMap({
               onEraseLink={whatIf.onEraseLink}
               hideFinishedProposed={Boolean(whatIf.hideFinishedProposed)}
               forceShowFinishedForErase={whatIf.drawing.tool === WHAT_IF_DRAW_TOOLS.erase}
-              pendingLineColor={WHAT_IF_PENDING_COLOR}
+              pendingLineColor={whatIfPendingLineColor}
               canUndo={whatIf.drawing.canUndo}
               canRedo={whatIf.drawing.canRedo}
               onToolChange={whatIf.drawing.selectTool ?? whatIf.drawing.setTool}
+            />
+          ) : null}
+
+          {isWhatIf && whatIf?.compareSlots ? (
+            <WhatIfCompareOptionsLayer
+              slots={whatIf.compareSlots}
+              activeId={whatIf.activeSlotId}
+              openedCount={whatIf.openedCount ?? 3}
             />
           ) : null}
         </MapContainer>
@@ -513,6 +656,7 @@ export default function CentralityMap({
             canRedo={whatIf.drawing.canRedo}
             runLabel={whatIf.runLabel}
             statusText={whatIf.statusText}
+            guidance={whatIf.guidance}
           />
         ) : null}
 

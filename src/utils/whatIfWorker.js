@@ -1,10 +1,15 @@
-import { WHAT_IF_WORKER_BASE, whatIfWorkerArtifactUrl } from '../constants/centralityWhatIf.js'
+import { getWhatIfWorkerBase, whatIfWorkerArtifactUrl } from '../constants/centralityWhatIf.js'
 
 const POLL_MS = 1500
 const POLL_MAX_MS = 30 * 60 * 1000
 
+/** Chromium Local Network Access: public HTTPS → 127.0.0.1 needs loopback address space. */
+function workerFetchInit(init = {}) {
+  return { ...init, targetAddressSpace: 'loopback' }
+}
+
 async function fetchJson(url, init) {
-  const res = await fetch(url, init)
+  const res = await fetch(url, workerFetchInit(init))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(text || `${res.status} ${res.statusText}`)
@@ -17,7 +22,7 @@ export async function checkWorkerHealth() {
   try {
     const ctrl = new AbortController()
     const t = setTimeout(() => ctrl.abort(), 2000)
-    const data = await fetchJson(`${WHAT_IF_WORKER_BASE}/health`, { signal: ctrl.signal })
+    const data = await fetchJson(`${getWhatIfWorkerBase()}/health`, { signal: ctrl.signal })
     clearTimeout(t)
     return data
   } catch {
@@ -27,7 +32,7 @@ export async function checkWorkerHealth() {
 
 /** @param {GeoJSON.FeatureCollection} geojson */
 export async function submitJob(geojson) {
-  return fetchJson(`${WHAT_IF_WORKER_BASE}/v1/jobs`, {
+  return fetchJson(`${getWhatIfWorkerBase()}/v1/jobs`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(geojson),
@@ -43,7 +48,7 @@ export async function pollJob(jobId, opts = {}) {
   const started = Date.now()
   while (Date.now() - started < POLL_MAX_MS) {
     if (opts.signal?.aborted) throw new Error('Aborted')
-    const job = await fetchJson(`${WHAT_IF_WORKER_BASE}/v1/jobs/${jobId}`, {
+    const job = await fetchJson(`${getWhatIfWorkerBase()}/v1/jobs/${jobId}`, {
       signal: opts.signal,
     })
     if (job.status === 'done' || job.status === 'error') return job

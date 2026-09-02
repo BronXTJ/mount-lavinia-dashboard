@@ -1,7 +1,15 @@
-import { ArrowDownToLine, ArrowUpToLine, Gauge, GitCompareArrows, Pencil, PenLine, Split } from 'lucide-react'
+import { ArrowDown, ArrowUp, Gauge, GitCompareArrows, Pencil, PenLine, Split, X } from 'lucide-react'
 import { formatMetricValue } from '../../../utils/centralityStats.js'
 import { WHAT_IF_STATUS } from '../../../constants/centralityWhatIf.js'
+import {
+  WHAT_IF_BETWEENNESS_INFO,
+  WHAT_IF_CLOSENESS_INFO,
+  whatIfGainersInfo,
+  whatIfLosersInfo,
+  whatIfNearbyInfo,
+} from '../../../constants/whatIfHelpContent.js'
 import MetricInfoButton from '../MetricInfoButton.jsx'
+import WhatIfStatusCard from './WhatIfStatusCard.jsx'
 
 function Kpi({ label, value, accent = 'primary', icon }) {
   const topBorder = accent === 'orange' ? 'border-t-orange-500' : 'border-t-primary-500'
@@ -24,7 +32,7 @@ function Kpi({ label, value, accent = 'primary', icon }) {
   )
 }
 
-function emptyStateCopy(status, linkCount, workerOnline, sdnaMissing) {
+function emptyStateCopy(status, linkCount, workerOnline, sdnaMissing, guidanceActive) {
   if (status === WHAT_IF_STATUS.computing || status === WHAT_IF_STATUS.loading) {
     return {
       headline: 'Computing sDNA…',
@@ -40,30 +48,30 @@ function emptyStateCopy(status, linkCount, workerOnline, sdnaMissing) {
   if (sdnaMissing) {
     return {
       headline: 'sDNA missing on this PC',
-      subline: 'Install sDNA, restart what-if:worker, then finish a link',
+      subline: guidanceActive ? 'See the map tip for install steps' : 'Install sDNA, restart npm run what-if:worker, then finish a link',
     }
   }
   if (!workerOnline && linkCount > 0) {
     return {
       headline: 'Start the local worker',
-      subline: 'npm run what-if:worker, then finish a link or press ▶',
+      subline: guidanceActive ? 'See the map tip above the toolbar' : 'npm run what-if:worker, click Connect, then finish a link or press ▶',
     }
   }
   if (status === WHAT_IF_STATUS.needsCompute) {
     return {
       headline: 'Run sDNA to fill rankings',
-      subline: 'Press ▶ or finish a link — worker is online',
+      subline: guidanceActive ? 'Press ▶ or finish a link' : 'Press ▶ or finish a link — worker is online',
     }
   }
   if (linkCount === 0) {
     return {
       headline: 'Draw a proposed link',
-      subline: 'Finish with Esc / ✓ / double-click, then sDNA fills these rankings',
+      subline: guidanceActive ? 'Rankings appear when sDNA finishes' : 'Finish with Esc / ✓ / double-click, then sDNA fills these rankings',
     }
   }
   return {
     headline: 'Finish a link to compute',
-    subline: 'Local sDNA will fill Top Gainers and Top Losers here',
+    subline: guidanceActive ? 'Rankings appear when sDNA finishes' : 'Local sDNA will fill Top Gainers and Top Losers here',
   }
 }
 
@@ -93,11 +101,55 @@ function RankingsEmptyState({ accent = 'primary', headline, subline }) {
   )
 }
 
-function TopList({ title, rows, onSelect, tone = 'gain', infoTitle, infoPoints, infoAria }) {
-  const headerClass =
-    tone === 'loss'
-      ? 'border-l-4 border-l-rose-500 bg-rose-500/10 text-rose-300'
+function nearbyToneClasses(accent) {
+  if (accent === 'orange') {
+    return {
+      headerClass: 'border-l-4 border-l-orange-500 bg-orange-500/10 text-orange-300',
+      selectedRowClass: 'border-orange-500 bg-orange-500/20 hover:border-orange-400',
+      clearBtnClass: 'border-orange-500 bg-orange-500/20 text-orange-300 hover:bg-orange-500/30',
+      idleRowClass: 'border-surface-700/80 bg-surface-850/60 hover:border-orange-500/50',
+    }
+  }
+  return {
+    headerClass: 'border-l-4 border-l-sky-500 bg-sky-500/10 text-sky-300',
+    selectedRowClass: 'border-sky-500 bg-sky-500/20 hover:border-sky-400',
+    clearBtnClass: 'border-sky-500 bg-sky-500/20 text-sky-300 hover:bg-sky-500/30',
+    idleRowClass: 'border-surface-700/80 bg-surface-850/60 hover:border-sky-500/50',
+  }
+}
+
+function TopList({
+  title,
+  rows,
+  onSelect,
+  selectedId,
+  tone = 'gain',
+  accent = 'primary',
+  infoTitle,
+  infoPoints,
+  infoAria,
+}) {
+  const isLoss = tone === 'loss'
+  const isNearby = tone === 'nearby'
+  const nearby = isNearby ? nearbyToneClasses(accent) : null
+  const headerClass = isLoss
+    ? 'border-l-4 border-l-rose-500 bg-rose-500/10 text-rose-300'
+    : isNearby
+      ? nearby.headerClass
       : 'border-l-4 border-l-emerald-500 bg-emerald-500/10 text-emerald-300'
+  const selectedRowClass = isLoss
+    ? 'border-rose-500 bg-rose-500/20 hover:border-rose-400'
+    : isNearby
+      ? nearby.selectedRowClass
+      : 'border-emerald-500 bg-emerald-500/20 hover:border-emerald-400'
+  const idleRowClass = isNearby
+    ? nearby.idleRowClass
+    : 'border-surface-700/80 bg-surface-850/60 hover:border-primary-500/50'
+  const clearBtnClass = isLoss
+    ? 'border-rose-500 bg-rose-500/20 text-rose-300 hover:bg-rose-500/30'
+    : isNearby
+      ? nearby.clearBtnClass
+      : 'border-emerald-500 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30'
 
   return (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
@@ -111,72 +163,51 @@ function TopList({ title, rows, onSelect, tone = 'gain', infoTitle, infoPoints, 
             ariaLabel={infoAria ?? `What does ${title} show?`}
             points={infoPoints}
             pulse={false}
+            chipAccent={isNearby && accent === 'orange' ? 'orange' : 'teal'}
           />
         ) : null}
       </div>
       <ul className="mt-1.5 min-h-0 flex-1 space-y-1 overflow-y-auto overflow-x-hidden pr-0.5">
-        {rows.slice(0, 12).map((row) => (
-          <li key={`${title}-${row.ID}`} className="min-w-0">
-            <button
-              type="button"
-              onClick={() => onSelect?.(row.ID)}
-              className="flex w-full min-w-0 items-center justify-between gap-2 rounded-md border border-surface-700/80 bg-surface-850/60 px-2 py-1 text-left text-[11px] text-surface-100 transition hover:border-primary-500/50"
-            >
-              <span className="min-w-0 truncate">
-                Seg #{row.ID}
-                {row.new_link ? ' · new' : ''}
-              </span>
-              <span
-                className={`shrink-0 tabular-nums ${row.delta >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}
+        {rows.slice(0, 12).map((row) => {
+          const selected = selectedId != null && row.ID == selectedId
+          return (
+            <li key={`${title}-${row.ID}`} className="flex min-w-0 items-stretch gap-0.5">
+              <button
+                type="button"
+                onClick={() => onSelect?.(row.ID)}
+                aria-pressed={selected}
+                className={`flex min-w-0 flex-1 items-center justify-between gap-2 rounded-md border px-2 py-1 text-left text-[11px] text-surface-100 transition ${
+                  selected ? selectedRowClass : idleRowClass
+                }`}
               >
-                {row.delta >= 0 ? '+' : ''}
-                {formatMetricValue(row.delta)}
-              </span>
-            </button>
-          </li>
-        ))}
+                <span className="min-w-0 truncate">
+                  Seg #{row.ID}
+                  {row.new_link ? ' · new' : ''}
+                  {row.distM != null ? ` · ${row.distM}m` : ''}
+                </span>
+                <span
+                  className={`shrink-0 tabular-nums ${row.delta >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}
+                >
+                  {row.delta >= 0 ? '+' : ''}
+                  {formatMetricValue(row.delta)}
+                </span>
+              </button>
+              {selected ? (
+                <button
+                  type="button"
+                  onClick={() => onSelect?.(row.ID)}
+                  aria-label="Clear segment highlight"
+                  className={`flex shrink-0 items-center justify-center rounded-md border px-1.5 transition ${clearBtnClass}`}
+                >
+                  <X className="h-3.5 w-3.5" aria-hidden />
+                </button>
+              ) : null}
+            </li>
+          )
+        })}
       </ul>
     </div>
   )
-}
-
-const STATUS_LABEL = {
-  [WHAT_IF_STATUS.draft]: 'Draft — Draw Links',
-  [WHAT_IF_STATUS.loading]: 'Loading Scenario…',
-  [WHAT_IF_STATUS.computing]: 'Computing sDNA (Local Worker)…',
-  [WHAT_IF_STATUS.scenario]: 'Scenario Active (sDNA)',
-  [WHAT_IF_STATUS.needsCompute]: 'Worker Offline — Export Or Start what-if:worker',
-  [WHAT_IF_STATUS.error]: 'Scenario Error',
-}
-
-const CLOSENESS_INFO = [
-  'Closeness Change is the change in angular closeness (NQPDA) after your proposed links vs the baseline network.',
-  'Drawing on the map alone does not fill these numbers — a local sDNA job must finish first.',
-  'Start npm run what-if:worker on this PC, then finish a link or press ▶.',
-]
-
-const BETWEENNESS_INFO = [
-  'Betweenness Change is the change in angular betweenness (BtA) after your proposed links vs the baseline network.',
-  'These rankings appear only after local sDNA completes — not from drawing alone.',
-  'Keep the What-if worker running (npm run what-if:worker) for live results.',
-]
-
-function gainersInfo(metricCode, label) {
-  return [
-    `Top Gainers are road segments with the largest positive Δ in ${label} (${metricCode}) after your proposed links vs the baseline.`,
-    'A higher Δ means that segment became more central (easier to reach / stronger through-route role) at the active scale.',
-    'Click a row to highlight that segment on the map.',
-    'Lists fill only after local sDNA finishes — drawing alone is not enough.',
-  ]
-}
-
-function losersInfo(metricCode, label) {
-  return [
-    `Top Losers are road segments with the largest negative Δ in ${label} (${metricCode}) after your proposed links vs the baseline.`,
-    'A lower Δ means that segment became less central (less reachable / weaker through-route role) at the active scale.',
-    'Click a row to highlight that segment on the map.',
-    'Lists fill only after local sDNA finishes — drawing alone is not enough.',
-  ]
 }
 
 /** What-if side panel for closeness or betweenness Δ rankings. */
@@ -187,9 +218,15 @@ export default function WhatIfMetricPanel({
   error,
   deltaBlock,
   workerOnline = false,
+  workerReachable = false,
   sdnaMissing = false,
   linkCount = 0,
+  selectedSegmentId = null,
   onSegmentClick,
+  summaryWarning = null,
+  guidanceActive = false,
+  nearbyRows = [],
+  onConnect,
 }) {
   const isCloseness = metric === 'closeness'
   const block = deltaBlock?.[metric] ?? null
@@ -200,22 +237,14 @@ export default function WhatIfMetricPanel({
   const accentBorder = isCloseness ? 'border-primary-500' : 'border-orange-500'
   const accentIconClass = isCloseness ? 'text-primary-300' : 'text-orange-300'
   const kpiAccent = isCloseness ? 'primary' : 'orange'
-  const infoPoints = isCloseness ? CLOSENESS_INFO : BETWEENNESS_INFO
-  const gainerPoints = gainersInfo(metricCode, metricLabel)
-  const loserPoints = losersInfo(metricCode, metricLabel)
-  const statusLine = sdnaMissing
-    ? 'sDNA Missing On This PC'
-    : status === WHAT_IF_STATUS.needsCompute && workerOnline
-      ? 'Ready — Press ▶ To Run sDNA'
-      : (STATUS_LABEL[status] ?? status)
-  const workerLabel = sdnaMissing
-    ? 'reachable · sDNA missing'
-    : workerOnline
-      ? 'online'
-      : 'offline'
+  const infoPoints = isCloseness ? WHAT_IF_CLOSENESS_INFO : WHAT_IF_BETWEENNESS_INFO
+  const gainerPoints = whatIfGainersInfo(metricCode, metricLabel)
+  const loserPoints = whatIfLosersInfo(metricCode, metricLabel)
+  const nearbyPoints = whatIfNearbyInfo(metricCode, metricLabel)
 
   const hasRankings = Boolean(block?.top_gainers?.length || block?.top_losers?.length)
-  const emptyCopy = emptyStateCopy(status, linkCount, workerOnline, sdnaMissing)
+  const hasNearby = nearbyRows.length > 0
+  const emptyCopy = emptyStateCopy(status, linkCount, workerOnline, sdnaMissing, guidanceActive)
 
   return (
     <div className="flex h-full min-h-0 min-w-0 flex-col gap-3 overflow-hidden p-3">
@@ -236,18 +265,16 @@ export default function WhatIfMetricPanel({
         />
       </div>
 
-      <p className="shrink-0 rounded-md border border-surface-700 bg-surface-800 px-2.5 py-1.5 text-[11px] text-surface-200">
-        {statusLine}
-        {error ? <span className="mt-1 block text-rose-400">{error}</span> : null}
-        {sdnaMissing && !error ? (
-          <span className="mt-1 block text-rose-400">
-            Install sDNA to C:\Program Files (x86)\sDNA, then restart what-if:worker
-          </span>
-        ) : null}
-        <span className="mt-1 block text-[10px] text-surface-500">
-          Worker: {workerLabel} · Links Drawn: {linkCount}
-        </span>
-      </p>
+      <WhatIfStatusCard
+        status={status}
+        workerOnline={workerOnline}
+        workerReachable={workerReachable}
+        sdnaMissing={sdnaMissing}
+        nChanged={block?.n_changed}
+        error={error}
+        warning={status === WHAT_IF_STATUS.scenario ? summaryWarning : null}
+        onConnect={onConnect}
+      />
 
       <div className="grid shrink-0 grid-cols-2 gap-2">
         <Kpi
@@ -266,23 +293,41 @@ export default function WhatIfMetricPanel({
           label="Max Δ"
           value={block ? formatMetricValue(block.max_delta) : '—'}
           accent={kpiAccent}
-          icon={<ArrowUpToLine className="h-3.5 w-3.5" aria-hidden />}
+          icon={<ArrowUp className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />}
         />
         <Kpi
           label="Min Δ"
           value={block ? formatMetricValue(block.min_delta) : '—'}
           accent={kpiAccent}
-          icon={<ArrowDownToLine className="h-3.5 w-3.5" aria-hidden />}
+          icon={<ArrowDown className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />}
         />
       </div>
 
       {hasRankings ? (
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-3 overflow-hidden">
+          {hasNearby ? (
+            <TopList
+              title="Nearby 500m"
+              tone="nearby"
+              accent={kpiAccent}
+              rows={nearbyRows}
+              selectedId={selectedSegmentId}
+              onSelect={onSegmentClick}
+              infoTitle="Nearby 500m"
+              infoAria="What does Nearby 500m show?"
+              infoPoints={nearbyPoints}
+            />
+          ) : status === WHAT_IF_STATUS.scenario ? (
+            <p className="shrink-0 text-[10px] text-surface-500">
+              No measurable Δ within 500 m of your drawn links at this scale.
+            </p>
+          ) : null}
           {block?.top_gainers?.length ? (
             <TopList
               title="Top Gainers"
               tone="gain"
               rows={block.top_gainers}
+              selectedId={selectedSegmentId}
               onSelect={onSegmentClick}
               infoTitle="Top Gainers"
               infoAria="What do Top Gainers show?"
@@ -294,6 +339,7 @@ export default function WhatIfMetricPanel({
               title="Top Losers"
               tone="loss"
               rows={block.top_losers}
+              selectedId={selectedSegmentId}
               onSelect={onSegmentClick}
               infoTitle="Top Losers"
               infoAria="What do Top Losers show?"
@@ -309,10 +355,13 @@ export default function WhatIfMetricPanel({
         />
       )}
 
-      <p className="shrink-0 text-[10px] leading-snug text-surface-500">
-        Start <code className="text-surface-400">npm run what-if:worker</code> for live sDNA after
-        drawing. Without it, ▶ exports GeoJSON for the offline script.
-      </p>
+      {!guidanceActive ? (
+        <p className="shrink-0 text-[10px] leading-snug text-surface-500">
+          Start <code className="text-surface-400">npm run what-if:worker</code>, then click Connect
+          if Chrome asks to Allow local network. Without the worker, ▶ downloads
+          proposed_links.geojson.
+        </p>
+      ) : null}
     </div>
   )
 }

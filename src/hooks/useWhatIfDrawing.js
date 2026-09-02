@@ -254,6 +254,24 @@ export function useWhatIfDrawing(snapNodes) {
     setState(EMPTY)
   }, [])
 
+  /** Replace finished links and clear draft / history. Draw mode never calls this. */
+  const importLinks = useCallback((nextLinks) => {
+    const links = cloneLinks(Array.isArray(nextLinks) ? nextLinks : [])
+    const maxId = links.reduce((max, link) => {
+      const id = Number(link.id)
+      return Number.isFinite(id) ? Math.max(max, id) : max
+    }, 0)
+    setState({
+      links,
+      draftCoords: [],
+      nextId: maxId + 1,
+      past: [],
+      future: [],
+    })
+    setTool(WHAT_IF_DRAW_TOOLS.pan)
+    setCursorLatLng(null)
+  }, [])
+
   const proposedGeoJson = useMemo(() => {
     const features = links.map((link) => ({
       type: 'Feature',
@@ -292,6 +310,7 @@ export function useWhatIfDrawing(snapNodes) {
     removeLink,
     cancelDraft,
     resetDrawing,
+    importLinks,
     proposedGeoJson,
     exportProposedGeoJson,
     hasDraft: draftCoords.length > 0,

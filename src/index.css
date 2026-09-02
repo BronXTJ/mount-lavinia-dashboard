@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Dark-theme scrollbars — muted slate on panel chrome, not the OS white thumb. */
+html {
+  color-scheme: dark;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #64748b #1e293b; /* thumb / track — surface-500 on surface-850 */
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #64748b;
+  border-radius: 999px;
+  border: 2px solid #1e293b;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
 /*
   Map chrome column (top-left): Leaflet +/- and enlarge share the same
   40px square, 12px inset, and 8px stack gap so controls read as one group.
@@ -1025,5 +1054,19 @@ html[data-map-fullscreen] .overview-side-column {
   }
   .dev-world-glitch {
     opacity: 0;
+  }
+}
+
+@media print {
+  body {
+    background: #fff !important;
+  }
+  .what-if-compare-root {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+  .what-if-compare-table {
+    break-inside: avoid;
   }
 }

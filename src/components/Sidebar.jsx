@@ -71,7 +71,9 @@ export default function Sidebar({
 
   function goFocusSub(id) {
     setActiveFocusSubSection(id)
-    navigate(`/focus-area?sub=${id}`)
+    const params = new URLSearchParams(location.search)
+    params.set('sub', id)
+    navigate(`/focus-area?${params.toString()}`)
     setFocusFlyoutOpen(false)
     onMobileClose?.()
   }

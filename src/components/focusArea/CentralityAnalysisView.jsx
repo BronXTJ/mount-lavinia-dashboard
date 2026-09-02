@@ -1,22 +1,38 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { DEFAULT_CENTRALITY_VISIBLE, scaleLabel } from '../../constants/centrality.js'
 import {
+  centralityModeFromSearchParams,
   DEFAULT_WHAT_IF_VISIBLE,
-  WHAT_IF_DRAW_TOOLS,
+  mergeCentralityModeIntoSearchRecord,
+  mergeWhatIfViewIntoSearchRecord,
+  readPersistedCentralityMode,
+  readPersistedWhatIfView,
+  searchParamsToRecord,
+  writePersistedCentralityMode,
+  writePersistedWhatIfView,
+  whatIfViewFromSearchParams,
   WHAT_IF_MODES,
   WHAT_IF_STATUS,
+  WHAT_IF_VIEWS,
 } from '../../constants/centralityWhatIf.js'
 import { useCentralityAllScales } from '../../hooks/useCentralityAllScales.js'
 import { useCentralityLayers } from '../../hooks/useCentralityLayers.js'
 import { useWhatIfDrawing } from '../../hooks/useWhatIfDrawing.js'
+import { useWhatIfGuidance } from '../../hooks/useWhatIfGuidance.js'
 import { useWhatIfScenario } from '../../hooks/useWhatIfScenario.js'
 import BetweennessPanel from './BetweennessPanel.jsx'
 import CentralityMap from './CentralityMap.jsx'
 import ClosenessPanel from './ClosenessPanel.jsx'
 import WhatIfMetricPanel from './whatIf/WhatIfMetricPanel.jsx'
+import WhatIfCompareView from './whatIf/compare/WhatIfCompareView.jsx'
+import { COMPARE_SLOT_STATUS } from '../../constants/whatIfCompare.js'
+import { nearbySegmentDeltas, NEARBY_DELTA_METERS } from '../../utils/nearbyWhatIfDeltas.js'
 
-function downloadProposedGeoJson(geojson) {
-  const blob = new Blob([JSON.stringify(geojson, null, 2)], { type: 'application/json' })
+const CENTRALITY_METRIC_IDS = ['closeness', 'betweenness']
+
+function downloadProposedGeoJson(geo) {
+  const blob = new Blob([JSON.stringify(geo, null, 2)], { type: 'application/geo+json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
@@ -25,11 +41,40 @@ function downloadProposedGeoJson(geojson) {
   URL.revokeObjectURL(url)
 }
 
-const CENTRALITY_METRIC_IDS = ['closeness', 'betweenness']
-
 /** Sub-section 1 — centrality analysis; owns Baseline vs What-if layout. */
 export default function CentralityAnalysisView() {
-  const [mode, setMode] = useState(WHAT_IF_MODES.baseline)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [mode, setMode] = useState(() => readPersistedCentralityMode())
+  const [whatIfView, setWhatIfView] = useState(() =>
+    readPersistedCentralityMode() === WHAT_IF_MODES.whatIf
+      ? readPersistedWhatIfView()
+      : WHAT_IF_VIEWS.draw,
+  )
+
+  useEffect(() => {
+    const fromUrl = centralityModeFromSearchParams(searchParams)
+    setMode((prev) => (prev === fromUrl ? prev : fromUrl))
+  }, [searchParams])
+
+  useEffect(() => {
+    const fromUrl = whatIfViewFromSearchParams(searchParams)
+    setWhatIfView((prev) => (prev === fromUrl ? prev : fromUrl))
+  }, [searchParams])
+
+  // Keep URL (and session) aligned when What-if was restored without centralityMode in the bar.
+  useEffect(() => {
+    if (mode !== WHAT_IF_MODES.whatIf) return
+    const urlMode = centralityModeFromSearchParams(searchParams)
+    if (urlMode === WHAT_IF_MODES.whatIf) return
+    writePersistedCentralityMode(WHAT_IF_MODES.whatIf)
+    setSearchParams(
+      (prev) =>
+        mergeCentralityModeIntoSearchRecord(searchParamsToRecord(prev), WHAT_IF_MODES.whatIf, {
+          ensureCentralitySub: true,
+        }),
+      { replace: true },
+    )
+  }, [mode, searchParams, setSearchParams])
   const [scaleMeters, setScaleMeters] = useState(500)
   const [visibleLayers, setVisibleLayers] = useState(DEFAULT_CENTRALITY_VISIBLE)
   const [whatIfVisible, setWhatIfVisible] = useState(DEFAULT_WHAT_IF_VISIBLE)
@@ -107,17 +152,55 @@ export default function CentralityAnalysisView() {
     [scenarioApi],
   )
 
+  const handleWhatIfViewChange = useCallback(
+    (view) => {
+      setWhatIfView(view)
+      writePersistedWhatIfView(view)
+      writePersistedCentralityMode(WHAT_IF_MODES.whatIf)
+      setMode(WHAT_IF_MODES.whatIf)
+      setSearchParams(
+        (prev) => {
+          const record = mergeCentralityModeIntoSearchRecord(searchParamsToRecord(prev), WHAT_IF_MODES.whatIf, {
+            ensureCentralitySub: true,
+          })
+          return mergeWhatIfViewIntoSearchRecord(record, view)
+        },
+        { replace: true },
+      )
+    },
+    [setSearchParams],
+  )
+
   const handleModeChange = useCallback(
     (next) => {
       setMode(next)
       setSelectedSegmentId(null)
+      writePersistedCentralityMode(next)
+      const nextView = next === WHAT_IF_MODES.whatIf ? whatIfView : WHAT_IF_VIEWS.draw
+      if (next !== WHAT_IF_MODES.whatIf) {
+        setWhatIfView(WHAT_IF_VIEWS.draw)
+        writePersistedWhatIfView(WHAT_IF_VIEWS.draw)
+      }
+      setSearchParams(
+        (prev) => {
+          const record = mergeCentralityModeIntoSearchRecord(searchParamsToRecord(prev), next, {
+            ensureCentralitySub: true,
+          })
+          return mergeWhatIfViewIntoSearchRecord(record, nextView)
+        },
+        { replace: true },
+      )
       if (next === WHAT_IF_MODES.baseline) {
         scenarioApi.resetScenario()
         drawing.resetDrawing()
       }
     },
-    [scenarioApi, drawing],
+    [scenarioApi, drawing, setSearchParams, whatIfView],
   )
+
+  const handleWhatIfSegmentClick = useCallback((id) => {
+    setSelectedSegmentId((prev) => (prev == id ? null : id))
+  }, [])
 
   const handleFinishLink = useCallback(
     (mapOrEvent, latlng) => {
@@ -197,12 +280,67 @@ export default function CentralityAnalysisView() {
     return betweennessStats
   }, [isWhatIf, scenarioApi.activeScenario, scenarioApi.scenarioBetweennessStats, betweennessStats])
 
+  const nearbyBlock = useMemo(() => {
+    if (!isWhatIf || !scenarioApi.activeScenario) {
+      return { closeness: [], betweenness: [] }
+    }
+    return {
+      closeness: nearbySegmentDeltas({
+        links: drawing.links,
+        baseline: closeness,
+        scenario: scenarioApi.scenarioCloseness,
+        metric: 'closeness',
+        scaleMeters,
+        radiusM: NEARBY_DELTA_METERS,
+      }),
+      betweenness: nearbySegmentDeltas({
+        links: drawing.links,
+        baseline: betweenness,
+        scenario: scenarioApi.scenarioBetweenness,
+        metric: 'betweenness',
+        scaleMeters,
+        radiusM: NEARBY_DELTA_METERS,
+      }),
+    }
+  }, [
+    isWhatIf,
+    scenarioApi.activeScenario,
+    scenarioApi.scenarioCloseness,
+    scenarioApi.scenarioBetweenness,
+    drawing.links,
+    closeness,
+    betweenness,
+    scaleMeters,
+  ])
+
+  const hasRankings = useMemo(() => {
+    const block = scenarioApi.deltaBlock
+    if (!block) return false
+    return Boolean(
+      block.closeness?.top_gainers?.length ||
+        block.closeness?.top_losers?.length ||
+        block.betweenness?.top_gainers?.length ||
+        block.betweenness?.top_losers?.length,
+    )
+  }, [scenarioApi.deltaBlock])
+
+  const guidance = useWhatIfGuidance({
+    isWhatIf: isWhatIf && whatIfView !== WHAT_IF_VIEWS.compare,
+    status: scenarioApi.status,
+    workerOnline: scenarioApi.workerOnline,
+    sdnaMissing: scenarioApi.sdnaMissing,
+    error: scenarioApi.error,
+    drawHint,
+    tool: drawing.tool,
+    draftLength: drawing.draftCoords.length,
+    linkCount,
+    hasLinks: drawing.hasLinks,
+    hasRankings,
+  })
+
   const statusText = useMemo(() => {
     if (!isWhatIf) return null
-    if (drawHint) return drawHint
-    if (drawing.tool === WHAT_IF_DRAW_TOOLS.erase) {
-      return 'Erase mode — click one drawn link to delete it'
-    }
+    if (guidance.suppressesStatusText) return null
     if (scenarioApi.sdnaMissing) {
       return 'Worker reachable but sDNA missing — install to C:\\Program Files (x86)\\sDNA'
     }
@@ -215,43 +353,13 @@ export default function CentralityAnalysisView() {
     if (scenarioApi.status === WHAT_IF_STATUS.error) {
       return scenarioApi.error || 'sDNA error — check worker log'
     }
-    if (scenarioApi.status === WHAT_IF_STATUS.scenario) {
-      const warn = scenarioApi.summary?.warnings?.[0]
-      if (warn) {
-        return `sDNA results ready — note: ${warn}`
-      }
-      return scenarioApi.workerOnline
-        ? 'Showing sDNA scenario results (local worker)'
-        : 'Showing sDNA scenario results'
-    }
-    if (scenarioApi.status === WHAT_IF_STATUS.needsCompute) {
-      return scenarioApi.workerOnline
-        ? 'Press ▶ to run sDNA on the local worker'
-        : 'Worker offline — ▶ exports GeoJSON for offline sDNA'
-    }
-    if (drawing.tool === 'pencil') {
-      return scenarioApi.workerOnline
-        ? 'Click snap nodes · finish link to auto-run sDNA'
-        : 'Click snap nodes · finish link · start npm run what-if:worker for auto sDNA'
-    }
-    if (!drawing.hasLinks) {
-      return scenarioApi.workerOnline
-        ? 'Draw proposed links — finish a link to compute'
-        : 'Draw links · start what-if:worker for live sDNA (or ▶ to export)'
-    }
-    return scenarioApi.workerOnline
-      ? 'Press ▶ to re-run sDNA'
-      : 'Worker offline — ▶ exports GeoJSON'
+    return null
   }, [
     isWhatIf,
-    drawHint,
+    guidance.suppressesStatusText,
     scenarioApi.status,
     scenarioApi.error,
-    scenarioApi.workerOnline,
     scenarioApi.sdnaMissing,
-    scenarioApi.summary,
-    drawing.tool,
-    drawing.hasLinks,
   ])
 
   const runLabel = scenarioApi.workerOnline ? 'Run sDNA (local)' : 'Export proposed links'
@@ -264,6 +372,68 @@ export default function CentralityAnalysisView() {
     loading ||
     scenarioApi.status === WHAT_IF_STATUS.loading ||
     scenarioApi.status === WHAT_IF_STATUS.computing
+
+  const isCompare = isWhatIf && whatIfView === WHAT_IF_VIEWS.compare
+
+  const handleSyncOptionA = useCallback(
+    (slotA) => {
+      drawing.importLinks(slotA?.links ?? [])
+      if (
+        slotA?.status === COMPARE_SLOT_STATUS.ready &&
+        slotA.jobId &&
+        slotA.closeness &&
+        slotA.betweenness
+      ) {
+        scenarioApi.hydrateScenarioPayload(
+          {
+            summary: slotA.summary,
+            closeness: slotA.closeness,
+            betweenness: slotA.betweenness,
+          },
+          slotA.jobId,
+          scaleMeters,
+        )
+      } else if (slotA?.links?.length) {
+        scenarioApi.markNeedsCompute()
+      } else {
+        scenarioApi.resetScenario()
+      }
+    },
+    [drawing, scenarioApi, scaleMeters],
+  )
+
+  if (isCompare) {
+    return (
+      <WhatIfCompareView
+        scaleMeters={scaleMeters}
+        onScaleChange={setScaleMeters}
+        namedRoads={namedRoads}
+        snapNodes={scenarioApi.snapNodes}
+        baselineCloseness={closeness}
+        baselineBetweenness={betweenness}
+        baselineClosenessStats={closenessStats}
+        baselineBetweennessStats={betweennessStats}
+        layersLoading={loading}
+        initialOptionA={{
+          links: drawing.links,
+          jobId: scenarioApi.jobId,
+          summary: scenarioApi.summary,
+          closeness: scenarioApi.scenarioCloseness,
+          betweenness: scenarioApi.scenarioBetweenness,
+          ready: scenarioApi.status === WHAT_IF_STATUS.scenario,
+        }}
+        workerOnline={scenarioApi.workerOnline}
+        workerReachable={scenarioApi.workerReachable}
+        sdnaMissing={scenarioApi.sdnaMissing}
+        onConnect={scenarioApi.connectWorker}
+        onBackToDraw={() => handleWhatIfViewChange(WHAT_IF_VIEWS.draw)}
+        onModeChange={handleModeChange}
+        whatIfView={whatIfView}
+        onWhatIfViewChange={handleWhatIfViewChange}
+        onSyncOptionA={handleSyncOptionA}
+      />
+    )
+  }
 
   return (
     <div className={gridClass}>
@@ -282,9 +452,15 @@ export default function CentralityAnalysisView() {
             error={scenarioApi.error}
             deltaBlock={scenarioApi.deltaBlock}
             workerOnline={scenarioApi.workerOnline}
+            workerReachable={scenarioApi.workerReachable}
             sdnaMissing={scenarioApi.sdnaMissing}
             linkCount={linkCount}
-            onSegmentClick={setSelectedSegmentId}
+            selectedSegmentId={selectedSegmentId}
+            onSegmentClick={handleWhatIfSegmentClick}
+            summaryWarning={scenarioApi.summary?.warnings?.[0]}
+            guidanceActive={guidance.guidanceActive}
+            nearbyRows={nearbyBlock.closeness}
+            onConnect={scenarioApi.connectWorker}
           />
         ) : (
           <ClosenessPanel
@@ -315,6 +491,8 @@ export default function CentralityAnalysisView() {
             selectedSegmentId={selectedSegmentId}
             mode={mode}
             onModeChange={handleModeChange}
+            whatIfView={whatIfView}
+            onWhatIfViewChange={handleWhatIfViewChange}
             whatIf={{
               drawing,
               snapNodes: scenarioApi.snapNodes,
@@ -330,6 +508,7 @@ export default function CentralityAnalysisView() {
               showSnapNodes: whatIfVisible.snapNodes,
               newSegmentIds,
               hideFinishedProposed: Boolean(scenarioApi.activeScenario),
+              guidance,
             }}
           />
         </div>
@@ -350,9 +529,15 @@ export default function CentralityAnalysisView() {
             error={scenarioApi.error}
             deltaBlock={scenarioApi.deltaBlock}
             workerOnline={scenarioApi.workerOnline}
+            workerReachable={scenarioApi.workerReachable}
             sdnaMissing={scenarioApi.sdnaMissing}
             linkCount={linkCount}
-            onSegmentClick={setSelectedSegmentId}
+            selectedSegmentId={selectedSegmentId}
+            onSegmentClick={handleWhatIfSegmentClick}
+            summaryWarning={scenarioApi.summary?.warnings?.[0]}
+            guidanceActive={guidance.guidanceActive}
+            nearbyRows={nearbyBlock.betweenness}
+            onConnect={scenarioApi.connectWorker}
           />
         ) : (
           <BetweennessPanel

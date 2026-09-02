@@ -1,10 +1,15 @@
+import { useRef } from 'react'
 import { Check, Eraser, Hand, Pencil, Play, Redo2, RotateCcw, Undo2 } from 'lucide-react'
 import { WHAT_IF_DRAW_TOOLS } from '../../../constants/centralityWhatIf.js'
+import { WHAT_IF_TOOLBAR_INFO } from '../../../constants/whatIfHelpContent.js'
 import MetricInfoButton from '../MetricInfoButton.jsx'
+import WhatIfGuidanceBanner from './WhatIfGuidanceBanner.jsx'
+import WhatIfPencilCoachMark from './WhatIfPencilCoachMark.jsx'
 
-function ToolBtn({ active, onClick, label, children, accent, disabled }) {
+function ToolBtn({ active, onClick, label, children, accent, disabled, buttonRef }) {
   return (
     <button
+      ref={buttonRef}
       type="button"
       title={label}
       aria-label={label}
@@ -27,18 +32,6 @@ function ToolBtn({ active, onClick, label, children, accent, disabled }) {
   )
 }
 
-const TOOLBAR_INFO = [
-  'Pencil / Eraser: click to activate; click the same icon again to deselect (back to pan). Choosing another tool quits the previous one.',
-  'Pencil: click magenta snap nodes to draw. Finish with double-click, ✓, Enter, or Esc (when you have 2+ points) — that runs sDNA if the worker is online.',
-  'Esc with 1 point clears the draft; Esc with no draft (or in Erase) returns to pan.',
-  'Pending links are dashed light grey until sDNA finishes — then they take the active closeness/betweenness legend color.',
-  'SNAP: stick to network nodes. FREE: place vertices exactly where you click.',
-  'Magenta snap nodes stay on the analysis road network while Snap Nodes is enabled in layers.',
-  'Eraser: activate, then click one drawn link to delete only that link (not all).',
-  'Undo / Redo: toolbar or Ctrl+Z / Ctrl+Y.',
-  '▶ runs local sDNA when npm run what-if:worker is online.',
-]
-
 /** Floating draw toolbar for Centrality What-if mode. */
 export default function WhatIfDrawToolbar({
   tool,
@@ -53,21 +46,48 @@ export default function WhatIfDrawToolbar({
   canFinish,
   canUndo = false,
   canRedo = false,
-  runLabel = 'Export proposed links',
+  runLabel = 'Run sDNA',
   statusText,
+  guidance,
+  embedded = false,
 }) {
+  const pencilRef = useRef(null)
+
   function selectTool(next) {
     onToolChange(tool === next ? WHAT_IF_DRAW_TOOLS.pan : next)
   }
 
+  const showBanner = Boolean(guidance?.banner)
+  const showFallbackStatus = !showBanner && statusText
+
   return (
-    <div className="pointer-events-auto absolute bottom-4 left-1/2 z-[1000] flex -translate-x-1/2 flex-col items-center gap-2">
-      {statusText ? (
-        <div className="max-w-[min(92vw,520px)] rounded-md border border-surface-600 bg-surface-900/95 px-3 py-1 text-[11px] text-surface-200 shadow-card backdrop-blur">
+    <div
+      className={[
+        'pointer-events-auto z-[1000] flex w-fit max-w-full flex-col items-center gap-1.5',
+        embedded
+          ? 'relative'
+          : 'absolute bottom-4 left-1/2 max-w-[min(92vw,520px)] -translate-x-1/2',
+      ].join(' ')}
+    >
+      {showBanner ? (
+        <WhatIfGuidanceBanner
+          title={guidance.banner.title}
+          body={guidance.banner.body}
+          assertive={guidance.banner.assertive}
+          showWelcomeCheckbox={guidance.banner.showWelcomeCheckbox}
+          onDismissStep={guidance.dismissStep}
+          onDismissSession={guidance.dismissSession}
+          onMarkCompleted={guidance.markCompleted}
+        />
+      ) : null}
+
+      {showFallbackStatus ? (
+        <div className="max-w-full rounded-md border border-surface-600 bg-surface-900/95 px-3 py-1 text-[11px] text-surface-200 shadow-card backdrop-blur">
           <p className="min-w-0">{statusText}</p>
         </div>
       ) : null}
-      <div className="flex items-center gap-1.5 rounded-xl border border-surface-600 bg-surface-900/95 p-1.5 shadow-card backdrop-blur">
+
+      <div className="relative flex items-center gap-1.5 rounded-xl border border-surface-600 bg-surface-900/95 p-1.5 shadow-card backdrop-blur">
         <ToolBtn
           active={tool === WHAT_IF_DRAW_TOOLS.pan}
           onClick={() => selectTool(WHAT_IF_DRAW_TOOLS.pan)}
@@ -75,13 +95,24 @@ export default function WhatIfDrawToolbar({
         >
           <Hand size={18} />
         </ToolBtn>
-        <ToolBtn
-          active={tool === WHAT_IF_DRAW_TOOLS.pencil}
-          onClick={() => selectTool(WHAT_IF_DRAW_TOOLS.pencil)}
-          label="Draw link — click again to deselect"
-        >
-          <Pencil size={18} />
-        </ToolBtn>
+        <div className="relative">
+          {guidance?.showCoachMark ? (
+            <WhatIfPencilCoachMark
+              anchorRef={pencilRef}
+              title={guidance.coachCopy?.title}
+              body={guidance.coachCopy?.body}
+              onDismiss={guidance.dismissCoachMark}
+            />
+          ) : null}
+          <ToolBtn
+            buttonRef={pencilRef}
+            active={tool === WHAT_IF_DRAW_TOOLS.pencil}
+            onClick={() => selectTool(WHAT_IF_DRAW_TOOLS.pencil)}
+            label="Draw link — click again to deselect"
+          >
+            <Pencil size={18} />
+          </ToolBtn>
+        </div>
         <ToolBtn
           active={tool === WHAT_IF_DRAW_TOOLS.erase}
           onClick={() => selectTool(WHAT_IF_DRAW_TOOLS.erase)}
@@ -119,7 +150,7 @@ export default function WhatIfDrawToolbar({
           <MetricInfoButton
             title="What-if Drawing Tools"
             ariaLabel="What-if drawing help"
-            points={TOOLBAR_INFO}
+            points={WHAT_IF_TOOLBAR_INFO}
           />
         </div>
       </div>

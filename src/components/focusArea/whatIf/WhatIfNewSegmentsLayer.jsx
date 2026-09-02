@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { GeoJSON } from 'react-leaflet'
 import { colorForValue, getMetricValue } from '../../../utils/centralityStats.js'
-import { WHAT_IF_NEW_GLOW_COLOR } from '../../../constants/centralityWhatIf.js'
+import { WHAT_IF_NEW_GLOW_COLOR, WHAT_IF_NEW_GLOW_COLOR_STREETS } from '../../../constants/centralityWhatIf.js'
 
 /**
  * After sDNA, newly added segments: exact ramp color via colorForValue (same as main
@@ -15,6 +15,7 @@ export default function WhatIfNewSegmentsLayer({
   scaleMeters,
   stats,
   renderer,
+  glowColor = WHAT_IF_NEW_GLOW_COLOR,
 }) {
   const data = useMemo(() => {
     if (!geojson?.features?.length || !newSegmentIds?.size) return null
@@ -40,17 +41,19 @@ export default function WhatIfNewSegmentsLayer({
     [metric, scaleMeters, stats],
   )
 
+  const glowOpacity = glowColor === WHAT_IF_NEW_GLOW_COLOR_STREETS ? 0.28 : 0.4
+
   if (!data) return null
 
   return (
     <>
       <GeoJSON
-        key={`whatif-new-glow-${metric}-${scaleMeters}-${data.features.length}-${stats?.min ?? 'x'}-${stats?.max ?? 'x'}`}
+        key={`whatif-new-glow-${metric}-${scaleMeters}-${glowColor}-${data.features.length}-${stats?.min ?? 'x'}-${stats?.max ?? 'x'}`}
         data={data}
         style={() => ({
-          color: WHAT_IF_NEW_GLOW_COLOR,
+          color: glowColor,
           weight: 12,
-          opacity: 0.4,
+          opacity: glowOpacity,
           lineCap: 'round',
           lineJoin: 'round',
           className: 'whatif-new-segment-glow',

@@ -58,16 +58,21 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     }
   }, [])
 
+  const applyHealth = useCallback((h) => {
+    const reachable = Boolean(h?.ok)
+    const sdnaOk = Boolean(h?.sdna)
+    setWorkerReachable(reachable)
+    setSdnaMissing(reachable && !sdnaOk)
+    setWorkerOnline(reachable && sdnaOk)
+    return { reachable, sdnaOk }
+  }, [])
+
   useEffect(() => {
     let cancelled = false
     const tick = () => {
       checkWorkerHealth().then((h) => {
         if (cancelled) return
-        const reachable = Boolean(h?.ok)
-        const sdnaOk = Boolean(h?.sdna)
-        setWorkerReachable(reachable)
-        setSdnaMissing(reachable && !sdnaOk)
-        setWorkerOnline(reachable && sdnaOk)
+        applyHealth(h)
       })
     }
     tick()
@@ -76,7 +81,7 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
       cancelled = true
       clearInterval(id)
     }
-  }, [])
+  }, [applyHealth])
 
   // Abort in-flight compute when the user changes scale mid-job.
   useEffect(() => {
@@ -175,6 +180,12 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     setError(null)
     setStatus(WHAT_IF_STATUS.draft)
   }, [])
+
+  const connectWorker = useCallback(async () => {
+    const h = await checkWorkerHealth()
+    const { reachable, sdnaOk } = applyHealth(h)
+    return { ok: reachable && sdnaOk, reachable, sdnaMissing: reachable && !sdnaOk }
+  }, [applyHealth])
 
   const markNeedsCompute = useCallback(() => {
     setActiveScenario(false)
@@ -277,8 +288,11 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     scenarioClosenessStats,
     scenarioBetweennessStats,
     deltaBlock,
+    jobId,
     resetScenario,
     markNeedsCompute,
+    connectWorker,
     runComputeJob,
+    hydrateScenarioPayload: applyScenarioPayload,
   }
 }
