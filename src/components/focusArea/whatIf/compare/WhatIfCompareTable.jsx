@@ -15,6 +15,14 @@ import { formatMetricValue, lookupRoadName } from '../../../../utils/centralityS
 import { nearbySegmentDeltaStats, NEARBY_DELTA_METERS } from '../../../../utils/nearbyWhatIfDeltas.js'
 import { formatLengthM, proposedLinksLengthM } from '../../../../utils/whatIfCompareGeometry.js'
 
+const HEADER_TONE = {
+  sky: 'border-l-4 border-l-sky-500 bg-sky-500/10 text-sky-300',
+  orange: 'border-l-4 border-l-orange-500 bg-orange-500/10 text-orange-300',
+  emerald: 'border-l-4 border-l-emerald-500 bg-emerald-500/10 text-emerald-300',
+  rose: 'border-l-4 border-l-rose-500 bg-rose-500/10 text-rose-300',
+  primary: 'border-l-4 border-l-primary-500 bg-primary-500/10 text-primary-300',
+}
+
 function cell(slot, renderReady) {
   if (slot.status !== COMPARE_SLOT_STATUS.ready) return '—'
   return renderReady()
@@ -39,16 +47,19 @@ function numericHighlight(ids, slots, rawFn) {
 
 function MetricBlock({ row, ids, slots, selectedSegmentId, onSegmentClick }) {
   const highlight = row.raw ? numericHighlight(ids, slots, row.raw) : {}
+  const headerClass = HEADER_TONE[row.tone] ?? HEADER_TONE.primary
+  const chipAccent = row.chipAccent ?? (row.tone === 'orange' ? 'orange' : 'teal')
   return (
     <div className="border-b border-surface-800 py-2">
-      <div className="mb-1.5 flex items-center justify-between gap-2 border-l-2 border-primary-500/60 pl-2">
-        <p className="min-w-0 text-[10px] font-semibold uppercase tracking-wide text-surface-100">{row.label}</p>
+      <div className={`mb-1.5 flex items-center justify-between gap-2 rounded-md px-2 py-1.5 ${headerClass}`}>
+        <p className="min-w-0 text-[10px] font-semibold uppercase tracking-wide">{row.label}</p>
         {row.info ? (
           <MetricInfoButton
             title={row.label}
             ariaLabel={`What does ${row.label} show?`}
             points={row.info}
             pulse={false}
+            chipAccent={chipAccent}
           />
         ) : null}
       </div>
@@ -144,6 +155,7 @@ export default function WhatIfCompareTable({
   const rows = [
     {
       id: 'nqpd',
+      tone: 'sky',
       label: 'Closeness change (NQPDA) nearby',
       info: COMPARE_CLOSENESS_NEARBY_INFO,
       raw: (id) => nearby[id]?.closeness?.maxDelta ?? null,
@@ -154,6 +166,8 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'bta',
+      tone: 'orange',
+      chipAccent: 'orange',
       label: 'Betweenness change (BtA) nearby',
       info: COMPARE_BETWEENNESS_NEARBY_INFO,
       raw: (id) => nearby[id]?.betweenness?.maxDelta ?? null,
@@ -164,6 +178,7 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'gainer-c',
+      tone: 'emerald',
       label: 'Strongest gainer (nearby, NQPDA)',
       info: COMPARE_GAINER_INFO,
       clickable: true,
@@ -173,6 +188,7 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'loser-c',
+      tone: 'rose',
       label: 'Strongest loser (nearby, NQPDA)',
       info: COMPARE_LOSER_INFO,
       clickable: true,
@@ -181,6 +197,8 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'gainer-b',
+      tone: 'emerald',
+      chipAccent: 'orange',
       label: 'Strongest gainer (nearby, BtA)',
       info: COMPARE_GAINER_INFO,
       clickable: true,
@@ -189,6 +207,8 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'loser-b',
+      tone: 'rose',
+      chipAccent: 'orange',
       label: 'Strongest loser (nearby, BtA)',
       info: COMPARE_LOSER_INFO,
       clickable: true,
@@ -197,6 +217,7 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'links',
+      tone: 'primary',
       label: 'Links drawn / length',
       info: COMPARE_LINKS_INFO,
       render: (id) => {
@@ -206,6 +227,7 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'n-near',
+      tone: 'primary',
       label: 'n changed (nearby)',
       info: COMPARE_N_CHANGED_NEARBY_INFO,
       raw: (id) => {
@@ -219,6 +241,7 @@ export default function WhatIfCompareTable({
   const detailRows = [
     {
       id: 'n-net-c',
+      tone: 'sky',
       label: 'n changed (network, NQPDA)',
       raw: (id) => {
         const n = networkBlock(slots[id], 'closeness')?.n_changed
@@ -228,6 +251,7 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'max-c',
+      tone: 'sky',
       label: 'Max Δ (network, NQPDA)',
       raw: (id) => networkBlock(slots[id], 'closeness')?.max_delta ?? null,
       render: (id) => {
@@ -237,6 +261,7 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'min-c',
+      tone: 'sky',
       label: 'Min Δ (network, NQPDA)',
       raw: (id) => networkBlock(slots[id], 'closeness')?.min_delta ?? null,
       render: (id) => {
@@ -246,6 +271,8 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'n-net-b',
+      tone: 'orange',
+      chipAccent: 'orange',
       label: 'n changed (network, BtA)',
       raw: (id) => {
         const n = networkBlock(slots[id], 'betweenness')?.n_changed
@@ -255,6 +282,8 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'max-b',
+      tone: 'orange',
+      chipAccent: 'orange',
       label: 'Max Δ (network, BtA)',
       raw: (id) => networkBlock(slots[id], 'betweenness')?.max_delta ?? null,
       render: (id) => {
@@ -264,6 +293,8 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'min-b',
+      tone: 'orange',
+      chipAccent: 'orange',
       label: 'Min Δ (network, BtA)',
       raw: (id) => networkBlock(slots[id], 'betweenness')?.min_delta ?? null,
       render: (id) => {
@@ -346,8 +377,8 @@ export default function WhatIfCompareTable({
 
       {detailOpen ? (
         <div className="mt-2">
-          <div className="mb-1 flex items-center justify-between gap-2 border-l-2 border-primary-500/60 pl-2">
-            <p className="min-w-0 text-[10px] font-semibold uppercase tracking-wide text-surface-100">
+          <div className={`mb-1 flex items-center justify-between gap-2 rounded-md px-2 py-1.5 ${HEADER_TONE.primary}`}>
+            <p className="min-w-0 text-[10px] font-semibold uppercase tracking-wide">
               Whole-network summary at this radius
             </p>
             <MetricInfoButton
