@@ -14,6 +14,13 @@ import CentralityMap, { CentralityScaleChips } from '../../CentralityMap.jsx'
 import WhatIfCompareOptionCard from './WhatIfCompareOptionCard.jsx'
 import WhatIfCompareTable from './WhatIfCompareTable.jsx'
 
+function compareWorkerChip({ workerOnline, workerReachable, sdnaMissing }) {
+  if (sdnaMissing) return { label: 'sDNA missing', dotClass: 'bg-rose-500', pulse: false }
+  if (workerOnline) return { label: 'Worker online', dotClass: 'bg-emerald-500', pulse: true }
+  if (workerReachable) return { label: 'Worker unreachable', dotClass: 'bg-rose-500', pulse: false }
+  return { label: 'Worker offline', dotClass: 'bg-slate-500', pulse: false }
+}
+
 function downloadProposedGeoJson(geo) {
   const blob = new Blob([JSON.stringify(geo, null, 2)], { type: 'application/geo+json' })
   const url = URL.createObjectURL(blob)
@@ -254,39 +261,49 @@ export default function WhatIfCompareView({
   }, [activeSlot, drawHint, sdnaMissing])
 
   const emptyWorkspace = openedCount === 1 && !slots.A.links.length && slots.A.status === COMPARE_SLOT_STATUS.empty
+  const workerChip = compareWorkerChip({ workerOnline, workerReachable, sdnaMissing })
 
   return (
     <div className="what-if-compare-root flex min-h-0 flex-1 flex-col overflow-hidden pl-4">
-      <div className="flex shrink-0 flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b border-surface-700 px-3 py-1">
-        <div className="flex min-w-0 flex-wrap items-center gap-x-6 gap-y-1">
-          <div className="flex min-w-0 flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={handleBack}
-              className="inline-flex items-center gap-1 rounded-md border border-surface-600 px-2 py-1 text-[11px] text-surface-100 hover:bg-surface-800"
-            >
-              <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
-              Back to What-if
-            </button>
-            <h1 className="font-display text-sm font-semibold text-surface-50">Compare</h1>
-            <MetricInfoButton
-              title="What-if Compare"
-              ariaLabel="What does Compare show?"
-              points={COMPARE_HEADING_INFO}
-              pulse={false}
-            />
-          </div>
+      <div className="relative flex shrink-0 items-center justify-between gap-2 border-b border-surface-700 px-3 py-1">
+        <div className="relative z-10 flex min-w-0 items-center gap-2">
+          <button
+            type="button"
+            onClick={handleBack}
+            className="inline-flex items-center gap-1 rounded-md border border-surface-600 px-2 py-1 text-[11px] text-surface-100 hover:bg-surface-800"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
+            Back to What-if
+          </button>
+          <h1 className="font-display text-sm font-semibold text-surface-50">Compare</h1>
+          <MetricInfoButton
+            title="What-if Compare"
+            ariaLabel="What does Compare show?"
+            points={COMPARE_HEADING_INFO}
+            pulse={false}
+          />
+        </div>
+        <div className="pointer-events-auto absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2">
           <CentralityScaleChips scaleMeters={scaleMeters} onScaleChange={onScaleChange} />
         </div>
-        <div className="flex flex-wrap items-center gap-2 text-[11px]">
-          <span className={workerOnline ? 'text-emerald-400' : 'text-surface-400'}>
-            Worker {workerOnline ? 'online' : workerReachable ? 'no sDNA' : 'offline'}
+        <div className="relative z-10 flex shrink-0 items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 text-[10px] text-surface-300">
+            <span className="relative flex h-2 w-2 shrink-0">
+              {workerChip.pulse ? (
+                <span
+                  className={`absolute inline-flex h-full w-full animate-ping rounded-full ${workerChip.dotClass} opacity-75`}
+                  aria-hidden
+                />
+              ) : null}
+              <span className={`relative inline-flex h-2 w-2 rounded-full ${workerChip.dotClass}`} />
+            </span>
+            {workerChip.label}
           </span>
           {!workerOnline ? (
             <button
               type="button"
               onClick={() => onConnect?.()}
-              className="rounded-md border border-primary-500/50 px-2 py-0.5 text-primary-300 hover:bg-primary-500/10"
+              className="rounded-md border border-primary-500/50 px-2 py-0.5 text-[10px] font-medium text-primary-300 hover:bg-primary-500/10"
             >
               Connect
             </button>
