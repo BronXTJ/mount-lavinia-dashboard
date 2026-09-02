@@ -1066,6 +1066,10 @@ html[data-map-fullscreen] .overview-side-column {
     height: auto !important;
     max-height: none !important;
   }
+  .what-if-compare-rail {
+    overflow: visible !important;
+    max-height: none !important;
+  }
   .what-if-compare-table {
     break-inside: avoid;
   }

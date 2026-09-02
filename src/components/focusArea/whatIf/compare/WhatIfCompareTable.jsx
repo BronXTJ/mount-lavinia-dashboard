@@ -20,6 +20,72 @@ function cell(slot, renderReady) {
   return renderReady()
 }
 
+function numericHighlight(ids, slots, rawFn) {
+  const values = ids
+    .filter((id) => slots[id]?.status === COMPARE_SLOT_STATUS.ready)
+    .map((id) => ({ id, v: rawFn?.(id) }))
+    .filter((row) => row.v != null && Number.isFinite(row.v))
+  if (values.length < 2) return {}
+  const max = Math.max(...values.map((row) => row.v))
+  const min = Math.min(...values.map((row) => row.v))
+  if (max === min) return {}
+  const map = {}
+  for (const { id, v } of values) {
+    if (v === max) map[id] = 'text-emerald-300'
+    else if (v === min) map[id] = 'text-rose-300'
+  }
+  return map
+}
+
+function MetricBlock({ row, ids, slots, selectedSegmentId, onSegmentClick }) {
+  const highlight = row.raw ? numericHighlight(ids, slots, row.raw) : {}
+  return (
+    <div className="border-b border-surface-800 py-2">
+      <div className="mb-1.5 flex items-start gap-1.5">
+        <p className="text-[11px] font-medium leading-snug text-surface-200">{row.label}</p>
+        {row.info ? (
+          <MetricInfoButton
+            title={row.label}
+            ariaLabel={`What does ${row.label} show?`}
+            points={row.info}
+            pulse={false}
+          />
+        ) : null}
+      </div>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(5.5rem,1fr))] gap-1.5">
+        {ids.map((id) => {
+          const slot = slots[id]
+          const value = cell(slot, () => row.render(id))
+          const segId = row.segmentId?.(id)
+          const selected = segId != null && selectedSegmentId == segId
+          const tone = highlight[id] ?? 'text-surface-100'
+          return (
+            <div key={id} className="min-w-0">
+              <p className="text-[10px] font-semibold text-surface-500">
+                {id}
+                {slot.name ? ` · ${slot.name}` : ''}
+              </p>
+              {row.clickable && slot.status === COMPARE_SLOT_STATUS.ready && segId != null ? (
+                <button
+                  type="button"
+                  onClick={() => onSegmentClick?.(segId)}
+                  className={`mt-0.5 break-words text-left text-[11px] hover:underline ${
+                    selected ? 'text-primary-300' : tone
+                  }`}
+                >
+                  {value}
+                </button>
+              ) : (
+                <p className={`mt-0.5 break-words text-[11px] tabular-nums ${tone}`}>{value}</p>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 function segmentLabel(row, baseline, namedRoads) {
   if (!row?.ID) return '—'
   const feature = baseline?.features?.find((f) => Number(f.properties?.ID) === Number(row.ID))
@@ -80,6 +146,7 @@ export default function WhatIfCompareTable({
       id: 'nqpd',
       label: 'Closeness change (NQPDA) nearby',
       info: COMPARE_CLOSENESS_NEARBY_INFO,
+      raw: (id) => nearby[id]?.closeness?.maxDelta ?? null,
       render: (id) => {
         const d = nearby[id]?.closeness?.maxDelta
         return d == null ? '—' : `${d >= 0 ? '+' : ''}${formatMetricValue(d)}`
@@ -89,6 +156,7 @@ export default function WhatIfCompareTable({
       id: 'bta',
       label: 'Betweenness change (BtA) nearby',
       info: COMPARE_BETWEENNESS_NEARBY_INFO,
+      raw: (id) => nearby[id]?.betweenness?.maxDelta ?? null,
       render: (id) => {
         const d = nearby[id]?.betweenness?.maxDelta
         return d == null ? '—' : `${d >= 0 ? '+' : ''}${formatMetricValue(d)}`
@@ -140,6 +208,10 @@ export default function WhatIfCompareTable({
       id: 'n-near',
       label: 'n changed (nearby)',
       info: COMPARE_N_CHANGED_NEARBY_INFO,
+      raw: (id) => {
+        const n = nearby[id]?.closeness?.nChanged
+        return typeof n === 'number' ? n : null
+      },
       render: (id) => nearby[id]?.closeness?.nChanged ?? '—',
     },
   ]
@@ -148,11 +220,16 @@ export default function WhatIfCompareTable({
     {
       id: 'n-net-c',
       label: 'n changed (network, NQPDA)',
+      raw: (id) => {
+        const n = networkBlock(slots[id], 'closeness')?.n_changed
+        return typeof n === 'number' ? n : null
+      },
       render: (id) => networkBlock(slots[id], 'closeness')?.n_changed ?? '—',
     },
     {
       id: 'max-c',
       label: 'Max Δ (network, NQPDA)',
+      raw: (id) => networkBlock(slots[id], 'closeness')?.max_delta ?? null,
       render: (id) => {
         const v = networkBlock(slots[id], 'closeness')?.max_delta
         return v == null ? '—' : formatMetricValue(v)
@@ -161,6 +238,7 @@ export default function WhatIfCompareTable({
     {
       id: 'min-c',
       label: 'Min Δ (network, NQPDA)',
+      raw: (id) => networkBlock(slots[id], 'closeness')?.min_delta ?? null,
       render: (id) => {
         const v = networkBlock(slots[id], 'closeness')?.min_delta
         return v == null ? '—' : formatMetricValue(v)
@@ -169,11 +247,16 @@ export default function WhatIfCompareTable({
     {
       id: 'n-net-b',
       label: 'n changed (network, BtA)',
+      raw: (id) => {
+        const n = networkBlock(slots[id], 'betweenness')?.n_changed
+        return typeof n === 'number' ? n : null
+      },
       render: (id) => networkBlock(slots[id], 'betweenness')?.n_changed ?? '—',
     },
     {
       id: 'max-b',
       label: 'Max Δ (network, BtA)',
+      raw: (id) => networkBlock(slots[id], 'betweenness')?.max_delta ?? null,
       render: (id) => {
         const v = networkBlock(slots[id], 'betweenness')?.max_delta
         return v == null ? '—' : formatMetricValue(v)
@@ -182,6 +265,7 @@ export default function WhatIfCompareTable({
     {
       id: 'min-b',
       label: 'Min Δ (network, BtA)',
+      raw: (id) => networkBlock(slots[id], 'betweenness')?.min_delta ?? null,
       render: (id) => {
         const v = networkBlock(slots[id], 'betweenness')?.min_delta
         return v == null ? '—' : formatMetricValue(v)
@@ -212,8 +296,8 @@ export default function WhatIfCompareTable({
   }
 
   return (
-    <section className="what-if-compare-table shrink-0 border-t border-surface-700 bg-surface-900 px-3 py-3">
-      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+    <section className="what-if-compare-table px-3 py-3">
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <h2 className="font-display text-sm font-semibold text-surface-50">Comparison</h2>
           <MetricInfoButton
@@ -241,64 +325,16 @@ export default function WhatIfCompareTable({
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[36rem] border-collapse text-left text-[11px]">
-          <thead>
-            <tr className="border-b border-surface-700">
-              <th className="py-1.5 pr-2 font-medium text-surface-400">Metric</th>
-              {ids.map((id) => (
-                <th key={id} className="px-2 py-1.5 font-semibold text-surface-100">
-                  Option {id}
-                  {slots[id].name ? ` · ${slots[id].name}` : ''}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.id} className="border-b border-surface-800">
-                <th className="py-1.5 pr-2 font-medium text-surface-200">
-                  <span className="inline-flex items-center gap-1.5">
-                    {row.label}
-                    <MetricInfoButton
-                      title={row.label}
-                      ariaLabel={`What does ${row.label} show?`}
-                      points={row.info}
-                      pulse={false}
-                    />
-                  </span>
-                </th>
-                {ids.map((id) => {
-                  const slot = slots[id]
-                  const value = cell(slot, () => row.render(id))
-                  const segId = row.segmentId?.(id)
-                  const selected = segId != null && selectedSegmentId == segId
-                  if (row.clickable && slot.status === COMPARE_SLOT_STATUS.ready && segId != null) {
-                    return (
-                      <td key={id} className="px-2 py-1.5">
-                        <button
-                          type="button"
-                          onClick={() => onSegmentClick?.(segId)}
-                          className={`text-left tabular-nums hover:underline ${
-                            selected ? 'text-primary-300' : 'text-surface-100'
-                          }`}
-                        >
-                          {value}
-                        </button>
-                      </td>
-                    )
-                  }
-                  return (
-                    <td key={id} className="px-2 py-1.5 tabular-nums text-surface-100">
-                      {value}
-                    </td>
-                  )
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {rows.map((row) => (
+        <MetricBlock
+          key={row.id}
+          row={row}
+          ids={ids}
+          slots={slots}
+          selectedSegmentId={selectedSegmentId}
+          onSegmentClick={onSegmentClick}
+        />
+      ))}
 
       <button
         type="button"
@@ -309,7 +345,7 @@ export default function WhatIfCompareTable({
       </button>
 
       {detailOpen ? (
-        <div className="mt-2 overflow-x-auto">
+        <div className="mt-2">
           <div className="mb-1 flex items-center gap-1.5">
             <p className="text-[11px] text-surface-400">Whole-network summary at this radius</p>
             <MetricInfoButton
@@ -319,20 +355,16 @@ export default function WhatIfCompareTable({
               pulse={false}
             />
           </div>
-          <table className="w-full min-w-[36rem] border-collapse text-left text-[11px]">
-            <tbody>
-              {detailRows.map((row) => (
-                <tr key={row.id} className="border-b border-surface-800">
-                  <th className="py-1.5 pr-2 font-medium text-surface-200">{row.label}</th>
-                  {ids.map((id) => (
-                    <td key={id} className="px-2 py-1.5 tabular-nums text-surface-100">
-                      {cell(slots[id], () => row.render(id))}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {detailRows.map((row) => (
+            <MetricBlock
+              key={row.id}
+              row={row}
+              ids={ids}
+              slots={slots}
+              selectedSegmentId={selectedSegmentId}
+              onSegmentClick={onSegmentClick}
+            />
+          ))}
         </div>
       ) : null}
     </section>

@@ -276,7 +276,7 @@ export default function WhatIfCompareView({
   }
 
   return (
-    <div className="what-if-compare-root flex min-h-0 flex-1 flex-col overflow-hidden">
+    <div className="what-if-compare-root flex min-h-0 flex-1 flex-col overflow-hidden pl-4">
       <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-surface-700 px-3 py-2">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           <button
@@ -316,7 +316,7 @@ export default function WhatIfCompareView({
         <div className="flex shrink-0 items-start justify-between gap-2 border-b border-surface-800 bg-surface-850/60 px-3 py-1.5 text-[11px] text-surface-200">
           <p>
             Each card is a <strong className="font-semibold text-surface-50">different</strong> idea, not
-            another street on the same idea. Add a second card to fill the table.
+            another street on the same idea. Add a second idea to fill the comparison.
           </p>
           <button type="button" onClick={dismissTip} className="shrink-0 text-surface-400 hover:text-white">
             Dismiss
@@ -324,115 +324,110 @@ export default function WhatIfCompareView({
         </div>
       ) : null}
 
-      <div className="flex shrink-0 gap-2 overflow-x-auto px-3 py-2">
-        {['A', 'B', 'C'].slice(0, openedCount).map((id) => (
-          <WhatIfCompareOptionCard
-            key={id}
-            slot={slots[id]}
-            selected={activeId === id}
-            onSelect={handleSelectSlot}
-            onRedraw={handleRedraw}
-            onRemove={handleRemove}
-            onRetry={compare.retrySlot}
-            onNameChange={compare.setSlotName}
-            allowRemove={id !== 'A'}
-          />
-        ))}
-        {openedCount < COMPARE_MAX_OPTIONS ? (
-          <button
-            type="button"
-            onClick={handleAdd}
-            className="flex min-w-[10.5rem] flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-primary-500/50 bg-primary-500/5 px-3 py-2 text-center text-[11px] text-primary-200 hover:bg-primary-500/10"
-          >
-            <Plus className="h-4 w-4" aria-hidden />
-            <span className="font-semibold">
-              {openedCount === 1 ? 'Add another idea' : 'Add a third idea (3 of 3)'}
-            </span>
-            <span className="text-[10px] text-surface-400">You can compare up to 3</span>
-          </button>
-        ) : (
-          <p className="flex min-w-[8rem] items-center text-[11px] text-surface-500">
-            That’s the maximum — 3 ideas.
+      <div className="flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_30%] lg:overflow-hidden">
+        <div className="flex min-h-[50vh] min-w-0 flex-1 flex-col lg:min-h-0">
+          <p className="flex shrink-0 flex-wrap items-center gap-2 px-3 py-1 text-[11px] text-surface-400">
+            <span>All options · {scaleLabel(scaleMeters)}</span>
+            <MetricInfoButton
+              title="Analysis radius"
+              ariaLabel="What do the radius chips do in Compare?"
+              points={COMPARE_SCALE_INFO}
+              pulse={false}
+            />
+            <span className="text-surface-200">Map: Option {activeId}</span>
           </p>
-        )}
-      </div>
-
-      {emptyWorkspace ? (
-        <p className="px-3 pb-2 text-[11px] text-surface-300">
-          Draw Option A on the map, or go back and sketch in What-if first. The comparison table appears
-          when two ideas are Ready.
-        </p>
-      ) : readyCount < 2 ? (
-        <p className="px-3 pb-2 text-[11px] text-surface-400">Add a second idea to compare.</p>
-      ) : null}
-
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col border-y border-surface-700">
-        <p className="flex shrink-0 flex-wrap items-center gap-2 px-3 py-1 text-[11px] text-surface-400">
-          <span>
-            All options · {scaleLabel(scaleMeters)}
-          </span>
-          <MetricInfoButton
-            title="Analysis radius"
-            ariaLabel="What do the radius chips do in Compare?"
-            points={COMPARE_SCALE_INFO}
-            pulse={false}
-          />
-          <span className="text-surface-200">Map: Option {activeId}</span>
-        </p>
-        <div className="min-h-[280px] min-w-0 flex-1">
-          <CentralityMap
-            scaleMeters={scaleMeters}
-            onScaleChange={onScaleChange}
-            visibleLayers={whatIfVisible}
-            onToggleLayer={handleToggleLayer}
-            closeness={mapCloseness}
-            betweenness={mapBetweenness}
-            closenessStats={mapClosenessStats}
-            betweennessStats={mapBetweennessStats}
-            loading={computing}
-            namedRoads={namedRoads}
-            selectedSegmentId={selectedSegmentId}
-            mode={WHAT_IF_MODES.whatIf}
-            onModeChange={onModeChange}
-            whatIfView={whatIfView}
-            onWhatIfViewChange={onWhatIfViewChange}
-            whatIf={{
-              drawing,
-              snapNodes,
-              statusText,
-              runLabel: workerOnline ? 'Run sDNA (local)' : 'Export proposed links',
-              onFinishLink: handleFinishLink,
-              onUndo: handleUndo,
-              onRedo: handleRedo,
-              onEraseLink: handleEraseLink,
-              onRun: handleRun,
-              onReset: handleResetActive,
-              showProposed: whatIfVisible.proposedLinks,
-              showSnapNodes: whatIfVisible.snapNodes,
-              newSegmentIds,
-              hideFinishedProposed: true,
-              compareSlots: slots,
-              activeSlotId: activeId,
-              openedCount,
-            }}
-          />
+          <div className="min-h-0 min-w-0 flex-1">
+            <CentralityMap
+              scaleMeters={scaleMeters}
+              onScaleChange={onScaleChange}
+              visibleLayers={whatIfVisible}
+              onToggleLayer={handleToggleLayer}
+              closeness={mapCloseness}
+              betweenness={mapBetweenness}
+              closenessStats={mapClosenessStats}
+              betweennessStats={mapBetweennessStats}
+              loading={computing}
+              namedRoads={namedRoads}
+              selectedSegmentId={selectedSegmentId}
+              mode={WHAT_IF_MODES.whatIf}
+              onModeChange={onModeChange}
+              whatIfView={whatIfView}
+              onWhatIfViewChange={onWhatIfViewChange}
+              whatIf={{
+                drawing,
+                snapNodes,
+                statusText,
+                runLabel: workerOnline ? 'Run sDNA (local)' : 'Export proposed links',
+                onFinishLink: handleFinishLink,
+                onUndo: handleUndo,
+                onRedo: handleRedo,
+                onEraseLink: handleEraseLink,
+                onRun: handleRun,
+                onReset: handleResetActive,
+                showProposed: whatIfVisible.proposedLinks,
+                showSnapNodes: whatIfVisible.snapNodes,
+                newSegmentIds,
+                hideFinishedProposed: true,
+                compareSlots: slots,
+                activeSlotId: activeId,
+                openedCount,
+              }}
+            />
+          </div>
         </div>
-      </div>
 
-      {readyCount >= 2 ? (
-        <div className="max-h-[42vh] min-h-0 overflow-y-auto">
-          <WhatIfCompareTable
-            slots={slots}
-            openedCount={openedCount}
-            scaleMeters={scaleMeters}
-            baselineCloseness={baselineCloseness}
-            baselineBetweenness={baselineBetweenness}
-            namedRoads={namedRoads}
-            selectedSegmentId={selectedSegmentId}
-            onSegmentClick={(id) => setSelectedSegmentId((prev) => (prev == id ? null : id))}
-          />
-        </div>
-      ) : null}
+        <aside className="what-if-compare-rail min-h-0 overflow-y-auto border-t border-surface-700 bg-surface-900 lg:border-l lg:border-t-0">
+          <div className="flex flex-col gap-2 px-3 py-2">
+            {['A', 'B', 'C'].slice(0, openedCount).map((id) => (
+              <WhatIfCompareOptionCard
+                key={id}
+                slot={slots[id]}
+                selected={activeId === id}
+                onSelect={handleSelectSlot}
+                onRedraw={handleRedraw}
+                onRemove={handleRemove}
+                onRetry={compare.retrySlot}
+                onNameChange={compare.setSlotName}
+                allowRemove={id !== 'A'}
+              />
+            ))}
+            {openedCount < COMPARE_MAX_OPTIONS ? (
+              <button
+                type="button"
+                onClick={handleAdd}
+                className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-dashed border-primary-500/50 bg-primary-500/5 px-2 py-2 text-[11px] text-primary-200 hover:bg-primary-500/10"
+              >
+                <Plus className="h-4 w-4 shrink-0" aria-hidden />
+                <span className="font-semibold">
+                  {openedCount === 1 ? 'Add another idea' : 'Add a third idea (3 of 3)'}
+                </span>
+              </button>
+            ) : (
+              <p className="text-[11px] text-surface-500">That’s the maximum — 3 ideas.</p>
+            )}
+            {emptyWorkspace ? (
+              <p className="text-[11px] text-surface-300">
+                Draw Option A on the map, or go back and sketch in What-if first. Comparison appears
+                when two ideas are Ready.
+              </p>
+            ) : readyCount < 2 ? (
+              <p className="text-[11px] text-surface-400">Add a second idea to compare.</p>
+            ) : null}
+          </div>
+          {readyCount >= 2 ? (
+            <WhatIfCompareTable
+              slots={slots}
+              openedCount={openedCount}
+              scaleMeters={scaleMeters}
+              baselineCloseness={baselineCloseness}
+              baselineBetweenness={baselineBetweenness}
+              namedRoads={namedRoads}
+              selectedSegmentId={selectedSegmentId}
+              onSegmentClick={(id) => setSelectedSegmentId((prev) => (prev == id ? null : id))}
+            />
+          ) : null}
+        </aside>
+      </div>
     </div>
   )
 }
