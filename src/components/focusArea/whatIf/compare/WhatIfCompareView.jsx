@@ -265,28 +265,30 @@ export default function WhatIfCompareView({
 
   return (
     <div className="what-if-compare-root flex min-h-0 flex-1 flex-col overflow-hidden pl-4">
-      <div className="relative flex shrink-0 items-center justify-between gap-2 border-b border-surface-700 px-3 py-1">
-        <div className="relative z-10 flex min-w-0 items-center gap-2">
-          <button
-            type="button"
-            onClick={handleBack}
-            className="inline-flex items-center gap-1 rounded-md border border-surface-600 px-2 py-1 text-[11px] text-surface-100 hover:bg-surface-800"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
-            Back to What-if
-          </button>
-          <h1 className="font-display text-sm font-semibold text-surface-50">Compare</h1>
-          <MetricInfoButton
-            title="What-if Compare"
-            ariaLabel="What does Compare show?"
-            points={COMPARE_HEADING_INFO}
-            pulse={false}
-          />
+      <div className="relative flex shrink-0 items-center border-b border-surface-700 lg:grid lg:grid-cols-[minmax(0,1fr)_30%]">
+        <div className="relative flex min-w-0 flex-1 items-center px-3 py-1 lg:flex-none">
+          <div className="relative z-10 flex min-w-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={handleBack}
+              className="inline-flex items-center gap-1 rounded-md border border-surface-600 px-2 py-1 text-[11px] text-surface-100 hover:bg-surface-800"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
+              Back to What-if
+            </button>
+            <h1 className="font-display text-sm font-semibold text-surface-50">Compare</h1>
+            <MetricInfoButton
+              title="What-if Compare"
+              ariaLabel="What does Compare show?"
+              points={COMPARE_HEADING_INFO}
+              pulse={false}
+            />
+          </div>
+          <div className="pointer-events-auto absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2">
+            <CentralityScaleChips scaleMeters={scaleMeters} onScaleChange={onScaleChange} />
+          </div>
         </div>
-        <div className="pointer-events-auto absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2">
-          <CentralityScaleChips scaleMeters={scaleMeters} onScaleChange={onScaleChange} />
-        </div>
-        <div className="relative z-10 flex shrink-0 items-center gap-2">
+        <div className="relative z-10 flex shrink-0 items-center justify-end gap-2 px-3 py-1">
           <span className="inline-flex items-center gap-1.5 text-[10px] text-surface-300">
             <span className="relative flex h-2 w-2 shrink-0">
               {workerChip.pulse ? (
