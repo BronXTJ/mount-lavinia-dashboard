@@ -18,6 +18,9 @@ function statusLabel(status) {
   }
 }
 
+const iconBtn =
+  'inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded border text-surface-200 hover:bg-surface-700'
+
 export default function WhatIfCompareOptionCard({
   slot,
   selected,
@@ -66,56 +69,57 @@ export default function WhatIfCompareOptionCard({
         </span>
       </div>
 
-      <p className="mt-0.5 text-[11px] text-surface-300">
-        {empty ? 'No links yet' : `${linkCount} link${linkCount === 1 ? '' : 's'}`}
-        {empty ? (
-          <span className="ml-1.5 inline-flex items-center gap-0.5 text-primary-300">
-            <Pencil className="h-3 w-3" aria-hidden />
-            Draw
-          </span>
-        ) : null}
-      </p>
-
-      <input
-        type="text"
-        value={slot.name ?? ''}
-        placeholder="Optional name"
-        onClick={(event) => event.stopPropagation()}
-        onChange={(event) => onNameChange?.(slot.id, event.target.value)}
-        className="mt-1 w-full rounded border border-surface-700 bg-surface-900 px-1.5 py-0.5 text-[11px] text-surface-100 placeholder:text-surface-500"
-      />
+      <div className="mt-1 flex items-center gap-1">
+        <p className="flex shrink-0 items-center gap-1 text-[11px] text-surface-300">
+          {empty ? 'No links yet' : `${linkCount} link${linkCount === 1 ? '' : 's'}`}
+          {empty ? <Pencil className="h-3 w-3 text-primary-300" aria-hidden /> : null}
+        </p>
+        <input
+          type="text"
+          value={slot.name ?? ''}
+          placeholder="Optional name"
+          onClick={(event) => event.stopPropagation()}
+          onChange={(event) => onNameChange?.(slot.id, event.target.value)}
+          className="min-w-0 flex-1 rounded border border-surface-700 bg-surface-900 px-1.5 py-0.5 text-[11px] text-surface-100 placeholder:text-surface-500"
+        />
+        <div className="flex shrink-0 items-center gap-0.5" onClick={(event) => event.stopPropagation()}>
+          <button
+            type="button"
+            title="Redraw"
+            aria-label="Redraw"
+            onClick={() => onRedraw?.(slot.id)}
+            className={`${iconBtn} border-surface-600`}
+          >
+            <RotateCcw className="h-3 w-3" aria-hidden />
+          </button>
+          {allowRemove ? (
+            <button
+              type="button"
+              title="Remove"
+              aria-label="Remove"
+              onClick={() => onRemove?.(slot.id)}
+              className={`${iconBtn} border-rose-500/50 text-rose-300 hover:bg-rose-500/15`}
+            >
+              <X className="h-3 w-3" aria-hidden />
+            </button>
+          ) : null}
+        </div>
+      </div>
 
       {slot.error ? <p className="mt-1 text-[10px] leading-snug text-rose-300">{slot.error}</p> : null}
 
-      <div className="mt-1.5 flex flex-wrap gap-1" onClick={(event) => event.stopPropagation()}>
-        {slot.status === COMPARE_SLOT_STATUS.error ? (
-          <button
-            type="button"
-            onClick={() => onRetry?.(slot.id)}
-            className="rounded border border-amber-500/60 px-1.5 py-0.5 text-[10px] text-amber-200 hover:bg-amber-500/15"
-          >
-            Try again
-          </button>
-        ) : null}
+      {slot.status === COMPARE_SLOT_STATUS.error ? (
         <button
           type="button"
-          onClick={() => onRedraw?.(slot.id)}
-          className="inline-flex items-center gap-0.5 rounded border border-surface-600 px-1.5 py-0.5 text-[10px] text-surface-200 hover:bg-surface-700"
+          onClick={(event) => {
+            event.stopPropagation()
+            onRetry?.(slot.id)
+          }}
+          className="mt-1 rounded border border-amber-500/60 px-1.5 py-0.5 text-[10px] text-amber-200 hover:bg-amber-500/15"
         >
-          <RotateCcw className="h-3 w-3" aria-hidden />
-          Redraw
+          Try again
         </button>
-        {allowRemove ? (
-          <button
-            type="button"
-            onClick={() => onRemove?.(slot.id)}
-            className="inline-flex items-center gap-0.5 rounded border border-rose-500/50 px-1.5 py-0.5 text-[10px] text-rose-300 hover:bg-rose-500/15"
-          >
-            <X className="h-3 w-3" aria-hidden />
-            Remove
-          </button>
-        ) : null}
-      </div>
+      ) : null}
     </div>
   )
 }

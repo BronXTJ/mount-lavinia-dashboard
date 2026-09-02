@@ -41,8 +41,8 @@ function MetricBlock({ row, ids, slots, selectedSegmentId, onSegmentClick }) {
   const highlight = row.raw ? numericHighlight(ids, slots, row.raw) : {}
   return (
     <div className="border-b border-surface-800 py-2">
-      <div className="mb-1.5 flex items-start gap-1.5">
-        <p className="text-[11px] font-medium leading-snug text-surface-200">{row.label}</p>
+      <div className="mb-1.5 flex items-center justify-between gap-2 border-l-2 border-primary-500/60 pl-2">
+        <p className="min-w-0 text-[10px] font-semibold uppercase tracking-wide text-surface-100">{row.label}</p>
         {row.info ? (
           <MetricInfoButton
             title={row.label}
@@ -346,8 +346,10 @@ export default function WhatIfCompareTable({
 
       {detailOpen ? (
         <div className="mt-2">
-          <div className="mb-1 flex items-center gap-1.5">
-            <p className="text-[11px] text-surface-400">Whole-network summary at this radius</p>
+          <div className="mb-1 flex items-center justify-between gap-2 border-l-2 border-primary-500/60 pl-2">
+            <p className="min-w-0 text-[10px] font-semibold uppercase tracking-wide text-surface-100">
+              Whole-network summary at this radius
+            </p>
             <MetricInfoButton
               title="Whole-network detail"
               ariaLabel="What does whole-network detail show?"
