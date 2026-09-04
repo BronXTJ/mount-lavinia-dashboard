@@ -14,7 +14,6 @@ import {
   COMPARE_N_CHANGED_NEARBY_INFO,
   COMPARE_NETWORK_DETAIL_INFO,
   COMPARE_SCALE_INFO,
-  COMPARE_SHARED_INFO,
   COMPARE_STREETS_CLOSENESS_INFO,
   COMPARE_STREETS_THROUGH_INFO,
 } from '../../../../constants/whatIfCompareHelpContent.js'
@@ -194,11 +193,18 @@ function ScaleSparkline({ points, color, activeMeters }) {
   )
 }
 
-function BaselineCell({ children }) {
+const VALUE_GRID = 'grid grid-cols-[repeat(auto-fit,minmax(5.5rem,1fr))] gap-1.5'
+
+function ColumnHeader({ ids, slots }) {
   return (
-    <div className="min-w-0">
-      <p className="text-[10px] font-semibold text-surface-500">Baseline</p>
-      {children}
+    <div className={`${VALUE_GRID} border-b border-surface-800 pb-2`}>
+      <p className="text-[10px] font-semibold text-surface-400">Baseline</p>
+      {ids.map((id) => (
+        <p key={id} className="min-w-0 truncate text-[10px] font-semibold text-surface-400">
+          {id}
+          {slots[id]?.name ? ` · ${slots[id].name}` : ''}
+        </p>
+      ))}
     </div>
   )
 }
@@ -211,7 +217,7 @@ function MetricBlock({ row, ids, slots, selectedSegmentId, onSegmentClick }) {
   return (
     <div className="border-b border-surface-800 py-2">
       <div className={`mb-1.5 flex items-center justify-between gap-2 rounded-md px-2 py-1.5 ${headerClass}`}>
-        <p className="min-w-0 text-[11px] font-semibold text-surface-100">{row.label}</p>
+        <p className="min-w-0 text-[11px] font-semibold">{row.label}</p>
         {row.info ? (
           <MetricInfoButton
             title={row.label}
@@ -222,10 +228,8 @@ function MetricBlock({ row, ids, slots, selectedSegmentId, onSegmentClick }) {
           />
         ) : null}
       </div>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(5.5rem,1fr))] gap-1.5">
-        <BaselineCell>
-          <p className="mt-0.5 break-words text-[12px] tabular-nums text-surface-400">{row.today ?? '0'}</p>
-        </BaselineCell>
+      <div className={VALUE_GRID}>
+        <p className="break-words text-[12px] tabular-nums text-surface-400">{row.today ?? '—'}</p>
         {ids.map((id) => {
           const slot = slots[id]
           const value = cell(slot, () => row.render(id))
@@ -236,22 +240,18 @@ function MetricBlock({ row, ids, slots, selectedSegmentId, onSegmentClick }) {
           const ready = slot.status === COMPARE_SLOT_STATUS.ready
           return (
             <div key={id} className="min-w-0">
-              <p className="text-[10px] font-semibold text-surface-500">
-                {id}
-                {slot.name ? ` · ${slot.name}` : ''}
-              </p>
               {row.clickable && ready && segId != null ? (
                 <button
                   type="button"
                   onClick={() => onSegmentClick?.(segId)}
-                  className={`mt-0.5 break-words text-left text-[12px] hover:underline ${
+                  className={`break-words text-left text-[12px] hover:underline ${
                     selected ? 'text-primary-300' : tone
                   }`}
                 >
                   {value}
                 </button>
               ) : row.bar && ready ? (
-                <div className="mt-1 h-6 overflow-hidden rounded bg-surface-800">
+                <div className="h-6 overflow-hidden rounded bg-surface-800">
                   <div
                     className={`flex h-full items-center px-1.5 text-[11px] font-medium tabular-nums ${tone} ${
                       BAR_FILL[row.tone] ?? BAR_FILL.sky
@@ -262,7 +262,7 @@ function MetricBlock({ row, ids, slots, selectedSegmentId, onSegmentClick }) {
                   </div>
                 </div>
               ) : (
-                <p className={`mt-0.5 break-words text-[12px] tabular-nums ${tone}`}>{value}</p>
+                <p className={`break-words text-[12px] tabular-nums ${tone}`}>{value}</p>
               )}
             </div>
           )
@@ -357,7 +357,7 @@ function StreetRankCard({
   return (
     <div className="border-b border-surface-800 py-2">
       <div className={`mb-1.5 flex items-center justify-between gap-2 rounded-md px-2 py-1.5 ${headerClass}`}>
-        <p className="min-w-0 text-[11px] font-semibold text-surface-100">{title}</p>
+        <p className="min-w-0 text-[11px] font-semibold">{title}</p>
         {info ? (
           <MetricInfoButton
             title={title}
@@ -368,7 +368,7 @@ function StreetRankCard({
           />
         ) : null}
       </div>
-      <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-400">Gained</p>
+      <p className="mb-1 text-[10px] font-semibold text-emerald-400">Gained</p>
       <RankedStreetTable
         ids={ids}
         slots={slots}
@@ -378,7 +378,7 @@ function StreetRankCard({
         selectedSegmentId={selectedSegmentId}
         onSegmentClick={onSegmentClick}
       />
-      <p className="mb-1 mt-2 text-[10px] font-semibold uppercase tracking-wide text-rose-400">Lost</p>
+      <p className="mb-1 mt-2 text-[10px] font-semibold text-rose-400">Lost</p>
       <RankedStreetTable
         ids={ids}
         slots={slots}
@@ -484,7 +484,7 @@ export default function WhatIfCompareTable({
       tone: 'sky',
       bar: true,
       today: '0',
-      label: 'Nearby closeness (largest gain)',
+      label: 'Nearby closeness Δ',
       info: COMPARE_CLOSENESS_NEARBY_INFO,
       raw: (id) => nearby[id]?.closeness?.maxDelta ?? null,
       render: (id) => {
@@ -497,7 +497,7 @@ export default function WhatIfCompareTable({
       tone: 'sky',
       bar: true,
       today: '0',
-      label: 'Gain per 100 m of new street',
+      label: 'Closeness Δ / 100 m',
       info: COMPARE_EFFICIENCY_INFO,
       raw: (id) => gainPer100m(nearby[id]?.closeness?.maxDelta, proposedLinksLengthM(slots[id].links)),
       render: (id) => {
@@ -511,7 +511,7 @@ export default function WhatIfCompareTable({
       bar: true,
       today: '0',
       chipAccent: 'orange',
-      label: 'Nearby through-routes (largest gain)',
+      label: 'Nearby betweenness Δ',
       info: COMPARE_BETWEENNESS_NEARBY_INFO,
       raw: (id) => nearby[id]?.betweenness?.maxDelta ?? null,
       render: (id) => {
@@ -524,7 +524,7 @@ export default function WhatIfCompareTable({
       tone: 'violet',
       bar: true,
       today: '0',
-      label: 'Nearby streets that changed',
+      label: 'Nearby segments changed',
       info: COMPARE_N_CHANGED_NEARBY_INFO,
       raw: (id) => {
         const n = nearby[id]?.closeness?.nChanged
@@ -538,7 +538,7 @@ export default function WhatIfCompareTable({
       bar: true,
       preferMin: true,
       today: '0 · 0 m',
-      label: 'New links · length',
+      label: 'Links · length',
       info: COMPARE_LINKS_INFO,
       raw: (id) => {
         const m = proposedLinksLengthM(slots[id].links)
@@ -554,7 +554,7 @@ export default function WhatIfCompareTable({
   const streetCards = [
     {
       id: 'streets-c',
-      title: 'Nearby Streets (Closeness)',
+      title: 'Nearby streets — closeness',
       info: COMPARE_STREETS_CLOSENESS_INFO,
       tone: 'sky',
       baseline: baselineCloseness,
@@ -563,7 +563,7 @@ export default function WhatIfCompareTable({
     },
     {
       id: 'streets-b',
-      title: 'Nearby Streets (Through-Routes)',
+      title: 'Nearby streets — betweenness',
       info: COMPARE_STREETS_THROUGH_INFO,
       tone: 'orange',
       chipAccent: 'orange',
@@ -579,7 +579,7 @@ export default function WhatIfCompareTable({
       tone: 'lime',
       bar: true,
       today: '0',
-      label: 'n changed (network, NQPDA)',
+      label: 'Segments changed (closeness)',
       raw: (id) => {
         const n = networkBlock(slots[id], 'closeness')?.n_changed
         return typeof n === 'number' ? n : null
@@ -591,7 +591,7 @@ export default function WhatIfCompareTable({
       tone: 'lime',
       bar: true,
       today: '0',
-      label: 'Max Δ (network, NQPDA)',
+      label: 'Max Δ (closeness)',
       raw: (id) => networkBlock(slots[id], 'closeness')?.max_delta ?? null,
       render: (id) => {
         const v = networkBlock(slots[id], 'closeness')?.max_delta
@@ -603,7 +603,7 @@ export default function WhatIfCompareTable({
       tone: 'lime',
       bar: true,
       today: '0',
-      label: 'Min Δ (network, NQPDA)',
+      label: 'Min Δ (closeness)',
       raw: (id) => networkBlock(slots[id], 'closeness')?.min_delta ?? null,
       render: (id) => {
         const v = networkBlock(slots[id], 'closeness')?.min_delta
@@ -615,7 +615,7 @@ export default function WhatIfCompareTable({
       tone: 'fuchsia',
       bar: true,
       today: '0',
-      label: 'n changed (network, BtA)',
+      label: 'Segments changed (betweenness)',
       raw: (id) => {
         const n = networkBlock(slots[id], 'betweenness')?.n_changed
         return typeof n === 'number' ? n : null
@@ -627,7 +627,7 @@ export default function WhatIfCompareTable({
       tone: 'fuchsia',
       bar: true,
       today: '0',
-      label: 'Max Δ (network, BtA)',
+      label: 'Max Δ (betweenness)',
       raw: (id) => networkBlock(slots[id], 'betweenness')?.max_delta ?? null,
       render: (id) => {
         const v = networkBlock(slots[id], 'betweenness')?.max_delta
@@ -639,7 +639,7 @@ export default function WhatIfCompareTable({
       tone: 'fuchsia',
       bar: true,
       today: '0',
-      label: 'Min Δ (network, BtA)',
+      label: 'Min Δ (betweenness)',
       raw: (id) => networkBlock(slots[id], 'betweenness')?.min_delta ?? null,
       render: (id) => {
         const v = networkBlock(slots[id], 'betweenness')?.min_delta
@@ -651,7 +651,7 @@ export default function WhatIfCompareTable({
   function downloadCsv() {
     const header = ['Metric', 'Baseline', ...ids.map((id) => `Option ${id}`)]
     const sparkRows = COMPARE_SPARKLINE_SCALES.map((meters) => [
-      `Nearby closeness at ${sparkTick(meters)}`,
+      `Closeness Δ at ${sparkTick(meters)}`,
       '0',
       ...ids.map((id) => {
         const slot = slots[id]
@@ -751,7 +751,7 @@ export default function WhatIfCompareTable({
         <div className="flex items-center gap-2">
           <h2 className="font-display text-sm font-semibold text-surface-50">Comparison</h2>
           <MetricInfoButton
-            title="What This Comparison Shows"
+            title="Comparison"
             ariaLabel="What does Comparison show?"
             points={COMPARE_HEADING_INFO}
             pulse={false}
@@ -775,52 +775,7 @@ export default function WhatIfCompareTable({
         </div>
       </div>
 
-      <div className="border-b border-surface-800 py-2">
-        <div className={`mb-1.5 flex items-center justify-between gap-2 rounded-md px-2 py-1.5 ${HEADER_TONE.sky}`}>
-          <p className="min-w-0 text-[11px] font-semibold text-surface-100">
-            Nearby closeness across scales
-          </p>
-          <MetricInfoButton
-            title="Nearby closeness across scales"
-            ariaLabel="What does the scale strip show?"
-            points={COMPARE_SCALE_INFO}
-            pulse={false}
-          />
-        </div>
-        <p className="mb-1.5 px-0.5 text-[10px] text-surface-500">500 · 2k · 3k · 5k</p>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(5.5rem,1fr))] gap-1.5">
-          <BaselineCell>
-            <p className="mt-0.5 text-[12px] tabular-nums text-surface-400">0</p>
-          </BaselineCell>
-          {ids.map((id) => {
-            const slot = slots[id]
-            const ready = slot.status === COMPARE_SLOT_STATUS.ready
-            const points = sparklineBySlot[id] ?? []
-            const active = points.find((p) => p.meters === scaleMeters)
-            const color = COMPARE_SLOT_COLORS[id]?.line ?? '#94a3b8'
-            return (
-              <div key={id} className="min-w-0">
-                <p className="text-[10px] font-semibold text-surface-500">
-                  {id}
-                  {slot.name ? ` · ${slot.name}` : ''}
-                </p>
-                {ready ? (
-                  <>
-                    <ScaleSparkline points={points} color={color} activeMeters={scaleMeters} />
-                    <p className="mt-0.5 text-[11px] tabular-nums text-surface-200">
-                      {active?.maxDelta == null
-                        ? '—'
-                        : `${active.maxDelta >= 0 ? '+' : ''}${formatMetricValue(active.maxDelta)} at ${sparkTick(scaleMeters)}`}
-                    </p>
-                  </>
-                ) : (
-                  <p className="mt-0.5 text-[12px] text-surface-400">—</p>
-                )}
-              </div>
-            )
-          })}
-        </div>
-      </div>
+      <ColumnHeader ids={ids} slots={slots} />
 
       {barRows.map((row) => (
         <MetricBlock
@@ -832,6 +787,44 @@ export default function WhatIfCompareTable({
           onSegmentClick={onSegmentClick}
         />
       ))}
+
+      <div className="border-b border-surface-800 py-2">
+        <div className={`mb-1.5 flex items-center justify-between gap-2 rounded-md px-2 py-1.5 ${HEADER_TONE.sky}`}>
+          <p className="min-w-0 text-[11px] font-semibold">Closeness Δ by radius</p>
+          <MetricInfoButton
+            title="Closeness Δ by radius"
+            ariaLabel="What does closeness Δ by radius show?"
+            points={COMPARE_SCALE_INFO}
+            pulse={false}
+          />
+        </div>
+        <div className={VALUE_GRID}>
+          <p className="text-[12px] tabular-nums text-surface-400">0</p>
+          {ids.map((id) => {
+            const slot = slots[id]
+            const ready = slot.status === COMPARE_SLOT_STATUS.ready
+            const points = sparklineBySlot[id] ?? []
+            const active = points.find((p) => p.meters === scaleMeters)
+            const color = COMPARE_SLOT_COLORS[id]?.line ?? '#94a3b8'
+            const signed =
+              active?.maxDelta == null
+                ? '—'
+                : `${active.maxDelta >= 0 ? '+' : ''}${formatMetricValue(active.maxDelta)}`
+            return (
+              <div key={id} className="min-w-0">
+                {ready ? (
+                  <>
+                    <ScaleSparkline points={points} color={color} activeMeters={scaleMeters} />
+                    <p className="mt-0.5 text-[11px] tabular-nums text-surface-200">{signed}</p>
+                  </>
+                ) : (
+                  <p className="text-[12px] text-surface-400">—</p>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      </div>
 
       {streetCards.map((card) => (
         <StreetRankCard
@@ -851,106 +844,20 @@ export default function WhatIfCompareTable({
         />
       ))}
 
-      <div className="border-b border-surface-800 py-2">
-        <div className={`mb-1.5 flex items-center justify-between gap-2 rounded-md px-2 py-1.5 ${HEADER_TONE.emerald}`}>
-          <p className="min-w-0 text-[11px] font-semibold text-surface-100">Shared Vs Unique Streets</p>
-          <MetricInfoButton
-            title="Shared Vs Unique Streets"
-            ariaLabel="What do Shared Vs Unique Streets show?"
-            points={COMPARE_SHARED_INFO}
-            pulse={false}
-          />
-        </div>
-        <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-surface-400">
-          Gains In More Than One Option
-        </p>
-        {sharedStreets.shared.length ? (
-          <ul className="mb-2 space-y-0.5">
-            {sharedStreets.shared.map((row) => (
-              <li key={row.ID}>
-                <button
-                  type="button"
-                  onClick={() => onSegmentClick?.(row.ID)}
-                  className={`flex w-full min-w-0 items-baseline justify-between gap-2 text-left text-[12px] hover:underline ${
-                    selectedSegmentId == row.ID ? 'text-primary-300' : 'text-surface-100'
-                  }`}
-                >
-                  <span className="min-w-0 truncate">{streetName(row, baselineCloseness, namedRoads)}</span>
-                  <span className="shrink-0 text-[10px] tabular-nums text-surface-400">
-                    {row.optionIds
-                      .map((oid) => {
-                        const d = row.deltas[oid]
-                        return d == null ? null : `${oid} ${formatSignedDelta(d)}`
-                      })
-                      .filter(Boolean)
-                      .join(' · ')}
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mb-2 text-[12px] text-surface-400">No Top 5 closeness gainer is shared.</p>
-        )}
-        <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-surface-400">Only In One Option</p>
-        <div
-          className="grid gap-x-1.5"
-          style={{ gridTemplateColumns: `repeat(${ids.length}, minmax(0, 1fr))` }}
-        >
-          {ids.map((id) => {
-            const slot = slots[id]
-            const ready = slot.status === COMPARE_SLOT_STATUS.ready
-            const items = ready ? labeledStreetItems(sharedStreets.unique[id] ?? [], baselineCloseness, namedRoads) : []
-            return (
-              <div key={id} className="min-w-0">
-                <p className="text-[10px] font-semibold text-surface-500">
-                  {id}
-                  {slot.name ? ` · ${slot.name}` : ''}
-                </p>
-                {!ready || !items.length ? (
-                  <p className="mt-0.5 text-[12px] text-surface-400">{ready ? 'None unique' : '—'}</p>
-                ) : (
-                  <ul className="mt-0.5 space-y-0.5">
-                    {items.map((item) => (
-                      <li key={item.ID}>
-                        <button
-                          type="button"
-                          onClick={() => onSegmentClick?.(item.ID)}
-                          className={`flex w-full min-w-0 items-baseline justify-between gap-1 text-left hover:underline ${
-                            selectedSegmentId == item.ID ? 'text-primary-300' : 'text-surface-100'
-                          }`}
-                        >
-                          <span className="min-w-0 truncate text-[11px] leading-snug">{item.label}</span>
-                          <span className="shrink-0 text-[10px] tabular-nums text-surface-400">
-                            {formatSignedDelta(item.delta)}
-                          </span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
       <button
         type="button"
         onClick={() => setDetailOpen((v) => !v)}
         className="what-if-compare-no-print mt-2 text-[11px] text-surface-400 hover:text-surface-200"
       >
-        {detailOpen ? 'Hide more detail' : 'More detail (whole network)'}
+        {detailOpen ? 'Hide network' : 'Network (full extent)'}
       </button>
 
       <div className={`mt-2 ${detailOpen ? '' : 'hidden print:block'}`}>
           <div className={`mb-1 flex items-center justify-between gap-2 rounded-md px-2 py-1.5 ${HEADER_TONE.indigo}`}>
-            <p className="min-w-0 text-[11px] font-semibold text-surface-100">
-              Whole-Network Summary At This Radius
-            </p>
+            <p className="min-w-0 text-[11px] font-semibold">Network appendix</p>
             <MetricInfoButton
-              title="Whole-Network Detail"
-              ariaLabel="What does whole-network detail show?"
+              title="Network appendix"
+              ariaLabel="What does the network appendix show?"
               points={COMPARE_NETWORK_DETAIL_INFO}
               pulse={false}
             />
