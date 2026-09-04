@@ -13,12 +13,10 @@ import {
   COMPARE_LINKS_INFO,
   COMPARE_N_CHANGED_NEARBY_INFO,
   COMPARE_NETWORK_DETAIL_INFO,
-  COMPARE_PAIRWISE_INFO,
   COMPARE_SCALE_INFO,
   COMPARE_SHARED_INFO,
   COMPARE_STREETS_CLOSENESS_INFO,
   COMPARE_STREETS_THROUGH_INFO,
-  COMPARE_VERDICT_INFO,
 } from '../../../../constants/whatIfCompareHelpContent.js'
 import { useCompareScaleCloseness } from '../../../../hooks/useCompareScaleCloseness.js'
 import { formatMetricValue, lookupRoadName } from '../../../../utils/centralityStats.js'
@@ -30,7 +28,7 @@ import {
 } from '../../../../utils/nearbyWhatIfDeltas.js'
 import { formatLengthM, proposedLinksLengthM } from '../../../../utils/whatIfCompareGeometry.js'
 import { classifySharedVsUniqueStreets } from '../../../../utils/whatIfCompareSharedStreets.js'
-import { buildCompareSummary, compareScalePhrase, gainPer100m } from '../../../../utils/whatIfCompareSummary.js'
+import { compareScalePhrase, gainPer100m } from '../../../../utils/whatIfCompareSummary.js'
 
 const HEADER_TONE = {
   sky: 'border-l-4 border-l-sky-500 bg-sky-500/10 text-sky-300',
@@ -394,19 +392,6 @@ function StreetRankCard({
   )
 }
 
-function boldOptionLetters(text) {
-  const parts = text.split(/(\b[ABC]\b)/g)
-  return parts.map((part, i) =>
-    part === 'A' || part === 'B' || part === 'C' ? (
-      <strong key={`${part}-${i}`} className="font-semibold text-surface-50">
-        {part}
-      </strong>
-    ) : (
-      <span key={`t-${i}`}>{part}</span>
-    ),
-  )
-}
-
 export default function WhatIfCompareTable({
   slots,
   openedCount,
@@ -487,11 +472,6 @@ export default function WhatIfCompareTable({
       listsBySlot: Object.fromEntries(readyIds.map((id) => [id, nearby[id]?.closeness?.topGainers ?? []])),
     })
   }, [ids, slots, nearby])
-
-  const summary = useMemo(
-    () => buildCompareSummary({ slots, ids, nearby, scaleMeters }),
-    [slots, ids, nearby, scaleMeters],
-  )
 
   function networkBlock(slot, metric) {
     const key = `${metric}_${scaleMeters}`
@@ -794,67 +774,6 @@ export default function WhatIfCompareTable({
           </button>
         </div>
       </div>
-
-      {summary.sentences.length ? (
-        <div className="mb-3 rounded-md border border-surface-700 bg-surface-800/80 px-2.5 py-2">
-          <div className="mb-1 flex items-center justify-between gap-2">
-            <p className="text-[10px] font-semibold uppercase tracking-wide text-surface-400">Verdict</p>
-            <MetricInfoButton
-              title="Verdict"
-              ariaLabel="What does the verdict show?"
-              points={COMPARE_VERDICT_INFO}
-              pulse={false}
-            />
-          </div>
-          <p role="status" className="text-[13px] leading-snug text-surface-100">
-            {summary.sentences.map((s, i) => (
-              <span key={s}>
-                {i > 0 ? ' ' : null}
-                {boldOptionLetters(s)}
-              </span>
-            ))}
-          </p>
-        </div>
-      ) : null}
-
-      {summary.pairs.length ? (
-        <div className="mb-3 rounded-md border border-surface-700 px-2.5 py-2">
-          <div className="mb-1.5 flex items-center justify-between gap-2">
-            <p className="text-[10px] font-semibold uppercase tracking-wide text-surface-300">How They Differ</p>
-            <MetricInfoButton
-              title="How They Differ"
-              ariaLabel="What does How They Differ show?"
-              points={COMPARE_PAIRWISE_INFO}
-              pulse={false}
-            />
-          </div>
-          {summary.pairs.map((pair) => (
-            <div key={`${pair.left}-${pair.right}`} className="mb-2 last:mb-0">
-              <p className="mb-1 text-[11px] font-semibold text-surface-50">
-                {boldOptionLetters(`${pair.left} vs ${pair.right}`)}
-              </p>
-              <ul className="space-y-0.5">
-                {pair.lines.map((line) => (
-                  <li key={line.label} className="flex items-baseline justify-between gap-2 text-[12px]">
-                    <span className="text-surface-200">{line.label}</span>
-                    <span
-                      className={
-                        line.ahead
-                          ? 'font-medium text-emerald-300'
-                          : line.text === 'tie'
-                            ? 'text-surface-200'
-                            : 'text-surface-200'
-                      }
-                    >
-                      {boldOptionLetters(line.text)}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      ) : null}
 
       <div className="border-b border-surface-800 py-2">
         <div className={`mb-1.5 flex items-center justify-between gap-2 rounded-md px-2 py-1.5 ${HEADER_TONE.sky}`}>
