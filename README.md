@@ -169,8 +169,11 @@ No API key is required for Open-Meteo client requests from the browser.
 
 **Thanuja Senarathne**
 
+Undergraduate — BSc (Hons) in Urban Informatics & Planning, University of Moratuwa
+
 - 🐙 GitHub: [@BronXTJ](https://github.com/BronXTJ)
 - 💼 LinkedIn: [thanuja-senarathne](https://www.linkedin.com/in/thanuja-senarathne-1122a828b)
+- ✉️ Email: [thanujals1781@gmail.com](mailto:thanujals1781@gmail.com)
 
 ### ✏️ Development note
 
