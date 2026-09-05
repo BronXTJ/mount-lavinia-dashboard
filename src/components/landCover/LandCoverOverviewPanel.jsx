@@ -1,5 +1,6 @@
 import DensityStatCard from '../focusArea/DensityStatCard.jsx'
 import FocusAreaPanelCard from '../focusArea/FocusAreaPanelCard.jsx'
+import KeyFindingsBridge from '../focusArea/KeyFindingsBridge.jsx'
 import MetricInfoButton from '../focusArea/MetricInfoButton.jsx'
 import { LC_GN_NAMES, LC_HEADLINE_KPIS } from '../../constants/landCover.js'
 import { LC_INFO } from './landCoverInfoContent.js'
@@ -42,6 +43,20 @@ export default function LandCoverOverviewPanel({ selectedGn, onSelectGn }) {
           ))}
         </div>
       </FocusAreaPanelCard>
+
+      <KeyFindingsBridge
+        bullets={[
+          'Five-GN vegetation fell about 70 ha (2000→2025) while built-up rose 26 ha.',
+          'Beach/sand and Mount Lavinia GN’s coastal soft edge are thinning — not spare vacant land.',
+          'Most vegetation loss sits in the other four GNs; Mount Lavinia GN is the coastal design lens.',
+        ]}
+        chips={[
+          { id: 'LC1', label: 'LC1 Vegetation / built-up', to: '/synthesis?f=LC1' },
+          { id: 'LC2', label: 'LC2 Coastal soft edge', to: '/synthesis?f=LC2' },
+          { id: 'LC3', label: 'LC3 ML GN vs five GN', to: '/synthesis?f=LC3' },
+        ]}
+        synthesisTo="/synthesis?f=LC1"
+      />
 
       <FocusAreaPanelCard>
         <div className="mb-2 flex items-center justify-between gap-2">

@@ -12,6 +12,8 @@ export const DOMAIN_META = {
   governance: { label: 'Governance', color: '#c4b5fd' },
   walk: { label: 'Walk Access', color: '#0d9488' },
   network: { label: 'Network Form', color: '#f59e0b' },
+  landcover: { label: 'Land Cover', color: '#1a9850' },
+  movement: { label: 'Movement', color: '#38bdf8' },
 }
 
 export const EDGE_TYPE_META = {
@@ -35,10 +37,12 @@ export const findings = [
       'Range is about 31.2–46.9 °C.',
       'About 87% of cells are class 4 (strong heat stress).',
       'About 11% are class 5 (very strong heat stress).',
+      'The 39.1 °C mean sits in the very-strong band because a hot tail pulls it up; most cells are still class 4, so the area-wide story is strong-to-very-strong stress, not a uniform 39 °C.',
     ],
     interpretation: [
-      'Most of the 800 m study area feels uncomfortable outdoors under these model conditions.',
-      'Heat is common across the area, not limited to a few hotspots.',
+      'Most of the 800 m environmental grid feels uncomfortable outdoors under these model conditions.',
+      'Heat is common across that corridor grid, not limited to a few hotspots.',
+      'This 800 m thermal extent overlaps the Junction–Galle Road spine; it is not the full five-GN hex fabric used for density, walk, and maturation.',
     ],
     implication: [
       'Treat outdoor heat as an area-wide design constraint for Mount Lavinia’s walking network, especially Galle Road and Junction approaches.',
@@ -49,7 +53,7 @@ export const findings = [
       { tab: 'environmental', label: 'Mean UTCI ~39.1 °C', path: '/environmental' },
       { tab: 'environmental', label: 'Stress-class donut (4 vs 5)', path: '/environmental' },
     ],
-    issuesLinks: ['RC2', 'PT1'],
+    issuesLinks: ['RC2', 'PT1', 'ENV7'],
   },
   {
     id: 'F2',
@@ -182,7 +186,7 @@ export const findings = [
     evidence: [
       { tab: 'density', label: 'OSR / openness metrics', path: '/focus-area', focusSub: 'density' },
     ],
-    issuesLinks: ['GOV1', 'SE8'],
+    issuesLinks: ['GOV1', 'SE8', 'ENV8'],
   },
   {
     id: 'F8',
@@ -220,7 +224,7 @@ export const findings = [
         focusSub: 'walk-access',
       },
     ],
-    issuesLinks: ['PT1', 'SE7'],
+    issuesLinks: ['PT1', 'SE7', 'ENV7', 'GOV3'],
   },
   {
     id: 'F9',
@@ -252,6 +256,7 @@ export const findings = [
     domains: ['governance', 'density', 'morphology'],
     observation: [
       'RC2 (Unregulated Development) and GOV1 (Weak Zoning) describe condo/hotel growth without clear separation from homes and the working coast.',
+      'A mapped inventory of about 130 condominium / apartment points sits inside the primary study area.',
       'Rapid high-rise growth is producing denser, more commercial patches compared with Mount Lavinia’s original town character (also linked to SE8 speculation), alongside still-open underdeveloped hexes on the primary grid.',
     ],
     interpretation: [
@@ -266,6 +271,7 @@ export const findings = [
     evidence: [
       { tab: 'issues', label: 'Issues · RC2 / GOV1', path: '/problems', node: 'RC2' },
       { tab: 'density', label: 'Density fabric', path: '/focus-area', focusSub: 'density' },
+      { tab: 'overview', label: 'Condominium inventory (~130 points)', path: '/' },
     ],
     issuesLinks: ['RC2', 'GOV1', 'SE8'],
   },
@@ -318,23 +324,24 @@ export const findings = [
   {
     id: 'F13',
     label: 'Planning Must Couple Climate and Zoning',
-    domains: ['governance', 'thermal', 'density', 'maturation'],
+    domains: ['governance', 'thermal', 'density', 'maturation', 'landcover'],
     observation: [
-      'Heat stress, uneven Shannon entropy, mid-range UMI with weak accessibility, weak zoning, and tourism–resident conflict show up together across the analysis layers.',
-      'These are linked themes, not separate problems.',
+      'Heat stress (800 m thermal grid), canopy loss (five-GN Landsat), uneven Shannon entropy (100 m hexes), mid-range UMI with weak accessibility, weak zoning, and tourism–resident conflict show up together along the Junction–Galle Road corridor.',
+      'These are linked themes on overlapping study extents, not one identical geography.',
     ],
     interpretation: [
       'A single-sector response (trees only, or zoning only, or tourism marketing only) will under-perform.',
       'Primary maturation shows meaningful mix and diversity, but access still lags—so climate and zoning responses must close that gap, not chase “early UMI” myths from the old 500 m study.',
     ],
     implication: [
-      'Package heat mitigation, zoning reform, and tourism management as one Mount Lavinia programme instead of separate sector projects.',
+      'Package heat mitigation, canopy protection, zoning reform, and tourism management as one Mount Lavinia programme instead of separate sector projects.',
       'Raise walkable access, outdoor comfort, and fair foreshore space alongside land-use mix in a shared delivery sequence.',
       'Use the SFA priorities in Issues and Potentials to order which interventions start first on the ground.',
     ],
     evidence: [
       { tab: 'issues', label: 'SFA Assessment', path: '/problems' },
       { tab: 'environmental', label: 'Environmental Analysis', path: '/environmental' },
+      { tab: 'landcover', label: 'Land Cover Change 2000→2025', path: '/land-cover' },
       {
         tab: 'maturation',
         label: 'Shannon Entropy + UMI',
@@ -342,7 +349,7 @@ export const findings = [
         focusSub: 'maturation',
       },
     ],
-    issuesLinks: ['GOV1', 'RC1', 'RC2'],
+    issuesLinks: ['GOV1', 'RC1', 'RC2', 'ENV7', 'ENV8'],
   },
   {
     id: 'F14',
@@ -425,21 +432,21 @@ export const findings = [
   {
     id: 'F16',
     label: 'Uneven Shannon Fabric Meets Heat and Conflict',
-    domains: ['maturation', 'thermal', 'social'],
+    domains: ['maturation', 'thermal', 'social', 'landcover'],
     observation: [
       'Mean Shannon entropy is about 0.44 on primary analysis-grade hexes.',
       'UMI composite averages about 0.34 (mostly moderate and highly matured tiers).',
-      'On the same geography, mean UTCI is ~39 °C (strong heat stress).',
+      'On the overlapping 800 m environmental grid, mean UTCI is ~39 °C (strong heat stress).',
       'Issues RC1 describes tourism–resident–fisher identity mismatch on shared un-zoned space.',
     ],
     interpretation: [
       'Read maturation first through Shannon mix, then confirm with UMI—especially the weak access component.',
       'A fabric with mid UMI and uneven mix still absorbs tourism and climate stress poorly where access and comfort lag.',
-      'Limited accessibility sits alongside harsh outdoor comfort and competing place claims.',
+      'Limited accessibility sits alongside harsh outdoor comfort and competing place claims on the shared corridor — heat is measured on the 800 m grid; mix and access on the five-GN hexes.',
     ],
     implication: [
-      'Run one coordinated programme that upgrades walkable access, outdoor walking comfort, and coastal zoning on the same geography.',
-      'Treat uneven Shannon fabric, mid UMI with weak access, strong UTCI, and tourism–resident–fisher conflict as linked delivery problems, not separate files.',
+      'Run one coordinated programme that upgrades walkable access, outdoor walking comfort, canopy protection, and coastal zoning on the overlapping Junction–Galle Road corridor.',
+      'Treat uneven Shannon fabric, mid UMI with weak access, strong UTCI on the 800 m grid, canopy loss across the five GNs, and tourism–resident–fisher conflict as linked delivery problems, not separate files.',
       'Sequence work with the same integrated path used for climate and zoning coupling, so heat and identity stress are not left for a later phase.',
     ],
     evidence: [
@@ -456,9 +463,10 @@ export const findings = [
         focusSub: 'maturation',
       },
       { tab: 'environmental', label: 'UTCI map', path: '/environmental' },
+      { tab: 'landcover', label: 'Land Cover Change', path: '/land-cover' },
       { tab: 'issues', label: 'Issues · RC1', path: '/problems', node: 'RC1' },
     ],
-    issuesLinks: ['RC1', 'RC2', 'GOV1'],
+    issuesLinks: ['RC1', 'RC2', 'GOV1', 'ENV7', 'ENV8'],
   },
   {
     id: 'WA1',
@@ -487,7 +495,7 @@ export const findings = [
         focusSub: 'walk-access',
       },
     ],
-    issuesLinks: ['GOV1', 'PT1'],
+    issuesLinks: ['GOV1', 'PT1', 'SE11'],
   },
   {
     id: 'WA2',
@@ -516,7 +524,7 @@ export const findings = [
         focusSub: 'walk-access',
       },
     ],
-    issuesLinks: ['GOV1'],
+    issuesLinks: ['GOV1', 'SE11'],
   },
   {
     id: 'WA3',
@@ -575,7 +583,7 @@ export const findings = [
         focusSub: 'network-form',
       },
     ],
-    issuesLinks: ['GOV1', 'PT1'],
+    issuesLinks: ['GOV1', 'PT1', 'GOV3'],
   },
   {
     id: 'NF2',
@@ -604,7 +612,7 @@ export const findings = [
         focusSub: 'network-form',
       },
     ],
-    issuesLinks: ['GOV1'],
+    issuesLinks: ['GOV1', 'GOV3'],
   },
   {
     id: 'NF3',
@@ -647,6 +655,100 @@ export const findings = [
     ],
     issuesLinks: ['GOV1', 'PT1'],
   },
+  {
+    id: 'LC1',
+    label: 'Vegetation Collapse and Built-up Gain',
+    domains: ['landcover', 'thermal', 'density'],
+    observation: [
+      'Landsat 30 m across the five GNs (~2000 → ~2025): built-up rose 36.9 → 62.8 ha (+25.9 ha).',
+      'Vegetation fell 179.4 → 109.0 ha (−70.4 ha); share dropped from about 53% to 32%.',
+      'Open / bare rose 116.5 → 162.7 ha (+46.3 ha).',
+      'Neighbourhood-scale only — not plot or cadastral accuracy.',
+    ],
+    interpretation: [
+      'Canopy loss is an area-wide cooling and identity constraint, not a few converted plots.',
+      'Open / bare increase often means thinning, yards, or cleared ground — not spare vacant land waiting for slabs.',
+    ],
+    implication: [
+      'Protect remaining tree canopy and street trees before further hard coverage locks in heat on the walking network.',
+      'Treat residual soft / open patches as candidate public or landscape inserts, not leftover development land.',
+      'Read vegetation loss with the 800 m UTCI grid: less canopy makes corridor heat harder to mitigate.',
+    ],
+    evidence: [
+      { tab: 'landcover', label: 'Landsat headline change 2000→2025', path: '/land-cover' },
+      { tab: 'environmental', label: 'UTCI map (800 m grid)', path: '/environmental' },
+    ],
+    issuesLinks: ['ENV8', 'RC2', 'ENV7'],
+  },
+  {
+    id: 'LC2',
+    label: 'Coastal Soft Edge Is Shrinking',
+    domains: ['landcover', 'governance'],
+    observation: [
+      'Five-GN beach / sand cover fell 3.6 → 1.89 ha (~2000 → ~2025).',
+      'In Mount Lavinia GN, beach / sand fell 2.52 → 0.9 ha (−1.62 ha).',
+      'The main Landsat pathways are vegetation → open / bare, open / bare → built-up, and vegetation → built-up.',
+    ],
+    interpretation: [
+      'The bright coastal sand strip and remaining soft cover are identity-critical and already thinning.',
+      'Hard expansion onto beach and coastal soft surfaces competes with shore access and working-coast space.',
+    ],
+    implication: [
+      'Limit hard expansion onto beach and coastal soft surfaces; keep visual and physical shore access.',
+      'Do not read open / bare as unused empty lots when it includes yards, sparse grass, and cleared ground.',
+      'Sequence foreshore protection with zoning so tourism bulk does not finish the conversion pathway.',
+    ],
+    evidence: [
+      { tab: 'landcover', label: 'Landsat change + Mount Lavinia deep dive', path: '/land-cover' },
+    ],
+    issuesLinks: ['ENV4', 'ENV8', 'GOV1', 'PE1'],
+  },
+  {
+    id: 'LC3',
+    label: 'Mount Lavinia GN Is the Design Lens, Not the Whole Loss',
+    domains: ['landcover'],
+    observation: [
+      'Mount Lavinia GN Landsat (~2000 → ~2025): built-up 24.1 → 29.9 ha (+5.8 ha); vegetation 43.7 → 36.4 ha (−7.4 ha).',
+      'The other four GNs account for most vegetation loss (about −63 ha of the −70.4 ha five-GN total).',
+    ],
+    interpretation: [
+      'Coastal identity work belongs in Mount Lavinia GN (hotel/promenade edge, Galle Road).',
+      'Canopy protection is a five-GN job — most vegetation loss sits outside the Mount Lavinia GN boundary.',
+    ],
+    implication: [
+      'Use Mount Lavinia GN for coastal-edge and corridor design pilots.',
+      'Do not treat five-GN vegetation totals as if they all fell inside Mount Lavinia GN.',
+      'Protect remaining green/soft patches in Kawdana West, Watarappala, Wathumulla, and Wedikanda as well as the coastal GN.',
+    ],
+    evidence: [
+      { tab: 'landcover', label: 'Mount Lavinia GN Landsat deep dive', path: '/land-cover' },
+    ],
+    issuesLinks: ['ENV8', 'GOV1'],
+  },
+  {
+    id: 'MB1',
+    label: 'Junction Pedestrian Load Sits on the Same Spines',
+    domains: ['movement', 'morphology', 'thermal'],
+    observation: [
+      'Four counted junctions along Galle Road show College Avenue–Galle Road as the busiest pedestrian node (weekday morning 430 people).',
+      'The other three junctions sit lower on weekday mornings (about 210–280).',
+      'This load sits on the same Junction–Galle Road spine that centrality, walk mismatch, and the 800 m heat grid already flag.',
+    ],
+    interpretation: [
+      'Through-movement importance is not only a network metric — observed pedestrian volume concentrates on the same corridor.',
+      'Shade and sidewalk packages on this spine serve residents, students, and visitors together.',
+    ],
+    implication: [
+      'Put shade, sidewalk continuity, and cooling first on College Avenue–Galle Road and the Junction approaches.',
+      'Read Movement & Behaviour counts with F8 centrality and F1 heat so corridor upgrades are not designed as traffic-only works.',
+      'Do not spread thin comfort upgrades across quiet side streets while this spine carries the counted pedestrian peak.',
+    ],
+    evidence: [
+      { tab: 'movement', label: 'Movement & Behaviour · junction counts', path: '/connectivity' },
+      { tab: 'centrality', label: 'Centrality maps', path: '/focus-area', focusSub: 'centrality' },
+    ],
+    issuesLinks: ['PT1', 'SE7', 'ENV7'],
+  },
 ]
 
 /** Typed edges for the claim interconnection diagram. */
@@ -688,11 +790,20 @@ export const findingEdges = [
   { source: 'NF3', target: 'WA2', type: 'co_located', strength: 2 },
   { source: 'NF3', target: 'F8', type: 'amplifies', strength: 1 },
   { source: 'NF3', target: 'F15', type: 'caused_by', strength: 2 },
+  { source: 'LC1', target: 'F1', type: 'amplifies', strength: 2 },
+  { source: 'LC1', target: 'F7', type: 'amplifies', strength: 2 },
+  { source: 'LC1', target: 'F16', type: 'amplifies', strength: 2 },
+  { source: 'LC1', target: 'F13', type: 'amplifies', strength: 2 },
+  { source: 'LC2', target: 'LC1', type: 'co_located', strength: 2 },
+  { source: 'LC2', target: 'F9', type: 'amplifies', strength: 2 },
+  { source: 'LC3', target: 'LC1', type: 'amplifies', strength: 1 },
+  { source: 'MB1', target: 'F8', type: 'amplifies', strength: 2 },
+  { source: 'MB1', target: 'F1', type: 'co_located', strength: 2 },
 ]
 
 /**
- * Six-step key argument path.
- * Shannon-first maturation: Shannon profile → access lag → centrality → heat → identity → coupled response.
+ * Seven-step key argument path.
+ * Shannon mix → access lag → corridors → canopy loss → heat → identity → coupled response.
  */
 export const storySpine = [
   {
@@ -711,9 +822,14 @@ export const storySpine = [
     blurb: 'Junction links carry the most movement and pressure.',
   },
   {
+    findingId: 'LC1',
+    title: 'Canopy Loss',
+    blurb: 'Five-GN vegetation −70.4 ha; built-up +25.9 ha (2000→2025).',
+  },
+  {
     findingId: 'F1',
     title: 'Heat Stress',
-    blurb: 'Mean UTCI ~39 °C — strong outdoor heat stress.',
+    blurb: 'Mean UTCI ~39 °C on the 800 m grid — strong outdoor heat stress.',
   },
   {
     findingId: 'F9',
@@ -722,8 +838,8 @@ export const storySpine = [
   },
   {
     findingId: 'F16',
-    title: 'Couple Shannon + Climate',
-    blurb: 'Raise access, comfort, and zoning together with mix.',
+    title: 'Couple Mix + Climate',
+    blurb: 'Raise access, canopy, comfort, and zoning together with mix.',
   },
 ]
 

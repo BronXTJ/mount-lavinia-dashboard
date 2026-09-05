@@ -65,7 +65,7 @@ export const nodes = [
     label: 'Plastic Waste Leakage',
     category: 'Environmental Issue',
     detail:
-      '29.6 tons of plastic waste generated daily. 3.8 tons (8%) escapes formal systems and enters waterways and marine ecosystem daily.',
+      'Plastic waste leaks from canals and informal dumping onto Mount Lavinia beach and into nearshore waters. Dehiwala-Mount Lavinia Municipal Council has had to run repeated beach and canal clean-ups after wash-up events. This is a documented local leakage pathway — not a verified daily tonnage for the GN.',
     group: 2,
   },
   {
@@ -106,6 +106,22 @@ export const nodes = [
     category: 'Environmental Issue',
     detail:
       'Nearshore reef ecosystems are biodiverse breeding grounds and natural wave breakers. Reefs such as Paragala and Demadagala have been severely damaged by beach nourishment and chemical pollution.',
+    group: 2,
+  },
+  {
+    id: 'ENV7',
+    label: 'Outdoor Heat Stress',
+    category: 'Environmental Issue',
+    detail:
+      'Mean modelled UTCI on the 800 m / 10 m environmental grid is about 39.1 °C. About 87% of cells are class 4 (strong heat stress) and about 11% class 5 (very strong). The mean sits in the very-strong band because a hot tail pulls it up — the area-wide story is strong-to-very-strong outdoor stress on the Junction–Galle Road corridor, not a uniform 39 °C everywhere.',
+    group: 2,
+  },
+  {
+    id: 'ENV8',
+    label: 'Vegetation and Canopy Loss',
+    category: 'Environmental Issue',
+    detail:
+      'Landsat 30 m across the five GNs (~2000 → ~2025): vegetation fell 179.4 → 109.0 ha (−70.4 ha) while built-up rose 36.9 → 62.8 ha (+25.9 ha) and open/bare rose +46.3 ha. Beach/sand also thinned (3.6 → 1.89 ha). Neighbourhood-scale only — not plot accuracy.',
     group: 2,
   },
   // SOCIO-ECONOMIC ISSUES
@@ -189,6 +205,14 @@ export const nodes = [
       'Lack of neighbourhood and social connections leaves communities empty, stressed, and isolated — distinct from tourist–resident privacy conflicts, this is about thinning local social fabric.',
     group: 3,
   },
+  {
+    id: 'SE11',
+    label: 'Uneven Daily Walk Access',
+    category: 'Socio-Economic Issue',
+    detail:
+      'Food is near-universal within a 10-minute walk (99.4% of 341 analysis hexes), but health (80.3%) and education (82.7%) lag. 29 hexes are destination deserts (≤2 groups within 10 minutes). High food coverage is not proof that all daily needs are walkable.',
+    group: 3,
+  },
   // GOVERNANCE ISSUES
   {
     id: 'GOV1',
@@ -204,6 +228,14 @@ export const nodes = [
     category: 'Governance Issue',
     detail:
       'Major coastal and beach projects were approved without a full environmental impact assessment — sometimes using Section 14 of the Coast Conservation Act as a shortcut instead of a proper study.',
+    group: 4,
+  },
+  {
+    id: 'GOV3',
+    label: 'Tree-like Street Interiors',
+    category: 'Governance Issue',
+    detail:
+      'Across the five GNs, junctions are 3-way dominated (4-way share ~9%) with 259 cul-de-sacs. Enclosure intensity is highest in Watarappala (~111/km²) and Kawdana West (~110/km²). High walk-access scores on many dead-ends do not mean a permeable grid — interiors stay tree-like while spines carry movement.',
     group: 4,
   },
   // POTENTIALS - TOURISM
@@ -225,10 +257,10 @@ export const nodes = [
   },
   {
     id: 'PT3',
-    label: 'Untapped Heritage Tourism',
+    label: 'Underused Local Heritage',
     category: 'Potential - Tourism',
     detail:
-      'Arab-built Fort (893-914 AD) and Roman archaeological site Pupput (2nd century, Emperor Commodus) remain severely under-valorized as cultural heritage assets.',
+      'Civic and cultural assets beyond the hotel strip — St. Thomas’ College setting, temples, colonial street fabric, and living fishing practices including Madela — remain secondary to mass beach packaging.',
     group: 5,
   },
   {
@@ -303,10 +335,10 @@ export const nodes = [
   },
   {
     id: 'PP3',
-    label: 'Decentralized Governance',
+    label: 'Multi-Agency Coastal Governance',
     category: 'Potential - Planning',
     detail:
-      '2018 Organic Law on Local Collectivities strengthens municipal power, enabling multi-stakeholder partnerships (hoteliers, fisherfolk unions, environmental experts, residents) for collaborative coastal management.',
+      'Dehiwala-Mount Lavinia Municipal Council can convene hoteliers, fisherfolk, residents, and NGOs, but coastal control is still split with UDA and the Coast Conservation Department. Partnerships only work if those agencies share one shoreline programme.',
     group: 8,
   },
   // STAKEHOLDERS
@@ -414,6 +446,16 @@ export const edges = [
   { source: 'ST3', target: 'SE8', strength: 2 },
   { source: 'RC1', target: 'ST3', strength: 2 },
   { source: 'ST3', target: 'PP3', strength: 1 },
+  { source: 'RC2', target: 'ENV7', strength: 2 },
+  { source: 'RC2', target: 'ENV8', strength: 2 },
+  { source: 'ENV7', target: 'PT1', strength: 2 },
+  { source: 'ENV7', target: 'ST3', strength: 1 },
+  { source: 'ENV8', target: 'ENV4', strength: 2 },
+  { source: 'ENV8', target: 'GOV1', strength: 2 },
+  { source: 'ENV8', target: 'ENV7', strength: 2 },
+  { source: 'SE11', target: 'GOV1', strength: 2 },
+  { source: 'GOV3', target: 'GOV1', strength: 2 },
+  { source: 'GOV3', target: 'PT1', strength: 1 },
 ]
 
 export function nodeRadius(category) {
@@ -462,6 +504,10 @@ export const swotData = {
       'Loss of coastal views and aesthetics',
       'Privatization of public facilities under tourism pressure',
       'Weak neighbourhood social connections and isolation',
+      'Strong outdoor heat stress on the Junction–Galle Road corridor',
+      'Long-term vegetation / canopy loss across the five GNs',
+      'Health and education walk access lag food/retail',
+      'Tree-like interiors (cul-de-sacs and T-junctions) off the spines',
     ],
   },
   opportunities: {
@@ -474,9 +520,10 @@ export const swotData = {
       'Heritage and cultural tourism development',
       'Reef conservation and dive tourism',
       'Working coast zoning implementation',
-      'Decentralized multi-stakeholder governance',
+      'Multi-agency coastal partnerships (DMMC, UDA, CCD, communities)',
       'Community-led environmental monitoring',
       'Sustainable fishing economy',
+      'Remaining soft / open patches as public or landscape inserts',
     ],
   },
   threats: {
@@ -491,6 +538,7 @@ export const swotData = {
       'Real estate speculation pressure',
       'Climate change and sea level rise',
       'Fuel cost volatility',
+      'Further canopy-to-built conversion and beach/sand loss',
     ],
   },
 }
@@ -502,9 +550,9 @@ export const pestelData = {
     points: [
       'UDA forced clearances without consultation',
       'Coastal projects approved without full environmental impact studies (legal shortcuts, e.g. Section 14)',
-      '2018 Organic Law strengthening local governance',
-      'Fragmented jurisdiction: UDA, CCD, municipal overlap',
+      'Fragmented jurisdiction: UDA, CCD, and Dehiwala-Mount Lavinia Municipal Council overlap',
       'Tourism-first political agenda marginalizing fisherfolk',
+      'Room for a shared DMMC–UDA–CCD shoreline programme with residents and fisherfolk',
     ],
   },
   Economic: {
@@ -532,6 +580,7 @@ export const pestelData = {
       '81% Dengue fever rate in displaced settlements',
       'Multicultural community with 95-97% literacy rate',
       'Generational conflict between old and new land uses',
+      'Health and education 10-minute walk coverage lag food/retail; destination deserts are localized',
     ],
   },
   Technological: {
@@ -549,7 +598,9 @@ export const pestelData = {
     color: '#14532d',
     icon: '🌊',
     points: [
-      '3.8 tons of plastic waste leaking into ocean daily',
+      'Plastic waste leaking from canals onto Mount Lavinia beach and into nearshore waters',
+      'Outdoor heat stress: mean UTCI ~39.1 °C on the 800 m modelled grid (strong to very strong classes)',
+      'Vegetation loss of about 70 ha across the five GNs (Landsat ~2000 → ~2025), with beach/sand also thinning',
       'FC levels exceeding 150 MPN/100ml safe bathing standard',
       'Ship chemical and plastic spills harming coastal waters (e.g. MV X-Press Pearl cargo ship, 2021)',
       'Nearshore reef ecosystems under severe threat (e.g. Paragala and Demadagala)',
@@ -564,7 +615,7 @@ export const pestelData = {
       'CZ&CRMP 2024-2029: new sustainable coastal management plan',
       'Coastal projects approved without full environmental impact studies (legal shortcuts, e.g. Section 14)',
       'Required environmental reviews are often skipped for coastal works',
-      'Organic Law 2018: decentralized municipal authority',
+      'Municipal authority sits alongside UDA and CCD — no single shoreline manager',
       'No formal working coast or fishery protection legislation',
       'Urban Development Authority Act enabling forced clearances',
     ],
@@ -614,9 +665,45 @@ export const sfaData = [
     priority: 'High',
   },
   {
+    intervention: 'Corridor Shade and Cooling',
+    description:
+      'Continuous shade, cooler paving, and sidewalk upgrades on Junction / Galle Road spines that already carry heat, centrality, and counted pedestrian load',
+    suitability: 9,
+    feasibility: 7,
+    acceptability: 8,
+    priority: 'High',
+  },
+  {
+    intervention: 'Canopy and Soft-Cover Protection',
+    description:
+      'Protect remaining vegetation and treat residual soft/open patches as public or landscape inserts before further hard coverage (five-GN Landsat 2000–2025)',
+    suitability: 9,
+    feasibility: 6,
+    acceptability: 7,
+    priority: 'High',
+  },
+  {
+    intervention: 'Interior Through-Links',
+    description:
+      'Permeability pilots in high cul-de-sac-density GNs (Watarappala / Kawdana West) rather than assuming walk scores prove a grid',
+    suitability: 8,
+    feasibility: 5,
+    acceptability: 6,
+    priority: 'Medium',
+  },
+  {
+    intervention: 'Health and Education Walk Access',
+    description:
+      'Close 10-minute health (80.3%) and education (82.7%) gaps and target the 29 destination-desert hexes; do not treat 99.4% food coverage as full daily access',
+    suitability: 8,
+    feasibility: 6,
+    acceptability: 8,
+    priority: 'High',
+  },
+  {
     intervention: 'Heritage Tourism Circuit',
     description:
-      'Develop Arab Fort, Pupput ruins, and long-standing fishing heritage (including Madela) as cultural assets',
+      'Develop the Mount Lavinia Hotel setting, Golden Mile, and long-standing fishing heritage (including Madela) as cultural assets',
     suitability: 7,
     feasibility: 8,
     acceptability: 8,

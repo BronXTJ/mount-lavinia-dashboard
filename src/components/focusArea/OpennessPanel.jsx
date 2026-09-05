@@ -6,13 +6,13 @@ import MetricInfoButton from './MetricInfoButton.jsx'
 import TypologyStackedBar from './TypologyStackedBar.jsx'
 
 const DENSITY_FINDINGS_FALLBACK = [
-  'Compact built form dominates much of the primary study area fabric.',
+  'Built form is split: dense congested cells sit alongside large open-underdeveloped patches.',
   'Open-space ratio is limited relative to built coverage across many hex cells.',
   'Typology and OSR patterns on the density hex map show how form and openness vary together.',
 ]
 
 const DENSITY_FINDING_CHIPS = [
-  { id: 'F6', label: 'F6 Compact form', to: '/synthesis?f=F6' },
+  { id: 'F6', label: 'F6 Split built form', to: '/synthesis?f=F6' },
   { id: 'F7', label: 'F7 Open space', to: '/synthesis?f=F7' },
 ]
 

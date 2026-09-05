@@ -104,6 +104,30 @@ export default function Tab7_Synthesis({ onFocusAreaSub }) {
             </button>
             <button
               type="button"
+              onClick={() => {
+                onFocusAreaSub?.('network-form')
+                navigate('/focus-area?sub=network-form')
+              }}
+              className="rounded-lg border border-surface-700 bg-surface-800 px-2.5 py-1 text-[11px] font-medium text-surface-200 transition hover:border-[#f59e0b]/50"
+            >
+              Network Form
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/connectivity')}
+              className="rounded-lg border border-surface-700 bg-surface-800 px-2.5 py-1 text-[11px] font-medium text-surface-200 transition hover:border-[#38bdf8]/50"
+            >
+              Movement
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/land-cover')}
+              className="rounded-lg border border-surface-700 bg-surface-800 px-2.5 py-1 text-[11px] font-medium text-surface-200 transition hover:border-[#1a9850]/50"
+            >
+              Land Cover
+            </button>
+            <button
+              type="button"
               onClick={() => navigate('/environmental')}
               className="rounded-lg border border-surface-700 bg-surface-800 px-2.5 py-1 text-[11px] font-medium text-surface-200 transition hover:border-[#f46d43]/50"
             >
