@@ -177,7 +177,6 @@ function buildWalkPopup(props, activeMetric = 'accessScore', metricClasses = nul
 
   // accessScore (default)
   const color = colorForWalkMetric(score, metricClasses)
-  const textColor = contrastTextForBg(color)
   return buildCellInfoPopupHtml({
     title: `Hex Cell #${id}`,
     primaryLabel: 'Access Score:',

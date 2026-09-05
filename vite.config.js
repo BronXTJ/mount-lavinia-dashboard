@@ -27,4 +27,8 @@ export default defineConfig({
   preview: {
     proxy: whatIfProxy,
   },
+  test: {
+    environment: 'jsdom',
+    include: ['tests/**/*.test.js'],
+  },
 })

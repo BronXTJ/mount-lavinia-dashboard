@@ -1,0 +1,26 @@
+# Changelog
+
+All notable changes to the Mount Lavinia Urban Analytics Dashboard are listed here.
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [Unreleased]
+
+### Added
+
+- Phase 0 safety net: ESLint, Prettier, Vitest unit tests, Playwright route smoke tests with golden screenshots, and a GitHub Actions CI workflow.
+- `CHANGELOG.md` so later hardening phases can be read without walking git history.
+
+### Changed
+
+- `main` now matches the live dashboard (What-if Compare and related work from `feat/what-if-compare`).
+
+### Security
+
+- Local research folders (`site intervention/`, `json_files/condo_inventory/`, `Social_media_analysis/`) and condominium inventory GeoJSON stay on disk and are not published.
+
+## [0.1.0] - 2026-09-05
+
+### Added
+
+- Public GitHub Pages dashboard for the Mount Lavinia primary study area: overview, focus-area analyses, land cover, environmental, issues, synthesis, and export maps.
+- Local What-if sDNA worker for drawing and scoring network changes.

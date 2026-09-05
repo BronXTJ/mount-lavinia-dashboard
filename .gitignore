@@ -74,6 +74,12 @@ _what_if_work/jobs/
 # worker run artifacts
 **/last_run_log.txt
 
+# test / lint tooling
+playwright-report/
+test-results/
+coverage/
+blob-report/
+
 # ------------------------------------------------------------------
 # Local-only research folders and condominium inventory layers.
 # public/data/geo/condominiums_*.geojson and the research folders

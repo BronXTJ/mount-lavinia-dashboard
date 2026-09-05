@@ -35,7 +35,7 @@ export function miniBar(value, color = '#94a3b8') {
   return `<div style="margin-top:4px;height:6px;border-radius:3px;background:#2a3a4a;overflow:hidden"><div style="height:100%;width:${pct}%;background:${color}"></div></div>`
 }
 
-function escapeHtml(text) {
+export function escapeHtml(text) {
   return String(text ?? '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')

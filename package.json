@@ -12,7 +12,13 @@
     "what-if": "node scripts/what-if/start-local.mjs",
     "what-if:worker": "python scripts/what-if/api/server.py",
     "predeploy": "npm run build && node -e \"import('node:fs').then(fs => fs.copyFileSync('dist/index.html','dist/404.html'))\"",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,css}\" \"tests/**/*.js\" \"e2e/**/*.js\" \"*.config.js\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "d3": "^7.9.0",
@@ -27,14 +33,25 @@
     "recharts": "^3.9.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.63.0",
     "@vitejs/plugin-react": "^6.0.3",
     "autoprefixer": "^10.5.2",
+    "eslint": "^9.39.5",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.6",
     "gh-pages": "^6.3.0",
+    "globals": "^17.12.0",
+    "jsdom": "^29.1.1",
     "postcss": "^8.5.16",
+    "prettier": "^3.9.6",
     "proj4": "^2.20.9",
     "shapefile": "^0.6.6",
     "tailwindcss": "^3.4.18",
     "vite": "^8.1.3",
+    "vitest": "^5.0.0",
     "xlsx": "^0.18.5"
   }
 }
