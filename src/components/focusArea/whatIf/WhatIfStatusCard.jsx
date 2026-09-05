@@ -8,6 +8,7 @@ import {
   WifiOff,
 } from 'lucide-react'
 import { WHAT_IF_STATUS, getWhatIfWorkerBase } from '../../../constants/centralityWhatIf.js'
+import WhatIfWorkerSteps from './WhatIfWorkerSteps.jsx'
 
 function primaryState({ status, workerOnline, sdnaMissing }) {
   if (sdnaMissing) {
@@ -67,6 +68,7 @@ export default function WhatIfStatusCard({
   error = null,
   warning = null,
   onConnect,
+  showWorkerSteps = true,
 }) {
   const primary = primaryState({ status, workerOnline, sdnaMissing })
   const worker = workerChipState({ workerOnline, workerReachable, sdnaMissing })
@@ -123,16 +125,12 @@ export default function WhatIfStatusCard({
 
       {error ? <p className="mt-1.5 text-[10px] leading-snug text-rose-400">{error}</p> : null}
       {sdnaMissing && !error ? (
-        <p className="mt-1.5 text-[10px] leading-snug text-rose-400">
-          Install sDNA to C:\Program Files (x86)\sDNA, then restart npm run what-if:worker
+        <p className="mt-1.5 text-[12px] leading-snug text-rose-400">
+          Install sDNA to C:\Program Files (x86)\sDNA. Then run the Command Prompt steps below and
+          click Connect.
         </p>
       ) : null}
-      {!workerOnline && !sdnaMissing && !error ? (
-        <p className="mt-1.5 text-[10px] leading-snug text-amber-300">
-          Keep <code className="text-amber-100">npm run what-if:worker</code> running, then click
-          Connect and Allow local network if Chrome asks.
-        </p>
-      ) : null}
+      {showWorkerSteps && !workerOnline && !error ? <WhatIfWorkerSteps /> : null}
       {warning && !error ? (
         <p className="mt-1.5 text-[10px] leading-snug text-amber-400">{warning}</p>
       ) : null}

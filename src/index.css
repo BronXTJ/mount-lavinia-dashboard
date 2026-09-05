@@ -1060,17 +1060,60 @@ html[data-map-fullscreen] .overview-side-column {
 @media print {
   body {
     background: #fff !important;
+    color: #0f172a !important;
   }
-  .what-if-compare-root {
+  aside.fixed,
+  .leaflet-control-container,
+  .what-if-compare-no-print,
+  .what-if-compare-map {
+    display: none !important;
+  }
+  main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  .what-if-compare-root,
+  .what-if-compare-body,
+  .what-if-compare-rail {
+    display: block !important;
     overflow: visible !important;
     height: auto !important;
     max-height: none !important;
+    width: 100% !important;
+    background: #fff !important;
+    color: #0f172a !important;
+    border: none !important;
   }
-  .what-if-compare-rail {
-    overflow: visible !important;
-    max-height: none !important;
+  .what-if-compare-print-masthead {
+    display: block !important;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #94a3b8 !important;
   }
   .what-if-compare-table {
-    break-inside: avoid;
+    break-inside: auto;
+    color: #0f172a !important;
+  }
+  .what-if-compare-table h1,
+  .what-if-compare-table h2,
+  .what-if-compare-table p,
+  .what-if-compare-table span,
+  .what-if-compare-table li,
+  .what-if-compare-table strong,
+  .what-if-compare-table button {
+    color: #0f172a !important;
+  }
+  .what-if-compare-table .text-emerald-300 {
+    color: #047857 !important;
+  }
+  .what-if-compare-table .text-rose-300 {
+    color: #be123c !important;
+  }
+  .what-if-compare-table button[aria-expanded] {
+    display: none !important;
+  }
+  .what-if-compare-table .bg-sky-500\/25,
+  .what-if-compare-table .bg-orange-500\/25 {
+    background: #e2e8f0 !important;
   }
 }

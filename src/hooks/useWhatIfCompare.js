@@ -291,7 +291,7 @@ export function useWhatIfCompare({ scaleMeters, initialOptionA }) {
       if (err?.code === 'WORKER_OFFLINE') {
         patchSlot(slotId, {
           status: COMPARE_SLOT_STATUS.error,
-          error: 'Worker offline — start npm run what-if:worker, then Try again.',
+          error: 'Worker offline — run the two Command Prompt lines, then Try again.',
         })
       } else if (err?.code === 'SDNA_MISSING') {
         patchSlot(slotId, {

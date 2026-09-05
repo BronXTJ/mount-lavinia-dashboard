@@ -11,6 +11,7 @@ import { useWhatIfDrawing } from '../../../../hooks/useWhatIfDrawing.js'
 import { summarizeGeoJson } from '../../../../utils/centralityStats.js'
 import MetricInfoButton from '../../MetricInfoButton.jsx'
 import CentralityMap, { CentralityScaleChips } from '../../CentralityMap.jsx'
+import WhatIfWorkerSteps from '../WhatIfWorkerSteps.jsx'
 import WhatIfCompareOptionCard from './WhatIfCompareOptionCard.jsx'
 import WhatIfCompareTable from './WhatIfCompareTable.jsx'
 
@@ -265,7 +266,7 @@ export default function WhatIfCompareView({
 
   return (
     <div className="what-if-compare-root flex min-h-0 flex-1 flex-col overflow-hidden pl-4">
-      <div className="relative flex shrink-0 items-center border-b border-surface-700 lg:grid lg:grid-cols-[minmax(0,1fr)_30%]">
+      <div className="what-if-compare-no-print relative flex shrink-0 items-center border-b border-surface-700 lg:grid lg:grid-cols-[minmax(0,1fr)_35%]">
         <div className="relative flex min-w-0 flex-1 items-center px-3 py-1 lg:flex-none">
           <div className="relative z-10 flex min-w-0 items-center gap-2">
             <button
@@ -278,7 +279,7 @@ export default function WhatIfCompareView({
             </button>
             <h1 className="font-display text-sm font-semibold text-surface-50">Compare</h1>
             <MetricInfoButton
-              title="What-if Compare"
+              title="What-If Compare"
               ariaLabel="What does Compare show?"
               points={COMPARE_HEADING_INFO}
               pulse={false}
@@ -313,8 +314,8 @@ export default function WhatIfCompareView({
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_30%] lg:overflow-hidden">
-        <div className="flex min-h-[50vh] min-w-0 flex-1 flex-col lg:min-h-0">
+      <div className="what-if-compare-body flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_35%] lg:overflow-hidden">
+        <div className="what-if-compare-map flex min-h-[50vh] min-w-0 flex-1 flex-col lg:min-h-0">
           <div className="min-h-0 min-w-0 flex-1">
             <CentralityMap
               scaleMeters={scaleMeters}
@@ -350,13 +351,20 @@ export default function WhatIfCompareView({
                 compareSlots: slots,
                 activeSlotId: activeId,
                 openedCount,
+                baselineCloseness,
+                baselineBetweenness,
               }}
             />
           </div>
         </div>
 
         <aside className="what-if-compare-rail min-h-0 overflow-y-auto border-t border-surface-700 bg-surface-900 lg:border-l lg:border-t-0">
-          <div className="flex flex-col gap-2 px-3 py-2">
+          {!workerOnline ? (
+            <div className="what-if-compare-no-print border-b border-surface-700 px-3 py-2">
+              <WhatIfWorkerSteps />
+            </div>
+          ) : null}
+          <div className="what-if-compare-no-print flex flex-col gap-2 px-3 py-2">
             {['A', 'B', 'C'].slice(0, openedCount).map((id) => (
               <WhatIfCompareOptionCard
                 key={id}

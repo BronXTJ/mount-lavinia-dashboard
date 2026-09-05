@@ -1,7 +1,11 @@
+import { CENTRALITY_SCALES } from '../constants/centrality.js'
 import { getMetricValue } from './centralityStats.js'
 
 /** Buffer around proposed links for the Nearby Δ list. */
 export const NEARBY_DELTA_METERS = 500
+
+/** Radii for the Compare scale sparkline (same chips as the map). */
+export const COMPARE_SPARKLINE_SCALES = CENTRALITY_SCALES.map((s) => s.meters)
 
 const EARTH_M = 6371000
 const DEG_LAT_M = 111_320
@@ -165,16 +169,83 @@ export function nearbySegmentDeltaStats(args) {
       minDelta: null,
       topGainer: null,
       topLoser: null,
+      topGainers: [],
+      topLosers: [],
     }
   }
   const bySigned = [...rows].sort((a, b) => b.delta - a.delta)
-  const topGainer = bySigned[0].delta > 0 ? bySigned[0] : null
-  const topLoser = bySigned[bySigned.length - 1].delta < 0 ? bySigned[bySigned.length - 1] : null
+  const topGainers = bySigned.filter((r) => r.delta > 0).slice(0, 5)
+  const topLosers = [...bySigned].reverse().filter((r) => r.delta < 0).slice(0, 5)
+  const topGainer = topGainers[0] ?? null
+  const topLoser = topLosers[0] ?? null
   return {
     nChanged: rows.length,
     maxDelta: bySigned[0].delta,
     minDelta: bySigned[bySigned.length - 1].delta,
     topGainer,
     topLoser,
+    topGainers,
+    topLosers,
   }
+}
+
+/**
+ * Nearby closeness (largest signed Δ) at each analysis radius.
+ * Nearby streets are still the 500 m buffer around the drawing; the radius is the sDNA metric.
+ */
+export function nearbyClosenessSparkline({
+  links,
+  baselineByScale,
+  scenarioByScale,
+  scales = COMPARE_SPARKLINE_SCALES,
+  radiusM = NEARBY_DELTA_METERS,
+}) {
+  return scales.map((meters) => {
+    const baseline = baselineByScale?.[meters]
+    const scenario = scenarioByScale?.[meters]
+    if (!links?.length || !baseline?.features?.length || !scenario?.features?.length) {
+      return { meters, maxDelta: null }
+    }
+    const stats = nearbySegmentDeltaStats({
+      links,
+      baseline,
+      scenario,
+      metric: 'closeness',
+      scaleMeters: meters,
+      radiusM,
+    })
+    return { meters, maxDelta: stats.maxDelta ?? null }
+  })
+}
+
+/**
+ * Signed scenario − baseline Δ for every matching segment on a layer.
+ * Used by the Compare map (not the nearby 500 m lists).
+ */
+export function layerSignedDeltas({ scenario, baseline, metric, scaleMeters }) {
+  const byId = new Map()
+  if (!scenario?.features?.length || !baseline?.features?.length) {
+    return { byId, maxAbs: 0 }
+  }
+  const baseById = new Map()
+  for (const f of baseline.features) {
+    const id = Number(f.properties?.ID)
+    if (!Number.isFinite(id)) continue
+    const v = getMetricValue(f.properties, metric, scaleMeters)
+    if (v == null || Number.isNaN(v)) continue
+    baseById.set(id, v)
+  }
+  let maxAbs = 0
+  for (const f of scenario.features) {
+    const id = Number(f.properties?.ID)
+    if (!Number.isFinite(id)) continue
+    const sv = getMetricValue(f.properties, metric, scaleMeters)
+    const bv = baseById.get(id)
+    if (sv == null || bv == null || Number.isNaN(sv)) continue
+    const d = sv - bv
+    byId.set(id, d)
+    const a = Math.abs(d)
+    if (a > maxAbs) maxAbs = a
+  }
+  return { byId, maxAbs }
 }

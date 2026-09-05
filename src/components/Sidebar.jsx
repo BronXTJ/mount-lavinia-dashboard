@@ -102,7 +102,7 @@ export default function Sidebar({
 
   return (
     <aside
-      className={`fixed left-0 top-0 flex h-screen flex-col overflow-visible ${
+      className={`fixed left-0 top-0 flex h-screen flex-col overflow-visible print:hidden ${
         mapFullscreen ? 'z-[2600]' : 'z-50'
       }`}
       style={{

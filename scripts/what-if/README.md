@@ -1,10 +1,17 @@
+---
+uid: d7000958-92ed-4185-860c-ec8b5565a543
+kind: element
+title: What-if centrality scenarios
+domain: scripts
+---
+
 # What-if centrality scenarios
 
 What-if opens with an empty map. Draw proposed links freehand (snap optional). With the **local sDNA worker** running on your Windows PC, finishing a link (or pressing ▶) recomputes NQPDA / BtA automatically. Without the worker, ▶ exports GeoJSON for offline use.
 
-There is no baked demo scenario. GitHub Pages cannot run sDNA; the live site talks to `http://127.0.0.1:8787` when this worker is up (CORS enabled).
+GitHub Pages cannot *host* sDNA. It *can* talk to `http://127.0.0.1:8787` after you click **Connect** and Allow local network in Chrome.
 
-## Local worker (recommended)
+## Local worker (required for live sDNA)
 
 Requires: sDNA at `C:\Program Files (x86)\sDNA`, `pyproj`, `pyshp`, plus FastAPI.
 
@@ -14,7 +21,12 @@ pip install -r scripts/what-if/api/requirements.txt
 npm run what-if:worker
 ```
 
-Then open the dashboard (`npm run dev` or the deployed Pages site) → Centrality → What-if → draw → finish link.
+Then open the GitHub Pages dashboard (or `npm run dev`) → Centrality → What-if.
+
+1. If the chip says Worker offline, click **Connect** and Allow local network if Chrome asks.
+2. Draw a link and finish (or press ▶). KPIs and rankings fill when the job completes.
+
+`npm run what-if` is optional (starts worker + Vite together). Live compute still uses the worker on `127.0.0.1:8787`.
 
 API (scale-ready job contract):
 

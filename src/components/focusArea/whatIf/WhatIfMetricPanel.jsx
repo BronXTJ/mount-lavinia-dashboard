@@ -48,13 +48,13 @@ function emptyStateCopy(status, linkCount, workerOnline, sdnaMissing, guidanceAc
   if (sdnaMissing) {
     return {
       headline: 'sDNA missing on this PC',
-      subline: guidanceActive ? 'See the map tip for install steps' : 'Install sDNA, restart npm run what-if:worker, then finish a link',
+      subline: guidanceActive ? 'See the map tip for install steps' : 'Install sDNA, then use the Command Prompt steps above',
     }
   }
   if (!workerOnline && linkCount > 0) {
     return {
       headline: 'Start the local worker',
-      subline: guidanceActive ? 'See the map tip above the toolbar' : 'npm run what-if:worker, click Connect, then finish a link or press ▶',
+      subline: guidanceActive ? 'See the map tip above the toolbar' : 'Use the Command Prompt steps above, then click Connect',
     }
   }
   if (status === WHAT_IF_STATUS.needsCompute) {
@@ -274,6 +274,7 @@ export default function WhatIfMetricPanel({
         error={error}
         warning={status === WHAT_IF_STATUS.scenario ? summaryWarning : null}
         onConnect={onConnect}
+        showWorkerSteps={isCloseness}
       />
 
       <div className="grid shrink-0 grid-cols-2 gap-2">
@@ -307,14 +308,14 @@ export default function WhatIfMetricPanel({
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-3 overflow-hidden">
           {hasNearby ? (
             <TopList
-              title="Nearby 500m"
+              title="Nearby 500 M"
               tone="nearby"
               accent={kpiAccent}
               rows={nearbyRows}
               selectedId={selectedSegmentId}
               onSelect={onSegmentClick}
-              infoTitle="Nearby 500m"
-              infoAria="What does Nearby 500m show?"
+              infoTitle="Nearby 500 M"
+              infoAria="What does Nearby 500 M show?"
               infoPoints={nearbyPoints}
             />
           ) : status === WHAT_IF_STATUS.scenario ? (
@@ -355,10 +356,9 @@ export default function WhatIfMetricPanel({
         />
       )}
 
-      {!guidanceActive ? (
-        <p className="shrink-0 text-[10px] leading-snug text-surface-500">
-          Start <code className="text-surface-400">npm run what-if:worker</code>, then click Connect
-          if Chrome asks to Allow local network. Without the worker, ▶ downloads
+      {!guidanceActive && workerOnline ? (
+        <p className="shrink-0 text-[12px] leading-snug text-surface-500">
+          Finish a link or press ▶ to run sDNA. If the worker is offline, ▶ downloads
           proposed_links.geojson.
         </p>
       ) : null}

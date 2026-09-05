@@ -148,7 +148,7 @@ export default function WhatIfDrawToolbar({
         <div className="mx-1 h-6 w-px bg-surface-600" />
         <div className="flex h-10 w-10 items-center justify-center">
           <MetricInfoButton
-            title="What-if Drawing Tools"
+            title="What-If Drawing Tools"
             ariaLabel="What-if drawing help"
             points={WHAT_IF_TOOLBAR_INFO}
           />

@@ -87,7 +87,7 @@ export const GUIDANCE_STEPS = {
   [GUIDANCE_STEP_IDS.workerOffline]: {
     id: GUIDANCE_STEP_IDS.workerOffline,
     title: 'Worker offline',
-    body: 'Start npm run what-if:worker, click Connect if the chip is offline, then press ▶.',
+    body: 'Use the Command Prompt steps on the status card, then click Connect.',
     suppressesStatusText: true,
   },
   [GUIDANCE_STEP_IDS.scenarioReady]: {

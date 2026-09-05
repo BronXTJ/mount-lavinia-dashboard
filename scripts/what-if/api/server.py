@@ -49,24 +49,39 @@ app.add_middleware(
 )
 
 
+def _lna_cors_headers(origin: str, extra_request_headers: str = "*") -> dict[str, str]:
+    headers = {
+        "Access-Control-Allow-Private-Network": "true",
+        "Access-Control-Allow-Local-Network": "true",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": extra_request_headers or "*",
+    }
+    if origin in CORS_ORIGINS:
+        headers["Access-Control-Allow-Origin"] = origin
+    return headers
+
+
 @app.middleware("http")
 async def private_network_access(request: Request, call_next):
-    """Allow HTTPS GitHub Pages → http://127.0.0.1 worker (Chrome PNA)."""
-    if request.method == "OPTIONS" and request.headers.get("access-control-request-private-network"):
-        origin = request.headers.get("origin", "")
-        headers = {
-            "Access-Control-Allow-Private-Network": "true",
-            "Access-Control-Allow-Methods": "*",
-            "Access-Control-Allow-Headers": request.headers.get(
-                "access-control-request-headers", "*"
+    """Allow HTTPS GitHub Pages → local worker (Chrome Private / Local Network Access)."""
+    origin = request.headers.get("origin", "")
+    pna_requested = request.headers.get("access-control-request-private-network")
+    lna_requested = request.headers.get("access-control-request-local-network")
+
+    if request.method == "OPTIONS" and (pna_requested or lna_requested):
+        return Response(
+            status_code=204,
+            headers=_lna_cors_headers(
+                origin,
+                request.headers.get("access-control-request-headers", "*"),
             ),
-        }
-        if origin in CORS_ORIGINS:
-            headers["Access-Control-Allow-Origin"] = origin
-        return Response(status_code=204, headers=headers)
+        )
+
     response = await call_next(request)
-    if request.headers.get("origin") in CORS_ORIGINS:
+    if origin in CORS_ORIGINS:
         response.headers["Access-Control-Allow-Private-Network"] = "true"
+        response.headers["Access-Control-Allow-Local-Network"] = "true"
+        response.headers.setdefault("Access-Control-Allow-Origin", origin)
     return response
 
 _lock = threading.Lock()
