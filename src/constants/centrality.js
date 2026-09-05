@@ -4,10 +4,10 @@ export const CENTRALITY_MAP_CENTER = [6.8394, 79.8653]
 export const CENTRALITY_MAP_ZOOM = 15
 
 export const CENTRALITY_SCALES = [
-  { meters: 500, label: '500m — Walking Scale', shortLabel: 'Walking Scale — 500m' },
-  { meters: 2000, label: '2000m — Neighbourhood Scale', shortLabel: 'Neighbourhood Scale — 2000m' },
-  { meters: 3000, label: '3000m — District Scale', shortLabel: 'District Scale — 3000m' },
-  { meters: 5000, label: '5000m — Regional Scale', shortLabel: 'Regional Scale — 5000m' },
+  { meters: 500, chipLabel: '500m', label: '500m — Walking Scale', shortLabel: 'Walking Scale — 500m' },
+  { meters: 2000, chipLabel: '2000m', label: '2000m — Neighbourhood Scale', shortLabel: 'Neighbourhood Scale — 2000m' },
+  { meters: 3000, chipLabel: '3000m', label: '3000m — District Scale', shortLabel: 'District Scale — 3000m' },
+  { meters: 5000, chipLabel: '5000m', label: '5000m — Regional Scale', shortLabel: 'Regional Scale — 5000m' },
 ]
 
 // Closeness: Blue → Cyan → Green → Yellow → Soft Red (low → very high)

@@ -73,6 +73,10 @@ const SHORT_LABELS = {
   'Reef Conservation Program': 'Reef Conservation',
   'Community Governance Model': 'Community Governance',
   'Fishery Infrastructure Upgrade': 'Fishery Infrastructure',
+  'Corridor Shade and Cooling': 'Shade & Cooling',
+  'Canopy and Soft-Cover Protection': 'Canopy Protection',
+  'Interior Through-Links': 'Through-Links',
+  'Health and Education Walk Access': 'Walk Access',
   'Heritage Tourism Circuit': 'Heritage Circuit',
 }
 

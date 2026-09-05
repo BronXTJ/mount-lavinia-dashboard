@@ -19,7 +19,7 @@ import MetricInfoButton from './MetricInfoButton.jsx'
 const MATURATION_KEY_FINDINGS = [
   'Shannon land-use mix is the main maturation reading across the hex fabric.',
   'Access and diversity lag behind mix, so UMI sits lower than Shannon.',
-  'Most hexes fall in early or moderate UMI tiers rather than highly matured.',
+  'Most analysis hexes are moderately or highly matured; early-tier cells are rare (~1–2%).',
 ]
 
 const MATURATION_FINDING_CHIPS = [

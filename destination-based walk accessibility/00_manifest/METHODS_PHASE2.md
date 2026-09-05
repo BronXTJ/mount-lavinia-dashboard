@@ -1,3 +1,10 @@
+---
+uid: d644c9ba-fa2d-46e1-9777-a0c8105f9532
+kind: element
+title: Phase 2 — Walk network and origins
+domain: destination-based walk accessibility
+---
+
 # Phase 2 — Walk network and origins
 
 ## Purpose

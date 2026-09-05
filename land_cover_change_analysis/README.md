@@ -1,3 +1,10 @@
+---
+uid: 3c085e1c-3909-4622-b603-86a872213006
+kind: element
+title: Mount Lavinia — Land Cover Change Analysis
+domain: land_cover_change_analysis
+---
+
 # Mount Lavinia — Land Cover Change Analysis
 
 Urban design / studio project: multi-temporal land cover change for the **5 GN study area** (Mount Lavinia, Kawdana West, Watarappala, Wathumulla, Wedikanda).

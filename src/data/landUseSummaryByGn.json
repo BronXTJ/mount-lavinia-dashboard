@@ -1,0 +1,304 @@
+{
+  "all": [
+    {
+      "name": "Residential",
+      "value": 63.2
+    },
+    {
+      "name": "Commercial",
+      "value": 12.08
+    },
+    {
+      "name": "Industrial",
+      "value": 0.34
+    },
+    {
+      "name": "Institutional",
+      "value": 3.52
+    },
+    {
+      "name": "Cultural",
+      "value": 2.2
+    },
+    {
+      "name": "Public Space",
+      "value": 2.5
+    },
+    {
+      "name": "Transport",
+      "value": 9.93
+    },
+    {
+      "name": "Agriculture",
+      "value": 0.3
+    },
+    {
+      "name": "Coastal area",
+      "value": 3.13
+    },
+    {
+      "name": "Water",
+      "value": 0.05
+    },
+    {
+      "name": "Barren Land",
+      "value": 2.2
+    },
+    {
+      "name": "Under Construction",
+      "value": 0.57
+    }
+  ],
+  "byGn": {
+    "Mount Lavinia": [
+      {
+        "name": "Residential",
+        "value": 46.85
+      },
+      {
+        "name": "Commercial",
+        "value": 23.43
+      },
+      {
+        "name": "Industrial",
+        "value": 0
+      },
+      {
+        "name": "Institutional",
+        "value": 7.19
+      },
+      {
+        "name": "Cultural",
+        "value": 2.1
+      },
+      {
+        "name": "Public Space",
+        "value": 7.04
+      },
+      {
+        "name": "Transport",
+        "value": 3.57
+      },
+      {
+        "name": "Agriculture",
+        "value": 0.08
+      },
+      {
+        "name": "Coastal area",
+        "value": 7.34
+      },
+      {
+        "name": "Water",
+        "value": 0
+      },
+      {
+        "name": "Barren Land",
+        "value": 1.62
+      },
+      {
+        "name": "Under Construction",
+        "value": 0.79
+      }
+    ],
+    "Kawdana West": [
+      {
+        "name": "Residential",
+        "value": 80.8
+      },
+      {
+        "name": "Commercial",
+        "value": 9.11
+      },
+      {
+        "name": "Industrial",
+        "value": 0.55
+      },
+      {
+        "name": "Institutional",
+        "value": 2.3
+      },
+      {
+        "name": "Cultural",
+        "value": 2.05
+      },
+      {
+        "name": "Public Space",
+        "value": 1.58
+      },
+      {
+        "name": "Transport",
+        "value": 0.48
+      },
+      {
+        "name": "Agriculture",
+        "value": 0.16
+      },
+      {
+        "name": "Coastal area",
+        "value": 0
+      },
+      {
+        "name": "Water",
+        "value": 0.18
+      },
+      {
+        "name": "Barren Land",
+        "value": 2.8
+      },
+      {
+        "name": "Under Construction",
+        "value": 0
+      }
+    ],
+    "Watarappala": [
+      {
+        "name": "Residential",
+        "value": 89.27
+      },
+      {
+        "name": "Commercial",
+        "value": 5.12
+      },
+      {
+        "name": "Industrial",
+        "value": 0
+      },
+      {
+        "name": "Institutional",
+        "value": 1.86
+      },
+      {
+        "name": "Cultural",
+        "value": 2.38
+      },
+      {
+        "name": "Public Space",
+        "value": 0.19
+      },
+      {
+        "name": "Transport",
+        "value": 0.38
+      },
+      {
+        "name": "Agriculture",
+        "value": 0.17
+      },
+      {
+        "name": "Coastal area",
+        "value": 0
+      },
+      {
+        "name": "Water",
+        "value": 0
+      },
+      {
+        "name": "Barren Land",
+        "value": 0.41
+      },
+      {
+        "name": "Under Construction",
+        "value": 0.23
+      }
+    ],
+    "Wathumulla": [
+      {
+        "name": "Residential",
+        "value": 49.75
+      },
+      {
+        "name": "Commercial",
+        "value": 8.85
+      },
+      {
+        "name": "Industrial",
+        "value": 0.47
+      },
+      {
+        "name": "Institutional",
+        "value": 1.4
+      },
+      {
+        "name": "Cultural",
+        "value": 1.69
+      },
+      {
+        "name": "Public Space",
+        "value": 0
+      },
+      {
+        "name": "Transport",
+        "value": 35.25
+      },
+      {
+        "name": "Agriculture",
+        "value": 0
+      },
+      {
+        "name": "Coastal area",
+        "value": 0
+      },
+      {
+        "name": "Water",
+        "value": 0
+      },
+      {
+        "name": "Barren Land",
+        "value": 2.3
+      },
+      {
+        "name": "Under Construction",
+        "value": 0.29
+      }
+    ],
+    "Wedikanda": [
+      {
+        "name": "Residential",
+        "value": 78.04
+      },
+      {
+        "name": "Commercial",
+        "value": 3.83
+      },
+      {
+        "name": "Industrial",
+        "value": 0.79
+      },
+      {
+        "name": "Institutional",
+        "value": 2.05
+      },
+      {
+        "name": "Cultural",
+        "value": 3
+      },
+      {
+        "name": "Public Space",
+        "value": 0.21
+      },
+      {
+        "name": "Transport",
+        "value": 1.58
+      },
+      {
+        "name": "Agriculture",
+        "value": 1.21
+      },
+      {
+        "name": "Coastal area",
+        "value": 4.4
+      },
+      {
+        "name": "Water",
+        "value": 0.11
+      },
+      {
+        "name": "Barren Land",
+        "value": 3.6
+      },
+      {
+        "name": "Under Construction",
+        "value": 1.18
+      }
+    ]
+  }
+}

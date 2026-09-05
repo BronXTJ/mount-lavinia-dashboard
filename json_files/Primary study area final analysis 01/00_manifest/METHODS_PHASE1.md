@@ -1,3 +1,10 @@
+---
+uid: f26e2084-5282-4b7a-9459-427eee6e47b3
+kind: element
+title: Phase 1 — Primary study area locked inputs
+domain: json_files
+---
+
 # Phase 1 — Primary study area locked inputs
 
 ## Purpose

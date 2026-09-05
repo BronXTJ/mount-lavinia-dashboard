@@ -37,17 +37,48 @@ function GradientBar({ ramp, label, min, max }) {
   )
 }
 
-/** Bottom-right map legend — updates live when layer toggles or scale changes. */
+function ChangeVsBaselineKey() {
+  return (
+    <div className="border-t border-surface-700 pt-3">
+      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-surface-200">
+        Change Vs Baseline
+      </p>
+      <div className="flex items-center gap-3 text-[10px] text-surface-300">
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden />
+          gain
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-full bg-slate-400" aria-hidden />
+          ~0
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-full bg-rose-500" aria-hidden />
+          loss
+        </span>
+      </div>
+    </div>
+  )
+}
+
+/** Bottom-left map legend — updates live when layer toggles or scale changes. */
 export default function CentralityLegend({
   showCloseness,
   showBetweenness,
   closenessStats,
   betweennessStats,
+  whatIfMode = false,
+  showDeltaKey = false,
 }) {
   if (!showCloseness && !showBetweenness) return null
 
   return (
-    <div className="pointer-events-none absolute bottom-6 left-3 z-[1000] w-72 rounded-lg border border-surface-700 bg-surface-900/95 p-4 shadow-card backdrop-blur">
+    <div
+      className={[
+        'pointer-events-none absolute left-3 z-[1000] rounded-lg border border-surface-700 bg-surface-900/95 p-4 shadow-card backdrop-blur',
+        whatIfMode ? 'bottom-36 w-[16.9rem]' : 'bottom-6 w-[21.7rem]',
+      ].join(' ')}
+    >
       <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-surface-200">Legend</p>
 
       {showCloseness && (
@@ -67,6 +98,8 @@ export default function CentralityLegend({
           max={betweennessStats?.max}
         />
       )}
+
+      {showDeltaKey ? <ChangeVsBaselineKey /> : null}
     </div>
   )
 }

@@ -15,7 +15,6 @@ export const MAP_LAYERS = [
   { id: 'roadNetwork', label: 'Road Network', defaultOn: false, swatchColor: '#f77f00' },
   { id: 'buildings', label: 'Buildings', defaultOn: false, swatchColor: '#94a3b8' },
   { id: 'pois', label: 'POIs', defaultOn: false, swatchColor: '#db2777' },
-  { id: 'condominiums', label: 'Condominiums', defaultOn: false, swatchColor: '#0f766e' },
 ]
 
 export const DEFAULT_ACTIVE_LAYERS = MAP_LAYERS.filter((l) => l.defaultOn).map((l) => l.id)

@@ -1,3 +1,10 @@
+---
+uid: aa674eff-eccc-4787-8346-f7ac1dc7e318
+kind: element
+title: Phase 5 — Findings and design implications
+domain: destination-based walk accessibility
+---
+
 # Phase 5 — Findings and design implications
 
 ## Purpose

@@ -1,3 +1,10 @@
+---
+uid: 83d27369-8b64-4d19-a093-6b406f0113eb
+kind: element
+title: Cul-de-sac Phase 5 — Synthesis cards
+domain: scripts
+---
+
 # Cul-de-sac Phase 5 — Synthesis cards
 
 ## Purpose

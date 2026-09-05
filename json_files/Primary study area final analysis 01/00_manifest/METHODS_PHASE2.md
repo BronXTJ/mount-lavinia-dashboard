@@ -1,3 +1,10 @@
+---
+uid: 07bb68e2-5628-4417-acf3-7b3846b04c39
+kind: element
+title: Phase 2 — Primary 100 m hex grid
+domain: json_files
+---
+
 # Phase 2 — Primary 100 m hex grid
 
 ## Output

@@ -1,3 +1,10 @@
+---
+uid: 95981c92-f933-433f-ba66-745936b9a35c
+kind: element
+title: Design synthesis — Sentinel-2 10 m land cover (5 GN + Mount Lavinia deep dive)
+domain: land_cover_change_analysis_sentinel2
+---
+
 # Design synthesis — Sentinel-2 10 m land cover (5 GN + Mount Lavinia deep dive)
 
 ## Scope

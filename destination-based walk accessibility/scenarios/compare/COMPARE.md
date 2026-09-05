@@ -1,3 +1,10 @@
+---
+uid: f0fdb7e9-31c6-40aa-b428-a12db749f952
+kind: element
+title: Snap sensitivity — 50 m vs 100 m
+domain: destination-based walk accessibility
+---
+
 # Snap sensitivity — 50 m vs 100 m
 
 ## Purpose

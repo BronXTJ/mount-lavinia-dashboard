@@ -2,6 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Dark-theme scrollbars — muted slate on panel chrome, not the OS white thumb. */
+html {
+  color-scheme: dark;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #64748b #1e293b; /* thumb / track — surface-500 on surface-850 */
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #64748b;
+  border-radius: 999px;
+  border: 2px solid #1e293b;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/*
+  Map chrome column (top-left): Leaflet +/- and enlarge share the same
+  40px square, 12px inset, and 8px stack gap so controls read as one group.
+*/
+.leaflet-top.leaflet-left {
+  margin-top: 12px;
+  margin-left: 12px;
+}
+.leaflet-top.leaflet-left .leaflet-control {
+  margin-left: 0;
+  margin-top: 0;
+}
+.leaflet-control-zoom a {
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  font-size: 18px !important;
+  border-radius: 0 !important;
+}
+.leaflet-control-zoom a:first-child {
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+}
+.leaflet-control-zoom a:last-child {
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}
+.leaflet-control-zoom {
+  border: 1px solid rgb(55 65 81) !important; /* surface-700 */
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+.leaflet-control-zoom a {
+  background: rgb(30 41 59 / 0.95) !important; /* surface-850 */
+  color: rgb(241 245 249) !important;
+  border-bottom-color: rgb(55 65 81) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: rgb(51 65 85) !important; /* surface-800 */
+  color: #fff !important;
+}
+/* 12px inset + 80px zoom stack + 8px gap = 100px */
+.map-enlarge-btn {
+  left: 12px;
+  top: 100px;
+}
+
 /* GN division name labels rendered as permanent Leaflet tooltips — plain
    text (no glow/shadow on the letters), just a bordered box around it. */
 .gn-label {
@@ -159,6 +236,20 @@ html[data-map-fullscreen] .overview-side-column {
 }
 .centrality-highlight-glow {
   animation: centrality-pulse 1.6s ease-in-out infinite;
+}
+
+/* Soft outer halo for newly added What-if segments (post-sDNA). */
+@keyframes whatif-new-glow {
+  0%,
+  100% {
+    stroke-opacity: 0.28;
+  }
+  50% {
+    stroke-opacity: 0.5;
+  }
+}
+.whatif-new-segment-glow {
+  animation: whatif-new-glow 2.2s ease-in-out infinite;
 }
 
 /* Pulsing cyan glow around a focused Density Analysis hex cell. */
@@ -963,5 +1054,66 @@ html[data-map-fullscreen] .overview-side-column {
   }
   .dev-world-glitch {
     opacity: 0;
+  }
+}
+
+@media print {
+  body {
+    background: #fff !important;
+    color: #0f172a !important;
+  }
+  aside.fixed,
+  .leaflet-control-container,
+  .what-if-compare-no-print,
+  .what-if-compare-map {
+    display: none !important;
+  }
+  main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  .what-if-compare-root,
+  .what-if-compare-body,
+  .what-if-compare-rail {
+    display: block !important;
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    width: 100% !important;
+    background: #fff !important;
+    color: #0f172a !important;
+    border: none !important;
+  }
+  .what-if-compare-print-masthead {
+    display: block !important;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #94a3b8 !important;
+  }
+  .what-if-compare-table {
+    break-inside: auto;
+    color: #0f172a !important;
+  }
+  .what-if-compare-table h1,
+  .what-if-compare-table h2,
+  .what-if-compare-table p,
+  .what-if-compare-table span,
+  .what-if-compare-table li,
+  .what-if-compare-table strong,
+  .what-if-compare-table button {
+    color: #0f172a !important;
+  }
+  .what-if-compare-table .text-emerald-300 {
+    color: #047857 !important;
+  }
+  .what-if-compare-table .text-rose-300 {
+    color: #be123c !important;
+  }
+  .what-if-compare-table button[aria-expanded] {
+    display: none !important;
+  }
+  .what-if-compare-table .bg-sky-500\/25,
+  .what-if-compare-table .bg-orange-500\/25 {
+    background: #e2e8f0 !important;
   }
 }

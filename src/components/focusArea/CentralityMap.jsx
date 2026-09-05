@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { GeoJSON, MapContainer, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
+import { ChevronDown } from 'lucide-react'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
-import MapFullscreenShell from '../MapFullscreenShell.jsx'
+import MapFullscreenShell, { useMapFullscreen } from '../MapFullscreenShell.jsx'
 import {
   CENTRALITY_BOUNDARIES,
   CENTRALITY_MAP_CENTER,
@@ -13,15 +14,29 @@ import {
   scaleLabel,
 } from '../../constants/centrality.js'
 import {
+  DEFAULT_NETWORK_FORM_BASEMAP,
+  getNetworkFormBasemap,
+} from '../../constants/basemaps.js'
+import { WHAT_IF_DRAW_TOOLS, WHAT_IF_MODES, WHAT_IF_VIEWS, whatIfNewSegmentGlowColor, whatIfPendingColor } from '../../constants/centralityWhatIf.js'
+import { COMPARE_SLOT_STATUS } from '../../constants/whatIfCompare.js'
+import {
+  colorForSignedDelta,
   colorForValue,
   formatMetricValue,
   getMetricValue,
   interpretCentrality,
   segmentLabel,
 } from '../../utils/centralityStats.js'
+import { layerSignedDeltas } from '../../utils/nearbyWhatIfDeltas.js'
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
 import CentralityLegend from './CentralityLegend.jsx'
 import CentralityMapLayerFab from './CentralityMapLayerFab.jsx'
+import { BASELINE_VS_WHAT_IF_INFO } from '../../constants/whatIfHelpContent.js'
+import MetricInfoButton from './MetricInfoButton.jsx'
+import WhatIfDrawToolbar from './whatIf/WhatIfDrawToolbar.jsx'
+import WhatIfNewSegmentsLayer from './whatIf/WhatIfNewSegmentsLayer.jsx'
+import WhatIfSnapDrawLayer from './whatIf/WhatIfSnapDrawLayer.jsx'
+import WhatIfCompareOptionsLayer from './whatIf/compare/WhatIfCompareOptionsLayer.jsx'
 
 const boundaryStyle = (color) => ({ color, weight: 2, fill: false, dashArray: '6 4', opacity: 0.9 })
 
@@ -56,6 +71,11 @@ function findFeatureById(geojson, id) {
   return geojson.features.find((f) => f.properties?.ID == id) ?? null
 }
 
+function formatSignedDelta(delta) {
+  if (delta == null || Number.isNaN(delta)) return '—'
+  return `${delta >= 0 ? '+' : ''}${formatMetricValue(delta)}`
+}
+
 function buildPopupHtml({
   scaleMeters,
   segmentId,
@@ -65,6 +85,9 @@ function buildPopupHtml({
   betweennessStats,
   showCloseness,
   showBetweenness,
+  closenessDelta,
+  betweennessDelta,
+  showDeltas = false,
 }) {
   const metrics = []
   let primaryInterp = null
@@ -83,6 +106,12 @@ function buildPopupHtml({
         'closeness',
       ),
     })
+    if (showDeltas) {
+      metrics.push({
+        label: 'Δ vs baseline',
+        value: formatSignedDelta(closenessDelta),
+      })
+    }
   }
   if (showBetweenness && betweennessValue != null) {
     const interp = interpretCentrality(
@@ -102,6 +131,12 @@ function buildPopupHtml({
         'betweenness',
       ),
     })
+    if (showDeltas) {
+      metrics.push({
+        label: 'Δ vs baseline',
+        value: formatSignedDelta(betweennessDelta),
+      })
+    }
   }
 
   const tier = primaryInterp?.tier ?? 'Unknown'
@@ -163,6 +198,187 @@ function FlyToSegment({ segmentId, closeness, betweenness }) {
   return null
 }
 
+export function CentralityScaleChips({ scaleMeters, onScaleChange }) {
+  return (
+    <div className="flex shrink-0 flex-nowrap items-center gap-1.5 rounded-xl bg-surface-950/80 p-1 ring-1 ring-surface-700/50 backdrop-blur-sm">
+      {CENTRALITY_SCALES.map((scale) => {
+        const isActive = scaleMeters === scale.meters
+        return (
+          <button
+            key={scale.meters}
+            type="button"
+            title={scale.label}
+            aria-label={scale.label}
+            aria-pressed={isActive}
+            onClick={() => onScaleChange(scale.meters)}
+            className={[
+              'shrink-0 whitespace-nowrap rounded-[10px] px-3 py-1.5 text-[11px] transition-colors duration-200 ease-out select-none',
+              isActive
+                ? 'bg-surface-700 font-semibold text-primary-400 shadow-[0_0_0_1px_#00b4d8,0_4px_12px_rgba(0,180,216,0.22)]'
+                : 'font-medium text-surface-400 hover:bg-surface-700/50 hover:text-surface-100',
+            ].join(' ')}
+          >
+            {scale.chipLabel}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+function CentralityModeScaleControls({
+  mode,
+  onModeChange,
+  scaleMeters,
+  onScaleChange,
+  whatIfView = WHAT_IF_VIEWS.draw,
+  onWhatIfViewChange,
+}) {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef(null)
+  const compareActive = mode === WHAT_IF_MODES.whatIf && whatIfView === WHAT_IF_VIEWS.compare
+
+  useEffect(() => {
+    if (!menuOpen) return undefined
+    function onPointerDown(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) setMenuOpen(false)
+    }
+    document.addEventListener('mousedown', onPointerDown)
+    return () => document.removeEventListener('mousedown', onPointerDown)
+  }, [menuOpen])
+
+  function handleWhatIfClick() {
+    if (compareActive) {
+      onWhatIfViewChange?.(WHAT_IF_VIEWS.draw)
+      return
+    }
+    onModeChange?.(WHAT_IF_MODES.whatIf)
+  }
+
+  function handleCompare() {
+    setMenuOpen(false)
+    onModeChange?.(WHAT_IF_MODES.whatIf)
+    onWhatIfViewChange?.(WHAT_IF_VIEWS.compare)
+  }
+
+  const whatIfActive = mode === WHAT_IF_MODES.whatIf
+
+  return (
+    <div className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-5 gap-y-2">
+      <div className="flex shrink-0 items-center gap-2.5">
+        <div className="flex items-stretch gap-1.5 rounded-lg bg-surface-950/80 p-1 ring-1 ring-surface-700/50 backdrop-blur-sm">
+          <button
+            type="button"
+            onClick={() => onModeChange?.(WHAT_IF_MODES.baseline)}
+            className={[
+              'whitespace-nowrap rounded-md px-2.5 py-1.5 text-[11px] font-semibold transition',
+              mode === WHAT_IF_MODES.baseline
+                ? 'bg-surface-700 text-primary-300 shadow-[0_0_0_1px_#00b4d8]'
+                : 'text-surface-400 hover:text-surface-100',
+            ].join(' ')}
+          >
+            Baseline
+          </button>
+          <div ref={menuRef} className="relative overflow-visible">
+            <div
+              className={[
+                'flex items-stretch overflow-hidden rounded-md',
+                whatIfActive
+                  ? 'bg-surface-700 text-primary-300 shadow-[0_0_0_1px_#00b4d8]'
+                  : 'bg-surface-800/80 text-surface-400',
+              ].join(' ')}
+            >
+              <button
+                type="button"
+                onClick={handleWhatIfClick}
+                className="whitespace-nowrap rounded-l-md px-2.5 py-1.5 text-[11px] font-semibold transition hover:text-surface-100"
+              >
+                What-if
+              </button>
+              <button
+                type="button"
+                aria-label="What-if tools"
+                title="What-if tools"
+                aria-haspopup="menu"
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen((open) => !open)}
+                className={[
+                  'flex w-8 self-stretch items-center justify-center border-l transition',
+                  whatIfActive ? 'border-primary-500/40 hover:text-surface-100' : 'border-surface-600 hover:text-white',
+                  compareActive ? 'bg-primary-500/20 text-primary-200' : '',
+                ].join(' ')}
+              >
+                <ChevronDown className="h-4 w-4 shrink-0" strokeWidth={2.5} aria-hidden />
+              </button>
+            </div>
+            {menuOpen ? (
+              <div
+                role="menu"
+                className="absolute left-0 top-full z-[2200] mt-1 min-w-[10rem] rounded-md border border-surface-600 bg-surface-900 py-1 shadow-card"
+              >
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={handleCompare}
+                  className={[
+                    'block w-full px-3 py-1.5 text-left text-[11px] hover:bg-surface-800',
+                    compareActive ? 'font-semibold text-primary-300' : 'text-surface-100',
+                  ].join(' ')}
+                >
+                  Compare
+                </button>
+              </div>
+            ) : null}
+          </div>
+        </div>
+        <MetricInfoButton
+          title="Baseline Vs What-If"
+          ariaLabel="What is What-if mode?"
+          points={BASELINE_VS_WHAT_IF_INFO}
+        />
+      </div>
+      <CentralityScaleChips scaleMeters={scaleMeters} onScaleChange={onScaleChange} />
+    </div>
+  )
+}
+
+/** Same mode + scale chips, shown only in enlarged map so they stay reachable. */
+function CentralityExpandedHud({ mode, onModeChange, scaleMeters, onScaleChange, whatIfView, onWhatIfViewChange }) {
+  const expanded = useMapFullscreen()
+  const rootRef = useRef(null)
+  const compareActive = mode === WHAT_IF_MODES.whatIf && whatIfView === WHAT_IF_VIEWS.compare
+
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el) return undefined
+    L.DomEvent.disableClickPropagation(el)
+    L.DomEvent.disableScrollPropagation(el)
+    return undefined
+  }, [expanded])
+
+  if (!expanded) return null
+
+  return (
+    <div
+      ref={rootRef}
+      className="pointer-events-auto absolute left-1/2 top-4 z-[2100] max-w-[calc(100%-9rem)] -translate-x-1/2"
+    >
+      {compareActive ? (
+        <CentralityScaleChips scaleMeters={scaleMeters} onScaleChange={onScaleChange} />
+      ) : (
+        <CentralityModeScaleControls
+          mode={mode}
+          onModeChange={onModeChange}
+          scaleMeters={scaleMeters}
+          onScaleChange={onScaleChange}
+          whatIfView={whatIfView}
+          onWhatIfViewChange={onWhatIfViewChange}
+        />
+      )}
+    </div>
+  )
+}
+
 /** Interactive centrality map — road network lines coloured by metric value. */
 export default function CentralityMap({
   scaleMeters,
@@ -176,11 +392,60 @@ export default function CentralityMap({
   loading,
   namedRoads,
   selectedSegmentId,
+  onSegmentClick,
+  mode = WHAT_IF_MODES.baseline,
+  onModeChange,
+  whatIfView = WHAT_IF_VIEWS.draw,
+  onWhatIfViewChange,
+  whatIf,
 }) {
+  const isWhatIf = mode === WHAT_IF_MODES.whatIf
+  const isCompare = isWhatIf && whatIfView === WHAT_IF_VIEWS.compare
+  const hideDrawChrome = isCompare
   const [boundaries, setBoundaries] = useState({})
+  const [basemapId, setBasemapId] = useState(DEFAULT_NETWORK_FORM_BASEMAP)
+  const basemap = useMemo(() => getNetworkFormBasemap(basemapId), [basemapId])
+  const whatIfPendingLineColor = useMemo(() => whatIfPendingColor(basemapId), [basemapId])
+  const whatIfGlowColor = useMemo(() => whatIfNewSegmentGlowColor(basemapId), [basemapId])
   const showCloseness = Boolean(visibleLayers?.closeness)
   const showBetweenness = Boolean(visibleLayers?.betweenness)
   const showRoadLabels = Boolean(visibleLayers?.roadLabels)
+  const compareDeltaReady =
+    isCompare &&
+    whatIf?.compareSlots &&
+    whatIf.activeSlotId &&
+    whatIf.compareSlots[whatIf.activeSlotId]?.status === COMPARE_SLOT_STATUS.ready
+
+  const closenessDeltas = useMemo(
+    () =>
+      compareDeltaReady
+        ? layerSignedDeltas({
+            scenario: closeness,
+            baseline: whatIf?.baselineCloseness,
+            metric: 'closeness',
+            scaleMeters,
+          })
+        : null,
+    [compareDeltaReady, closeness, whatIf?.baselineCloseness, scaleMeters],
+  )
+
+  const betweennessDeltas = useMemo(
+    () =>
+      compareDeltaReady
+        ? layerSignedDeltas({
+            scenario: betweenness,
+            baseline: whatIf?.baselineBetweenness,
+            metric: 'betweenness',
+            scaleMeters,
+          })
+        : null,
+    [compareDeltaReady, betweenness, whatIf?.baselineBetweenness, scaleMeters],
+  )
+
+  // What-if defaults to Streets for drawing readability; Baseline keeps Dark.
+  useEffect(() => {
+    setBasemapId(isWhatIf ? 'streets' : DEFAULT_NETWORK_FORM_BASEMAP)
+  }, [isWhatIf])
 
   // Dedicated SVG renderer for the animated highlight layers.
   // preferCanvas is set on the MapContainer for performance on the large
@@ -224,12 +489,14 @@ export default function CentralityMap({
       layer.on('click', (e) => {
         L.DomEvent.stopPropagation(e)
         const id = feature.properties?.ID
+        if (onSegmentClick && id != null) onSegmentClick(id)
         const value = getMetricValue(feature.properties, metric, scaleMeters)
         const other =
           metric === 'closeness'
             ? getMetricValue(findFeatureById(betweenness, id)?.properties, 'betweenness', scaleMeters)
             : getMetricValue(findFeatureById(closeness, id)?.properties, 'closeness', scaleMeters)
 
+        const nid = Number(id)
         const html = buildPopupHtml({
           scaleMeters,
           segmentId: id,
@@ -239,6 +506,9 @@ export default function CentralityMap({
           betweennessStats,
           showCloseness,
           showBetweenness,
+          showDeltas: Boolean(compareDeltaReady),
+          closenessDelta: closenessDeltas?.byId.get(nid) ?? null,
+          betweennessDelta: betweennessDeltas?.byId.get(nid) ?? null,
         })
         const popup = L.popup(CELL_POPUP_OPTS).setContent(html)
         layer.bindPopup(popup).openPopup()
@@ -247,6 +517,15 @@ export default function CentralityMap({
 
   const closenessStyle = useMemo(
     () => (feature) => {
+      if (compareDeltaReady && closenessDeltas) {
+        const id = Number(feature.properties?.ID)
+        const delta = Number.isFinite(id) ? closenessDeltas.byId.get(id) : null
+        return {
+          color: colorForSignedDelta(delta ?? 0, closenessDeltas.maxAbs),
+          weight: 3,
+          opacity: 0.9,
+        }
+      }
       const value = getMetricValue(feature.properties, 'closeness', scaleMeters)
       return {
         color: colorForValue(value, closenessStats.min, closenessStats.max, 'closeness'),
@@ -254,11 +533,20 @@ export default function CentralityMap({
         opacity: 0.9,
       }
     },
-    [scaleMeters, closenessStats],
+    [scaleMeters, closenessStats, compareDeltaReady, closenessDeltas],
   )
 
   const betweennessStyle = useMemo(
     () => (feature) => {
+      if (compareDeltaReady && betweennessDeltas) {
+        const id = Number(feature.properties?.ID)
+        const delta = Number.isFinite(id) ? betweennessDeltas.byId.get(id) : null
+        return {
+          color: colorForSignedDelta(delta ?? 0, betweennessDeltas.maxAbs),
+          weight: 3,
+          opacity: 0.9,
+        }
+      }
       const value = getMetricValue(feature.properties, 'betweenness', scaleMeters)
       return {
         color: colorForValue(value, betweennessStats.min, betweennessStats.max, 'betweenness'),
@@ -266,41 +554,39 @@ export default function CentralityMap({
         opacity: 0.9,
       }
     },
-    [scaleMeters, betweennessStats],
+    [scaleMeters, betweennessStats, compareDeltaReady, betweennessDeltas],
   )
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col">
-      {/* Modern pill segmented-control — replaces flat rectangular tabs */}
-      <div className="flex shrink-0 items-center justify-center bg-surface-900 px-3 py-2">
-        <div className="flex gap-2 rounded-xl bg-surface-950/60 p-1.5 ring-1 ring-surface-700/50 backdrop-blur-sm">
-          {CENTRALITY_SCALES.map((scale) => {
-            const isActive = scaleMeters === scale.meters
-            return (
-              <button
-                key={scale.meters}
-                type="button"
-                onClick={() => onScaleChange(scale.meters)}
-                className={[
-                  'rounded-[10px] px-3 py-1.5 text-[11px] transition-all duration-200 ease-out select-none',
-                  isActive
-                    ? 'bg-surface-700 font-semibold text-primary-400 shadow-[0_0_0_1px_#00b4d8,0_4px_12px_rgba(0,180,216,0.22)] scale-[1.03]'
-                    : 'font-medium text-surface-400 hover:bg-surface-700/50 hover:text-surface-100 hover:scale-[1.02]',
-                ].join(' ')}
-              >
-                {scale.label}
-              </button>
-            )
-          })}
+    <div className="relative z-[1100] flex h-full min-h-0 flex-col">
+      {!hideDrawChrome ? (
+        <div className="relative z-[1200] flex shrink-0 items-center overflow-visible bg-surface-900 px-2 py-2">
+          <CentralityModeScaleControls
+            mode={mode}
+            onModeChange={onModeChange}
+            scaleMeters={scaleMeters}
+            onScaleChange={onScaleChange}
+            whatIfView={whatIfView}
+            onWhatIfViewChange={onWhatIfViewChange}
+          />
         </div>
-      </div>
+      ) : null}
 
       <MapFullscreenShell className="min-h-0 flex-1">
         {loading && (
-          <div className="absolute inset-0 z-[1001] flex items-center justify-center bg-surface-900/60 backdrop-blur-sm">
+          <div className="pointer-events-none absolute inset-0 z-[900] flex items-center justify-center bg-surface-900/60 backdrop-blur-sm">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-500 border-t-transparent" />
           </div>
         )}
+
+        <CentralityExpandedHud
+          mode={mode}
+          onModeChange={onModeChange}
+          scaleMeters={scaleMeters}
+          onScaleChange={onScaleChange}
+          whatIfView={whatIfView}
+          onWhatIfViewChange={onWhatIfViewChange}
+        />
 
         <MapContainer
           center={CENTRALITY_MAP_CENTER}
@@ -310,12 +596,12 @@ export default function CentralityMap({
           scrollWheelZoom
         >
           <MapInvalidateOnResize />
-          {/* CartoDB Dark Matter with default labels always visible */}
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            subdomains="abcd"
-            maxZoom={19}
+            key={basemap.id}
+            attribution={basemap.attribution}
+            url={basemap.url}
+            {...(basemap.subdomains ? { subdomains: basemap.subdomains } : {})}
+            {...(basemap.maxZoom != null ? { maxZoom: basemap.maxZoom } : {})}
           />
 
           {CENTRALITY_BOUNDARIES.map(({ meters, color }) =>
@@ -330,7 +616,7 @@ export default function CentralityMap({
 
           {showCloseness && closeness && (
             <GeoJSON
-              key={`closeness-${scaleMeters}`}
+              key={`closeness-${scaleMeters}-${closeness.features?.length ?? 0}-${closenessStats?.min ?? 'x'}-${closenessStats?.max ?? 'x'}-${compareDeltaReady ? `d${whatIf?.activeSlotId}-${closenessDeltas?.maxAbs ?? 0}` : 'abs'}`}
               data={closeness}
               style={closenessStyle}
               onEachFeature={makeOnEach('closeness', closeness, closenessStats)}
@@ -339,7 +625,7 @@ export default function CentralityMap({
 
           {showBetweenness && betweenness && (
             <GeoJSON
-              key={`betweenness-${scaleMeters}`}
+              key={`betweenness-${scaleMeters}-${betweenness.features?.length ?? 0}-${betweennessStats?.min ?? 'x'}-${betweennessStats?.max ?? 'x'}-${compareDeltaReady ? `d${whatIf?.activeSlotId}-${betweennessDeltas?.maxAbs ?? 0}` : 'abs'}`}
               data={betweenness}
               style={betweennessStyle}
               onEachFeature={makeOnEach('betweenness', betweenness, betweennessStats)}
@@ -391,15 +677,94 @@ export default function CentralityMap({
             closeness={closeness}
             betweenness={betweenness}
           />
+
+          {isWhatIf &&
+          whatIf?.showProposed &&
+          whatIf?.newSegmentIds?.size &&
+          (showCloseness || showBetweenness) ? (
+            <WhatIfNewSegmentsLayer
+              geojson={showCloseness ? closeness : betweenness}
+              newSegmentIds={whatIf.newSegmentIds}
+              metric={showCloseness ? 'closeness' : 'betweenness'}
+              scaleMeters={scaleMeters}
+              stats={showCloseness ? closenessStats : betweennessStats}
+              renderer={highlightRenderer}
+              glowColor={whatIfGlowColor}
+            />
+          ) : null}
+
+          {isWhatIf && whatIf?.drawing ? (
+            <WhatIfSnapDrawLayer
+              tool={whatIf.drawing.tool}
+              snapNodes={whatIf.snapNodes}
+              showSnapNodes={whatIf.showSnapNodes}
+              proposedGeoJson={whatIf.drawing.proposedGeoJson}
+              showProposed={whatIf.showProposed}
+              draftCoords={whatIf.drawing.draftCoords}
+              cursorLatLng={whatIf.drawing.cursorLatLng}
+              addVertex={whatIf.drawing.addVertex}
+              finishLink={whatIf.onFinishLink || whatIf.drawing.finishLink}
+              cancelDraft={whatIf.drawing.cancelDraft}
+              setCursorLatLng={whatIf.drawing.setCursorLatLng}
+              snapLatLng={whatIf.drawing.snapLatLng}
+              onUndo={whatIf.onUndo}
+              onRedo={whatIf.onRedo}
+              links={whatIf.drawing.links}
+              onEraseLink={whatIf.onEraseLink}
+              hideFinishedProposed={Boolean(whatIf.hideFinishedProposed)}
+              forceShowFinishedForErase={whatIf.drawing.tool === WHAT_IF_DRAW_TOOLS.erase}
+              pendingLineColor={whatIfPendingLineColor}
+              canUndo={whatIf.drawing.canUndo}
+              canRedo={whatIf.drawing.canRedo}
+              onToolChange={whatIf.drawing.selectTool ?? whatIf.drawing.setTool}
+            />
+          ) : null}
+
+          {isWhatIf && whatIf?.compareSlots ? (
+            <WhatIfCompareOptionsLayer
+              slots={whatIf.compareSlots}
+              activeId={whatIf.activeSlotId}
+              openedCount={whatIf.openedCount ?? 3}
+            />
+          ) : null}
+
         </MapContainer>
 
-        <CentralityMapLayerFab visibleLayers={visibleLayers} onToggle={onToggleLayer} />
+        <CentralityMapLayerFab
+          visibleLayers={visibleLayers}
+          onToggle={onToggleLayer}
+          basemapId={basemapId}
+          onBasemapChange={setBasemapId}
+          whatIfMode={isWhatIf}
+        />
+
+        {isWhatIf && whatIf?.drawing ? (
+          <WhatIfDrawToolbar
+            tool={whatIf.drawing.tool}
+            onToolChange={whatIf.drawing.selectTool ?? whatIf.drawing.setTool}
+            snapEnabled={whatIf.drawing.snapEnabled}
+            onSnapToggle={whatIf.drawing.setSnapEnabled}
+            onUndo={whatIf.onUndo || whatIf.drawing.undo}
+            onRedo={whatIf.onRedo || whatIf.drawing.redo}
+            onFinishLink={whatIf.onFinishLink || whatIf.drawing.finishLink}
+            onRun={whatIf.onRun}
+            onReset={whatIf.onReset}
+            canFinish={whatIf.drawing.draftCoords.length >= 2}
+            canUndo={whatIf.drawing.canUndo}
+            canRedo={whatIf.drawing.canRedo}
+            runLabel={whatIf.runLabel}
+            statusText={whatIf.statusText}
+            guidance={whatIf.guidance}
+          />
+        ) : null}
 
         <CentralityLegend
+          whatIfMode={isWhatIf}
           showCloseness={showCloseness}
           showBetweenness={showBetweenness}
           closenessStats={closenessStats}
           betweennessStats={betweennessStats}
+          showDeltaKey={compareDeltaReady}
         />
       </MapFullscreenShell>
     </div>

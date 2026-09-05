@@ -1,3 +1,10 @@
+---
+uid: fb009234-19bb-47be-938f-3bbae1065a46
+kind: element
+title: Phase 5 — Urban maturation (primary hex grid)
+domain: json_files
+---
+
 # Phase 5 — Urban maturation (primary hex grid)
 
 ## Output

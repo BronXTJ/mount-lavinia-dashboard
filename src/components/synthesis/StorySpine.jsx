@@ -3,7 +3,7 @@ import MetricInfoButton from '../focusArea/MetricInfoButton.jsx'
 import { SYNTHESIS_ACCENT, storySpine } from './findingsData.js'
 import { SYNTHESIS_INFO } from './synthesisInfoContent.js'
 
-/** Horizontal 6-step key argument path. */
+/** Horizontal key argument path. */
 export default function StorySpine({ selectedId, onSelect }) {
   const spineIndex = storySpine.findIndex((s) => s.findingId === selectedId)
   const activeIndex = spineIndex >= 0 ? spineIndex : -1

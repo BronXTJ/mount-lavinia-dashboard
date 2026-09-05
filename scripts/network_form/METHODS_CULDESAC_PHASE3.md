@@ -1,3 +1,10 @@
+---
+uid: 53ab3b83-4d58-41b3-b1b3-8425d65d53b1
+kind: element
+title: Cul-de-sac Phase 3 — Walk-access overlay
+domain: scripts
+---
+
 # Cul-de-sac Phase 3 — Walk-access overlay
 
 ## Purpose

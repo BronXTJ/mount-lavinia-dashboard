@@ -143,7 +143,7 @@ mount-lavinia-dashboard/
 └── json_files/               # Source GIS & Excel (when included in your clone)
 ```
 
-📂 **`Social_media_analysis/`** (if present) is a **separate assignment** (Google Maps + YouTube analytics). See [`Social_media_analysis/README.md`](Social_media_analysis/README.md).
+📂 **`Social_media_analysis/`** (if present locally) is a **separate assignment** and is not in the GitHub repo.
 
 ---
 

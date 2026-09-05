@@ -34,6 +34,7 @@ export const ISSUES_INFO = {
       'Drag circles to rearrange; scroll to zoom in or out; drag empty space to pan.',
       'Type in Search to highlight matching circles and fade the others.',
       'Use Reset View to fit all nodes back into the pane.',
+      'Use the enlarge icon (next to Reset View) for a full-screen graph — same pattern as the analysis maps.',
     ],
   },
 

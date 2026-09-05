@@ -1,3 +1,10 @@
+---
+uid: f81c7020-066d-406d-b7b6-34f2cd12c728
+kind: element
+title: Cul-de-sac Phase 2 — Spatial pattern
+domain: scripts
+---
+
 # Cul-de-sac Phase 2 — Spatial pattern
 
 ## Purpose

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Network, RotateCcw, Search, X } from 'lucide-react'
+import MapFullscreenShell, { FullscreenCloseButton, FullscreenEnlargeButton } from '../MapFullscreenShell.jsx'
 import MetricInfoButton from '../focusArea/MetricInfoButton.jsx'
 import ForceGraph from './ForceGraph.jsx'
 import { ISSUES_INFO } from './issuesInfoContent.js'
@@ -61,8 +62,17 @@ export default function NetworkOverview() {
   return (
     <div className="flex min-h-[calc(100vh-12rem)] flex-1 flex-col gap-3 lg:flex-row lg:gap-4">
       {/* Graph panel — 65% */}
-      <div className="flex min-h-[calc(100vh-12rem)] flex-[65] flex-col overflow-hidden rounded-xl border border-surface-700 bg-surface-800 shadow-card">
-        <div className="flex flex-wrap items-center gap-2 border-b border-surface-700 px-3 py-2.5">
+      <MapFullscreenShell
+        className="flex min-h-[calc(100vh-12rem)] flex-[65] flex-col"
+        innerClassName="flex flex-col overflow-hidden rounded-xl border border-surface-700 bg-surface-800 shadow-card"
+        expandedInnerClassName="flex h-full min-h-0 flex-col overflow-hidden bg-surface-800"
+        trackDocumentFullscreen={false}
+        showFloatingEnlarge={false}
+        showFloatingClose={false}
+        enlargeLabel="Enlarge network overview"
+        closeLabel="Close network overview"
+      >
+        <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-surface-700 px-3 py-2.5">
           <div className="relative min-w-[180px] flex-1">
             <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-surface-300" />
             <input
@@ -81,6 +91,14 @@ export default function NetworkOverview() {
               ariaLabel={ISSUES_INFO.networkInteract.ariaLabel}
             />
           </div>
+          <FullscreenEnlargeButton
+            label="Enlarge network overview"
+            title="Enlarge network overview"
+          />
+          <FullscreenCloseButton
+            label="Close network overview"
+            title="Close network overview"
+          />
           <button
             type="button"
             onClick={() => setResetToken((t) => t + 1)}
@@ -92,7 +110,7 @@ export default function NetworkOverview() {
         </div>
 
         {/* Compact category filters — frees graph height */}
-        <div className="flex flex-wrap gap-1.5 border-b border-surface-700 px-3 py-1.5">
+        <div className="flex shrink-0 flex-wrap gap-1.5 border-b border-surface-700 px-3 py-1.5">
           {CATEGORY_ORDER.map((cat) => {
             const hidden = hiddenCategories.has(cat)
             return (
@@ -126,7 +144,7 @@ export default function NetworkOverview() {
             resetToken={resetToken}
           />
         </div>
-      </div>
+      </MapFullscreenShell>
 
       {/* Detail panel — 35% */}
       <aside className="flex min-h-[320px] flex-[35] flex-col overflow-hidden rounded-xl border border-surface-700 bg-surface-800 shadow-card lg:min-h-[calc(100vh-12rem)]">

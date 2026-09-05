@@ -1,3 +1,10 @@
+---
+uid: 5f42dc57-2c02-4686-9fa2-0f2ae6bbff7e
+kind: element
+title: Phase 3 — Walk accessibility computation
+domain: destination-based walk accessibility
+---
+
 # Phase 3 — Walk accessibility computation
 
 ## Purpose

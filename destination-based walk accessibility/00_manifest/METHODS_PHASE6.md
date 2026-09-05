@@ -1,3 +1,10 @@
+---
+uid: c03c7f95-6c16-40d1-93ec-f0ca5533cb94
+kind: element
+title: Phase 6 — Walk Accessibility dashboard
+domain: destination-based walk accessibility
+---
+
 # Phase 6 — Walk Accessibility dashboard
 
 ## Purpose

@@ -115,6 +115,7 @@ export const USER_GUIDE_SECTIONS = [
       'Change day and time-period filters to compare weekday vs weekend and morning / midday / evening.',
       'Charts (flows, vehicle mix, ped–vehicle ratio) always follow the selected junction.',
       'Use tooltips on map features for quick labels while you explore.',
+      'Key Findings on this page link into Synthesis (MB1): counted pedestrian load sits on the same Galle Road spines as centrality and heat.',
     ],
   },
   {
@@ -126,6 +127,7 @@ export const USER_GUIDE_SECTIONS = [
       'Click a GN on the map or in the left list to load its detail panel.',
       'Left KPIs and the stacked chart show Landsat 30 m change across all five GNs (2000→2025).',
       'Per-GN cards use Sentinel-2 10 m (2018–2025): Built-up, Green, and Soft surface. Green is inside Soft — do not add them. Mount Lavinia also includes a Landsat 30 m deep dive (2000→2025). Do not mix Landsat % with Sentinel-2 %.',
+      'Key Findings chips (LC1–LC3) link straight into Synthesis: five-GN vegetation loss, shrinking beach/sand, and the Mount Lavinia GN vs rest-of-GN split.',
     ],
   },
   {
@@ -146,9 +148,9 @@ export const USER_GUIDE_SECTIONS = [
     icon: 'GitBranch',
     bullets: [
       'Key Findings boxes on analysis tabs summarise what matters most and link into Synthesis.',
-      'In Synthesis, follow the Key Argument steps (1–6) for a guided reading order.',
+      'In Synthesis, follow the Key Argument steps for a guided reading order (mix → access → corridors → canopy → heat → identity → coupled response).',
       'The relationships graph shows how findings amplify, co-locate, mitigate, or cause each other.',
-      'Open All findings in the header to browse every claim (F1…); selecting one updates the detail panel and URL.',
+      'Open All findings in the header to browse every claim (F, WA, NF, LC, MB); selecting one updates the detail panel and URL.',
       'Use evidence links on a finding to jump back to the map or analysis that supports it.',
     ],
   },

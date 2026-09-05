@@ -1,3 +1,10 @@
+---
+uid: a7f5d30f-25ea-4e2e-af32-0e2015a6f8c6
+kind: element
+title: Methods log — Land cover change (5 GN)
+domain: land_cover_change_analysis
+---
+
 # Methods log — Land cover change (5 GN)
 
 ## 2026-07-22 — Phase 1 setup

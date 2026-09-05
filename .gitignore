@@ -24,8 +24,63 @@ npm-debug.log*
 Social_media_analysis/secrets/
 **/youtube_cookies.txt
 **/apify_token.txt
+carto dark access.txt
 .env
 
 __pycache__/
 *.py[cod]
+
+# python environments
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# agent / editor machine configs (contain absolute local paths)
+.mcp.json
+.cursor/
+.codex/
+
+# ------------------------------------------------------------------
+# Local analysis working data — stays on disk, never pushed.
+# These are GIS intermediates and pipeline scratch, not app inputs.
+# The dashboard reads only from public/data/ and src/data/.
+# ------------------------------------------------------------------
+
+# heavy GIS intermediates
+_gba_work/
+_centrality_rerun/
+_what_if_work/jobs/
+**/_what_if_work/jobs/
+
+# large binaries: rasters, spatial databases, archives.
+# public/data/ is negated because it is the directory the browser
+# actually fetches, so its rasters must stay committable.
+#
+# NOTE: 38 .tif files under json_files/, land_cover_change_analysis/ and
+# land_cover_change_analysis_sentinel2/ were committed before this rule
+# existed. Git keeps tracking files it already tracks, so they and their
+# future edits still version normally — this rule only stops NEW rasters
+# from being added by accident. Whether those 38 move to Git LFS or to a
+# separate data repo is a deliberate later decision, not settled here.
+*.tif
+*.tiff
+!public/data/**/*.tif
+!public/data/**/*.tiff
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.zip
+
+# worker run artifacts
+**/last_run_log.txt
+
+# ------------------------------------------------------------------
+# Local-only research folders and condominium inventory layers.
+# public/data/geo/condominiums_*.geojson and the research folders
+# stay on disk and are never pushed.
+# ------------------------------------------------------------------
+/site intervention/
+/json_files/condo_inventory/
+/Social_media_analysis/
+public/data/geo/condominiums_*.geojson
 

@@ -252,12 +252,6 @@ export default function Tab1_Overview() {
               Mount Lavinia
               <span style={{ color: '#00b4d8' }}>.</span>
             </h1>
-            <p
-              className="font-sans"
-              style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}
-            >
-              Galle Road Corridor • Five GN Divisions
-            </p>
           </div>
 
           {selectedGnStats && (

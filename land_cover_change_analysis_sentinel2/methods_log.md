@@ -1,3 +1,10 @@
+---
+uid: 853970fa-e697-4b69-99ee-bfc5c59afd53
+kind: element
+title: Methods log — Sentinel-2 10 m land cover (5 GN)
+domain: land_cover_change_analysis_sentinel2
+---
+
 # Methods log — Sentinel-2 10 m land cover (5 GN)
 
 ## 2026-07-22 — Project setup

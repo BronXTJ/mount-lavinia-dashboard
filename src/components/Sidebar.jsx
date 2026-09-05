@@ -71,7 +71,9 @@ export default function Sidebar({
 
   function goFocusSub(id) {
     setActiveFocusSubSection(id)
-    navigate('/focus-area')
+    const params = new URLSearchParams(location.search)
+    params.set('sub', id)
+    navigate(`/focus-area?${params.toString()}`)
     setFocusFlyoutOpen(false)
     onMobileClose?.()
   }
@@ -100,7 +102,7 @@ export default function Sidebar({
 
   return (
     <aside
-      className={`fixed left-0 top-0 flex h-screen flex-col overflow-visible ${
+      className={`fixed left-0 top-0 flex h-screen flex-col overflow-visible print:hidden ${
         mapFullscreen ? 'z-[2600]' : 'z-50'
       }`}
       style={{

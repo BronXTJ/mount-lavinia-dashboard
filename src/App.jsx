@@ -20,7 +20,10 @@ export default function App() {
   const isDesktop = useMediaQuery('(min-width: 1024px)')
   const [sidebarExpanded, setSidebarExpanded] = useState(true)
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
-  const [activeFocusSubSection, setActiveFocusSubSection] = useState('centrality')
+  const [activeFocusSubSection, setActiveFocusSubSection] = useState(() => {
+    const sub = new URLSearchParams(window.location.search).get('sub')
+    return FOCUS_SUB_IDS.has(sub) ? sub : 'centrality'
+  })
 
   useEffect(() => {
     const isFocus = pathname === '/focus-area' || pathname.endsWith('/focus-area')
@@ -66,7 +69,7 @@ export default function App() {
       {!isDesktop && !mobileSidebarOpen && (
         <button
           type="button"
-          className="fixed left-3 top-3 z-40 flex h-10 w-10 items-center justify-center rounded-lg border border-[rgba(0,180,216,0.55)] bg-[#0f1923] text-[#00b4d8] shadow-[0_0_14px_rgba(0,180,216,0.45)]"
+          className="fixed left-3 top-3 z-40 flex h-10 w-10 items-center justify-center rounded-lg border border-[rgba(0,180,216,0.55)] bg-[#0f1923] text-[#00b4d8] shadow-[0_0_14px_rgba(0,180,216,0.45)] print:hidden"
           onClick={() => setMobileSidebarOpen(true)}
           aria-label="Open navigation menu"
         >
