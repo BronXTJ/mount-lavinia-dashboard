@@ -1,3 +1,10 @@
+---
+uid: ccdb3e85-ae2c-4158-9297-261853cc7ecf
+kind: element
+title: Phase 4 — Density metrics (primary hex grid)
+domain: json_files
+---
+
 # Phase 4 — Density metrics (primary hex grid)
 
 ## Output

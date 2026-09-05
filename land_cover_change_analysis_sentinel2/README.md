@@ -1,3 +1,10 @@
+---
+uid: 7a0f455b-85ec-4792-bc95-462254e4128c
+kind: element
+title: Mount Lavinia — Sentinel-2 10 m Land Cover Change
+domain: land_cover_change_analysis_sentinel2
+---
+
 # Mount Lavinia — Sentinel-2 10 m Land Cover Change
 
 Companion project to the Landsat 30 m study in `../land_cover_change_analysis/`.

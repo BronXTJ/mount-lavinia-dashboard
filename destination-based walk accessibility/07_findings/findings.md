@@ -1,3 +1,10 @@
+---
+uid: 5a32a525-08a5-4ba6-a885-aed58b4d94d7
+kind: element
+title: Destination-based walk accessibility — findings
+domain: destination-based walk accessibility
+---
+
 # Destination-based walk accessibility — findings
 
 ## Method (one line)

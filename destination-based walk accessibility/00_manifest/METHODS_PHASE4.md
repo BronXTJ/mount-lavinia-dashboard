@@ -1,3 +1,10 @@
+---
+uid: ad97b910-9945-4071-b758-173901297b2a
+kind: element
+title: Phase 4 — Maps and classification
+domain: destination-based walk accessibility
+---
+
 # Phase 4 — Maps and classification
 
 ## Purpose

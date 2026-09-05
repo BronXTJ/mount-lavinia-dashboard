@@ -1,3 +1,10 @@
+---
+uid: 512de4d2-7e3a-48db-b390-d6d5604c8ab8
+kind: element
+title: Design synthesis — Land cover change (5 GN + Mount Lavinia deep dive)
+domain: land_cover_change_analysis
+---
+
 # Design synthesis — Land cover change (5 GN + Mount Lavinia deep dive)
 
 ## Scope

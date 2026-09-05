@@ -1,3 +1,10 @@
+---
+uid: a904a420-51d1-426e-9085-c468940a438c
+kind: element
+title: Phase 8+ — Snap baseline now 100 m
+domain: destination-based walk accessibility
+---
+
 # Phase 8+ — Snap baseline now 100 m
 
 ## Purpose (updated)

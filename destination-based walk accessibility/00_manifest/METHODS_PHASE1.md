@@ -1,3 +1,10 @@
+---
+uid: 244c410f-66a4-4efc-89bd-4d6d97341176
+kind: element
+title: Phase 1 — Accessibility POI inventory
+domain: destination-based walk accessibility
+---
+
 # Phase 1 — Accessibility POI inventory
 
 ## Purpose

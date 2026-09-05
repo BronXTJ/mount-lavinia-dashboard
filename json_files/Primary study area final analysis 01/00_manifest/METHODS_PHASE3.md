@@ -1,3 +1,10 @@
+---
+uid: ccfe1ed4-a60a-4de6-a073-0cee75e8dc4b
+kind: element
+title: Phase 3 — Buildings + floors (Zenodo)
+domain: json_files
+---
+
 # Phase 3 — Buildings + floors (Zenodo)
 
 ## Output

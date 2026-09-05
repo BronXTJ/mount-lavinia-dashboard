@@ -1,3 +1,10 @@
+---
+uid: 13c31a04-fa03-4c26-a100-1dec0a879f32
+kind: element
+title: Cul-de-sac Phase 0–1 — Inventory and stub depth
+domain: scripts
+---
+
 # Cul-de-sac Phase 0–1 — Inventory and stub depth
 
 ## Phase 0 — Locked inventory (QC PASS)

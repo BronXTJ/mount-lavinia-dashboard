@@ -1,3 +1,10 @@
+---
+uid: 9c7eec9f-5e3b-4ddc-8d24-3b415af80af0
+kind: element
+title: Phase 7 — Clean open_space POIs + recompute 50 m
+domain: destination-based walk accessibility
+---
+
 # Phase 7 — Clean open_space POIs + recompute 50 m
 
 ## Purpose
