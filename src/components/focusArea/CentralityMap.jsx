@@ -29,6 +29,7 @@ import {
 } from '../../utils/centralityStats.js'
 import { layerSignedDeltas } from '../../utils/nearbyWhatIfDeltas.js'
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
+import { escapeHtml } from '../../utils/escapeHtml.js'
 import CentralityLegend from './CentralityLegend.jsx'
 import CentralityMapLayerFab from './CentralityMapLayerFab.jsx'
 import { BASELINE_VS_WHAT_IF_INFO } from '../../constants/whatIfHelpContent.js'
@@ -661,7 +662,7 @@ export default function CentralityMap({
               style={{ weight: 0, opacity: 0, fill: false }}
               onEachFeature={(feature, layer) => {
                 if (feature.properties?.name) {
-                  layer.bindTooltip(feature.properties.name, {
+                  layer.bindTooltip(escapeHtml(feature.properties.name), {
                     permanent: true,
                     direction: 'center',
                     className: 'centrality-road-label',

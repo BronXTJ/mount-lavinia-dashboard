@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { escapeHtml } from '../src/utils/cellPopup.js'
+import { escapeHtml } from '../src/utils/escapeHtml.js'
+import { escapeHtml as reexported } from '../src/utils/cellPopup.js'
 
 describe('escapeHtml', () => {
   it('escapes markup and quotes', () => {
@@ -14,4 +15,9 @@ describe('escapeHtml', () => {
     expect(escapeHtml(undefined)).toBe('')
     expect(escapeHtml(12)).toBe('12')
   })
+
+  it('is re-exported from cellPopup', () => {
+    expect(reexported('<x>')).toBe('&lt;x&gt;')
+  })
 })
+

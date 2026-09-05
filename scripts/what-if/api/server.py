@@ -10,15 +10,19 @@ Runs existing run_sdna_scenario.py in a subprocess (sDNA chdirs safely).
 from __future__ import annotations
 
 import json
+import os
 import re
+import secrets
+import shutil
 import subprocess
 import sys
 import threading
+import time
 import uuid
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
@@ -29,6 +33,12 @@ SDNA_ROOT = Path(r"C:\Program Files (x86)\sDNA")
 JOBS_ROOT = ROOT / "json_files" / "Urban_morpho_analysis" / "_what_if_work" / "jobs"
 
 ALLOWED_ARTIFACT = re.compile(r"^(proposed_links|summary|closeness_\d+|betweenness_\d+)\.(geojson|json)$")
+JOB_ID_RE = re.compile(r"^[0-9a-f]{12}$")
+MAX_FEATURES = 80
+MAX_BODY_BYTES = 512_000
+JOB_TTL_SECONDS = 7 * 24 * 60 * 60
+SDNA_TIMEOUT_SECONDS = 600
+PAIRING_TOKEN = os.environ.get("WHAT_IF_PAIRING_TOKEN") or secrets.token_urlsafe(24)
 
 CORS_ORIGINS = [
     "http://localhost:5173",
@@ -93,8 +103,54 @@ class JobCreate(BaseModel):
     features: list[dict[str, Any]] = Field(default_factory=list)
 
 
+def _jobs_root() -> Path:
+    return JOBS_ROOT.resolve()
+
+
+def _validated_job_dir(job_id: str) -> Path:
+    if not JOB_ID_RE.fullmatch(job_id):
+        raise HTTPException(status_code=400, detail="Invalid job id")
+    root = _jobs_root()
+    path = (JOBS_ROOT / job_id).resolve()
+    if path.parent != root:
+        raise HTTPException(status_code=400, detail="Invalid job id")
+    return path
+
+
 def _job_dir(job_id: str) -> Path:
-    return JOBS_ROOT / job_id
+    return _validated_job_dir(job_id)
+
+
+def _require_pairing_token(request: Request) -> None:
+    auth = request.headers.get("authorization", "")
+    header = request.headers.get("x-what-if-token", "")
+    provided = ""
+    if auth.lower().startswith("bearer "):
+        provided = auth[7:].strip()
+    elif header:
+        provided = header.strip()
+    if not provided:
+        raise HTTPException(status_code=401, detail="Pairing token required")
+    try:
+        matched = secrets.compare_digest(provided, PAIRING_TOKEN)
+    except ValueError:
+        matched = False
+    if not matched:
+        raise HTTPException(status_code=401, detail="Pairing token required")
+
+
+def _sweep_old_jobs() -> None:
+    if not JOBS_ROOT.exists():
+        return
+    cutoff = time.time() - JOB_TTL_SECONDS
+    for child in JOBS_ROOT.iterdir():
+        if not child.is_dir():
+            continue
+        try:
+            if child.stat().st_mtime < cutoff:
+                shutil.rmtree(child, ignore_errors=True)
+        except OSError:
+            continue
 
 
 def _set_job(job_id: str, **fields: Any) -> None:
@@ -123,6 +179,7 @@ def _run_job(job_id: str) -> None:
                 text=True,
                 encoding="utf-8",
                 errors="replace",
+                timeout=SDNA_TIMEOUT_SECONDS,
             )
         log_path = out_dir / "worker.log"
         log_path.write_text(
@@ -138,6 +195,8 @@ def _run_job(job_id: str) -> None:
         if summary_path.exists():
             summary = json.loads(summary_path.read_text(encoding="utf-8"))
         _set_job(job_id, status="done", error=None, summary=summary)
+    except subprocess.TimeoutExpired:
+        _set_job(job_id, status="error", error=f"sDNA job timed out after {SDNA_TIMEOUT_SECONDS}s")
     except Exception as exc:  # noqa: BLE001 — surface to client
         _set_job(job_id, status="error", error=str(exc))
 
@@ -159,9 +218,19 @@ def health() -> dict[str, Any]:
 
 
 @app.post("/v1/jobs")
-def create_job(body: JobCreate) -> dict[str, Any]:
+def create_job(
+    request: Request,
+    body: JobCreate,
+    _: None = Depends(_require_pairing_token),
+) -> dict[str, Any]:
+    raw_len = request.headers.get("content-length")
+    if raw_len and raw_len.isdigit() and int(raw_len) > MAX_BODY_BYTES:
+        raise HTTPException(status_code=413, detail="Payload too large")
     if body.type != "FeatureCollection" or not body.features:
         raise HTTPException(status_code=400, detail="Need a FeatureCollection with at least one feature")
+    if len(body.features) > MAX_FEATURES:
+        raise HTTPException(status_code=400, detail=f"At most {MAX_FEATURES} features allowed")
+    _sweep_old_jobs()
     job_id = uuid.uuid4().hex[:12]
     out_dir = _job_dir(job_id)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -173,7 +242,7 @@ def create_job(body: JobCreate) -> dict[str, Any]:
 
 
 @app.get("/v1/jobs/{job_id}")
-def get_job(job_id: str) -> dict[str, Any]:
+def get_job(job_id: str, _: None = Depends(_require_pairing_token)) -> dict[str, Any]:
     job = _get_job(job_id)
     if not job:
         # Recover done jobs after worker restart if artifacts exist
@@ -191,10 +260,17 @@ def get_job(job_id: str) -> dict[str, Any]:
 
 
 @app.get("/v1/jobs/{job_id}/artifacts/{filename}")
-def get_artifact(job_id: str, filename: str) -> FileResponse:
+def get_artifact(
+    job_id: str,
+    filename: str,
+    _: None = Depends(_require_pairing_token),
+) -> FileResponse:
     if not ALLOWED_ARTIFACT.match(filename):
         raise HTTPException(status_code=400, detail="Invalid artifact name")
-    path = _job_dir(job_id) / filename
+    path = (_job_dir(job_id) / filename).resolve()
+    root = _jobs_root()
+    if root not in path.parents:
+        raise HTTPException(status_code=400, detail="Invalid artifact path")
     if not path.is_file():
         raise HTTPException(status_code=404, detail="Artifact not found")
     media = "application/geo+json" if filename.endswith(".geojson") else "application/json"
@@ -205,6 +281,9 @@ def main() -> None:
     import uvicorn
 
     JOBS_ROOT.mkdir(parents=True, exist_ok=True)
+    _sweep_old_jobs()
+    print(f"PAIRING TOKEN (required on /v1/jobs*): {PAIRING_TOKEN}", flush=True)
+    print("Paste this token in the dashboard Connect prompt. /health stays open.", flush=True)
     uvicorn.run(app, host="127.0.0.1", port=8787, log_level="info")
 
 

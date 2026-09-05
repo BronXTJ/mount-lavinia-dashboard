@@ -10,6 +10,7 @@ import { getLandUseColor, HIGHLIGHT_COLOR, MAP_CENTER, MAP_ZOOM, SELECTED_GN_COL
 import { DEFAULT_APP_BASEMAP, getAppBasemap } from '../constants/basemaps.js'
 import MapLayerFab from './MapLayerFab.jsx'
 import Legend from './Legend.jsx'
+import { escapeHtml } from '../utils/escapeHtml.js'
 
 const GEO_FILES = {
   boundary: 'study_area_boundary.geojson',
@@ -107,7 +108,7 @@ const tooltipOptions = { sticky: true, direction: 'top', opacity: 0.95 }
 function bindTooltip(getLabel) {
   return (feature, layer) => {
     const label = getLabel(feature.properties ?? {})
-    if (label) layer.bindTooltip(label, tooltipOptions)
+    if (label) layer.bindTooltip(escapeHtml(label), tooltipOptions)
   }
 }
 
@@ -126,7 +127,7 @@ const gnLabelOptions = { permanent: true, direction: 'center', className: 'gn-la
 function makeOnEachGn5(onGnSelect, suppressMapClickRef) {
   return (feature, layer) => {
     const name = feature.properties?.ADM4_EN
-    if (name) layer.bindTooltip(name, gnLabelOptions)
+    if (name) layer.bindTooltip(escapeHtml(name), gnLabelOptions)
 
     layer.on('mouseover', () => {
       const el = layer._map?.getContainer()

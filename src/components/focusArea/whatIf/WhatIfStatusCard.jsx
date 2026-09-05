@@ -7,7 +7,11 @@ import {
   Play,
   WifiOff,
 } from 'lucide-react'
-import { WHAT_IF_STATUS, getWhatIfWorkerBase } from '../../../constants/centralityWhatIf.js'
+import {
+  WHAT_IF_STATUS,
+  ensureWhatIfWorkerToken,
+  getWhatIfWorkerBase,
+} from '../../../constants/centralityWhatIf.js'
 import WhatIfWorkerSteps from './WhatIfWorkerSteps.jsx'
 
 function primaryState({ status, workerOnline, sdnaMissing }) {
@@ -114,7 +118,10 @@ export default function WhatIfStatusCard({
           {!workerOnline && onConnect ? (
             <button
               type="button"
-              onClick={() => void onConnect()}
+              onClick={() => {
+                ensureWhatIfWorkerToken()
+                void onConnect()
+              }}
               className="rounded border border-amber-500/50 bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-medium text-amber-200 hover:bg-amber-500/20"
             >
               Connect

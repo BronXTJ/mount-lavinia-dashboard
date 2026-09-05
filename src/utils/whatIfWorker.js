@@ -1,15 +1,26 @@
-import { getWhatIfWorkerBase, whatIfWorkerArtifactUrl } from '../constants/centralityWhatIf.js'
+import {
+  ensureWhatIfWorkerToken,
+  getWhatIfWorkerBase,
+  readWhatIfWorkerToken,
+  whatIfWorkerArtifactUrl,
+} from '../constants/centralityWhatIf.js'
 
 const POLL_MS = 1500
 const POLL_MAX_MS = 30 * 60 * 1000
 
 /** Chromium Local Network Access: public HTTPS → 127.0.0.1 needs loopback address space. */
-function workerFetchInit(init = {}) {
-  return { ...init, targetAddressSpace: 'loopback' }
+function workerAuthHeaders() {
+  const token = readWhatIfWorkerToken()
+  return token ? { Authorization: `Bearer ${token}` } : {}
 }
 
-async function fetchJson(url, init) {
-  const res = await fetch(url, workerFetchInit(init))
+function workerFetchInit(init = {}, { auth = false } = {}) {
+  const headers = { ...(auth ? workerAuthHeaders() : {}), ...init.headers }
+  return { ...init, targetAddressSpace: 'loopback', headers }
+}
+
+async function fetchJson(url, init, { auth = false } = {}) {
+  const res = await fetch(url, workerFetchInit(init, { auth }))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(text || `${res.status} ${res.statusText}`)
@@ -32,11 +43,15 @@ export async function checkWorkerHealth() {
 
 /** @param {GeoJSON.FeatureCollection} geojson */
 export async function submitJob(geojson) {
-  return fetchJson(`${getWhatIfWorkerBase()}/v1/jobs`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(geojson),
-  })
+  return fetchJson(
+    `${getWhatIfWorkerBase()}/v1/jobs`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(geojson),
+    },
+    { auth: true },
+  )
 }
 
 /**
@@ -48,9 +63,11 @@ export async function pollJob(jobId, opts = {}) {
   const started = Date.now()
   while (Date.now() - started < POLL_MAX_MS) {
     if (opts.signal?.aborted) throw new Error('Aborted')
-    const job = await fetchJson(`${getWhatIfWorkerBase()}/v1/jobs/${jobId}`, {
-      signal: opts.signal,
-    })
+    const job = await fetchJson(
+      `${getWhatIfWorkerBase()}/v1/jobs/${jobId}`,
+      { signal: opts.signal },
+      { auth: true },
+    )
     if (job.status === 'done' || job.status === 'error') return job
     await new Promise((r) => setTimeout(r, POLL_MS))
   }
@@ -58,7 +75,7 @@ export async function pollJob(jobId, opts = {}) {
 }
 
 export async function fetchJobArtifact(jobId, fileName, opts = {}) {
-  return fetchJson(whatIfWorkerArtifactUrl(jobId, fileName), { signal: opts.signal })
+  return fetchJson(whatIfWorkerArtifactUrl(jobId, fileName), { signal: opts.signal }, { auth: true })
 }
 
 /**
@@ -79,6 +96,7 @@ export async function runWhatIfJob(geojson, scaleMeters, opts = {}) {
     err.code = 'SDNA_MISSING'
     throw err
   }
+  ensureWhatIfWorkerToken()
   const { id } = await submitJob(geojson)
   const job = await pollJob(id, opts)
   if (job.status === 'error') {

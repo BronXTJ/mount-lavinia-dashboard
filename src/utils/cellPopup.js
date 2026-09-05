@@ -1,4 +1,7 @@
 import L from 'leaflet'
+import { escapeHtml } from './escapeHtml.js'
+
+export { escapeHtml }
 
 /** Shared Leaflet options for hex/square cell info popups (Maturation card style). */
 export const CELL_POPUP_OPTS = {
@@ -33,14 +36,6 @@ export function getFeatureCenter(feature) {
 export function miniBar(value, color = '#94a3b8') {
   const pct = Math.max(0, Math.min(100, (Number(value) || 0) * 100))
   return `<div style="margin-top:4px;height:6px;border-radius:3px;background:#2a3a4a;overflow:hidden"><div style="height:100%;width:${pct}%;background:${color}"></div></div>`
-}
-
-export function escapeHtml(text) {
-  return String(text ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
 }
 
 /** Readable text on a hex/rgb background (for badge/footer fills matching the legend). */
