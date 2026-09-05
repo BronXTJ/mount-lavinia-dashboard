@@ -1373,6 +1373,14 @@ async function main() {
   buildDensityAnalysisLayers()
   buildUrbanMaturationLayers()
   await buildEnvironmentalLayers()
+  const { spawnSync } = await import('node:child_process')
+  const manifest = spawnSync(process.execPath, [path.join(__dirname, 'write-data-manifest.mjs')], {
+    cwd: ROOT,
+    stdio: 'inherit',
+  })
+  if (manifest.status !== 0) {
+    throw new Error(`write-data-manifest exited ${manifest.status}`)
+  }
   console.log('[prepare-data] done.')
 }
 

@@ -1,5 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { clearDataClientCache, DataClientError, fetchJson, fetchJsonOrNull } from '../src/lib/dataClient.js'
+import {
+  clearDataClientCache,
+  DataClientError,
+  fetchJson,
+  fetchJsonOrNull,
+  withAssetVersion,
+} from '../src/lib/dataClient.js'
+import assetManifest from '../src/data/assetManifest.json'
 
 afterEach(() => {
   clearDataClientCache()
@@ -30,5 +37,25 @@ describe('dataClient', () => {
     )
     await expect(fetchJson('/missing.json')).rejects.toBeInstanceOf(DataClientError)
     await expect(fetchJsonOrNull('/missing.json')).resolves.toBeNull()
+  })
+
+  it('appends ?v= for known public/data assets and leaves others unchanged', async () => {
+    const hash = assetManifest.files['geo/pois.geojson']
+    expect(hash).toMatch(/^[0-9a-f]{12}$/)
+    expect(withAssetVersion('/data/geo/pois.geojson')).toBe(`/data/geo/pois.geojson?v=${hash}`)
+    expect(withAssetVersion(`/mount-lavinia-dashboard/data/geo/pois.geojson`)).toBe(
+      `/mount-lavinia-dashboard/data/geo/pois.geojson?v=${hash}`,
+    )
+    expect(withAssetVersion(`/data/geo/pois.geojson?v=${hash}`)).toBe(`/data/geo/pois.geojson?v=${hash}`)
+    expect(withAssetVersion('https://example.com/a.json')).toBe('https://example.com/a.json')
+    expect(withAssetVersion('/one.json')).toBe('/one.json')
+
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ ok: true }),
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    await fetchJson('/data/geo/pois.geojson')
+    expect(fetchMock).toHaveBeenCalledWith(`/data/geo/pois.geojson?v=${hash}`, expect.any(Object))
   })
 })

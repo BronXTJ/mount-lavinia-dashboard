@@ -12,11 +12,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Phase 1 worker pairing token, job-id path checks, sDNA timeout, payload caps, and 7-day job TTL.
 - Shared `escapeHtml` / `safeHttpUrl` helpers; Dependabot; `.env.example`.
 - Error boundary, lazy-loaded tabs, vendor chunks, and an optional Actions deploy workflow.
+- Data asset manifest (`public/data/manifest.json` + bundled `src/data/assetManifest.json`) so same-origin `/data/` fetches append `?v=<hash>`.
+- `docs/DATA_PIPELINE.md` — Phase 4 decisions (quantization, thermal split, PMTiles, LFS, xlsx, Pages 404).
 
 ### Changed
 
 - `main` now matches the live dashboard (What-if Compare and related work from `feat/what-if-compare`).
 - Layer fetches go through `src/lib/dataClient.js` (cache + in-flight dedupe). Failed layer loads show a retry banner.
+- `prepare-data` writes the asset manifest after a successful regen. Geometry is already coordinate-rounded there; thermal-grid split, PMTiles, `xlsx` swap, and Git LFS for already-tracked analysis rasters stay deferred.
 
 ### Security
 

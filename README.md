@@ -105,7 +105,11 @@ If you update sources under `json_files/` (Excel + QGIS exports):
 npm run prepare-data
 ```
 
-Outputs go to `src/data/` and `public/data/`. Focus Area, Land Cover, and Environmental tabs need the prepared layers in `public/data/`.
+Outputs go to `src/data/` and `public/data/`. Focus Area, Land Cover, and Environmental tabs need the prepared layers in `public/data/`. The script also writes `public/data/manifest.json` and `src/data/assetManifest.json` so the app can cache-bust layer URLs. To refresh hashes without regenerating layers:
+
+```bash
+npm run write-manifest
+```
 
 ### 📦 Production build
 
@@ -120,7 +124,7 @@ npm run preview
 npm run deploy
 ```
 
-Uses `gh-pages` and `base: '/mount-lavinia-dashboard/'` in `vite.config.js`.
+Uses `gh-pages` and `base: '/mount-lavinia-dashboard/'` in `vite.config.js`. This is still the live deploy path. An Actions workflow exists (`.github/workflows/deploy.yml`) but Pages should stay on the `gh-pages` branch until you switch it on purpose — see `docs/PHASE4_DECISIONS.md`.
 
 ---
 
