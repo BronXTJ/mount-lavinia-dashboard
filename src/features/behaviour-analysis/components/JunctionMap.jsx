@@ -10,6 +10,7 @@ import {
 } from 'react-leaflet'
 import MapInvalidateOnResize from '../../../components/MapInvalidateOnResize.jsx'
 import MapFullscreenShell, { useMapFullscreen } from '../../../components/MapFullscreenShell.jsx'
+import { getCartoDarkTileUrl } from '../../../constants/basemaps.js'
 import { junctions } from '../data/junctions'
 import { JUNCTION_COLORS, STUDY_BOUNDARY_COLOR } from '../data/colors'
 import {
@@ -147,7 +148,7 @@ export default function JunctionMap({
         <MapInvalidateOnResize />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url={getCartoDarkTileUrl()}
           subdomains="abcd"
           maxZoom={19}
         />

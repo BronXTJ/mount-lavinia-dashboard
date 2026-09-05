@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { GeoJSON, MapContainer, TileLayer } from 'react-leaflet'
 import L from 'leaflet'
+import { getCartoDarkTileUrl } from '../../constants/basemaps.js'
 import { CENTRALITY_MAP_CENTER, CENTRALITY_MAP_ZOOM } from '../../constants/centrality.js'
 import { buildExportGeoJsonStyler } from '../../utils/exportGeoJsonStyle.js'
 import FitBoundsToGeoJson from '../focusArea/FitBoundsToGeoJson.jsx'
@@ -73,7 +74,7 @@ export default function ExportGeoJsonPreview({ url, itemId }) {
           <MapInvalidateOnResize />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            url={getCartoDarkTileUrl()}
             subdomains="abcd"
             maxZoom={19}
           />

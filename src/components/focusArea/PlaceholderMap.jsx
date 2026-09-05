@@ -1,5 +1,6 @@
 import { MapContainer, TileLayer } from 'react-leaflet'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import { getCartoDarkTileUrl } from '../../constants/basemaps.js'
 import { CENTRALITY_MAP_CENTER, CENTRALITY_MAP_ZOOM } from '../../constants/centrality.js'
 
 /** Base OSM map with a centred overlay message — used for placeholder sub-sections. */
@@ -15,7 +16,7 @@ export default function PlaceholderMap({ message }) {
         <MapInvalidateOnResize />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url={getCartoDarkTileUrl()}
           subdomains="abcd"
           maxZoom={19}
         />
