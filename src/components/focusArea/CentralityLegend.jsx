@@ -37,6 +37,30 @@ function GradientBar({ ramp, label, min, max }) {
   )
 }
 
+function ChangeVsBaselineKey() {
+  return (
+    <div className="border-t border-surface-700 pt-3">
+      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-surface-200">
+        Change Vs Baseline
+      </p>
+      <div className="flex items-center gap-3 text-[10px] text-surface-300">
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden />
+          gain
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-full bg-slate-400" aria-hidden />
+          ~0
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-full bg-rose-500" aria-hidden />
+          loss
+        </span>
+      </div>
+    </div>
+  )
+}
+
 /** Bottom-left map legend — updates live when layer toggles or scale changes. */
 export default function CentralityLegend({
   showCloseness,
@@ -44,6 +68,7 @@ export default function CentralityLegend({
   closenessStats,
   betweennessStats,
   whatIfMode = false,
+  showDeltaKey = false,
 }) {
   if (!showCloseness && !showBetweenness) return null
 
@@ -73,6 +98,8 @@ export default function CentralityLegend({
           max={betweennessStats?.max}
         />
       )}
+
+      {showDeltaKey ? <ChangeVsBaselineKey /> : null}
     </div>
   )
 }

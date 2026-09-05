@@ -18,13 +18,16 @@ import {
   getNetworkFormBasemap,
 } from '../../constants/basemaps.js'
 import { WHAT_IF_DRAW_TOOLS, WHAT_IF_MODES, WHAT_IF_VIEWS, whatIfNewSegmentGlowColor, whatIfPendingColor } from '../../constants/centralityWhatIf.js'
+import { COMPARE_SLOT_STATUS } from '../../constants/whatIfCompare.js'
 import {
+  colorForSignedDelta,
   colorForValue,
   formatMetricValue,
   getMetricValue,
   interpretCentrality,
   segmentLabel,
 } from '../../utils/centralityStats.js'
+import { layerSignedDeltas } from '../../utils/nearbyWhatIfDeltas.js'
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
 import CentralityLegend from './CentralityLegend.jsx'
 import CentralityMapLayerFab from './CentralityMapLayerFab.jsx'
@@ -68,6 +71,11 @@ function findFeatureById(geojson, id) {
   return geojson.features.find((f) => f.properties?.ID == id) ?? null
 }
 
+function formatSignedDelta(delta) {
+  if (delta == null || Number.isNaN(delta)) return '—'
+  return `${delta >= 0 ? '+' : ''}${formatMetricValue(delta)}`
+}
+
 function buildPopupHtml({
   scaleMeters,
   segmentId,
@@ -77,6 +85,9 @@ function buildPopupHtml({
   betweennessStats,
   showCloseness,
   showBetweenness,
+  closenessDelta,
+  betweennessDelta,
+  showDeltas = false,
 }) {
   const metrics = []
   let primaryInterp = null
@@ -95,6 +106,12 @@ function buildPopupHtml({
         'closeness',
       ),
     })
+    if (showDeltas) {
+      metrics.push({
+        label: 'Δ vs baseline',
+        value: formatSignedDelta(closenessDelta),
+      })
+    }
   }
   if (showBetweenness && betweennessValue != null) {
     const interp = interpretCentrality(
@@ -114,6 +131,12 @@ function buildPopupHtml({
         'betweenness',
       ),
     })
+    if (showDeltas) {
+      metrics.push({
+        label: 'Δ vs baseline',
+        value: formatSignedDelta(betweennessDelta),
+      })
+    }
   }
 
   const tier = primaryInterp?.tier ?? 'Unknown'
@@ -309,7 +332,7 @@ function CentralityModeScaleControls({
           </div>
         </div>
         <MetricInfoButton
-          title="Baseline vs What-if"
+          title="Baseline Vs What-If"
           ariaLabel="What is What-if mode?"
           points={BASELINE_VS_WHAT_IF_INFO}
         />
@@ -369,6 +392,7 @@ export default function CentralityMap({
   loading,
   namedRoads,
   selectedSegmentId,
+  onSegmentClick,
   mode = WHAT_IF_MODES.baseline,
   onModeChange,
   whatIfView = WHAT_IF_VIEWS.draw,
@@ -377,6 +401,7 @@ export default function CentralityMap({
 }) {
   const isWhatIf = mode === WHAT_IF_MODES.whatIf
   const isCompare = isWhatIf && whatIfView === WHAT_IF_VIEWS.compare
+  const hideDrawChrome = isCompare
   const [boundaries, setBoundaries] = useState({})
   const [basemapId, setBasemapId] = useState(DEFAULT_NETWORK_FORM_BASEMAP)
   const basemap = useMemo(() => getNetworkFormBasemap(basemapId), [basemapId])
@@ -385,6 +410,37 @@ export default function CentralityMap({
   const showCloseness = Boolean(visibleLayers?.closeness)
   const showBetweenness = Boolean(visibleLayers?.betweenness)
   const showRoadLabels = Boolean(visibleLayers?.roadLabels)
+  const compareDeltaReady =
+    isCompare &&
+    whatIf?.compareSlots &&
+    whatIf.activeSlotId &&
+    whatIf.compareSlots[whatIf.activeSlotId]?.status === COMPARE_SLOT_STATUS.ready
+
+  const closenessDeltas = useMemo(
+    () =>
+      compareDeltaReady
+        ? layerSignedDeltas({
+            scenario: closeness,
+            baseline: whatIf?.baselineCloseness,
+            metric: 'closeness',
+            scaleMeters,
+          })
+        : null,
+    [compareDeltaReady, closeness, whatIf?.baselineCloseness, scaleMeters],
+  )
+
+  const betweennessDeltas = useMemo(
+    () =>
+      compareDeltaReady
+        ? layerSignedDeltas({
+            scenario: betweenness,
+            baseline: whatIf?.baselineBetweenness,
+            metric: 'betweenness',
+            scaleMeters,
+          })
+        : null,
+    [compareDeltaReady, betweenness, whatIf?.baselineBetweenness, scaleMeters],
+  )
 
   // What-if defaults to Streets for drawing readability; Baseline keeps Dark.
   useEffect(() => {
@@ -433,12 +489,14 @@ export default function CentralityMap({
       layer.on('click', (e) => {
         L.DomEvent.stopPropagation(e)
         const id = feature.properties?.ID
+        if (onSegmentClick && id != null) onSegmentClick(id)
         const value = getMetricValue(feature.properties, metric, scaleMeters)
         const other =
           metric === 'closeness'
             ? getMetricValue(findFeatureById(betweenness, id)?.properties, 'betweenness', scaleMeters)
             : getMetricValue(findFeatureById(closeness, id)?.properties, 'closeness', scaleMeters)
 
+        const nid = Number(id)
         const html = buildPopupHtml({
           scaleMeters,
           segmentId: id,
@@ -448,6 +506,9 @@ export default function CentralityMap({
           betweennessStats,
           showCloseness,
           showBetweenness,
+          showDeltas: Boolean(compareDeltaReady),
+          closenessDelta: closenessDeltas?.byId.get(nid) ?? null,
+          betweennessDelta: betweennessDeltas?.byId.get(nid) ?? null,
         })
         const popup = L.popup(CELL_POPUP_OPTS).setContent(html)
         layer.bindPopup(popup).openPopup()
@@ -456,6 +517,15 @@ export default function CentralityMap({
 
   const closenessStyle = useMemo(
     () => (feature) => {
+      if (compareDeltaReady && closenessDeltas) {
+        const id = Number(feature.properties?.ID)
+        const delta = Number.isFinite(id) ? closenessDeltas.byId.get(id) : null
+        return {
+          color: colorForSignedDelta(delta ?? 0, closenessDeltas.maxAbs),
+          weight: 3,
+          opacity: 0.9,
+        }
+      }
       const value = getMetricValue(feature.properties, 'closeness', scaleMeters)
       return {
         color: colorForValue(value, closenessStats.min, closenessStats.max, 'closeness'),
@@ -463,11 +533,20 @@ export default function CentralityMap({
         opacity: 0.9,
       }
     },
-    [scaleMeters, closenessStats],
+    [scaleMeters, closenessStats, compareDeltaReady, closenessDeltas],
   )
 
   const betweennessStyle = useMemo(
     () => (feature) => {
+      if (compareDeltaReady && betweennessDeltas) {
+        const id = Number(feature.properties?.ID)
+        const delta = Number.isFinite(id) ? betweennessDeltas.byId.get(id) : null
+        return {
+          color: colorForSignedDelta(delta ?? 0, betweennessDeltas.maxAbs),
+          weight: 3,
+          opacity: 0.9,
+        }
+      }
       const value = getMetricValue(feature.properties, 'betweenness', scaleMeters)
       return {
         color: colorForValue(value, betweennessStats.min, betweennessStats.max, 'betweenness'),
@@ -475,12 +554,12 @@ export default function CentralityMap({
         opacity: 0.9,
       }
     },
-    [scaleMeters, betweennessStats],
+    [scaleMeters, betweennessStats, compareDeltaReady, betweennessDeltas],
   )
 
   return (
     <div className="relative z-[1100] flex h-full min-h-0 flex-col">
-      {!isCompare ? (
+      {!hideDrawChrome ? (
         <div className="relative z-[1200] flex shrink-0 items-center overflow-visible bg-surface-900 px-2 py-2">
           <CentralityModeScaleControls
             mode={mode}
@@ -537,7 +616,7 @@ export default function CentralityMap({
 
           {showCloseness && closeness && (
             <GeoJSON
-              key={`closeness-${scaleMeters}-${closeness.features?.length ?? 0}-${closenessStats?.min ?? 'x'}-${closenessStats?.max ?? 'x'}`}
+              key={`closeness-${scaleMeters}-${closeness.features?.length ?? 0}-${closenessStats?.min ?? 'x'}-${closenessStats?.max ?? 'x'}-${compareDeltaReady ? `d${whatIf?.activeSlotId}-${closenessDeltas?.maxAbs ?? 0}` : 'abs'}`}
               data={closeness}
               style={closenessStyle}
               onEachFeature={makeOnEach('closeness', closeness, closenessStats)}
@@ -546,7 +625,7 @@ export default function CentralityMap({
 
           {showBetweenness && betweenness && (
             <GeoJSON
-              key={`betweenness-${scaleMeters}-${betweenness.features?.length ?? 0}-${betweennessStats?.min ?? 'x'}-${betweennessStats?.max ?? 'x'}`}
+              key={`betweenness-${scaleMeters}-${betweenness.features?.length ?? 0}-${betweennessStats?.min ?? 'x'}-${betweennessStats?.max ?? 'x'}-${compareDeltaReady ? `d${whatIf?.activeSlotId}-${betweennessDeltas?.maxAbs ?? 0}` : 'abs'}`}
               data={betweenness}
               style={betweennessStyle}
               onEachFeature={makeOnEach('betweenness', betweenness, betweennessStats)}
@@ -648,6 +727,7 @@ export default function CentralityMap({
               openedCount={whatIf.openedCount ?? 3}
             />
           ) : null}
+
         </MapContainer>
 
         <CentralityMapLayerFab
@@ -684,6 +764,7 @@ export default function CentralityMap({
           showBetweenness={showBetweenness}
           closenessStats={closenessStats}
           betweennessStats={betweennessStats}
+          showDeltaKey={compareDeltaReady}
         />
       </MapFullscreenShell>
     </div>

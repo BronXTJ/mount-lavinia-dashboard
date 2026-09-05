@@ -51,6 +51,24 @@ export function colorForValue(value, min, max, metric) {
   return interpolateColor(t, getRampForMetric(metric))
 }
 
+const DELTA_GAIN = '#22c55e'
+const DELTA_ZERO = '#94a3b8'
+const DELTA_LOSS = '#ef4444'
+
+/**
+ * Symmetric green / grey / red for scenario − baseline Δ.
+ * `maxAbs` is the layer’s max |Δ|; ~0 stays muted grey.
+ */
+export function colorForSignedDelta(delta, maxAbs) {
+  if (delta == null || !Number.isFinite(delta) || maxAbs == null || !Number.isFinite(maxAbs) || maxAbs <= 0) {
+    return DELTA_ZERO
+  }
+  const t = Math.max(-1, Math.min(1, delta / maxAbs))
+  if (Math.abs(t) < 0.02) return DELTA_ZERO
+  if (t > 0) return interpolateColor(t, { stops: [DELTA_ZERO, DELTA_GAIN] })
+  return interpolateColor(-t, { stops: [DELTA_ZERO, DELTA_LOSS] })
+}
+
 export function formatMetricValue(value) {
   if (value == null || Number.isNaN(value)) return '—'
   return value.toFixed(4)
