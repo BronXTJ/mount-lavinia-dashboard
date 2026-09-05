@@ -10,6 +10,8 @@
     "analyze": "vite build",
     "preview": "vite preview",
     "prepare-data": "node scripts/prepare-data.mjs",
+    "data:manifest": "node scripts/write-data-manifest.mjs",
+    "write-manifest": "node scripts/write-data-manifest.mjs",
     "what-if": "node scripts/what-if/start-local.mjs",
     "what-if:worker": "python scripts/what-if/api/server.py",
     "predeploy": "npm run build && node -e \"import('node:fs').then(fs => fs.copyFileSync('dist/index.html','dist/404.html'))\"",
