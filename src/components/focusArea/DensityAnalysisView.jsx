@@ -5,6 +5,7 @@ import {
   hasHexSelectableLayer,
 } from '../../constants/density.js'
 import { useDensityLayers } from '../../hooks/useDensityLayers.js'
+import LayerLoadError from '../LayerLoadError.jsx'
 import BuiltFormPanel from './BuiltFormPanel.jsx'
 import DensityMap from './DensityMap.jsx'
 import OpennessPanel from './OpennessPanel.jsx'
@@ -17,7 +18,7 @@ import OpennessPanel from './OpennessPanel.jsx'
 export default function DensityAnalysisView() {
   const [visibleLayers, setVisibleLayers] = useState(DEFAULT_DENSITY_VISIBLE)
   const [focusedHexId, setFocusedHexId] = useState(null)
-  const { hex, excludedHex, hexGrid, buildings, roads, pois, boundary, stats, loading } =
+  const { hex, excludedHex, hexGrid, buildings, roads, pois, boundary, stats, loading, error } =
     useDensityLayers()
 
   function handleToggleLayer(id, checked) {
@@ -54,7 +55,8 @@ export default function DensityAnalysisView() {
         <BuiltFormPanel stats={stats} loading={loading} onFocusCell={handleFocusCell} />
       </div>
 
-      <div className="order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
+      <div className="relative order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
+        <LayerLoadError error={error} />
         <div className="min-h-0 flex-1">
           <DensityMap
             visibleLayers={visibleLayers}

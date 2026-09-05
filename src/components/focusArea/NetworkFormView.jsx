@@ -4,6 +4,7 @@ import {
   DEFAULT_NETWORK_FORM_VISIBLE,
 } from '../../constants/networkForm.js'
 import { useNetworkFormLayers } from '../../hooks/useNetworkFormLayers.js'
+import LayerLoadError from '../LayerLoadError.jsx'
 import NetworkFormDetailPanel from './NetworkFormDetailPanel.jsx'
 import NetworkFormMap from './NetworkFormMap.jsx'
 import NetworkFormOverviewPanel from './NetworkFormOverviewPanel.jsx'
@@ -32,6 +33,7 @@ export default function NetworkFormView() {
     culdesacHexUmi,
     culdesacDensityUmiSummary,
     loading,
+    error,
   } = useNetworkFormLayers(selectedScope)
 
   function handleToggleLayer(id, checked) {
@@ -57,7 +59,8 @@ export default function NetworkFormView() {
         />
       </div>
 
-      <div className="order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
+      <div className="relative order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
+        <LayerLoadError error={error} />
         <div className="min-h-0 flex-1">
           <NetworkFormMap
             visibleLayers={visibleLayers}

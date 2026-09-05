@@ -1,17 +1,8 @@
 import { useEffect, useState } from 'react'
 import { densityGeoUrl } from '../constants/density.js'
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 import { buildDensityStats } from '../utils/densityStats.js'
 import { isDensityGloballyInvalid, partitionHexFeatures } from '../utils/hexCellGrade.js'
-
-async function fetchGeoJson(url) {
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
-    return null
-  }
-}
 
 const EMPTY_STATS = {
   fsi: { min: null, max: null, avg: null, highestId: null, lowestId: null },
@@ -50,20 +41,21 @@ export function useDensityLayers() {
   const [boundary, setBoundary] = useState(null)
   const [stats, setStats] = useState(EMPTY_STATS)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    let cancelled = false
+    const ctrl = new AbortController()
     setLoading(true)
+    setError(null)
 
     Promise.all([
-      fetchGeoJson(densityGeoUrl('density_primary_hex.geojson')),
-      fetchGeoJson(densityGeoUrl('hex_grid_primary_100m.geojson')),
-      fetchGeoJson(densityGeoUrl('buildings_primary_floors.geojson')),
-      fetchGeoJson(densityGeoUrl('roads_primary.geojson')),
-      fetchGeoJson(densityGeoUrl('pois_primary.geojson')),
-      fetchGeoJson(densityGeoUrl('primary_study_area_boundary.geojson')),
+      fetchJsonOrNull(densityGeoUrl('density_primary_hex.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('hex_grid_primary_100m.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('buildings_primary_floors.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('roads_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('pois_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('primary_study_area_boundary.geojson'), { signal: ctrl.signal }),
     ]).then(([rawHex, hexGridData, buildingsData, roadsData, poisData, boundaryData]) => {
-      if (cancelled) return
 
       const { mapFc, excludedFc, statsFeatures, counts } = partitionHexFeatures(rawHex, {
         isGloballyInvalid: isDensityGloballyInvalid,
@@ -82,12 +74,16 @@ export function useDensityLayers() {
           : { ...EMPTY_STATS, hexCounts: counts },
       )
       setLoading(false)
+    }).catch((err) => {
+      if (err?.name === 'AbortError') return
+      setError(err)
+      setLoading(false)
     })
 
     return () => {
-      cancelled = true
+      ctrl.abort()
     }
   }, [])
 
-  return { hex, excludedHex, hexGrid, buildings, roads, pois, boundary, stats, loading }
+  return { hex, excludedHex, hexGrid, buildings, roads, pois, boundary, stats, loading, error }
 }

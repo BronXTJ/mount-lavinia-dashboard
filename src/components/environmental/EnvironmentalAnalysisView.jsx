@@ -5,6 +5,7 @@ import {
   hasEnvSelectableLayer,
 } from '../../constants/environmental.js'
 import { useEnvironmentalLayers } from '../../hooks/useEnvironmentalLayers.js'
+import LayerLoadError from '../LayerLoadError.jsx'
 import EnvironmentalMap from './EnvironmentalMap.jsx'
 import MicroclimatePanel from './MicroclimatePanel.jsx'
 import ThermalComfortPanel from './ThermalComfortPanel.jsx'
@@ -16,7 +17,7 @@ import ThermalComfortPanel from './ThermalComfortPanel.jsx'
 export default function EnvironmentalAnalysisView() {
   const [visibleLayers, setVisibleLayers] = useState(DEFAULT_ENV_VISIBLE)
   const [focusedCellId, setFocusedCellId] = useState(null)
-  const { grid, svfPoints, boundary, stats, loading } = useEnvironmentalLayers()
+  const { grid, svfPoints, boundary, stats, loading, error } = useEnvironmentalLayers()
 
   useEffect(() => {
     if (!hasEnvSelectableLayer(visibleLayers)) setFocusedCellId(null)
@@ -56,7 +57,8 @@ export default function EnvironmentalAnalysisView() {
         <ThermalComfortPanel stats={stats} loading={loading} onFocusCell={handleFocusCell} />
       </div>
 
-      <div className="order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
+      <div className="relative order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
+        <LayerLoadError error={error} />
         <div className="min-h-0 flex-1">
           <EnvironmentalMap
             visibleLayers={visibleLayers}

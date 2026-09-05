@@ -11,6 +11,7 @@ import { DEFAULT_APP_BASEMAP, getAppBasemap } from '../constants/basemaps.js'
 import MapLayerFab from './MapLayerFab.jsx'
 import Legend from './Legend.jsx'
 import { escapeHtml } from '../utils/escapeHtml.js'
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 
 const GEO_FILES = {
   boundary: 'study_area_boundary.geojson',
@@ -31,24 +32,22 @@ function useGeoLayers() {
   const [layers, setLayers] = useState({})
 
   useEffect(() => {
-    let cancelled = false
+    const ctrl = new AbortController()
 
     Promise.all(
       Object.entries(GEO_FILES).map(async ([key, fileName]) => {
         try {
-          const res = await fetch(geoUrl(fileName))
-          if (!res.ok) return [key, null]
-          return [key, await res.json()]
+          return [key, await fetchJsonOrNull(geoUrl(fileName), { signal: ctrl.signal })]
         } catch {
           return [key, null]
         }
       }),
     ).then((entries) => {
-      if (!cancelled) setLayers(Object.fromEntries(entries))
+      setLayers(Object.fromEntries(entries))
     })
 
     return () => {
-      cancelled = true
+      ctrl.abort()
     }
   }, [])
 

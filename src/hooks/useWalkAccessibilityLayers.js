@@ -7,16 +7,7 @@ import {
   isWalkMismatchFeature,
 } from '../utils/walkAccessibilityStats.js'
 import { partitionHexFeatures } from '../utils/hexCellGrade.js'
-
-async function fetchJson(url) {
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
-    return null
-  }
-}
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 
 const EMPTY_STATS = {
   accessScore: { min: null, max: null, avg: null, highestId: null, lowestId: null },
@@ -54,20 +45,22 @@ export function useWalkAccessibilityLayers() {
   const [mismatch, setMismatch] = useState(null)
   const [stats, setStats] = useState(EMPTY_STATS)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    let cancelled = false
+    const ctrl = new AbortController()
     setLoading(true)
+    setError(null)
 
     Promise.all([
-      fetchJson(walkGeoUrl('access_hex_classified.geojson')),
-      fetchJson(walkGeoUrl('pois_snapped.geojson')),
-      fetchJson(walkGeoUrl('access_primary_summary.json')),
-      fetchJson(walkGeoUrl('findings_summary.json')),
-      fetchJson(walkContextGeoUrl('hex_grid_primary_100m.geojson')),
-      fetchJson(walkContextGeoUrl('buildings_primary_floors.geojson')),
-      fetchJson(walkContextGeoUrl('roads_primary.geojson')),
-      fetchJson(walkContextGeoUrl('primary_study_area_boundary.geojson')),
+      fetchJsonOrNull(walkGeoUrl('access_hex_classified.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkGeoUrl('pois_snapped.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkGeoUrl('access_primary_summary.json'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkGeoUrl('findings_summary.json'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkContextGeoUrl('hex_grid_primary_100m.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkContextGeoUrl('buildings_primary_floors.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkContextGeoUrl('roads_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkContextGeoUrl('primary_study_area_boundary.geojson'), { signal: ctrl.signal }),
     ]).then(
       ([
         rawHex,
@@ -79,8 +72,6 @@ export function useWalkAccessibilityLayers() {
         roadsData,
         boundaryData,
       ]) => {
-        if (cancelled) return
-
         const { mapFc, excludedFc, statsFeatures, counts } = partitionHexFeatures(rawHex)
 
         const summary = findingsSummary ?? primarySummary
@@ -100,10 +91,14 @@ export function useWalkAccessibilityLayers() {
         setStats(built)
         setLoading(false)
       },
-    )
+    ).catch((err) => {
+      if (err?.name === 'AbortError') return
+      setError(err)
+      setLoading(false)
+    })
 
     return () => {
-      cancelled = true
+      ctrl.abort()
     }
   }, [])
 
@@ -119,5 +114,6 @@ export function useWalkAccessibilityLayers() {
     mismatch,
     stats,
     loading,
+    error,
   }
 }

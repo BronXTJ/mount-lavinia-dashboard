@@ -5,6 +5,7 @@ import {
   hasMaturationHexSelectableLayer,
 } from '../../constants/maturation.js'
 import { useMaturationLayers } from '../../hooks/useMaturationLayers.js'
+import LayerLoadError from '../LayerLoadError.jsx'
 import LandUseMixPanel from './LandUseMixPanel.jsx'
 import MaturationMap from './MaturationMap.jsx'
 import MaturationScorePanel from './MaturationScorePanel.jsx'
@@ -16,7 +17,7 @@ import MaturationScorePanel from './MaturationScorePanel.jsx'
 export default function UrbanMaturationView() {
   const [visibleLayers, setVisibleLayers] = useState(DEFAULT_MATURATION_VISIBLE)
   const [focusedHexId, setFocusedHexId] = useState(null)
-  const { hex, excludedHex, hexGrid, landuse, buildings, roads, pois, boundary, stats, loading } =
+  const { hex, excludedHex, hexGrid, landuse, buildings, roads, pois, boundary, stats, loading, error } =
     useMaturationLayers()
 
   function handleToggleLayer(id, checked) {
@@ -53,7 +54,8 @@ export default function UrbanMaturationView() {
         <LandUseMixPanel stats={stats} loading={loading} onFocusCell={handleFocusCell} />
       </div>
 
-      <div className="order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
+      <div className="relative order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
+        <LayerLoadError error={error} />
         <div className="min-h-0 flex-1">
           <MaturationMap
             visibleLayers={visibleLayers}

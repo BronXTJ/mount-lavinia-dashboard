@@ -23,6 +23,7 @@ import MetricInfoButton from './focusArea/MetricInfoButton.jsx'
 import { useDocumentMapFullscreen } from './MapFullscreenShell.jsx'
 import useChartAnimation from '../hooks/useChartAnimation.js'
 import { MAP_CENTER } from '../constants/mapLayers.js'
+import { fetchJson } from '../lib/dataClient.js'
 
 const REFRESH_INTERVAL_MS = 10 * 60 * 1000 // 10 minutes
 const TEMP_COLOR = '#38bdf8'
@@ -132,16 +133,12 @@ export default function LiveDataPanel({ coords }) {
       setError(null)
       setAqError(false)
       try {
-        const weatherRes = await fetch(weatherUrl(lat, lng))
-        if (!weatherRes.ok) throw new Error(`Weather request failed (${weatherRes.status})`)
-        const weatherJson = await weatherRes.json()
+        const weatherJson = await fetchJson(weatherUrl(lat, lng), { cache: false })
         if (cancelled || thisRequest !== requestId.current) return
         setWeather(weatherJson)
 
         try {
-          const aqRes = await fetch(airQualityUrl(lat, lng))
-          if (!aqRes.ok) throw new Error(`Air quality request failed (${aqRes.status})`)
-          const aqJson = await aqRes.json()
+          const aqJson = await fetchJson(airQualityUrl(lat, lng), { cache: false })
           if (cancelled || thisRequest !== requestId.current) return
           setAirQuality(aqJson)
         } catch {

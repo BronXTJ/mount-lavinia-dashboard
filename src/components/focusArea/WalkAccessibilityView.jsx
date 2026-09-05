@@ -5,6 +5,7 @@ import {
   hasWalkHexSelectableLayer,
 } from '../../constants/walkAccessibility.js'
 import { useWalkAccessibilityLayers } from '../../hooks/useWalkAccessibilityLayers.js'
+import LayerLoadError from '../LayerLoadError.jsx'
 import WalkAccessGroupsPanel from './WalkAccessGroupsPanel.jsx'
 import WalkAccessMap from './WalkAccessMap.jsx'
 import WalkAccessScorePanel from './WalkAccessScorePanel.jsx'
@@ -28,6 +29,7 @@ export default function WalkAccessibilityView() {
     mismatch,
     stats,
     loading,
+    error,
   } = useWalkAccessibilityLayers()
 
   function handleToggleLayer(id, checked) {
@@ -64,7 +66,8 @@ export default function WalkAccessibilityView() {
         <WalkAccessScorePanel stats={stats} loading={loading} onFocusCell={handleFocusCell} />
       </div>
 
-      <div className="order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
+      <div className="relative order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
+        <LayerLoadError error={error} />
         <div className="min-h-0 flex-1">
           <WalkAccessMap
             visibleLayers={visibleLayers}

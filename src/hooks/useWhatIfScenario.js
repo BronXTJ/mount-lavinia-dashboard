@@ -5,17 +5,8 @@ import {
   whatIfDataUrl,
 } from '../constants/centralityWhatIf.js'
 import { summarizeGeoJson } from '../utils/centralityStats.js'
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 import { checkWorkerHealth, fetchJobArtifact, runWhatIfJob } from '../utils/whatIfWorker.js'
-
-async function fetchJson(url) {
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
-    return null
-  }
-}
 
 async function fetchArtifactSafe(jobId, fileName) {
   try {
@@ -60,13 +51,14 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
   }, [status])
 
   useEffect(() => {
-    let cancelled = false
-    fetchJson(whatIfDataUrl('snap_nodes.geojson')).then((nodes) => {
-      if (cancelled) return
+    const ctrl = new AbortController()
+    fetchJsonOrNull(whatIfDataUrl('snap_nodes.geojson'), { signal: ctrl.signal }).then((nodes) => {
       setSnapNodes(nodes)
+    }).catch((err) => {
+      if (err?.name !== 'AbortError') setSnapNodes(null)
     })
     return () => {
-      cancelled = true
+      ctrl.abort()
     }
   }, [])
 

@@ -18,6 +18,7 @@ import {
 } from '../../constants/centralityWhatIf.js'
 import { useCentralityAllScales } from '../../hooks/useCentralityAllScales.js'
 import { useCentralityLayers } from '../../hooks/useCentralityLayers.js'
+import LayerLoadError from '../LayerLoadError.jsx'
 import { useWhatIfDrawing } from '../../hooks/useWhatIfDrawing.js'
 import { useWhatIfGuidance } from '../../hooks/useWhatIfGuidance.js'
 import { useWhatIfScenario } from '../../hooks/useWhatIfScenario.js'
@@ -84,7 +85,7 @@ export default function CentralityAnalysisView() {
 
   const isWhatIf = mode === WHAT_IF_MODES.whatIf
 
-  const { closeness, betweenness, closenessStats, betweennessStats, loading, namedRoads } =
+  const { closeness, betweenness, closenessStats, betweennessStats, loading, namedRoads, error } =
     useCentralityLayers(scaleMeters)
   const { closenessAvgs, betweennessAvgs } = useCentralityAllScales()
 
@@ -436,7 +437,8 @@ export default function CentralityAnalysisView() {
   }
 
   return (
-    <div className={gridClass}>
+    <div className={`relative ${gridClass}`}>
+      <LayerLoadError error={error} />
       <div
         className={
           isWhatIf

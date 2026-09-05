@@ -6,6 +6,7 @@ import { CENTRALITY_MAP_CENTER, CENTRALITY_MAP_ZOOM } from '../../constants/cent
 import { buildExportGeoJsonStyler } from '../../utils/exportGeoJsonStyle.js'
 import FitBoundsToGeoJson from '../focusArea/FitBoundsToGeoJson.jsx'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import { fetchJson } from '../../lib/dataClient.js'
 
 export default function ExportGeoJsonPreview({ url, itemId }) {
   const [data, setData] = useState(null)
@@ -18,11 +19,7 @@ export default function ExportGeoJsonPreview({ url, itemId }) {
     setError(null)
     setData(null)
 
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) throw new Error(`Failed to load GeoJSON (${response.status})`)
-        return response.json()
-      })
+    fetchJson(url)
       .then((json) => {
         if (!cancelled) {
           setData(json)

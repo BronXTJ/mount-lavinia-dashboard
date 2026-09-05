@@ -1,18 +1,9 @@
 import { useEffect, useState } from 'react'
 import { maturationGeoUrl } from '../constants/maturation.js'
 import { densityGeoUrl } from '../constants/density.js'
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 import { buildMaturationStats } from '../utils/maturationStats.js'
 import { annotateHexAreaFromGrid, partitionHexFeatures } from '../utils/hexCellGrade.js'
-
-async function fetchGeoJson(url) {
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
-    return null
-  }
-}
 
 const EMPTY_STATS = {
   umi: { min: null, max: null, avg: null, highestId: null, lowestId: null },
@@ -55,20 +46,22 @@ export function useMaturationLayers() {
   const [boundary, setBoundary] = useState(null)
   const [stats, setStats] = useState(EMPTY_STATS)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    let cancelled = false
+    const ctrl = new AbortController()
     setLoading(true)
+    setError(null)
 
     Promise.all([
-      fetchGeoJson(maturationGeoUrl('maturation_primary_hex.geojson')),
-      fetchGeoJson(maturationGeoUrl('shanon_entropy_primary.geojson')),
-      fetchGeoJson(maturationGeoUrl('landuse_primary.geojson')),
-      fetchGeoJson(densityGeoUrl('hex_grid_primary_100m.geojson')),
-      fetchGeoJson(densityGeoUrl('buildings_primary_floors.geojson')),
-      fetchGeoJson(densityGeoUrl('roads_primary.geojson')),
-      fetchGeoJson(densityGeoUrl('pois_primary.geojson')),
-      fetchGeoJson(densityGeoUrl('primary_study_area_boundary.geojson')),
+      fetchJsonOrNull(maturationGeoUrl('maturation_primary_hex.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(maturationGeoUrl('shanon_entropy_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(maturationGeoUrl('landuse_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('hex_grid_primary_100m.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('buildings_primary_floors.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('roads_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('pois_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('primary_study_area_boundary.geojson'), { signal: ctrl.signal }),
     ]).then(
       ([
         rawHex,
@@ -80,8 +73,6 @@ export function useMaturationLayers() {
         poisData,
         boundaryData,
       ]) => {
-        if (cancelled) return
-
         const withArea = {
           type: 'FeatureCollection',
           features: annotateHexAreaFromGrid(rawHex?.features ?? [], hexGridData),
@@ -109,10 +100,14 @@ export function useMaturationLayers() {
         )
         setLoading(false)
       },
-    )
+    ).catch((err) => {
+      if (err?.name === 'AbortError') return
+      setError(err)
+      setLoading(false)
+    })
 
     return () => {
-      cancelled = true
+      ctrl.abort()
     }
   }, [])
 
@@ -128,5 +123,6 @@ export function useMaturationLayers() {
     boundary,
     stats,
     loading,
+    error,
   }
 }
