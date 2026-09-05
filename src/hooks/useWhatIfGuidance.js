@@ -77,7 +77,7 @@ function resolveStepId({
   drawHint,
   sdnaMissing,
   status,
-  error,
+  error: _error,
   tool,
   draftLength,
   linkCount,

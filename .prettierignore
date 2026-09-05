@@ -1,0 +1,16 @@
+dist
+node_modules
+public/data
+json_files
+playwright-report
+test-results
+e2e/goldens
+package-lock.json
+*.geojson
+*.tif
+*.tiff
+*.png
+*.jpg
+*.jpeg
+*.md
+atlas

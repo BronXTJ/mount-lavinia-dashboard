@@ -484,7 +484,7 @@ export default function CentralityMap({
   }, [selectedSegmentId, closeness, betweenness])
 
   const makeOnEach =
-    (metric, geojson, stats) =>
+    (metric, _geojson, _stats) =>
     (feature, layer) => {
       layer.on('click', (e) => {
         L.DomEvent.stopPropagation(e)

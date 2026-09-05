@@ -59,16 +59,6 @@ function clearSession() {
   }
 }
 
-async function fetchJsonSafe(url) {
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
-    return null
-  }
-}
-
 /**
  * Three Compare slots, one sDNA job queue, shared-radius artifact reload.
  * Does not replace useWhatIfScenario (draw mode stays single-job).

@@ -54,7 +54,7 @@ export function useWhatIfDrawing(snapNodes) {
   const [cursorLatLng, setCursorLatLng] = useState(null)
   const [state, setState] = useState(EMPTY)
 
-  const { links, draftCoords, nextId, past, future } = state
+  const { links, draftCoords, nextId: _nextId, past, future } = state
 
   const nodeLatLngs = useMemo(() => {
     if (!snapNodes?.features?.length) return []
