@@ -75,6 +75,7 @@ _what_if_work/jobs/
 **/last_run_log.txt
 
 # test / lint tooling
+stats.html
 playwright-report/
 test-results/
 coverage/

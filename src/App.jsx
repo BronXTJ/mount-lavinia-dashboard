@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Sidebar from './components/Sidebar.jsx'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
+import TabSuspenseFallback from './components/TabSuspenseFallback.jsx'
 import useMediaQuery from './hooks/useMediaQuery.js'
-import Tab1_Overview from './tabs/Tab1_Overview.jsx'
-import Tab2_FocusArea from './tabs/Tab2_FocusArea.jsx'
-import Tab3_LandUse from './tabs/Tab3_LandUse.jsx'
-import Tab4_Connectivity from './tabs/Tab4_Connectivity.jsx'
-import TabLandCover from './tabs/TabLandCover.jsx'
-import Tab5_Environmental from './tabs/Tab5_Environmental.jsx'
-import Tab6_Problems from './tabs/Tab6_Problems.jsx'
-import Tab7_Synthesis from './tabs/Tab7_Synthesis.jsx'
-import ExportMaps from './tabs/ExportMaps.jsx'
+
+const Tab1_Overview = lazy(() => import('./tabs/Tab1_Overview.jsx'))
+const Tab2_FocusArea = lazy(() => import('./tabs/Tab2_FocusArea.jsx'))
+const Tab3_LandUse = lazy(() => import('./tabs/Tab3_LandUse.jsx'))
+const Tab4_Connectivity = lazy(() => import('./tabs/Tab4_Connectivity.jsx'))
+const TabLandCover = lazy(() => import('./tabs/TabLandCover.jsx'))
+const Tab5_Environmental = lazy(() => import('./tabs/Tab5_Environmental.jsx'))
+const Tab6_Problems = lazy(() => import('./tabs/Tab6_Problems.jsx'))
+const Tab7_Synthesis = lazy(() => import('./tabs/Tab7_Synthesis.jsx'))
+const ExportMaps = lazy(() => import('./tabs/ExportMaps.jsx'))
 
 const FOCUS_SUB_IDS = new Set(['centrality', 'density', 'maturation', 'walk-access', 'network-form'])
 
@@ -116,6 +119,8 @@ export default function App() {
               : 'mx-auto min-h-screen max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8'
         }
       >
+        <ErrorBoundary>
+        <Suspense fallback={<TabSuspenseFallback />}>
         <Routes>
           <Route path="/" element={<Tab1_Overview />} />
           <Route
@@ -139,6 +144,8 @@ export default function App() {
           <Route path="/problems" element={<Tab6_Problems />} />
           <Route path="/export-maps" element={<ExportMaps />} />
         </Routes>
+        </Suspense>
+        </ErrorBoundary>
       </main>
     </div>
   )
