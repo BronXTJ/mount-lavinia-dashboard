@@ -21,6 +21,7 @@ function isIgnorableConsole(msg) {
   return (
     text.includes('Download the React DevTools') ||
     text.includes('favicon') ||
+    text.includes("Content Security Policy directive 'frame-ancestors' is ignored") ||
     /net::ERR_/.test(text)
   )
 }
