@@ -1,5 +1,6 @@
 /** Land Cover Change section — Landsat headline story + S2 per-GN metrics. */
 
+import { withAssetVersion } from '../lib/dataClient.js'
 import { APP_BASEMAPS } from './basemaps.js'
 
 export const LC_MAP_CENTER = [6.8344, 79.8685]
@@ -231,10 +232,9 @@ export function getClassifiedMapUrl(epochId) {
 
 export function getOverlayUrl(layerMode, epochId) {
   if (layerMode === 'change') {
-    // Cache-bust so browsers reload after palette updates (built-up loss → magenta).
-    return `${landCoverUrl('maps/change_builtup_gain_veg_loss_y2000_y2025.png')}?v=magenta1`
+    return withAssetVersion(landCoverUrl('maps/change_builtup_gain_veg_loss_y2000_y2025.png'))
   }
-  return getClassifiedMapUrl(epochId)
+  return withAssetVersion(getClassifiedMapUrl(epochId))
 }
 
 /** Georeferenced overlay URL for classified/change; null when none active. */

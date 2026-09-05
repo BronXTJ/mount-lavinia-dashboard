@@ -23,7 +23,7 @@ npm run what-if:worker
 
 Then open the GitHub Pages dashboard (or `npm run dev`) → Centrality → What-if.
 
-1. If the chip says Worker offline, click **Connect** and Allow local network if Chrome asks.
+1. If the chip says Worker offline, click **Connect**, Allow local network if Chrome asks, and paste the pairing token printed in the worker window. `/health` stays open so the chip can detect the worker without a token; `/v1/jobs*` require the token.
 2. Draw a link and finish (or press ▶). KPIs and rankings fill when the job completes.
 
 `npm run what-if` is optional (starts worker + Vite together). Live compute still uses the worker on `127.0.0.1:8787`.
