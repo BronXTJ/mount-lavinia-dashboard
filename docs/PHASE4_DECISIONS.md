@@ -6,7 +6,7 @@ These are the low-risk parts that shipped, and the items that stay deferred so a
 
 - `npm run data:manifest` (also runs at the end of `npm run prepare-data`) writes `public/data/manifest.json` and a copy at `src/data/assetManifest.json`.
 - Each entry is a 12-character SHA-256 of the file. No GeoJSON or raster bytes are rewritten.
-- `src/lib/dataClient.js` appends `?v=<hash>` when it fetches a path that appears in the manifest. Image/raster URLs that do not go through `fetchJson` still use their existing builders.
+- `src/lib/dataClient.js` `withAssetVersion()` appends `?v=<hash>` when it fetches a path that appears in the manifest. Land-cover ImageOverlay URLs and Export Maps `public/data` downloads use the same helper. Unpublished `condominiums_*.geojson` is hashed neither in the manifest nor published.
 
 ## Deferred on purpose
 

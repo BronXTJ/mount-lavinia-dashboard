@@ -108,7 +108,7 @@ npm run prepare-data
 Outputs go to `src/data/` and `public/data/`. Focus Area, Land Cover, and Environmental tabs need the prepared layers in `public/data/`. The script also writes `public/data/manifest.json` and `src/data/assetManifest.json` so the app can cache-bust layer URLs. To refresh hashes without regenerating layers:
 
 ```bash
-npm run write-manifest
+npm run data:manifest
 ```
 
 ### 📦 Production build

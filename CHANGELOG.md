@@ -13,7 +13,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Shared `escapeHtml` / `safeHttpUrl` helpers; Dependabot; `.env.example`.
 - Error boundary, lazy-loaded tabs, vendor chunks, and an optional Actions deploy workflow.
 - Data asset manifest (`public/data/manifest.json` + bundled `src/data/assetManifest.json`) so same-origin `/data/` fetches append `?v=<hash>`.
-- `docs/DATA_PIPELINE.md` — Phase 4 decisions (quantization, thermal split, PMTiles, LFS, xlsx, Pages 404).
+- `docs/PHASE4_DECISIONS.md` — quantization, thermal split, PMTiles, LFS, xlsx, and Pages 404 stay deferred or already handled.
+- `ARCHITECTURE.md` and `docs/RUNBOOK.md` (local What-if token, `npm run deploy` vs Actions).
 
 ### Changed
 

@@ -1,5 +1,7 @@
 /** Export Maps catalog — sidebar section order, on-map titles, download paths. */
 
+import { withAssetVersion } from '../lib/dataClient.js'
+
 const EMERALD = '#34d399'
 
 /** Raster CRS labels for Export Maps badges. */
@@ -7,7 +9,7 @@ export const RASTER_CRS_WGS84 = 'WGS 84'
 export const RASTER_CRS_SLD99 = 'SLD99 (EPSG:5235)'
 
 function asset(path) {
-  return `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
+  return withAssetVersion(`${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`)
 }
 
 /** @typedef {{ id: string, title: string, image: string, imageName: string, geojson?: string|null, geojsonName?: string|null, raster?: string|null, rasterName?: string|null, rasterCrs?: string|null }} ExportMapItem */

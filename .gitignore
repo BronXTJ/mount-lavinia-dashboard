@@ -56,12 +56,10 @@ _what_if_work/jobs/
 # public/data/ is negated because it is the directory the browser
 # actually fetches, so its rasters must stay committable.
 #
-# NOTE: 38 .tif files under json_files/, land_cover_change_analysis/ and
-# land_cover_change_analysis_sentinel2/ were committed before this rule
-# existed. Git keeps tracking files it already tracks, so they and their
-# future edits still version normally — this rule only stops NEW rasters
-# from being added by accident. Whether those 38 move to Git LFS or to a
-# separate data repo is a deliberate later decision, not settled here.
+# NOTE: rasters already tracked under json_files/ and the land-cover
+# analysis folders stay in git until GitHub LFS (or a separate data repo)
+# is set up. This rule only stops NEW rasters from being added by accident.
+# App rasters under public/data/ stay committable via the negation below.
 *.tif
 *.tiff
 !public/data/**/*.tif

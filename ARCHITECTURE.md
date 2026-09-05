@@ -21,7 +21,7 @@ src/features/behaviour-analysis/  Movement tab (already a feature folder)
 1. Studio GIS and Excel live in `json_files/` (partially local-only).
 2. `npm run prepare-data` writes `src/data/*.json` and `public/data/**`.
 3. `npm run data:manifest` hashes `public/data` (also invoked at the end of prepare-data).
-4. Layer hooks call `fetchJson` / `fetchJsonOrNull`. Failed loads surface `LayerLoadError`.
+4. Layer hooks call `fetchJson` / `fetchJsonOrNull`. Land-cover overlays and Export Maps rasters use `withAssetVersion`. Failed loads surface `LayerLoadError`.
 
 What-if closeness/betweenness is the exception: a local FastAPI worker at `127.0.0.1:8787` runs sDNA. GitHub Pages cannot host sDNA. `/health` is open; `/v1/jobs*` require the pairing token printed at worker startup.
 
