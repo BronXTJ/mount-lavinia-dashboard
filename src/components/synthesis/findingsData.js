@@ -271,7 +271,6 @@ export const findings = [
     evidence: [
       { tab: 'issues', label: 'Issues · RC2 / GOV1', path: '/problems', node: 'RC2' },
       { tab: 'density', label: 'Density fabric', path: '/focus-area', focusSub: 'density' },
-      { tab: 'overview', label: 'Condominium inventory (~130 points)', path: '/' },
     ],
     issuesLinks: ['RC2', 'GOV1', 'SE8'],
   },
