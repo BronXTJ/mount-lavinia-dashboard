@@ -1,16 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { centralityGeoUrl } from '../constants/centrality.js'
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 import { summarizeGeoJson } from '../utils/centralityStats.js'
-
-async function fetchGeoJson(url) {
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
-    return null
-  }
-}
 
 /**
  * Loads closeness + betweenness GeoJSON for the active analysis scale.
@@ -23,17 +14,25 @@ export function useCentralityLayers(scaleMeters) {
   const [betweenness, setBetweenness] = useState(null)
   const [loading, setLoading] = useState(true)
   const [namedRoads, setNamedRoads] = useState(null)
+  const [error, setError] = useState(null)
 
   // Load roads.geojson once — not tied to scaleMeters
   useEffect(() => {
-    fetchGeoJson(`${import.meta.env.BASE_URL}data/geo/roads.geojson`).then((data) => {
-      if (data) setNamedRoads(data.features.filter((f) => f.properties?.name))
-    })
+    const ctrl = new AbortController()
+    fetchJsonOrNull(`${import.meta.env.BASE_URL}data/geo/roads.geojson`, { signal: ctrl.signal })
+      .then((data) => {
+        if (data) setNamedRoads(data.features.filter((f) => f.properties?.name))
+      })
+      .catch((err) => {
+        if (err?.name !== 'AbortError') setError(err)
+      })
+    return () => ctrl.abort()
   }, [])
 
   useEffect(() => {
-    let cancelled = false
+    const ctrl = new AbortController()
     setLoading(true)
+    setError(null)
     // Clear stale data immediately so the GeoJSON layers unmount before the
     // new fetch completes. Without this, the style function is evaluated
     // against the old data with the new scaleMeters key, producing null
@@ -42,17 +41,22 @@ export function useCentralityLayers(scaleMeters) {
     setBetweenness(null)
 
     Promise.all([
-      fetchGeoJson(centralityGeoUrl(`closeness_${scaleMeters}.geojson`)),
-      fetchGeoJson(centralityGeoUrl(`betweenness_${scaleMeters}.geojson`)),
-    ]).then(([closenessData, betweennessData]) => {
-      if (cancelled) return
-      setCloseness(closenessData)
-      setBetweenness(betweennessData)
-      setLoading(false)
-    })
+      fetchJsonOrNull(centralityGeoUrl(`closeness_${scaleMeters}.geojson`), { signal: ctrl.signal }),
+      fetchJsonOrNull(centralityGeoUrl(`betweenness_${scaleMeters}.geojson`), { signal: ctrl.signal }),
+    ])
+      .then(([closenessData, betweennessData]) => {
+        setCloseness(closenessData)
+        setBetweenness(betweennessData)
+        setLoading(false)
+      })
+      .catch((err) => {
+        if (err?.name === 'AbortError') return
+        setError(err)
+        setLoading(false)
+      })
 
     return () => {
-      cancelled = true
+      ctrl.abort()
     }
   }, [scaleMeters])
 
@@ -66,5 +70,5 @@ export function useCentralityLayers(scaleMeters) {
     [betweenness, scaleMeters, namedRoads],
   )
 
-  return { closeness, betweenness, closenessStats, betweennessStats, loading, namedRoads }
+  return { closeness, betweenness, closenessStats, betweennessStats, loading, namedRoads, error }
 }

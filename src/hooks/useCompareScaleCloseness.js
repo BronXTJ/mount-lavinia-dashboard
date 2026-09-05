@@ -3,16 +3,7 @@ import { centralityGeoUrl } from '../constants/centrality.js'
 import { COMPARE_SLOT_STATUS } from '../constants/whatIfCompare.js'
 import { COMPARE_SPARKLINE_SCALES } from '../utils/nearbyWhatIfDeltas.js'
 import { fetchJobArtifact } from '../utils/whatIfWorker.js'
-
-async function fetchJson(url) {
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
-    return null
-  }
-}
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 
 /**
  * Baseline + scenario closeness layers at all four radii for the Compare sparkline.
@@ -43,7 +34,7 @@ export function useCompareScaleCloseness({ slots, ids, scaleMeters, baselineClos
     let cancelled = false
     Promise.all(
       COMPARE_SPARKLINE_SCALES.map(async (meters) => {
-        const data = await fetchJson(centralityGeoUrl(`closeness_${meters}.geojson`))
+        const data = await fetchJsonOrNull(centralityGeoUrl(`closeness_${meters}.geojson`))
         return [meters, data]
       }),
     ).then((rows) => {

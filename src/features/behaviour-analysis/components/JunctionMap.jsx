@@ -12,6 +12,7 @@ import MapInvalidateOnResize from '../../../components/MapInvalidateOnResize.jsx
 import MapFullscreenShell, { useMapFullscreen } from '../../../components/MapFullscreenShell.jsx'
 import { getCartoDarkTileUrl } from '../../../constants/basemaps.js'
 import { escapeHtml } from '../../../utils/escapeHtml.js'
+import { fetchJsonOrNull } from '../../../lib/dataClient.js'
 import { junctions } from '../data/junctions'
 import { JUNCTION_COLORS, STUDY_BOUNDARY_COLOR } from '../data/colors'
 import {
@@ -92,19 +93,15 @@ export default function JunctionMap({
 
     async function load() {
       try {
-        const bRes = await fetch(geoUrl('study_area_boundary.geojson'))
-        if (bRes.ok) {
-          const data = await bRes.json()
-          if (!cancelled) setBoundary(data)
-        }
+        const data = await fetchJsonOrNull(geoUrl('study_area_boundary.geojson'))
+        if (!cancelled && data) setBoundary(data)
       } catch {
         /* skip silently */
       }
 
       try {
-        const rRes = await fetch(geoUrl('roads.geojson'))
-        if (!rRes.ok) return
-        const roads = await rRes.json()
+        const roads = await fetchJsonOrNull(geoUrl('roads.geojson'))
+        if (!roads) return
         const allFeatures = roads.features || []
 
         const galleFeatures = allFeatures.filter(

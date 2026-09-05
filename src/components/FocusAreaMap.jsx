@@ -11,6 +11,7 @@ import { DEFAULT_APP_BASEMAP, getAppBasemap } from '../constants/basemaps.js'
 import MapLayerFab from './MapLayerFab.jsx'
 import Legend from './Legend.jsx'
 import { escapeHtml } from '../utils/escapeHtml.js'
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 
 const GEO_FILES = {
   boundary: 'study_area_boundary.geojson',
@@ -36,9 +37,7 @@ function useGeoLayers() {
     Promise.all(
       Object.entries(GEO_FILES).map(async ([key, fileName]) => {
         try {
-          const res = await fetch(geoUrl(fileName))
-          if (!res.ok) return [key, null]
-          return [key, await res.json()]
+          return [key, await fetchJsonOrNull(geoUrl(fileName))]
         } catch {
           return [key, null]
         }

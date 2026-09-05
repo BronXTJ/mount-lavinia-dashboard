@@ -17,16 +17,7 @@ import {
   scopeFindings,
   scopeMetrics,
 } from '../utils/networkFormStats.js'
-
-async function fetchJson(url) {
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
-    return null
-  }
-}
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 
 /**
  * Loads Network Form layers once; derives scoped metrics/layers from selectedScope.
@@ -69,21 +60,21 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
         densPts,
         densSum,
       ] = await Promise.all([
-        fetchJson(networkFormGeoUrl('gn5_divisions.geojson')),
-        fetchJson(networkFormGeoUrl('roads_streets.geojson')),
-        fetchJson(networkFormGeoUrl('junctions_classified.geojson')),
-        fetchJson(networkFormGeoUrl('metrics_by_scope.json')),
-        fetchJson(networkFormGeoUrl('findings_by_scope.json')),
-        fetchJson(networkFormGeoUrl('culdesacs_depth.geojson')),
-        fetchJson(networkFormGeoUrl('culdesac_depth_summary.json')),
-        fetchJson(networkFormGeoUrl('culdesac_hex_counts.geojson')),
-        fetchJson(networkFormGeoUrl('culdesac_spatial_summary.json')),
-        fetchJson(networkFormGeoUrl('culdesac_hex_walk.geojson')),
-        fetchJson(networkFormGeoUrl('culdesacs_walk.geojson')),
-        fetchJson(networkFormGeoUrl('culdesac_walk_summary.json')),
-        fetchJson(networkFormGeoUrl('culdesac_hex_density_umi.geojson')),
-        fetchJson(networkFormGeoUrl('culdesacs_density_umi.geojson')),
-        fetchJson(networkFormGeoUrl('culdesac_density_umi_summary.json')),
+        fetchJsonOrNull(networkFormGeoUrl('gn5_divisions.geojson')),
+        fetchJsonOrNull(networkFormGeoUrl('roads_streets.geojson')),
+        fetchJsonOrNull(networkFormGeoUrl('junctions_classified.geojson')),
+        fetchJsonOrNull(networkFormGeoUrl('metrics_by_scope.json')),
+        fetchJsonOrNull(networkFormGeoUrl('findings_by_scope.json')),
+        fetchJsonOrNull(networkFormGeoUrl('culdesacs_depth.geojson')),
+        fetchJsonOrNull(networkFormGeoUrl('culdesac_depth_summary.json')),
+        fetchJsonOrNull(networkFormGeoUrl('culdesac_hex_counts.geojson')),
+        fetchJsonOrNull(networkFormGeoUrl('culdesac_spatial_summary.json')),
+        fetchJsonOrNull(networkFormGeoUrl('culdesac_hex_walk.geojson')),
+        fetchJsonOrNull(networkFormGeoUrl('culdesacs_walk.geojson')),
+        fetchJsonOrNull(networkFormGeoUrl('culdesac_walk_summary.json')),
+        fetchJsonOrNull(networkFormGeoUrl('culdesac_hex_density_umi.geojson')),
+        fetchJsonOrNull(networkFormGeoUrl('culdesacs_density_umi.geojson')),
+        fetchJsonOrNull(networkFormGeoUrl('culdesac_density_umi_summary.json')),
       ])
       if (cancelled) return
       setGn5(gn)
@@ -181,5 +172,6 @@ export function useNetworkFormLayers(selectedScope = DEFAULT_NETWORK_FORM_SCOPE)
     culdesacDensityUmiSummary,
     loading,
     selectedScope,
+    error: null,
   }
 }

@@ -1,16 +1,7 @@
 import { useEffect, useState } from 'react'
 import { environmentalGeoUrl } from '../constants/environmental.js'
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 import { buildEnvironmentalStats } from '../utils/environmentalStats.js'
-
-async function fetchJson(url) {
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
-    return null
-  }
-}
 
 const EMPTY_STATS = {
   cellCount: 0,
@@ -47,10 +38,10 @@ export function useEnvironmentalLayers() {
     setLoading(true)
 
     Promise.all([
-      fetchJson(environmentalGeoUrl('thermal_grid.geojson')),
-      fetchJson(environmentalGeoUrl('svf_points.geojson')),
-      fetchJson(environmentalGeoUrl('boundary_800m.geojson')),
-      fetchJson(environmentalGeoUrl('environmental_summary.json')),
+      fetchJsonOrNull(environmentalGeoUrl('thermal_grid.geojson')),
+      fetchJsonOrNull(environmentalGeoUrl('svf_points.geojson')),
+      fetchJsonOrNull(environmentalGeoUrl('boundary_800m.geojson')),
+      fetchJsonOrNull(environmentalGeoUrl('environmental_summary.json')),
     ]).then(([gridData, svfData, boundaryData, summary]) => {
       if (cancelled) return
 
@@ -71,5 +62,5 @@ export function useEnvironmentalLayers() {
     }
   }, [])
 
-  return { grid, svfPoints, boundary, stats, loading }
+  return { grid, svfPoints, boundary, stats, loading, error: null }
 }

@@ -1,18 +1,9 @@
 import { useEffect, useState } from 'react'
 import { maturationGeoUrl } from '../constants/maturation.js'
 import { densityGeoUrl } from '../constants/density.js'
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 import { buildMaturationStats } from '../utils/maturationStats.js'
 import { annotateHexAreaFromGrid, partitionHexFeatures } from '../utils/hexCellGrade.js'
-
-async function fetchGeoJson(url) {
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
-    return null
-  }
-}
 
 const EMPTY_STATS = {
   umi: { min: null, max: null, avg: null, highestId: null, lowestId: null },
@@ -61,14 +52,14 @@ export function useMaturationLayers() {
     setLoading(true)
 
     Promise.all([
-      fetchGeoJson(maturationGeoUrl('maturation_primary_hex.geojson')),
-      fetchGeoJson(maturationGeoUrl('shanon_entropy_primary.geojson')),
-      fetchGeoJson(maturationGeoUrl('landuse_primary.geojson')),
-      fetchGeoJson(densityGeoUrl('hex_grid_primary_100m.geojson')),
-      fetchGeoJson(densityGeoUrl('buildings_primary_floors.geojson')),
-      fetchGeoJson(densityGeoUrl('roads_primary.geojson')),
-      fetchGeoJson(densityGeoUrl('pois_primary.geojson')),
-      fetchGeoJson(densityGeoUrl('primary_study_area_boundary.geojson')),
+      fetchJsonOrNull(maturationGeoUrl('maturation_primary_hex.geojson')),
+      fetchJsonOrNull(maturationGeoUrl('shanon_entropy_primary.geojson')),
+      fetchJsonOrNull(maturationGeoUrl('landuse_primary.geojson')),
+      fetchJsonOrNull(densityGeoUrl('hex_grid_primary_100m.geojson')),
+      fetchJsonOrNull(densityGeoUrl('buildings_primary_floors.geojson')),
+      fetchJsonOrNull(densityGeoUrl('roads_primary.geojson')),
+      fetchJsonOrNull(densityGeoUrl('pois_primary.geojson')),
+      fetchJsonOrNull(densityGeoUrl('primary_study_area_boundary.geojson')),
     ]).then(
       ([
         rawHex,
@@ -128,5 +119,6 @@ export function useMaturationLayers() {
     boundary,
     stats,
     loading,
+    error: null,
   }
 }

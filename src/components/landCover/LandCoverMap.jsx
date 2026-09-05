@@ -17,6 +17,7 @@ import {
 } from '../../constants/landCover.js'
 import { densityGeoUrl } from '../../constants/density.js'
 import { escapeHtml } from '../../utils/escapeHtml.js'
+import { fetchJsonOrNull } from '../../lib/dataClient.js'
 import LandCoverLegend from './LandCoverLegend.jsx'
 import LandCoverMapLayerFab from './LandCoverMapLayerFab.jsx'
 
@@ -110,8 +111,8 @@ export default function LandCoverMap({
 
     // Core boundary data first so the map appears quickly.
     Promise.all([
-      fetch(landCoverUrl('aoi_gn5_dissolved.geojson')).then((r) => r.json()),
-      fetch(landCoverUrl('gn5_divisions.geojson')).then((r) => r.json()),
+      fetchJsonOrNull(landCoverUrl('aoi_gn5_dissolved.geojson')),
+      fetchJsonOrNull(landCoverUrl('gn5_divisions.geojson')),
     ])
       .then(([aoiJson, gnJson]) => {
         if (cancelled) return
@@ -130,8 +131,8 @@ export default function LandCoverMap({
 
     // OSM context can load after — large GeoJSON should not block the map.
     Promise.all([
-      fetch(densityGeoUrl('buildings_primary_floors.geojson')).then((r) => r.json()),
-      fetch(densityGeoUrl('roads_primary.geojson')).then((r) => r.json()),
+      fetchJsonOrNull(densityGeoUrl('buildings_primary_floors.geojson')),
+      fetchJsonOrNull(densityGeoUrl('roads_primary.geojson')),
     ])
       .then(([buildingsJson, roadsJson]) => {
         if (cancelled) return

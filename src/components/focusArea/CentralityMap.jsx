@@ -30,6 +30,7 @@ import {
 import { layerSignedDeltas } from '../../utils/nearbyWhatIfDeltas.js'
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
 import { escapeHtml } from '../../utils/escapeHtml.js'
+import { fetchJsonOrNull } from '../../lib/dataClient.js'
 import CentralityLegend from './CentralityLegend.jsx'
 import CentralityMapLayerFab from './CentralityMapLayerFab.jsx'
 import { BASELINE_VS_WHAT_IF_INFO } from '../../constants/whatIfHelpContent.js'
@@ -460,10 +461,7 @@ export default function CentralityMap({
     Promise.all(
       CENTRALITY_BOUNDARIES.map(async ({ meters }) => {
         try {
-          const res = await fetch(boundaryGeoUrl(meters))
-          if (!res.ok) return [meters, null]
-          const data = await res.json()
-          return [meters, data]
+          return [meters, await fetchJsonOrNull(boundaryGeoUrl(meters))]
         } catch {
           return [meters, null]
         }
