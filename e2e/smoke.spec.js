@@ -22,7 +22,10 @@ function isIgnorableConsole(msg) {
     text.includes('Download the React DevTools') ||
     text.includes('favicon') ||
     text.includes("Content Security Policy directive 'frame-ancestors' is ignored") ||
-    /net::ERR_/.test(text)
+    /net::ERR_/.test(text) ||
+    // Preview proxies /what-if-api to 127.0.0.1:8787. CI has no worker, so
+    // Centrality's health ping is a 502. Worker-offline is expected.
+    (text.includes('Failed to load resource') && text.includes('502'))
   )
 }
 
