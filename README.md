@@ -143,7 +143,7 @@ mount-lavinia-dashboard/
 └── json_files/               # Source GIS & Excel (when included in your clone)
 ```
 
-📂 **`Social_media_analysis/`** (if present) is a **separate assignment** (Google Maps + YouTube analytics). See [`Social_media_analysis/README.md`](Social_media_analysis/README.md).
+📂 **`Social_media_analysis/`** (if present locally) is a **separate assignment** and is not in the GitHub repo.
 
 ---
 
@@ -169,8 +169,11 @@ No API key is required for Open-Meteo client requests from the browser.
 
 **Thanuja Senarathne**
 
+Undergraduate — BSc (Hons) in Urban Informatics & Planning, University of Moratuwa
+
 - 🐙 GitHub: [@BronXTJ](https://github.com/BronXTJ)
 - 💼 LinkedIn: [thanuja-senarathne](https://www.linkedin.com/in/thanuja-senarathne-1122a828b)
+- ✉️ Email: [thanujals1781@gmail.com](mailto:thanujals1781@gmail.com)
 
 ### ✏️ Development note
 
