@@ -74,3 +74,13 @@ _what_if_work/jobs/
 # worker run artifacts
 **/last_run_log.txt
 
+# ------------------------------------------------------------------
+# Local-only research folders and condominium inventory layers.
+# public/data/geo/condominiums_*.geojson and the research folders
+# stay on disk and are never pushed.
+# ------------------------------------------------------------------
+/site intervention/
+/json_files/condo_inventory/
+/Social_media_analysis/
+public/data/geo/condominiums_*.geojson
+
