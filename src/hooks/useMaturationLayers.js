@@ -46,20 +46,22 @@ export function useMaturationLayers() {
   const [boundary, setBoundary] = useState(null)
   const [stats, setStats] = useState(EMPTY_STATS)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    let cancelled = false
+    const ctrl = new AbortController()
     setLoading(true)
+    setError(null)
 
     Promise.all([
-      fetchJsonOrNull(maturationGeoUrl('maturation_primary_hex.geojson')),
-      fetchJsonOrNull(maturationGeoUrl('shanon_entropy_primary.geojson')),
-      fetchJsonOrNull(maturationGeoUrl('landuse_primary.geojson')),
-      fetchJsonOrNull(densityGeoUrl('hex_grid_primary_100m.geojson')),
-      fetchJsonOrNull(densityGeoUrl('buildings_primary_floors.geojson')),
-      fetchJsonOrNull(densityGeoUrl('roads_primary.geojson')),
-      fetchJsonOrNull(densityGeoUrl('pois_primary.geojson')),
-      fetchJsonOrNull(densityGeoUrl('primary_study_area_boundary.geojson')),
+      fetchJsonOrNull(maturationGeoUrl('maturation_primary_hex.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(maturationGeoUrl('shanon_entropy_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(maturationGeoUrl('landuse_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('hex_grid_primary_100m.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('buildings_primary_floors.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('roads_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('pois_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(densityGeoUrl('primary_study_area_boundary.geojson'), { signal: ctrl.signal }),
     ]).then(
       ([
         rawHex,
@@ -71,8 +73,6 @@ export function useMaturationLayers() {
         poisData,
         boundaryData,
       ]) => {
-        if (cancelled) return
-
         const withArea = {
           type: 'FeatureCollection',
           features: annotateHexAreaFromGrid(rawHex?.features ?? [], hexGridData),
@@ -100,10 +100,14 @@ export function useMaturationLayers() {
         )
         setLoading(false)
       },
-    )
+    ).catch((err) => {
+      if (err?.name === 'AbortError') return
+      setError(err)
+      setLoading(false)
+    })
 
     return () => {
-      cancelled = true
+      ctrl.abort()
     }
   }, [])
 
@@ -119,6 +123,6 @@ export function useMaturationLayers() {
     boundary,
     stats,
     loading,
-    error: null,
+    error,
   }
 }

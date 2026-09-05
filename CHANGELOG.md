@@ -11,10 +11,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `CHANGELOG.md` so later hardening phases can be read without walking git history.
 - Phase 1 worker pairing token, job-id path checks, sDNA timeout, payload caps, and 7-day job TTL.
 - Shared `escapeHtml` / `safeHttpUrl` helpers; Dependabot; `.env.example`.
+- Error boundary, lazy-loaded tabs, vendor chunks, and an optional Actions deploy workflow.
 
 ### Changed
 
 - `main` now matches the live dashboard (What-if Compare and related work from `feat/what-if-compare`).
+- Layer fetches go through `src/lib/dataClient.js` (cache + in-flight dedupe). Failed layer loads show a retry banner.
 
 ### Security
 

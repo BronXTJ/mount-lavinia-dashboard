@@ -32,19 +32,19 @@ export function useEnvironmentalLayers() {
   const [boundary, setBoundary] = useState(null)
   const [stats, setStats] = useState(EMPTY_STATS)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    let cancelled = false
+    const ctrl = new AbortController()
     setLoading(true)
+    setError(null)
 
     Promise.all([
-      fetchJsonOrNull(environmentalGeoUrl('thermal_grid.geojson')),
-      fetchJsonOrNull(environmentalGeoUrl('svf_points.geojson')),
-      fetchJsonOrNull(environmentalGeoUrl('boundary_800m.geojson')),
-      fetchJsonOrNull(environmentalGeoUrl('environmental_summary.json')),
+      fetchJsonOrNull(environmentalGeoUrl('thermal_grid.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(environmentalGeoUrl('svf_points.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(environmentalGeoUrl('boundary_800m.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(environmentalGeoUrl('environmental_summary.json'), { signal: ctrl.signal }),
     ]).then(([gridData, svfData, boundaryData, summary]) => {
-      if (cancelled) return
-
       const features = gridData?.features ?? []
       setGrid(features.length ? gridData : null)
       setSvfPoints(svfData)
@@ -55,12 +55,16 @@ export function useEnvironmentalLayers() {
           : EMPTY_STATS,
       )
       setLoading(false)
+    }).catch((err) => {
+      if (err?.name === 'AbortError') return
+      setError(err)
+      setLoading(false)
     })
 
     return () => {
-      cancelled = true
+      ctrl.abort()
     }
   }, [])
 
-  return { grid, svfPoints, boundary, stats, loading, error: null }
+  return { grid, svfPoints, boundary, stats, loading, error }
 }

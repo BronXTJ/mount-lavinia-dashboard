@@ -31,14 +31,15 @@ export function useCompareScaleCloseness({ slots, ids, scaleMeters, baselineClos
   }, [baselineCloseness, scaleMeters])
 
   useEffect(() => {
-    let cancelled = false
+    const ctrl = new AbortController()
     Promise.all(
       COMPARE_SPARKLINE_SCALES.map(async (meters) => {
-        const data = await fetchJsonOrNull(centralityGeoUrl(`closeness_${meters}.geojson`))
+        const data = await fetchJsonOrNull(centralityGeoUrl(`closeness_${meters}.geojson`), {
+          signal: ctrl.signal,
+        })
         return [meters, data]
       }),
     ).then((rows) => {
-      if (cancelled) return
       setBaselineByScale((prev) => {
         const next = { ...prev }
         for (const [meters, data] of rows) {
@@ -48,7 +49,7 @@ export function useCompareScaleCloseness({ slots, ids, scaleMeters, baselineClos
       })
     })
     return () => {
-      cancelled = true
+      ctrl.abort()
     }
   }, [])
 

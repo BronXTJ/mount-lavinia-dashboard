@@ -5,6 +5,7 @@ import RoadRankingsScopeSelect from './RoadRankingsScopeSelect.jsx'
 import MetricInfoButton from './focusArea/MetricInfoButton.jsx'
 import { LAND_USE_COLORS } from '../constants/mapLayers.js'
 import { buildRoadRankings, extractMountLaviniaGeometry } from '../utils/roadRankings.js'
+import { fetchJsonOrNull } from '../lib/dataClient.js'
 
 function InfoIcon() {
   return (
@@ -55,13 +56,9 @@ export default function RoadPropertyPanel({ data, selectedRoadName, onSelectRoad
   useEffect(() => {
     let cancelled = false
     const url = `${import.meta.env.BASE_URL}data/geo/gn5_combined_area.geojson`
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error(`Failed to load GN boundaries (${res.status})`)
-        return res.json()
-      })
+    fetchJsonOrNull(url)
       .then((collection) => {
-        if (!cancelled) setMlGeometry(extractMountLaviniaGeometry(collection))
+        if (!cancelled) setMlGeometry(collection ? extractMountLaviniaGeometry(collection) : null)
       })
       .catch(() => {
         if (!cancelled) setMlGeometry(null)

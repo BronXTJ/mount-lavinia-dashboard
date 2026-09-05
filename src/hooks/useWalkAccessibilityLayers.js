@@ -45,20 +45,22 @@ export function useWalkAccessibilityLayers() {
   const [mismatch, setMismatch] = useState(null)
   const [stats, setStats] = useState(EMPTY_STATS)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    let cancelled = false
+    const ctrl = new AbortController()
     setLoading(true)
+    setError(null)
 
     Promise.all([
-      fetchJsonOrNull(walkGeoUrl('access_hex_classified.geojson')),
-      fetchJsonOrNull(walkGeoUrl('pois_snapped.geojson')),
-      fetchJsonOrNull(walkGeoUrl('access_primary_summary.json')),
-      fetchJsonOrNull(walkGeoUrl('findings_summary.json')),
-      fetchJsonOrNull(walkContextGeoUrl('hex_grid_primary_100m.geojson')),
-      fetchJsonOrNull(walkContextGeoUrl('buildings_primary_floors.geojson')),
-      fetchJsonOrNull(walkContextGeoUrl('roads_primary.geojson')),
-      fetchJsonOrNull(walkContextGeoUrl('primary_study_area_boundary.geojson')),
+      fetchJsonOrNull(walkGeoUrl('access_hex_classified.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkGeoUrl('pois_snapped.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkGeoUrl('access_primary_summary.json'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkGeoUrl('findings_summary.json'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkContextGeoUrl('hex_grid_primary_100m.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkContextGeoUrl('buildings_primary_floors.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkContextGeoUrl('roads_primary.geojson'), { signal: ctrl.signal }),
+      fetchJsonOrNull(walkContextGeoUrl('primary_study_area_boundary.geojson'), { signal: ctrl.signal }),
     ]).then(
       ([
         rawHex,
@@ -70,8 +72,6 @@ export function useWalkAccessibilityLayers() {
         roadsData,
         boundaryData,
       ]) => {
-        if (cancelled) return
-
         const { mapFc, excludedFc, statsFeatures, counts } = partitionHexFeatures(rawHex)
 
         const summary = findingsSummary ?? primarySummary
@@ -91,10 +91,14 @@ export function useWalkAccessibilityLayers() {
         setStats(built)
         setLoading(false)
       },
-    )
+    ).catch((err) => {
+      if (err?.name === 'AbortError') return
+      setError(err)
+      setLoading(false)
+    })
 
     return () => {
-      cancelled = true
+      ctrl.abort()
     }
   }, [])
 
@@ -110,6 +114,6 @@ export function useWalkAccessibilityLayers() {
     mismatch,
     stats,
     loading,
-    error: null,
+    error,
   }
 }

@@ -32,22 +32,22 @@ function useGeoLayers() {
   const [layers, setLayers] = useState({})
 
   useEffect(() => {
-    let cancelled = false
+    const ctrl = new AbortController()
 
     Promise.all(
       Object.entries(GEO_FILES).map(async ([key, fileName]) => {
         try {
-          return [key, await fetchJsonOrNull(geoUrl(fileName))]
+          return [key, await fetchJsonOrNull(geoUrl(fileName), { signal: ctrl.signal })]
         } catch {
           return [key, null]
         }
       }),
     ).then((entries) => {
-      if (!cancelled) setLayers(Object.fromEntries(entries))
+      setLayers(Object.fromEntries(entries))
     })
 
     return () => {
-      cancelled = true
+      ctrl.abort()
     }
   }, [])
 
