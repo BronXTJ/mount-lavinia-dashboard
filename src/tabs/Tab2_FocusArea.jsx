@@ -1,8 +1,11 @@
-import CentralityAnalysisView from '../components/focusArea/CentralityAnalysisView.jsx'
-import DensityAnalysisView from '../components/focusArea/DensityAnalysisView.jsx'
-import NetworkFormView from '../components/focusArea/NetworkFormView.jsx'
-import UrbanMaturationView from '../components/focusArea/UrbanMaturationView.jsx'
-import WalkAccessibilityView from '../components/focusArea/WalkAccessibilityView.jsx'
+import { lazy, Suspense } from 'react'
+import TabSuspenseFallback from '../components/TabSuspenseFallback.jsx'
+
+const CentralityAnalysisView = lazy(() => import('../components/focusArea/CentralityAnalysisView.jsx'))
+const DensityAnalysisView = lazy(() => import('../components/focusArea/DensityAnalysisView.jsx'))
+const NetworkFormView = lazy(() => import('../components/focusArea/NetworkFormView.jsx'))
+const UrbanMaturationView = lazy(() => import('../components/focusArea/UrbanMaturationView.jsx'))
+const WalkAccessibilityView = lazy(() => import('../components/focusArea/WalkAccessibilityView.jsx'))
 
 const VIEWS = {
   centrality: CentralityAnalysisView,
@@ -20,15 +23,17 @@ export default function Tab2_FocusArea({ activeSection = 'centrality' }) {
 
   return (
     <div className="flex min-h-screen flex-col lg:h-screen">
-      {isCentrality ? (
-        <div className="flex min-h-0 flex-1 flex-col lg:overflow-hidden">
-          <ActiveView />
-        </div>
-      ) : (
-        <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[30%_40%_30%] lg:overflow-hidden">
-          <ActiveView />
-        </div>
-      )}
+      <Suspense fallback={<TabSuspenseFallback />}>
+        {isCentrality ? (
+          <div className="flex min-h-0 flex-1 flex-col lg:overflow-hidden">
+            <ActiveView />
+          </div>
+        ) : (
+          <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[30%_40%_30%] lg:overflow-hidden">
+            <ActiveView />
+          </div>
+        )}
+      </Suspense>
     </div>
   )
 }

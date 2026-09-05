@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "analyze": "vite build",
     "preview": "vite preview",
     "prepare-data": "node scripts/prepare-data.mjs",
     "what-if": "node scripts/what-if/start-local.mjs",
@@ -47,6 +48,7 @@
     "postcss": "^8.5.16",
     "prettier": "^3.9.6",
     "proj4": "^2.20.9",
+    "rollup-plugin-visualizer": "^7.1.1",
     "shapefile": "^0.6.6",
     "tailwindcss": "^3.4.18",
     "vite": "^8.1.3",
