@@ -1,7 +1,7 @@
 /**
  * Hash every file under public/data into public/data/manifest.json
  * and src/data/assetManifest.json. Skips unpublished condominiums_*.geojson.
- * Does not rewrite GeoJSON or rasters. Run: npm run write-manifest
+ * Does not rewrite GeoJSON or rasters. Run: npm run data:manifest
  */
 import crypto from 'node:crypto'
 import fs from 'node:fs'
