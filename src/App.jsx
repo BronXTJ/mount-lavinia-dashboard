@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Sidebar from './components/Sidebar.jsx'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
 import TabSuspenseFallback from './components/TabSuspenseFallback.jsx'
 import useMediaQuery from './hooks/useMediaQuery.js'
 
@@ -118,6 +119,7 @@ export default function App() {
               : 'mx-auto min-h-screen max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8'
         }
       >
+        <ErrorBoundary>
         <Suspense fallback={<TabSuspenseFallback />}>
         <Routes>
           <Route path="/" element={<Tab1_Overview />} />
@@ -143,6 +145,7 @@ export default function App() {
           <Route path="/export-maps" element={<ExportMaps />} />
         </Routes>
         </Suspense>
+        </ErrorBoundary>
       </main>
     </div>
   )
