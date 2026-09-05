@@ -16,6 +16,7 @@ import {
   landCoverUrl,
 } from '../../constants/landCover.js'
 import { densityGeoUrl } from '../../constants/density.js'
+import { escapeHtml } from '../../utils/escapeHtml.js'
 import LandCoverLegend from './LandCoverLegend.jsx'
 import LandCoverMapLayerFab from './LandCoverMapLayerFab.jsx'
 
@@ -175,7 +176,7 @@ export default function LandCoverMap({
   function onEachGn(feature, layer) {
     const name = feature?.properties?.ADM4_EN
     if (!name) return
-    layer.bindTooltip(name, { sticky: true, direction: 'top', opacity: 0.95 })
+    layer.bindTooltip(escapeHtml(name), { sticky: true, direction: 'top', opacity: 0.95 })
     layer.on({
       click: (e) => {
         L.DomEvent.stopPropagation(e)

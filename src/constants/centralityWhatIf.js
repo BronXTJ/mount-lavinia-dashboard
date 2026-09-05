@@ -156,6 +156,40 @@ export const WHAT_IF_SCENARIO_ID = 'custom'
 /** Direct loopback worker (Uvicorn). GitHub Pages HTTPS cannot fetch this. */
 export const WHAT_IF_WORKER_DIRECT = 'http://127.0.0.1:8787'
 export const WHAT_IF_WORKER_PROXY_PATH = '/what-if-api'
+export const WHAT_IF_TOKEN_SESSION_KEY = 'ml.whatIf.workerToken'
+
+export function readWhatIfWorkerToken() {
+  try {
+    const stored = sessionStorage.getItem(WHAT_IF_TOKEN_SESSION_KEY)
+    if (stored) return stored
+  } catch {
+    /* ignore */
+  }
+  return import.meta.env.VITE_WHAT_IF_WORKER_TOKEN || ''
+}
+
+export function writeWhatIfWorkerToken(token) {
+  const value = String(token ?? '').trim()
+  if (!value) return
+  try {
+    sessionStorage.setItem(WHAT_IF_TOKEN_SESSION_KEY, value)
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Prompt once if no token is stored. /health stays open without it. */
+export function ensureWhatIfWorkerToken() {
+  const existing = readWhatIfWorkerToken()
+  if (existing) return existing
+  if (typeof window === 'undefined') return ''
+  const entered = window.prompt(
+    'Paste the pairing token printed in the What-if worker window:',
+  )
+  if (!entered?.trim()) return ''
+  writeWhatIfWorkerToken(entered)
+  return entered.trim()
+}
 
 export function isLocalDashboardHost() {
   if (typeof window === 'undefined') return false

@@ -11,6 +11,7 @@ import {
 import MapInvalidateOnResize from '../../../components/MapInvalidateOnResize.jsx'
 import MapFullscreenShell, { useMapFullscreen } from '../../../components/MapFullscreenShell.jsx'
 import { getCartoDarkTileUrl } from '../../../constants/basemaps.js'
+import { escapeHtml } from '../../../utils/escapeHtml.js'
 import { junctions } from '../data/junctions'
 import { JUNCTION_COLORS, STUDY_BOUNDARY_COLOR } from '../data/colors'
 import {
@@ -182,7 +183,7 @@ export default function JunctionMap({
             style={{ weight: 0, opacity: 0, fill: false }}
             onEachFeature={(feature, layer) => {
               if (feature.properties?.name) {
-                layer.bindTooltip(feature.properties.name, {
+                layer.bindTooltip(escapeHtml(feature.properties.name), {
                   permanent: true,
                   direction: 'center',
                   className: 'behaviour-road-label',

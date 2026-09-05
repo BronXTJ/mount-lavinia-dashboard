@@ -3,7 +3,9 @@ import { useState } from 'react'
 const WORKER_COMMANDS = ['cd /d e:\\mount-lavinia-dashboard', 'npm run what-if:worker']
 
 /** Scannable Command Prompt steps — never bury these in a paragraph. */
-export default function WhatIfWorkerSteps({ after = 'Leave that window open. Then click Connect.' }) {
+export default function WhatIfWorkerSteps({
+  after = 'Leave that window open. Then click Connect and paste the pairing token it printed.',
+}) {
   const [copied, setCopied] = useState(false)
   const block = WORKER_COMMANDS.join('\n')
 

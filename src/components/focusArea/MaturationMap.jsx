@@ -26,6 +26,7 @@ import {
 } from '../../utils/maturationStats.js'
 import { isPracticalMetricValue } from '../../utils/metricClasses.js'
 import { formatHexCompletenessNote, isPartialHex } from '../../utils/hexCellGrade.js'
+import { escapeHtml } from '../../utils/escapeHtml.js'
 import {
   CELL_POPUP_OPTS,
   buildCellInfoPopupHtml,
@@ -455,7 +456,7 @@ export default function MaturationMap({
     () => (feature, layer) => {
       const cat = feature.properties?.Main_C ?? 'Unknown'
       const sub = feature.properties?.Sub_class
-      layer.bindTooltip(sub ? `${cat} — ${sub}` : cat, {
+      layer.bindTooltip(escapeHtml(sub ? `${cat} — ${sub}` : cat), {
         sticky: true,
         direction: 'top',
         opacity: 0.95,

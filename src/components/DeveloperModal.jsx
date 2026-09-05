@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Heart, Mail, X } from 'lucide-react'
 import { DEVELOPER_CREDIT } from '../constants/developerCredit.js'
+import { safeHttpUrl } from '../utils/safeHttpUrl.js'
 import DeveloperWorldBackground from './DeveloperWorldBackground.jsx'
 
 const TEAL = '#00b4d8'
@@ -148,7 +149,7 @@ export default function DeveloperModal({ open, onClose }) {
                 {DEVELOPER_CREDIT.name}
               </h2>
               <a
-                href={DEVELOPER_CREDIT.github}
+                href={safeHttpUrl(DEVELOPER_CREDIT.github) ?? undefined}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Open GitHub profile ${DEVELOPER_CREDIT.handle}`}
@@ -189,7 +190,7 @@ export default function DeveloperModal({ open, onClose }) {
                 {links.map(({ id, label, href, external }) => (
                   <a
                     key={id}
-                    href={href}
+                    href={safeHttpUrl(href) ?? undefined}
                     aria-label={label}
                     title={label}
                     {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}

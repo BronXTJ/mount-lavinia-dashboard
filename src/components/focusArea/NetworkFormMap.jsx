@@ -28,6 +28,7 @@ import {
   getNetworkFormBasemap,
 } from '../../constants/basemaps.js'
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
+import { escapeHtml } from '../../utils/escapeHtml.js'
 import { findJunctionById, junctionLatLng } from '../../utils/networkFormStats.js'
 
 const gnMutedStyle = {
@@ -327,8 +328,10 @@ export default function NetworkFormMap({
             onEachFeature={(feature, layer) => {
               const p = feature.properties || {}
               layer.bindTooltip(
-                `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs` +
-                  (p.median_stub_m != null ? ` · median stub ${p.median_stub_m} m` : ''),
+                escapeHtml(
+                  `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs` +
+                    (p.median_stub_m != null ? ` · median stub ${p.median_stub_m} m` : ''),
+                ),
                 { sticky: true },
               )
             }}
@@ -347,7 +350,9 @@ export default function NetworkFormMap({
                   ? Number(p.access_score).toFixed(2)
                   : '—'
               layer.bindTooltip(
-                `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs · ${p.access_tier ?? '—'} (${score})`,
+                escapeHtml(
+                  `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs · ${p.access_tier ?? '—'} (${score})`,
+                ),
                 { sticky: true },
               )
             }}
@@ -370,7 +375,9 @@ export default function NetworkFormMap({
                   ? Number(p.FSI).toFixed(2)
                   : '—'
               layer.bindTooltip(
-                `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs · UMI ${umi} · FSI ${fsi}`,
+                escapeHtml(
+                  `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs · UMI ${umi} · FSI ${fsi}`,
+                ),
                 { sticky: true },
               )
             }}
@@ -402,7 +409,7 @@ export default function NetworkFormMap({
             style={{ weight: 0, opacity: 0, fill: false }}
             onEachFeature={(feature, layer) => {
               if (feature.properties?.name) {
-                layer.bindTooltip(feature.properties.name, {
+                layer.bindTooltip(escapeHtml(feature.properties.name), {
                   permanent: true,
                   direction: 'center',
                   className: 'centrality-road-label',

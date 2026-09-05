@@ -9,6 +9,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Phase 0 safety net: ESLint, Prettier, Vitest unit tests, Playwright route smoke tests with golden screenshots, and a GitHub Actions CI workflow.
 - `CHANGELOG.md` so later hardening phases can be read without walking git history.
+- Phase 1 worker pairing token, job-id path checks, sDNA timeout, payload caps, and 7-day job TTL.
+- Shared `escapeHtml` / `safeHttpUrl` helpers; Dependabot; `.env.example`.
 
 ### Changed
 
@@ -17,6 +19,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Security
 
 - Local research folders (`site intervention/`, `json_files/condo_inventory/`, `Social_media_analysis/`) and condominium inventory GeoJSON stay on disk and are not published.
+- What-if worker: pairing token on `/v1/jobs*`, job-id path checks, 10-minute sDNA timeout, payload caps, and 7-day job TTL. `/health` stays open.
+- Leaflet tooltips escape HTML; developer credit links go through `safeHttpUrl`.
+- Content-Security-Policy meta tag; Dependabot for npm and GitHub Actions.
 
 ## [0.1.0] - 2026-09-05
 

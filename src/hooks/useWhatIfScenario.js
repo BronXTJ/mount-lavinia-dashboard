@@ -1,13 +1,25 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { WHAT_IF_STATUS, whatIfDataUrl, whatIfWorkerArtifactUrl } from '../constants/centralityWhatIf.js'
+import {
+  WHAT_IF_STATUS,
+  ensureWhatIfWorkerToken,
+  whatIfDataUrl,
+} from '../constants/centralityWhatIf.js'
 import { summarizeGeoJson } from '../utils/centralityStats.js'
-import { checkWorkerHealth, runWhatIfJob } from '../utils/whatIfWorker.js'
+import { checkWorkerHealth, fetchJobArtifact, runWhatIfJob } from '../utils/whatIfWorker.js'
 
 async function fetchJson(url) {
   try {
     const res = await fetch(url)
     if (!res.ok) return null
     return await res.json()
+  } catch {
+    return null
+  }
+}
+
+async function fetchArtifactSafe(jobId, fileName) {
+  try {
+    return await fetchJobArtifact(jobId, fileName)
   } catch {
     return null
   }
@@ -116,8 +128,8 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     setScenarioBetweenness(null)
     setStatus(WHAT_IF_STATUS.loading)
     Promise.all([
-      fetchJson(whatIfWorkerArtifactUrl(nextJobId, `closeness_${uiScale}.geojson`)),
-      fetchJson(whatIfWorkerArtifactUrl(nextJobId, `betweenness_${uiScale}.geojson`)),
+      fetchArtifactSafe(nextJobId, `closeness_${uiScale}.geojson`),
+      fetchArtifactSafe(nextJobId, `betweenness_${uiScale}.geojson`),
     ]).then(([c, b]) => {
       if (jobIdRef.current !== nextJobId) return
       if (c && b) {
@@ -146,8 +158,8 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
     setScenarioBetweenness(null)
     setStatus(WHAT_IF_STATUS.loading)
     Promise.all([
-      fetchJson(whatIfWorkerArtifactUrl(jobId, `closeness_${scaleMeters}.geojson`)),
-      fetchJson(whatIfWorkerArtifactUrl(jobId, `betweenness_${scaleMeters}.geojson`)),
+      fetchArtifactSafe(jobId, `closeness_${scaleMeters}.geojson`),
+      fetchArtifactSafe(jobId, `betweenness_${scaleMeters}.geojson`),
     ]).then(([c, b]) => {
       if (cancelled) return
       if (c && b) {
@@ -182,6 +194,7 @@ export function useWhatIfScenario(scaleMeters, namedRoads) {
   }, [])
 
   const connectWorker = useCallback(async () => {
+    ensureWhatIfWorkerToken()
     const h = await checkWorkerHealth()
     const { reachable, sdnaOk } = applyHealth(h)
     return { ok: reachable && sdnaOk, reachable, sdnaMissing: reachable && !sdnaOk }
