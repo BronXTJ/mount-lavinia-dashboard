@@ -32,4 +32,4 @@ GitHub Pages serves `404.html` for unknown paths. `npm run deploy` / the Actions
 
 ## GitHub Pages switch (you do this)
 
-The live site still deploys from the `gh-pages` branch via `npm run deploy`. `.github/workflows/deploy.yml` is ready but **do not switch Settings → Pages → Source to GitHub Actions until you have set the `VITE_CARTO_API_KEY` repository secret** and are ready for a one-time cutover. Switching early would stop updates from the laptop deploy.
+The live site deploys to the `gh-pages` branch via `npm run deploy` or `.github/workflows/deploy.yml` (peaceiris → `gh-pages`). Keep **Settings → Pages → Deploy from branch `gh-pages`**. Set repository secret `VITE_CARTO_API_KEY` so CI and `build:pages` bake the CARTO key into production bundles; laptop deploys can use `.env.local` or gitignored `carto dark access.txt` instead.

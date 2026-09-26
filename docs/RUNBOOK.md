@@ -45,9 +45,9 @@ Laptop fallback (current live path):
 npm run deploy
 ```
 
-This builds, copies `dist/index.html` → `dist/404.html`, and pushes the `gh-pages` branch.
+`predeploy` runs `build:pages`, which loads `VITE_CARTO_API_KEY` from the environment, `.env.local`, or gitignored `carto dark access.txt`, then copies `dist/index.html` → `dist/404.html` and pushes `gh-pages`.
 
-Actions deploy (optional): `.github/workflows/deploy.yml`. Before switching Pages to Actions, add repository secret `VITE_CARTO_API_KEY`. See `docs/PHASE4_DECISIONS.md`.
+CI: `.github/workflows/deploy.yml` builds with the repository secret `VITE_CARTO_API_KEY` and publishes to `gh-pages` (no separate Pages environment). Add the secret under **Settings → Secrets and variables → Actions** if dark tiles need `?key=` on production.
 
 ## Bundle analysis
 
