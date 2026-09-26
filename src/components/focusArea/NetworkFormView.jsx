@@ -68,6 +68,7 @@ export default function NetworkFormView() {
             gnBoundary={gnBoundary}
             allGnBoundary={allGnBoundary}
             selectedScope={selectedScope}
+            onSelectScope={handleSelectScope}
             streets={streets}
             junctions={junctions}
             culdesacHex={culdesacHex}

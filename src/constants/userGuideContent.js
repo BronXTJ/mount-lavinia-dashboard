@@ -100,7 +100,7 @@ export const USER_GUIDE_SECTIONS = [
     bullets: [
       'Classifies junctions as 4-way (permeable), 3-way (tree-like), or cul-de-sac (dead-end) from street topology across the five GN study area.',
       'Cul-de-sac stub length and depth class (short <50 m / medium 50–150 m / long >150 m) come from Phase 1 depth attributes.',
-      'Use the scope selector to view All GNs or one GN division; the map fits to that boundary.',
+      'Use the scope selector to view All GNs or one GN division; the map fits to that boundary. When the map is enlarged, the same GN list appears at the top-left of the map.',
       'Toggle junction types, cul-de-sac hex density, walk-access and UMI overlays, street pathways, and GN boundaries with the FAB.',
       'The right panel lists sample cul-de-sacs with stub depth — click a row to fly the map to that dead-end.',
       'Key Findings chips (NF1–NF3) link straight into Synthesis with depth, GN density, and walk/UMI cross claims.',

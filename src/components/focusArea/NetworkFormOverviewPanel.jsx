@@ -1,11 +1,8 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import useChartAnimation from '../../hooks/useChartAnimation.js'
-import {
-  NETWORK_FORM_GN_NAMES,
-  NETWORK_FORM_SCOPE_ALL,
-  networkFormScopeLabel,
-} from '../../constants/networkForm.js'
+import { networkFormScopeLabel } from '../../constants/networkForm.js'
 import FocusAreaPanelCard from './FocusAreaPanelCard.jsx'
+import NetworkFormScopeSelector from './NetworkFormScopeSelector.jsx'
 import FocusAreaStatGrid from './FocusAreaStatGrid.jsx'
 import KeyFindingsBridge from './KeyFindingsBridge.jsx'
 import MetricInfoButton from './MetricInfoButton.jsx'
@@ -96,23 +93,6 @@ function TypeDonut({ zones }) {
   )
 }
 
-function ScopeButton({ active, label, onClick }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="rounded-md border px-3 py-2 text-left text-sm transition-colors"
-      style={{
-        borderColor: active ? '#00b4d8' : 'rgba(71,85,105,0.8)',
-        backgroundColor: active ? 'rgba(0,180,216,0.12)' : 'transparent',
-        color: active ? '#e0f2fe' : '#cbd5e1',
-      }}
-    >
-      {label}
-    </button>
-  )
-}
-
 export default function NetworkFormOverviewPanel({
   metrics,
   findings,
@@ -175,26 +155,11 @@ export default function NetworkFormOverviewPanel({
         />
       </div>
 
-      <FocusAreaPanelCard>
-        <h3 className="mb-2 font-display text-sm font-semibold text-surface-100">
-          GN Divisions
-        </h3>
-        <div className="flex flex-col gap-1.5">
-          <ScopeButton
-            active={selectedScope === NETWORK_FORM_SCOPE_ALL}
-            label="All GN Divisions"
-            onClick={() => onSelectScope?.(NETWORK_FORM_SCOPE_ALL)}
-          />
-          {NETWORK_FORM_GN_NAMES.map((name) => (
-            <ScopeButton
-              key={name}
-              active={selectedScope === name}
-              label={name}
-              onClick={() => onSelectScope?.(name)}
-            />
-          ))}
-        </div>
-      </FocusAreaPanelCard>
+      <NetworkFormScopeSelector
+        variant="panel"
+        selectedScope={selectedScope}
+        onSelectScope={onSelectScope}
+      />
 
       {loading && (
         <p className="text-center text-xs text-surface-300">Loading network form data…</p>

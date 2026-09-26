@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { GeoJSON, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
-import MapFullscreenShell from '../MapFullscreenShell.jsx'
+import MapFullscreenShell, { useMapFullscreen } from '../MapFullscreenShell.jsx'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
 import NetworkFormLegend from './NetworkFormLegend.jsx'
 import NetworkFormMapLayerFab from './NetworkFormMapLayerFab.jsx'
+import NetworkFormScopeSelector from './NetworkFormScopeSelector.jsx'
 import {
   NETWORK_FORM_GN_COLOR,
   NETWORK_FORM_GN_MUTED,
@@ -192,6 +193,35 @@ function FitBoundsToScope({ data, scopeKey, padding = [28, 28], maxZoom = 16 }) 
   return null
 }
 
+/** GN scope controls on the enlarged map (left panel is covered by the shell). */
+function NetworkFormExpandedScopeHud({ selectedScope, onSelectScope }) {
+  const expanded = useMapFullscreen()
+  const rootRef = useRef(null)
+
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el) return undefined
+    L.DomEvent.disableClickPropagation(el)
+    L.DomEvent.disableScrollPropagation(el)
+    return undefined
+  }, [expanded])
+
+  if (!expanded) return null
+
+  return (
+    <div
+      ref={rootRef}
+      className="pointer-events-auto absolute left-4 top-4 z-[2100]"
+    >
+      <NetworkFormScopeSelector
+        variant="hud"
+        selectedScope={selectedScope}
+        onSelectScope={onSelectScope}
+      />
+    </div>
+  )
+}
+
 /** Interactive Network Form map — dark basemap + report-style junction icons. */
 export default function NetworkFormMap({
   visibleLayers,
@@ -199,6 +229,7 @@ export default function NetworkFormMap({
   gnBoundary,
   allGnBoundary,
   selectedScope,
+  onSelectScope,
   streets,
   junctions,
   culdesacHex,
@@ -286,6 +317,10 @@ export default function NetworkFormMap({
       className="min-h-[320px]"
       innerClassName="rounded-lg border border-surface-700"
     >
+      <NetworkFormExpandedScopeHud
+        selectedScope={selectedScope}
+        onSelectScope={onSelectScope}
+      />
       <NetworkFormMapLayerFab
         visibleLayers={visibleLayers}
         onToggle={onToggleLayer}
