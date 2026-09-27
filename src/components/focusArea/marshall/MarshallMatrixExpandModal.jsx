@@ -37,14 +37,14 @@ export default function MarshallMatrixExpandModal({ open, onClose, scopes = [], 
       >
         <div className="mb-4 flex shrink-0 items-start justify-between gap-3">
           <h2 id={titleId} className="font-display text-lg font-semibold text-surface-50">
-            Marshall Matrix — Street Network Morphology
+            Marshall morphology matrix
           </h2>
           <button
             ref={closeRef}
             type="button"
             onClick={onClose}
             className="rounded-md border border-surface-700 px-2 py-1 text-surface-200 hover:bg-surface-800"
-            aria-label="Close expanded Marshall Matrix"
+            aria-label="Close expanded Marshall morphology matrix"
           >
             <X size={16} />
           </button>

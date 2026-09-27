@@ -90,13 +90,14 @@ export default function MarshallMorphologyOverviewPanel({
         <FocusAreaPanelCard className="marshall-matrix-frame flex min-h-[min(52vh,32rem)] flex-col !p-3">
           <div className="mb-2 flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5">
-              <h3 className="font-display text-sm font-semibold text-surface-100">
-                Marshall Matrix — Street Network Morphology
+              <h3 className="min-w-0 truncate font-display text-sm font-semibold text-surface-100">
+                Marshall morphology matrix
               </h3>
               <MetricInfoButton
-                title="Marshall Matrix"
-                ariaLabel="How do I read the Marshall Matrix?"
+                title="Marshall morphology matrix"
+                ariaLabel="How do I read the Marshall morphology matrix?"
                 points={MARSHALL_MATRIX_INFO}
+                dialogSize="wide"
               />
             </div>
             <button
@@ -104,7 +105,7 @@ export default function MarshallMorphologyOverviewPanel({
               onClick={() => setExpanded(true)}
               disabled={!metrics}
               className="inline-flex shrink-0 items-center gap-1 rounded-md border border-surface-600 px-2 py-1 text-[11px] text-surface-200 hover:bg-surface-700 disabled:opacity-40"
-              aria-label="Expand Marshall Matrix"
+              aria-label="Expand Marshall morphology matrix"
             >
               <Maximize2 size={12} aria-hidden />
               Expand

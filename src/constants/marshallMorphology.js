@@ -20,9 +20,14 @@ export const MARSHALL_INFO_POINTS = [
 ]
 
 export const MARSHALL_MATRIX_INFO = [
-  'The horizontal axis is X-ratio. T-ratio is the complementary share, because T-ratio + X-ratio = 1.',
-  'The vertical axis is Cell-ratio. Cul-ratio is the complementary share, because Cell-ratio + Cul-ratio = 1.',
-  'The corner names T-tree, T-cell, X-tree, and X-cell describe structural combinations. They are not a ranking.',
+  'Each colored dot is one GN division. Its position uses the stored Marshall ratios for that GN; the dashboard does not recompute them.',
+  'Horizontal axis: the bottom scale is X-ratio (X-junctions as a share of T + X). The top scale is T-ratio and runs in the opposite direction. T-ratio + X-ratio = 1.',
+  'Vertical axis: the left scale is Cell-ratio (Marshall cells as a share of cells + cul-de-sacs). The right scale is Cul-ratio and is complementary. Cell-ratio + Cul-ratio = 1.',
+  'Read position: toward the bottom-left means lower X-ratio and lower Cell-ratio (more T-junction, tree-like structure, fewer enclosed cells). Toward the top-right means higher X and higher Cell. All five GNs in this study sit on the low X, low Cell side, with small differences between divisions.',
+  'Corner labels T-tree, T-cell, X-tree, and X-cell name structural combinations at the corners. They are guides, not score categories or bins.',
+  'All five Network Form GN divisions appear as dots. The study-area total is not plotted as a point.',
+  'The highlighted dot matches the GN you selected above the map. Scroll the left panel to GN Comparison for the same counts and percentages in a table.',
+  'For the ratio formulas (T-ratio, X-ratio, Cell-ratio, Cul-ratio), see the Definitions card on the right.',
 ]
 
 export const MARSHALL_JUNCTION_INFO = [

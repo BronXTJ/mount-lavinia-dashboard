@@ -13,6 +13,7 @@ import { Info, X } from 'lucide-react'
  *   pulse?: boolean,
  *   variant?: 'modal' | 'popover',
  *   chipAccent?: 'teal' | 'orange',
+ *   dialogSize?: 'default' | 'wide',
  * }} props
  */
 export default function MetricInfoButton({
@@ -22,6 +23,7 @@ export default function MetricInfoButton({
   pulse = true,
   variant = 'modal',
   chipAccent = 'teal',
+  dialogSize = 'default',
 }) {
   const [open, setOpen] = useState(false)
   const [closing, setClosing] = useState(false)
@@ -123,9 +125,9 @@ export default function MetricInfoButton({
               role="dialog"
               aria-modal="true"
               aria-labelledby={titleId}
-              className={`w-full max-w-[420px] rounded-xl border border-[#2a3a4a] p-6 shadow-[0_16px_48px_rgba(0,0,0,0.6)] ${
-                closing ? 'typology-info-modal-exit' : 'typology-info-modal-enter'
-              }`}
+              className={`w-full rounded-xl border border-[#2a3a4a] p-6 shadow-[0_16px_48px_rgba(0,0,0,0.6)] ${
+                dialogSize === 'wide' ? 'max-h-[min(85vh,100dvh)] max-w-md overflow-y-auto' : 'max-w-[420px]'
+              } ${closing ? 'typology-info-modal-exit' : 'typology-info-modal-enter'}`}
               style={{ backgroundColor: '#1a2535' }}
               onClick={(event) => event.stopPropagation()}
             >
