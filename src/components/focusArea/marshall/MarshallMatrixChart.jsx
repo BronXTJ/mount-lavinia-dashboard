@@ -26,18 +26,22 @@ export default function MarshallMatrixChart({ scopes = [], selectedName = null, 
     ? 'mt-3 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3'
     : 'mt-1.5 shrink-0 grid grid-cols-2 gap-x-3 gap-y-1.5'
 
+  const legendListClass = expanded ? `${legendGridClass} shrink-0` : legendGridClass
+
   return (
     <div
       data-testid="marshall-matrix"
-      className={expanded ? 'w-full' : 'flex h-full min-h-[280px] w-full flex-col'}
+      className={expanded ? 'flex min-h-0 w-full flex-col' : 'flex h-full min-h-[280px] w-full flex-col'}
     >
-      <div className={expanded ? undefined : 'min-h-0 flex-1'}>
+      <div className={expanded ? 'min-h-0 flex-1' : 'min-h-0 flex-1'}>
         <svg
           viewBox={`0 0 ${width} ${height}`}
           role="img"
           aria-label="Marshall Matrix. Horizontal axis X-ratio, vertical axis Cell-ratio, five GN divisions."
           className={
-            expanded ? 'h-auto w-full rounded-md bg-surface-900' : 'h-full min-h-0 w-full rounded-md bg-surface-900'
+            expanded
+              ? 'h-auto w-full max-h-[min(560px,calc(90vh-11.5rem))] rounded-md bg-surface-900'
+              : 'h-full min-h-0 w-full rounded-md bg-surface-900'
           }
           data-testid="marshall-matrix-figure"
         >
@@ -134,7 +138,7 @@ export default function MarshallMatrixChart({ scopes = [], selectedName = null, 
         })}
         </svg>
       </div>
-      <ul className={legendGridClass} aria-label="GN divisions in Marshall Matrix">
+      <ul className={legendListClass} aria-label="GN divisions in Marshall Matrix">
         {points.map((point) => {
           const selected = point.name === selectedName
           return (

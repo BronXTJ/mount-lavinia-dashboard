@@ -32,10 +32,10 @@ export default function MarshallMatrixExpandModal({ open, onClose, scopes = [], 
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-xl border border-surface-700 bg-surface-900 p-5 shadow-card"
+        className="flex max-h-[min(90vh,100dvh)] w-full max-w-3xl flex-col overflow-hidden rounded-xl border border-surface-700 bg-surface-900 p-5 shadow-card"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="mb-4 flex items-start justify-between gap-3">
+        <div className="mb-4 flex shrink-0 items-start justify-between gap-3">
           <h2 id={titleId} className="font-display text-lg font-semibold text-surface-50">
             Marshall Matrix — Street Network Morphology
           </h2>
@@ -49,7 +49,9 @@ export default function MarshallMatrixExpandModal({ open, onClose, scopes = [], 
             <X size={16} />
           </button>
         </div>
-        <MarshallMatrixChart size="expanded" scopes={scopes} selectedName={selectedName} />
+        <div className="flex min-h-0 flex-1 flex-col">
+          <MarshallMatrixChart size="expanded" scopes={scopes} selectedName={selectedName} />
+        </div>
       </div>
     </div>,
     document.body,
