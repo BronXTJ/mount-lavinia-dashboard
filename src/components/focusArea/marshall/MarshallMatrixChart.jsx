@@ -29,7 +29,7 @@ export default function MarshallMatrixChart({ scopes = [], selectedName = null, 
   return (
     <div
       data-testid="marshall-matrix"
-      className={expanded ? 'w-full' : 'flex h-full min-h-[240px] w-full flex-col'}
+      className={expanded ? 'w-full' : 'flex h-full min-h-[280px] w-full flex-col'}
     >
       <div className={expanded ? undefined : 'min-h-0 flex-1'}>
         <svg

@@ -39,7 +39,7 @@ function ModeButton({ active, label, onClick, grow = false }) {
   )
 }
 
-/** Focus Area — Network Form (junction typology) 30/40/30 layout. */
+/** Focus Area — Network Form (junction typology) 35/40/25 layout. */
 export default function NetworkFormView() {
   const [visibleLayers, setVisibleLayers] = useState(DEFAULT_NETWORK_FORM_VISIBLE)
   const [selectedJunctionId, setSelectedJunctionId] = useState(null)
@@ -107,7 +107,7 @@ export default function NetworkFormView() {
       <div
         className={
           marshallMode
-            ? 'order-2 flex min-h-0 flex-col p-3 lg:order-1 lg:h-full lg:overflow-hidden'
+            ? 'order-2 flex min-h-0 flex-col overflow-y-auto p-4 lg:order-1 lg:h-full lg:overflow-y-auto'
             : 'order-2 overflow-y-auto p-4 lg:order-1'
         }
       >
@@ -178,7 +178,7 @@ export default function NetworkFormView() {
       <div
         className={
           marshallMode
-            ? 'order-3 flex min-h-0 flex-col overflow-y-auto p-3 lg:h-full lg:overflow-y-auto'
+            ? 'order-3 flex min-h-0 flex-col overflow-y-auto p-4 lg:h-full lg:overflow-y-auto'
             : 'order-3 overflow-y-auto p-4'
         }
       >

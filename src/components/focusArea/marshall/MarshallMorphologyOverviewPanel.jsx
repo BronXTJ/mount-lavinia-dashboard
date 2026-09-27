@@ -44,7 +44,7 @@ export default function MarshallMorphologyOverviewPanel({
   const gnName = metrics?.gn_name ?? selectedScope
 
   return (
-    <div className="flex h-full min-h-0 flex-1 flex-col gap-2">
+    <div className="flex flex-col gap-2 pb-2">
       <div className="flex items-center gap-2 border-l-4 border-primary-500 pl-3">
         <h2 className="font-display text-lg font-semibold text-surface-50">Marshall Morphology</h2>
         <MetricInfoButton
@@ -87,7 +87,7 @@ export default function MarshallMorphologyOverviewPanel({
 
       {!loading && !error && (
         <>
-        <FocusAreaPanelCard className="marshall-matrix-frame flex min-h-0 flex-1 flex-col !p-3">
+        <FocusAreaPanelCard className="marshall-matrix-frame flex min-h-[min(52vh,32rem)] flex-col !p-3">
           <div className="mb-2 flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5">
               <h3 className="font-display text-sm font-semibold text-surface-100">
