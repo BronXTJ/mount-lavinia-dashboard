@@ -45,8 +45,12 @@ export function formatRatio(ratio) {
 
 export function junctionLatLng(feature) {
   const coords = feature?.geometry?.coordinates
-  if (!coords || coords.length < 2) return null
-  return [coords[1], coords[0]]
+  if (!Array.isArray(coords) || coords.length < 2) return null
+  if (Array.isArray(coords[0])) return null
+  const lon = Number(coords[0])
+  const lat = Number(coords[1])
+  if (!Number.isFinite(lon) || !Number.isFinite(lat)) return null
+  return [lat, lon]
 }
 
 export function findJunctionById(geojson, nodeId) {

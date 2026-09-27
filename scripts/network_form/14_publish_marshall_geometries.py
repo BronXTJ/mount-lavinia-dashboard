@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 
 import geopandas as gpd
+from shapely.geometry import Point
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT_ROOT = ROOT / "network_form" / "marshall_matrix"
@@ -76,6 +77,19 @@ def assert_counts(found: dict[str, tuple[int, int]], expected: dict[str, tuple[i
         raise RuntimeError(f"Study-area structure {total} is not 51 cells and 259 cul-de-sacs")
 
 
+def dead_end_points(lines: gpd.GeoDataFrame, junctions: gpd.GeoDataFrame) -> gpd.GeoSeries:
+    """The cul-de-sac tip is the line end farther from the nearest T or X junction."""
+    junction_pts = gpd.GeoSeries(junctions.to_crs(3857).geometry, crs=3857)
+    tips = []
+    for geom in lines.to_crs(3857).geometry:
+        if geom is None or geom.geom_type != "LineString" or len(geom.coords) < 2:
+            raise RuntimeError("A genuine cul-de-sac is missing its street line")
+        ends = [Point(geom.coords[0]), Point(geom.coords[-1])]
+        distances = [float(junction_pts.distance(end).min()) for end in ends]
+        tips.append(ends[0] if distances[0] >= distances[1] else ends[1])
+    return gpd.GeoSeries(tips, index=lines.index, crs=3857).to_crs(4326)
+
+
 def write_geojson(frame: gpd.GeoDataFrame, path: Path) -> None:
     payload = json.loads(frame.to_crs(4326).to_json())
     path.write_text(json.dumps(payload), encoding="utf-8")
@@ -124,6 +138,7 @@ def main() -> None:
     culs["jtype"] = "culdesac"
     culs["gn_name"] = culs["GN"]
     culs["node_id"] = culs["cul_id"]
+    culs = culs.set_geometry(dead_end_points(culs, kept))
     culs = culs[["node_id", "jtype", "gn_name", "geometry"]]
 
     structure = {
