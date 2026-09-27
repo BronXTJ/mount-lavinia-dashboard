@@ -31,17 +31,17 @@ export const MARSHALL_MATRIX_INFO = [
 ]
 
 export const MARSHALL_JUNCTION_INFO = [
-  'A T-junction is three distinct street approaches. An X-junction is four distinct street approaches.',
+  'A T-junction has three distinct street approaches; an X-junction has four.',
 ]
 
 export const MARSHALL_STRUCTURE_INFO = [
-  'A cell is a structural unit enclosed by street segments.',
-  'A cul-de-sac is a genuine internal dead-end street. GN-boundary clip ends are not counted.',
-  'The 100 m hexagonal grid is not used as Marshall cells.',
+  'A cell is enclosed by street segments. A cul-de-sac is an internal dead end.',
+  'Dead-ends on the GN boundary clip are not counted as Marshall cul-de-sacs.',
 ]
 
 export const MARSHALL_RATIO_INFO = [
   'Each figure is a share of the confirmed counts, shown as a percentage.',
+  'Formulas are in the Definitions card below.',
 ]
 
 export const MARSHALL_REFERENCE_INFO = [
@@ -50,10 +50,16 @@ export const MARSHALL_REFERENCE_INFO = [
   'A Network Form 3-way is not always the same junction as a Marshall T-junction, because the two analyses connect the streets differently.',
 ]
 
+/** Definitions (i) modal only — not shown on the card body. */
 export const MARSHALL_METHOD_INFO = [
   'A T-junction has three distinct street approaches. An X-junction has four.',
   'A cell is enclosed by street segments. A cul-de-sac is an internal dead end. Boundary clip ends are excluded.',
   'The 100 m hexagonal grid is not a Marshall cell. This view does not measure space syntax or accessibility.',
+]
+
+export const MARSHALL_UNCERTAINTY_DETAIL = [
+  'Uncertain junction crossings, cells, and cul-de-sacs are excluded from the ratio denominators.',
+  'Counts use the validated Marshall-ready street network prepared for this study.',
 ]
 
 export const MARSHALL_INTERPRETATION =

@@ -9,6 +9,7 @@ import {
   MARSHALL_RATIO_INFO,
   MARSHALL_REFERENCE_INFO,
   MARSHALL_STRUCTURE_INFO,
+  MARSHALL_UNCERTAINTY_DETAIL,
 } from '../../../constants/marshallMorphology.js'
 import {
   MarshallJunctionEquations,
@@ -40,6 +41,25 @@ function StatTiles({ items }) {
       ))}
     </ul>
   )
+}
+
+function formatUncertaintyFootnote(uncertainty) {
+  const junctions = uncertainty?.junctions ?? 0
+  const cells = uncertainty?.cells ?? 0
+  const culs = uncertainty?.cul_de_sacs ?? 0
+  const total = junctions + cells + culs
+  if (!total) {
+    return 'Uncertain cases were excluded from the ratios.'
+  }
+  const junctionPart =
+    junctions > 0
+      ? `${junctions} junction crossing${junctions === 1 ? '' : 's'}`
+      : null
+  const cellPart = cells > 0 ? `${cells} cell${cells === 1 ? '' : 's'}` : null
+  const culPart = culs > 0 ? `${culs} cul-de-sac${culs === 1 ? '' : 's'}` : null
+  const detail = [junctionPart, cellPart, culPart].filter(Boolean).join(', ')
+  const detailWithAnd = detail.replace(/, ([^,]+)$/, ', and $1')
+  return `${total} uncertain case${total === 1 ? '' : 's'} were excluded from the ratios — ${detailWithAnd}.`
 }
 
 function NetworkFormReferenceTile({ color, label, value }) {
@@ -103,7 +123,7 @@ export default function MarshallMorphologyDetailPanel({
               title="Junctions"
               infoTitle="Junctions"
               infoAria="What do the junction counts mean?"
-              points={[...MARSHALL_JUNCTION_INFO, <MarshallJunctionEquations key="t" />]}
+              points={MARSHALL_JUNCTION_INFO}
             />
             <div data-testid="marshall-counts-table">
               <StatTiles
@@ -120,7 +140,7 @@ export default function MarshallMorphologyDetailPanel({
               title="Structure"
               infoTitle="Structure"
               infoAria="What do cells and cul-de-sacs mean?"
-              points={[...MARSHALL_STRUCTURE_INFO, <MarshallStructureEquations key="c" />]}
+              points={MARSHALL_STRUCTURE_INFO}
             />
             <StatTiles
               items={[
@@ -135,11 +155,7 @@ export default function MarshallMorphologyDetailPanel({
               title="Ratios"
               infoTitle="Ratios"
               infoAria="How are the Marshall ratios defined?"
-              points={[
-                ...MARSHALL_RATIO_INFO,
-                <MarshallJunctionEquations key="t" />,
-                <MarshallStructureEquations key="c" />,
-              ]}
+              points={MARSHALL_RATIO_INFO}
             />
             <StatTiles
               items={[
@@ -201,26 +217,20 @@ export default function MarshallMorphologyDetailPanel({
               infoTitle="Definitions and Method"
               infoAria="How are Marshall Counts defined?"
               points={[
-              <MarshallJunctionEquations key="t" />,
-              <MarshallStructureEquations key="c" />,
-              ...MARSHALL_METHOD_INFO,
-            ]}
+                ...MARSHALL_METHOD_INFO,
+                ...MARSHALL_UNCERTAINTY_DETAIL,
+                <MarshallJunctionEquations key="t" />,
+                <MarshallStructureEquations key="c" />,
+              ]}
             />
-            <div className="mb-3 space-y-3 text-sm text-surface-100">
+            <div className="space-y-3 text-sm text-surface-100">
               <MarshallJunctionEquations />
               <MarshallStructureEquations />
             </div>
-            <ul className="space-y-1 text-[11px] leading-relaxed text-surface-300">
-              {MARSHALL_METHOD_INFO.map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
           </FocusAreaPanelCard>
 
-          <p className="shrink-0 text-[11px] leading-relaxed text-surface-400" data-testid="marshall-uncertainty">
-            Quality note: {uncertainty?.junctions ?? '—'} junction crossings, {uncertainty?.cells ?? '—'} cell,
-            and {uncertainty?.cul_de_sacs ?? '—'} cul-de-sac cases remained uncertain. These six cases were
-            excluded from the ratios. The counts use the validated Marshall-ready street network.
+          <p className="shrink-0 text-[11px] leading-snug text-surface-400" data-testid="marshall-uncertainty">
+            {formatUncertaintyFootnote(uncertainty)}
           </p>
         </>
       )}
