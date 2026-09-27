@@ -8,6 +8,10 @@ import {
   MARSHALL_REFERENCE_INFO,
   MARSHALL_STRUCTURE_INFO,
 } from '../../../constants/marshallMorphology.js'
+import {
+  MarshallJunctionEquations,
+  MarshallStructureEquations,
+} from './MarshallRatioEquations.jsx'
 
 function countSum(a, b) {
   const left = Number(a)
@@ -63,7 +67,11 @@ export default function MarshallMorphologyDetailPanel({
           <MetricInfoButton
             title="Definitions and method"
             ariaLabel="How are Marshall counts defined?"
-            points={MARSHALL_METHOD_INFO}
+            points={[
+              <MarshallJunctionEquations key="t" />,
+              <MarshallStructureEquations key="c" />,
+              ...MARSHALL_METHOD_INFO,
+            ]}
           />
         </div>
         <p className="mt-1 text-[11px] text-surface-400">{gnName} GN</p>
@@ -81,7 +89,7 @@ export default function MarshallMorphologyDetailPanel({
               title="Junctions"
               infoTitle="Junctions"
               infoAria="What do the junction counts mean?"
-              points={MARSHALL_JUNCTION_INFO}
+              points={[...MARSHALL_JUNCTION_INFO, <MarshallJunctionEquations key="t" />]}
             />
             <div data-testid="marshall-counts-table">
               <StatTiles
@@ -99,7 +107,7 @@ export default function MarshallMorphologyDetailPanel({
               title="Structure"
               infoTitle="Structure"
               infoAria="What do cells and cul-de-sacs mean?"
-              points={MARSHALL_STRUCTURE_INFO}
+              points={[...MARSHALL_STRUCTURE_INFO, <MarshallStructureEquations key="c" />]}
             />
             <StatTiles
               items={[
@@ -114,7 +122,11 @@ export default function MarshallMorphologyDetailPanel({
               title="Ratios"
               infoTitle="Ratios"
               infoAria="How are the Marshall ratios defined?"
-              points={MARSHALL_RATIO_INFO}
+              points={[
+                ...MARSHALL_RATIO_INFO,
+                <MarshallJunctionEquations key="t" />,
+                <MarshallStructureEquations key="c" />,
+              ]}
             />
             <StatTiles
               items={[
@@ -179,8 +191,16 @@ export default function MarshallMorphologyDetailPanel({
               title="Definitions"
               infoTitle="Definitions and method"
               infoAria="How are Marshall counts defined?"
-              points={MARSHALL_METHOD_INFO}
+              points={[
+              <MarshallJunctionEquations key="t" />,
+              <MarshallStructureEquations key="c" />,
+              ...MARSHALL_METHOD_INFO,
+            ]}
             />
+            <div className="mb-3 space-y-3 text-sm text-surface-100">
+              <MarshallJunctionEquations />
+              <MarshallStructureEquations />
+            </div>
             <ul className="space-y-1 text-[11px] leading-relaxed text-surface-300">
               {MARSHALL_METHOD_INFO.map((point) => (
                 <li key={point}>{point}</li>

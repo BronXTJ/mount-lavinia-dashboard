@@ -96,9 +96,9 @@ export default function MetricInfoButton({
 
       <div className="mt-3 border-t border-[#2a3a4a]" />
 
-      <ul className="mt-4 list-disc space-y-2 pl-5 text-[13px] leading-[1.7] text-[#cbd5e1]">
-        {(points ?? []).map((point) => (
-          <li key={point}>{point}</li>
+      <ul className="mt-4 list-disc space-y-3 pl-5 text-[13px] leading-[1.7] text-[#cbd5e1]">
+        {(points ?? []).map((point, index) => (
+          <li key={index}>{point}</li>
         ))}
       </ul>
 
