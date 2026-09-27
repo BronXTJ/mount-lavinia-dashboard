@@ -107,7 +107,7 @@ export default function NetworkFormView() {
       <div
         className={
           marshallMode
-            ? 'order-2 flex min-h-0 flex-col overflow-y-auto p-3 lg:order-1 lg:h-full lg:overflow-y-auto'
+            ? 'order-2 flex min-h-0 flex-col p-3 lg:order-1 lg:h-full lg:overflow-hidden'
             : 'order-2 overflow-y-auto p-4 lg:order-1'
         }
       >

@@ -44,7 +44,7 @@ export default function MarshallMorphologyOverviewPanel({
   const gnName = metrics?.gn_name ?? selectedScope
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex h-full min-h-0 flex-1 flex-col gap-2">
       <div className="flex items-center gap-2 border-l-4 border-primary-500 pl-3">
         <h2 className="font-display text-lg font-semibold text-surface-50">Marshall morphology</h2>
         <MetricInfoButton
@@ -87,7 +87,7 @@ export default function MarshallMorphologyOverviewPanel({
 
       {!loading && !error && (
         <>
-        <FocusAreaPanelCard className="flex min-h-0 flex-col !p-3">
+        <FocusAreaPanelCard className="flex min-h-0 flex-1 flex-col !p-3">
           <div className="mb-2 flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5">
               <h3 className="font-display text-sm font-semibold text-surface-100">
@@ -110,11 +110,13 @@ export default function MarshallMorphologyOverviewPanel({
               Expand
             </button>
           </div>
-          <MarshallMatrixChart scopes={scopes} selectedName={selectedScope} />
+          <div className="min-h-0 flex-1">
+            <MarshallMatrixChart scopes={scopes} selectedName={selectedScope} />
+          </div>
           <p className="mt-2 text-[11px] leading-relaxed text-surface-300">{MARSHALL_INTERPRETATION}</p>
         </FocusAreaPanelCard>
 
-        <FocusAreaPanelCard className="!p-3">
+        <FocusAreaPanelCard className="shrink-0 !p-3">
           <h3 className="mb-2 font-display text-sm font-semibold text-surface-100">GN comparison</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-[11px] text-surface-200" data-testid="marshall-gn-table">

@@ -368,6 +368,23 @@ html[data-map-fullscreen] .overview-side-column {
 .nf-icon-selected {
   filter: drop-shadow(0 0 4px rgba(0, 180, 216, 0.95));
 }
+@keyframes marshall-matrix-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+.marshall-matrix-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: marshall-matrix-pulse 1.8s ease-out infinite;
+  pointer-events: none;
+}
+
 .nf-icon-glow {
   width: 26px;
   height: 26px;
@@ -613,11 +630,15 @@ html[data-map-fullscreen] .overview-side-column {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .marshall-matrix-pulse,
   .user-guide-pane-in,
   .user-guide-bullet-in,
   .user-guide-sidebar-pulse .typology-info-icon-pulse,
   .user-guide-sidebar-pulse .typology-info-icon-breathe {
     animation: none !important;
+  }
+  .marshall-matrix-pulse {
+    opacity: 0;
   }
   .user-guide-pane-in,
   .user-guide-bullet-in {

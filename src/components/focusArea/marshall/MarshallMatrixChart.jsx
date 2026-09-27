@@ -23,12 +23,12 @@ export default function MarshallMatrixChart({ scopes = [], selectedName = null, 
   const yOf = (value) => pad.top + (1 - value) * plotH
 
   return (
-    <div data-testid="marshall-matrix" className="w-full">
+    <div data-testid="marshall-matrix" className={expanded ? 'w-full' : 'flex h-full min-h-[240px] w-full flex-col'}>
       <svg
         viewBox={`0 0 ${width} ${height}`}
         role="img"
         aria-label="Marshall matrix. Horizontal axis X-ratio, vertical axis Cell-ratio, five GN divisions."
-        className="h-auto w-full rounded-md bg-surface-900"
+        className={expanded ? 'h-auto w-full rounded-md bg-surface-900' : 'min-h-0 w-full flex-1 rounded-md bg-surface-900'}
         data-testid="marshall-matrix-figure"
       >
         <rect x={pad.left} y={pad.top} width={plotW} height={plotH} fill="#0b1220" stroke="#334155" />
@@ -96,15 +96,24 @@ export default function MarshallMatrixChart({ scopes = [], selectedName = null, 
         <text x={pad.left + plotW - 10} y={pad.top + 16} textAnchor="end" fill="#64748b" fontSize="11">
           X-cell
         </text>
-        {points.map((point) => {
+        {points.map((point, index) => {
           const selected = point.name === selectedName
           const color = MARSHALL_GN_COLORS[point.name] ?? '#e2e8f0'
+          const radius = selected ? 7 : 4.5
           return (
             <g key={point.name}>
               <circle
+                className="marshall-matrix-pulse"
                 cx={xOf(point.x)}
                 cy={yOf(point.y)}
-                r={selected ? 7 : 4.5}
+                r={radius}
+                fill={color}
+                style={{ animationDelay: `${index * 0.28}s` }}
+              />
+              <circle
+                cx={xOf(point.x)}
+                cy={yOf(point.y)}
+                r={radius}
                 fill={color}
                 stroke={selected ? '#f8fafc' : '#0b1220'}
                 strokeWidth={selected ? 2 : 1}
