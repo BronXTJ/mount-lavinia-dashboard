@@ -22,15 +22,25 @@ export default function MarshallMatrixChart({ scopes = [], selectedName = null, 
   const xOf = (value) => pad.left + value * plotW
   const yOf = (value) => pad.top + (1 - value) * plotH
 
+  const legendGridClass = expanded
+    ? 'mt-3 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3'
+    : 'mt-1.5 shrink-0 grid grid-cols-2 gap-x-3 gap-y-1.5'
+
   return (
-    <div data-testid="marshall-matrix" className={expanded ? 'w-full' : 'flex h-full min-h-[240px] w-full flex-col'}>
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        role="img"
-        aria-label="Marshall Matrix. Horizontal axis X-ratio, vertical axis Cell-ratio, five GN divisions."
-        className={expanded ? 'h-auto w-full rounded-md bg-surface-900' : 'min-h-0 w-full flex-1 rounded-md bg-surface-900'}
-        data-testid="marshall-matrix-figure"
-      >
+    <div
+      data-testid="marshall-matrix"
+      className={expanded ? 'w-full' : 'flex h-full min-h-[240px] w-full flex-col'}
+    >
+      <div className={expanded ? undefined : 'min-h-0 flex-1'}>
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          role="img"
+          aria-label="Marshall Matrix. Horizontal axis X-ratio, vertical axis Cell-ratio, five GN divisions."
+          className={
+            expanded ? 'h-auto w-full rounded-md bg-surface-900' : 'h-full min-h-0 w-full rounded-md bg-surface-900'
+          }
+          data-testid="marshall-matrix-figure"
+        >
         <rect x={pad.left} y={pad.top} width={plotW} height={plotH} fill="#0b1220" stroke="#334155" />
         {TICKS.map((tick) => (
           <g key={tick}>
@@ -122,18 +132,24 @@ export default function MarshallMatrixChart({ scopes = [], selectedName = null, 
             </g>
           )
         })}
-      </svg>
-      <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+        </svg>
+      </div>
+      <ul className={legendGridClass} aria-label="GN divisions in Marshall Matrix">
         {points.map((point) => {
           const selected = point.name === selectedName
           return (
-            <li key={point.name} className="flex items-center gap-1.5 text-[11px] text-surface-300">
+            <li
+              key={point.name}
+              className={`flex min-w-0 items-center gap-1.5 text-[11px] leading-tight ${
+                selected ? 'text-surface-50' : 'text-surface-300'
+              }`}
+            >
               <span
-                className="inline-block h-2 w-2 rounded-full"
+                className="inline-block h-2 w-2 shrink-0 rounded-full"
                 style={{ backgroundColor: MARSHALL_GN_COLORS[point.name] ?? '#e2e8f0' }}
                 aria-hidden
               />
-              <span className={selected ? 'font-semibold text-surface-50' : undefined}>{point.name}</span>
+              <span className={`min-w-0 ${selected ? 'font-semibold' : ''}`}>{point.name}</span>
             </li>
           )
         })}

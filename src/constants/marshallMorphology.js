@@ -52,7 +52,7 @@ export const MARSHALL_METHOD_INFO = [
 ]
 
 export const MARSHALL_INTERPRETATION =
-  'All five GN divisions occupy the low X-ratio and low Cell-ratio side of the Marshall Matrix, indicating a predominantly T-junction and tree-like street-network structure. The GN divisions nevertheless show variation in their exact positions within this structural range.'
+  'Low X · low Cell · five-GN cluster (T-tree), with variation within that range.'
 
 export const MARSHALL_GN_COLORS = {
   'Mount Lavinia': '#38bdf8',

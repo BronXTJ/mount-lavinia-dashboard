@@ -110,10 +110,12 @@ export default function MarshallMorphologyOverviewPanel({
               Expand
             </button>
           </div>
-          <div className="min-h-0 flex-1">
+          <div className="min-h-0 flex-1 overflow-hidden">
             <MarshallMatrixChart scopes={scopes} selectedName={selectedScope} />
           </div>
-          <p className="mt-2 text-[11px] leading-relaxed text-surface-300">{MARSHALL_INTERPRETATION}</p>
+          <p className="mt-1.5 shrink-0 text-[11px] leading-snug text-surface-400">
+            {MARSHALL_INTERPRETATION}
+          </p>
         </FocusAreaPanelCard>
 
         <FocusAreaPanelCard className="shrink-0 !p-3">
