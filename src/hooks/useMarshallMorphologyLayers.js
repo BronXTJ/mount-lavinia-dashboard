@@ -46,7 +46,7 @@ export function useMarshallMorphologyLayers(enabled = false, selectedGn = null) 
         setJunctions(null)
         setCuldesacs(null)
         setCells(null)
-        setError(new Error('Marshall morphology data is not available.'))
+        setError(new Error('Marshall Morphology data is not available.'))
         setLoading(false)
         return
       }

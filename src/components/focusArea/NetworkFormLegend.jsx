@@ -70,8 +70,8 @@ export default function NetworkFormLegend({ counts, visibleLayers, marshallMode 
     >
       {showCells && (
         <div className="mb-3 border-b border-surface-700/80 pb-2.5">
-          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.08em] text-surface-300">
-            Marshall structure
+          <p className="mb-2 text-[11px] font-bold tracking-[0.04em] text-surface-300">
+            Marshall Structure
           </p>
           <div className="flex items-center gap-2 text-xs text-surface-100">
             <span

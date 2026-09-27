@@ -63,10 +63,10 @@ export default function MarshallMorphologyDetailPanel({
     <div className="flex flex-col gap-2" data-testid="marshall-counts">
       <div className="shrink-0 border-l-4 border-primary-500 pl-3">
         <div className="flex items-center gap-1.5">
-          <h2 className="font-display text-lg font-semibold text-surface-50">Marshall counts</h2>
+          <h2 className="font-display text-lg font-semibold text-surface-50">Marshall Counts</h2>
           <MetricInfoButton
-            title="Definitions and method"
-            ariaLabel="How are Marshall counts defined?"
+            title="Definitions and Method"
+            ariaLabel="How are Marshall Counts defined?"
             points={[
               <MarshallJunctionEquations key="t" />,
               <MarshallStructureEquations key="c" />,
@@ -77,9 +77,9 @@ export default function MarshallMorphologyDetailPanel({
         <p className="mt-1 text-[11px] text-surface-400">{gnName} GN</p>
       </div>
 
-      {loading && <p className="text-xs text-surface-300">Loading Marshall counts…</p>}
+      {loading && <p className="text-xs text-surface-300">Loading Marshall Counts…</p>}
       {error && !loading && (
-        <p className="text-xs text-rose-300">Marshall morphology data is not available.</p>
+        <p className="text-xs text-rose-300">Marshall Morphology data is not available.</p>
       )}
 
       {!loading && !error && (
@@ -140,8 +140,8 @@ export default function MarshallMorphologyDetailPanel({
 
           <FocusAreaPanelCard className="shrink-0 !p-3">
             <CardHeading
-              title="Network Form reference"
-              infoTitle="Network Form reference"
+              title="Network Form Reference"
+              infoTitle="Network Form Reference"
               infoAria="How do these counts differ from Marshall?"
               points={MARSHALL_REFERENCE_INFO}
               muted
@@ -170,7 +170,7 @@ export default function MarshallMorphologyDetailPanel({
 
           <FocusAreaPanelCard className="shrink-0 !p-3">
             <div data-testid="marshall-study-area">
-            <h3 className="mb-2 font-display text-sm font-semibold text-surface-100">Study area</h3>
+            <h3 className="mb-2 font-display text-sm font-semibold text-surface-100">Study Area</h3>
             <StatTiles
               items={[
                 { label: 'T-junctions', value: formatStoredCount(studyArea?.counts?.n_T) },
@@ -189,8 +189,8 @@ export default function MarshallMorphologyDetailPanel({
           <FocusAreaPanelCard className="shrink-0 !p-3">
             <CardHeading
               title="Definitions"
-              infoTitle="Definitions and method"
-              infoAria="How are Marshall counts defined?"
+              infoTitle="Definitions and Method"
+              infoAria="How are Marshall Counts defined?"
               points={[
               <MarshallJunctionEquations key="t" />,
               <MarshallStructureEquations key="c" />,

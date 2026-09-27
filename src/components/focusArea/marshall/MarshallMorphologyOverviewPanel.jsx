@@ -46,10 +46,10 @@ export default function MarshallMorphologyOverviewPanel({
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col gap-2">
       <div className="flex items-center gap-2 border-l-4 border-primary-500 pl-3">
-        <h2 className="font-display text-lg font-semibold text-surface-50">Marshall morphology</h2>
+        <h2 className="font-display text-lg font-semibold text-surface-50">Marshall Morphology</h2>
         <MetricInfoButton
-          title="Marshall morphology"
-          ariaLabel="What does Marshall morphology show?"
+          title="Marshall Morphology"
+          ariaLabel="What does Marshall Morphology show?"
           points={MARSHALL_INFO_POINTS}
         />
       </div>
@@ -75,27 +75,27 @@ export default function MarshallMorphologyOverviewPanel({
           className="flex min-h-[160px] items-center justify-center rounded-lg border border-surface-700 bg-surface-800 text-xs text-surface-300"
           data-testid="marshall-loading"
         >
-          Loading Marshall morphology…
+          Loading Marshall Morphology…
         </div>
       )}
 
       {error && !loading && (
         <p className="text-xs text-rose-300" data-testid="marshall-error">
-          Marshall morphology data is not available.
+          Marshall Morphology data is not available.
         </p>
       )}
 
       {!loading && !error && (
         <>
-        <FocusAreaPanelCard className="flex min-h-0 flex-1 flex-col !p-3">
+        <FocusAreaPanelCard className="marshall-matrix-frame flex min-h-0 flex-1 flex-col !p-3">
           <div className="mb-2 flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5">
               <h3 className="font-display text-sm font-semibold text-surface-100">
                 Marshall Matrix — Street Network Morphology
               </h3>
               <MetricInfoButton
-                title="Marshall matrix"
-                ariaLabel="How do I read the Marshall matrix?"
+                title="Marshall Matrix"
+                ariaLabel="How do I read the Marshall Matrix?"
                 points={MARSHALL_MATRIX_INFO}
               />
             </div>
@@ -104,7 +104,7 @@ export default function MarshallMorphologyOverviewPanel({
               onClick={() => setExpanded(true)}
               disabled={!metrics}
               className="inline-flex shrink-0 items-center gap-1 rounded-md border border-surface-600 px-2 py-1 text-[11px] text-surface-200 hover:bg-surface-700 disabled:opacity-40"
-              aria-label="Expand Marshall matrix"
+              aria-label="Expand Marshall Matrix"
             >
               <Maximize2 size={12} aria-hidden />
               Expand
@@ -117,7 +117,7 @@ export default function MarshallMorphologyOverviewPanel({
         </FocusAreaPanelCard>
 
         <FocusAreaPanelCard className="shrink-0 !p-3">
-          <h3 className="mb-2 font-display text-sm font-semibold text-surface-100">GN comparison</h3>
+          <h3 className="mb-2 font-display text-sm font-semibold text-surface-100">GN Comparison</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-[11px] text-surface-200" data-testid="marshall-gn-table">
               <thead>

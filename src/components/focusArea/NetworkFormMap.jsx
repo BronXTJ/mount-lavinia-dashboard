@@ -101,7 +101,7 @@ function buildMarshallCellPopup(props) {
     primaryLabel: 'Cell',
     primaryValue: `#${props?.cell_id ?? '—'}`,
     badge: {
-      label: 'Marshall cell',
+      label: 'Marshall Cell',
       color: MARSHALL_CELL_FILL,
       textColor: '#ffffff',
     },

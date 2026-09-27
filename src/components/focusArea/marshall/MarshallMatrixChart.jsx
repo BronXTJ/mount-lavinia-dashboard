@@ -27,7 +27,7 @@ export default function MarshallMatrixChart({ scopes = [], selectedName = null, 
       <svg
         viewBox={`0 0 ${width} ${height}`}
         role="img"
-        aria-label="Marshall matrix. Horizontal axis X-ratio, vertical axis Cell-ratio, five GN divisions."
+        aria-label="Marshall Matrix. Horizontal axis X-ratio, vertical axis Cell-ratio, five GN divisions."
         className={expanded ? 'h-auto w-full rounded-md bg-surface-900' : 'min-h-0 w-full flex-1 rounded-md bg-surface-900'}
         data-testid="marshall-matrix-figure"
       >

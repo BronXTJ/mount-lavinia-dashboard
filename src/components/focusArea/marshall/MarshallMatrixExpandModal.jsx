@@ -44,7 +44,7 @@ export default function MarshallMatrixExpandModal({ open, onClose, scopes = [], 
             type="button"
             onClick={onClose}
             className="rounded-md border border-surface-700 px-2 py-1 text-surface-200 hover:bg-surface-800"
-            aria-label="Close expanded Marshall matrix"
+            aria-label="Close expanded Marshall Matrix"
           >
             <X size={16} />
           </button>

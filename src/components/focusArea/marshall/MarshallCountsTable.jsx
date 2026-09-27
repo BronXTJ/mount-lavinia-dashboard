@@ -3,7 +3,7 @@ import { marshallTableRows } from '../../../utils/marshallMorphologyFormat.js'
 export default function MarshallCountsTable({ metrics }) {
   const rows = marshallTableRows(metrics)
   if (!rows) {
-    return <p className="text-xs text-surface-400">Marshall counts are not available.</p>
+    return <p className="text-xs text-surface-400">Marshall Counts are not available.</p>
   }
 
   return (

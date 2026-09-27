@@ -5,7 +5,7 @@ test('Marshall morphology shows the stored matrix', async ({ page }) => {
   page.on('pageerror', (err) => pageErrors.push(String(err)))
 
   await page.goto('focus-area?sub=network-form', { waitUntil: 'domcontentloaded' })
-  await page.getByRole('tab', { name: 'Marshall morphology' }).click()
+  await page.getByRole('tab', { name: 'Marshall Morphology' }).click()
   await expect(page.getByTestId('marshall-matrix')).toBeVisible()
   await expect(page.getByTestId('marshall-matrix-figure')).toBeVisible()
   await expect(page.getByTestId('marshall-counts-table')).toBeVisible()

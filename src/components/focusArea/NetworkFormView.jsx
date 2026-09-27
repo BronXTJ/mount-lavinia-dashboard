@@ -124,7 +124,7 @@ export default function NetworkFormView() {
           />
           <ModeButton
             active={marshallMode}
-            label="Marshall morphology"
+            label="Marshall Morphology"
             grow={marshallMode}
             onClick={() => handleMode(NETWORK_FORM_MODE_MARSHALL)}
           />
