@@ -385,6 +385,47 @@ html[data-map-fullscreen] .overview-side-column {
   pointer-events: none;
 }
 
+@keyframes marshall-matrix-frame-pulse {
+  0%,
+  100% {
+    border-color: rgba(0, 180, 216, 0.55);
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.35),
+      0 0 0 1px rgba(0, 180, 216, 0.28),
+      0 0 10px rgba(0, 180, 216, 0.12);
+  }
+  50% {
+    border-color: rgba(0, 180, 216, 0.92);
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.35),
+      0 0 0 1px rgba(0, 180, 216, 0.55),
+      0 0 18px rgba(0, 180, 216, 0.28);
+  }
+}
+.marshall-matrix-frame {
+  border-color: rgba(0, 180, 216, 0.65) !important;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(0, 180, 216, 0.35),
+    0 0 12px rgba(0, 180, 216, 0.15);
+  animation: marshall-matrix-frame-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes marshall-cell-border-pulse {
+  0%,
+  100% {
+    stroke-opacity: 0.45;
+    stroke-width: 4;
+  }
+  50% {
+    stroke-opacity: 0.95;
+    stroke-width: 7;
+  }
+}
+.marshall-cell-boundary-pulse {
+  animation: marshall-cell-border-pulse 1.6s ease-in-out infinite;
+}
+
 .nf-icon-glow {
   width: 26px;
   height: 26px;
@@ -631,6 +672,8 @@ html[data-map-fullscreen] .overview-side-column {
 
 @media (prefers-reduced-motion: reduce) {
   .marshall-matrix-pulse,
+  .marshall-matrix-frame,
+  .marshall-cell-boundary-pulse,
   .user-guide-pane-in,
   .user-guide-bullet-in,
   .user-guide-sidebar-pulse .typology-info-icon-pulse,

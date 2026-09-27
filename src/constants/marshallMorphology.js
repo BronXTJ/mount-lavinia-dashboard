@@ -8,6 +8,7 @@ export const MARSHALL_GN_PCODE = 'LK1131005'
 
 export const MARSHALL_CELL_FILL = '#22c55e'
 export const MARSHALL_CELL_STROKE = '#16a34a'
+export const MARSHALL_CELL_SELECTED_STROKE = '#86efac'
 export const MARSHALL_CELL_FILL_OPACITY = 0.28
 
 export const MARSHALL_LAYER_CELLS = 'marshall_cells'

@@ -26,6 +26,7 @@ import {
 import {
   MARSHALL_CELL_FILL,
   MARSHALL_CELL_FILL_OPACITY,
+  MARSHALL_CELL_SELECTED_STROKE,
   MARSHALL_CELL_STROKE,
   MARSHALL_LAYER_CELLS,
 } from '../../constants/marshallMorphology.js'
@@ -78,6 +79,22 @@ function junctionIcon(jtype, selected) {
     iconAnchor: [size / 2, size / 2],
   })
 }
+
+const marshallCellHighlightGlowStyle = () => ({
+  color: MARSHALL_CELL_SELECTED_STROKE,
+  weight: 6,
+  opacity: 0.65,
+  fill: false,
+  className: 'marshall-cell-boundary-pulse',
+  interactive: false,
+})
+const marshallCellHighlightEdgeStyle = () => ({
+  color: '#bbf7d0',
+  weight: 2.5,
+  opacity: 1,
+  fill: false,
+  interactive: false,
+})
 
 function cellSquareIcon(selected) {
   const size = selected ? 16 : 12
@@ -271,6 +288,7 @@ export default function NetworkFormMap({
 }) {
   const [basemapId, setBasemapId] = useState(DEFAULT_NETWORK_FORM_BASEMAP)
   const [selectedCellId, setSelectedCellId] = useState(null)
+  const highlightRenderer = useMemo(() => L.svg(), [])
   const basemap = useMemo(() => getNetworkFormBasemap(basemapId), [basemapId])
   const roadStyle = useMemo(() => roadStyleForBasemap(basemapId), [basemapId])
 
@@ -350,6 +368,14 @@ export default function NetworkFormMap({
       return jtype && visibleLayers?.[jtype]
     })
   }, [junctions, visibleLayers])
+
+  const selectedMarshallCellFeature = useMemo(() => {
+    if (selectedCellId == null || !marshallCells?.features?.length) return null
+    const feature = marshallCells.features.find(
+      (f) => String(f.properties?.cell_id) === String(selectedCellId),
+    )
+    return feature ? { type: 'FeatureCollection', features: [feature] } : null
+  }, [selectedCellId, marshallCells])
 
   const fitData = gnBoundary ?? streets
   const showMutedOthers =
@@ -469,6 +495,23 @@ export default function NetworkFormMap({
               fillOpacity: MARSHALL_CELL_FILL_OPACITY,
             }}
           />
+        )}
+
+        {showMarshallCells && selectedMarshallCellFeature && (
+          <>
+            <GeoJSON
+              key={`marshall-cell-glow-${selectedCellId}`}
+              data={selectedMarshallCellFeature}
+              style={marshallCellHighlightGlowStyle}
+              renderer={highlightRenderer}
+            />
+            <GeoJSON
+              key={`marshall-cell-edge-${selectedCellId}`}
+              data={selectedMarshallCellFeature}
+              style={marshallCellHighlightEdgeStyle}
+              renderer={highlightRenderer}
+            />
+          </>
         )}
 
         {showRoadLabels && namedStreets && (

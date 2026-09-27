@@ -1,7 +1,9 @@
 import FocusAreaPanelCard from '../FocusAreaPanelCard.jsx'
 import MetricInfoButton from '../MetricInfoButton.jsx'
 import { formatStoredCount, formatStoredPercent } from '../../../utils/marshallMorphologyFormat.js'
+import { NETWORK_FORM_ICONS } from '../../../constants/networkForm.js'
 import {
+  MARSHALL_INFO_POINTS,
   MARSHALL_JUNCTION_INFO,
   MARSHALL_METHOD_INFO,
   MARSHALL_RATIO_INFO,
@@ -12,13 +14,6 @@ import {
   MarshallJunctionEquations,
   MarshallStructureEquations,
 } from './MarshallRatioEquations.jsx'
-
-function countSum(a, b) {
-  const left = Number(a)
-  const right = Number(b)
-  if (!Number.isFinite(left) || !Number.isFinite(right)) return '—'
-  return String(left + right)
-}
 
 function CardHeading({ title, infoTitle, infoAria, points, muted = false }) {
   return (
@@ -39,11 +34,34 @@ function StatTiles({ items }) {
           key={item.label}
           className="rounded-md border border-surface-700/80 bg-surface-900/50 px-2.5 py-2"
         >
-          <p className="text-[10px] font-medium uppercase tracking-[0.06em] text-surface-400">{item.label}</p>
+          <p className="text-[11px] font-medium leading-snug text-surface-300">{item.label}</p>
           <p className="mt-0.5 font-display text-lg font-semibold tabular-nums text-surface-50">{item.value}</p>
         </li>
       ))}
     </ul>
+  )
+}
+
+function NetworkFormReferenceTile({ color, label, value }) {
+  return (
+    <li
+      className="rounded-md border border-surface-700/80 bg-surface-900/60 px-2.5 py-2"
+      style={{
+        borderLeftWidth: '3px',
+        borderLeftColor: color,
+        backgroundColor: `color-mix(in srgb, ${color} 12%, rgb(15 23 42))`,
+      }}
+    >
+      <div className="flex items-center gap-2">
+        <span
+          className="h-2 w-2 shrink-0 rounded-full ring-1 ring-white/15"
+          style={{ backgroundColor: color }}
+          aria-hidden
+        />
+        <p className="min-w-0 flex-1 text-[11px] font-medium leading-snug text-surface-100">{label}</p>
+        <p className="shrink-0 font-display text-base font-semibold tabular-nums text-surface-50">{value}</p>
+      </div>
+    </li>
   )
 }
 
@@ -60,18 +78,14 @@ export default function MarshallMorphologyDetailPanel({
   const gnName = metrics?.gn_name ?? '—'
 
   return (
-    <div className="flex flex-col gap-2" data-testid="marshall-counts">
+    <div className="flex flex-col gap-3" data-testid="marshall-counts">
       <div className="shrink-0 border-l-4 border-primary-500 pl-3">
         <div className="flex items-center gap-1.5">
           <h2 className="font-display text-lg font-semibold text-surface-50">Marshall Counts</h2>
           <MetricInfoButton
-            title="Definitions and Method"
-            ariaLabel="How are Marshall Counts defined?"
-            points={[
-              <MarshallJunctionEquations key="t" />,
-              <MarshallStructureEquations key="c" />,
-              ...MARSHALL_METHOD_INFO,
-            ]}
+            title="Marshall Counts"
+            ariaLabel="What do Marshall Counts show?"
+            points={MARSHALL_INFO_POINTS}
           />
         </div>
         <p className="mt-1 text-[11px] text-surface-400">{gnName} GN</p>
@@ -96,7 +110,6 @@ export default function MarshallMorphologyDetailPanel({
                 items={[
                   { label: 'T-junctions', value: formatStoredCount(counts?.n_T) },
                   { label: 'X-junctions', value: formatStoredCount(counts?.n_X) },
-                  { label: 'T + X', value: countSum(counts?.n_T, counts?.n_X) },
                 ]}
               />
             </div>
@@ -144,27 +157,23 @@ export default function MarshallMorphologyDetailPanel({
               infoTitle="Network Form Reference"
               infoAria="How do these counts differ from Marshall?"
               points={MARSHALL_REFERENCE_INFO}
-              muted
             />
-            <ul className="space-y-2 text-xs text-surface-300">
-              <li className="flex items-baseline justify-between gap-3">
-                <span>Network Form cul-de-sacs</span>
-                <span className="tabular-nums text-surface-100">
-                  {formatStoredCount(comparison?.n_culdesac_dashboard)}
-                </span>
-              </li>
-              <li className="flex items-baseline justify-between gap-3">
-                <span>Network Form 3-way</span>
-                <span className="tabular-nums text-surface-100">
-                  {formatStoredCount(comparison?.n_three_way_dashboard)}
-                </span>
-              </li>
-              <li className="flex items-baseline justify-between gap-3">
-                <span>Network Form 4-way</span>
-                <span className="tabular-nums text-surface-100">
-                  {formatStoredCount(comparison?.n_four_way_dashboard)}
-                </span>
-              </li>
+            <ul className="space-y-2" data-testid="marshall-network-form-reference">
+              <NetworkFormReferenceTile
+                color={NETWORK_FORM_ICONS.culdesac.color}
+                label="Network Form Cul-de-sacs"
+                value={formatStoredCount(comparison?.n_culdesac_dashboard)}
+              />
+              <NetworkFormReferenceTile
+                color={NETWORK_FORM_ICONS.three_way.color}
+                label="Network Form 3-Way"
+                value={formatStoredCount(comparison?.n_three_way_dashboard)}
+              />
+              <NetworkFormReferenceTile
+                color={NETWORK_FORM_ICONS.four_way.color}
+                label="Network Form 4-Way"
+                value={formatStoredCount(comparison?.n_four_way_dashboard)}
+              />
             </ul>
           </FocusAreaPanelCard>
 
