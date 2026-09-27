@@ -1,6 +1,6 @@
 function StackedFraction({ numerator, denominator }) {
   return (
-    <span className="inline-flex min-w-[2.2em] flex-col items-stretch text-center leading-none">
+    <span className="inline-flex min-w-[2.2em] shrink flex-col items-stretch text-center leading-none">
       <span className="px-1 pb-0.5">{numerator}</span>
       <span className="border-t border-current" aria-hidden />
       <span className="px-1 pt-0.5">{denominator}</span>
@@ -10,9 +10,9 @@ function StackedFraction({ numerator, denominator }) {
 
 function RatioEquation({ label, numerator, denominator }) {
   return (
-    <span className="flex min-w-0 items-center justify-center gap-1.5 rounded-md border border-surface-600 bg-surface-900/40 px-1.5 py-2 text-center">
-      <span>{label}</span>
-      <span aria-hidden>=</span>
+    <span className="flex flex-nowrap items-center justify-center gap-1.5 rounded-md border border-surface-600 bg-surface-900/40 px-1.5 py-2 text-center">
+      <span className="shrink-0 whitespace-nowrap">{label}</span>
+      <span className="shrink-0" aria-hidden>=</span>
       <StackedFraction numerator={numerator} denominator={denominator} />
     </span>
   )
