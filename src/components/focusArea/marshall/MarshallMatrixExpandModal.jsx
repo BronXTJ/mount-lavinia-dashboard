@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
 import MarshallMatrixChart from './MarshallMatrixChart.jsx'
 
-export default function MarshallMatrixExpandModal({ open, onClose }) {
+export default function MarshallMatrixExpandModal({ open, onClose, scopes = [], selectedName = null }) {
   const titleId = useId()
   const closeRef = useRef(null)
 
@@ -49,7 +49,7 @@ export default function MarshallMatrixExpandModal({ open, onClose }) {
             <X size={16} />
           </button>
         </div>
-        <MarshallMatrixChart size="expanded" />
+        <MarshallMatrixChart size="expanded" scopes={scopes} selectedName={selectedName} />
       </div>
     </div>,
     document.body,

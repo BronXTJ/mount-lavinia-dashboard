@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Maximize2 } from 'lucide-react'
 import { NETWORK_FORM_GN_NAMES } from '../../../constants/networkForm.js'
 import {
+  MARSHALL_GN_COLORS,
   MARSHALL_INFO_POINTS,
   MARSHALL_INTERPRETATION,
   MARSHALL_MATRIX_INFO,
@@ -109,7 +110,7 @@ export default function MarshallMorphologyOverviewPanel({
               Expand
             </button>
           </div>
-          <MarshallMatrixChart />
+          <MarshallMatrixChart scopes={scopes} selectedName={selectedScope} />
           <p className="mt-2 text-[11px] leading-relaxed text-surface-300">{MARSHALL_INTERPRETATION}</p>
         </FocusAreaPanelCard>
 
@@ -129,24 +130,36 @@ export default function MarshallMorphologyOverviewPanel({
                 </tr>
               </thead>
               <tbody>
-                {scopes.map((scope) => (
-                  <tr
-                    key={scope.gn_name}
-                    className={scope.gn_name === selectedScope ? 'text-surface-50' : undefined}
-                  >
-                    <td className="py-0.5 pr-2">{scope.gn_name}</td>
-                    <td className="py-0.5 pr-2 tabular-nums">{formatStoredCount(scope.counts?.n_T)}</td>
-                    <td className="py-0.5 pr-2 tabular-nums">{formatStoredCount(scope.counts?.n_X)}</td>
-                    <td className="py-0.5 pr-2 tabular-nums">
-                      {formatStoredCount(scope.counts?.n_cell_marshall)}
-                    </td>
-                    <td className="py-0.5 pr-2 tabular-nums">
-                      {formatStoredCount(scope.counts?.n_cul_marshall)}
-                    </td>
-                    <td className="py-0.5 pr-2 tabular-nums">{formatStoredPercent(scope.ratios?.T_ratio)}</td>
-                    <td className="py-0.5 tabular-nums">{formatStoredPercent(scope.ratios?.Cell_ratio)}</td>
-                  </tr>
-                ))}
+                {scopes.map((scope) => {
+                  const selected = scope.gn_name === selectedScope
+                  return (
+                    <tr
+                      key={scope.gn_name}
+                      className={selected ? 'bg-surface-900/70 text-surface-50' : 'text-surface-300'}
+                    >
+                      <td className="py-1 pr-2">
+                        <span className="inline-flex items-center gap-1.5">
+                          <span
+                            className="inline-block h-2 w-2 rounded-full"
+                            style={{ backgroundColor: MARSHALL_GN_COLORS[scope.gn_name] }}
+                            aria-hidden
+                          />
+                          {scope.gn_name}
+                        </span>
+                      </td>
+                      <td className="py-1 pr-2 tabular-nums">{formatStoredCount(scope.counts?.n_T)}</td>
+                      <td className="py-1 pr-2 tabular-nums">{formatStoredCount(scope.counts?.n_X)}</td>
+                      <td className="py-1 pr-2 tabular-nums">
+                        {formatStoredCount(scope.counts?.n_cell_marshall)}
+                      </td>
+                      <td className="py-1 pr-2 tabular-nums">
+                        {formatStoredCount(scope.counts?.n_cul_marshall)}
+                      </td>
+                      <td className="py-1 pr-2 tabular-nums">{formatStoredPercent(scope.ratios?.T_ratio)}</td>
+                      <td className="py-1 tabular-nums">{formatStoredPercent(scope.ratios?.Cell_ratio)}</td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>
@@ -154,7 +167,12 @@ export default function MarshallMorphologyOverviewPanel({
         </>
       )}
 
-      <MarshallMatrixExpandModal open={expanded} onClose={() => setExpanded(false)} />
+      <MarshallMatrixExpandModal
+        open={expanded}
+        onClose={() => setExpanded(false)}
+        scopes={scopes}
+        selectedName={selectedScope}
+      />
     </div>
   )
 }

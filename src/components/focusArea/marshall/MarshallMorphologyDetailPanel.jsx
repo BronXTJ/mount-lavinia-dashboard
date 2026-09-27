@@ -27,13 +27,16 @@ function CardHeading({ title, infoTitle, infoAria, points, muted = false }) {
   )
 }
 
-function StatRows({ items }) {
+function StatTiles({ items }) {
   return (
-    <ul className="grid grid-cols-2 gap-x-3 gap-y-1">
+    <ul className="grid grid-cols-2 gap-2">
       {items.map((item) => (
-        <li key={item.label} className="flex items-baseline justify-between gap-2 text-sm">
-          <span className="text-surface-300">{item.label}</span>
-          <span className="tabular-nums font-semibold text-surface-50">{item.value}</span>
+        <li
+          key={item.label}
+          className="rounded-md border border-surface-700/80 bg-surface-900/50 px-2.5 py-2"
+        >
+          <p className="text-[10px] font-medium uppercase tracking-[0.06em] text-surface-400">{item.label}</p>
+          <p className="mt-0.5 font-display text-lg font-semibold tabular-nums text-surface-50">{item.value}</p>
         </li>
       ))}
     </ul>
@@ -81,7 +84,7 @@ export default function MarshallMorphologyDetailPanel({
               points={MARSHALL_JUNCTION_INFO}
             />
             <div data-testid="marshall-counts-table">
-              <StatRows
+              <StatTiles
                 items={[
                   { label: 'T-junctions', value: formatStoredCount(counts?.n_T) },
                   { label: 'X-junctions', value: formatStoredCount(counts?.n_X) },
@@ -98,7 +101,7 @@ export default function MarshallMorphologyDetailPanel({
               infoAria="What do cells and cul-de-sacs mean?"
               points={MARSHALL_STRUCTURE_INFO}
             />
-            <StatRows
+            <StatTiles
               items={[
                 { label: 'Cells', value: formatStoredCount(counts?.n_cell_marshall) },
                 { label: 'Cul-de-sacs', value: formatStoredCount(counts?.n_cul_marshall) },
@@ -113,7 +116,7 @@ export default function MarshallMorphologyDetailPanel({
               infoAria="How are the Marshall ratios defined?"
               points={MARSHALL_RATIO_INFO}
             />
-            <StatRows
+            <StatTiles
               items={[
                 { label: 'T-ratio', value: formatStoredPercent(ratios?.T_ratio) },
                 { label: 'X-ratio', value: formatStoredPercent(ratios?.X_ratio) },
@@ -156,7 +159,7 @@ export default function MarshallMorphologyDetailPanel({
           <FocusAreaPanelCard className="shrink-0 !p-3">
             <div data-testid="marshall-study-area">
             <h3 className="mb-2 font-display text-sm font-semibold text-surface-100">Study area</h3>
-            <StatRows
+            <StatTiles
               items={[
                 { label: 'T-junctions', value: formatStoredCount(studyArea?.counts?.n_T) },
                 { label: 'X-junctions', value: formatStoredCount(studyArea?.counts?.n_X) },
