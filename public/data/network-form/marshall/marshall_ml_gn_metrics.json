@@ -1,0 +1,31 @@
+{
+  "gn_name": "Mount Lavinia",
+  "gn_pcode": "LK1131005",
+  "framework": "marshall_2005",
+  "counts": {
+    "n_T": 110,
+    "n_X": 13,
+    "n_cul_marshall": 65,
+    "n_cell_marshall": 30,
+    "n_cul_boundary_excluded": 27,
+    "n_degree5_plus": 0
+  },
+  "ratios": {
+    "T_ratio": 0.8943089430894309,
+    "X_ratio": 0.10569105691056911,
+    "Cell_ratio": 0.3157894736842105,
+    "Cul_ratio": 0.6842105263157895
+  },
+  "matrix": {
+    "x_cell_ratio": 0.3157894736842105,
+    "y_t_ratio": 0.8943089430894309,
+    "quadrant": "T-tree"
+  },
+  "comparison_network_form": {
+    "n_culdesac_dashboard": 65,
+    "n_three_way_dashboard": 109,
+    "n_four_way_dashboard": 13,
+    "note": "Dashboard cul-de-sacs are degree-1 nodes from the Network Form topology without the Marshall boundary rule. Dashboard junctions are not Marshall T/X counts."
+  },
+  "run_meta_ref": "run_meta.json"
+}

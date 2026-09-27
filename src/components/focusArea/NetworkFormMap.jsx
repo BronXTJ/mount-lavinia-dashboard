@@ -24,9 +24,12 @@ import {
   colorForCuldesacWalkTier,
 } from '../../constants/networkForm.js'
 import {
-  DEFAULT_NETWORK_FORM_BASEMAP,
-  getNetworkFormBasemap,
-} from '../../constants/basemaps.js'
+  MARSHALL_CELL_FILL,
+  MARSHALL_CELL_FILL_OPACITY,
+  MARSHALL_CELL_STROKE,
+  MARSHALL_LAYER_CELLS,
+} from '../../constants/marshallMorphology.js'
+import { DEFAULT_NETWORK_FORM_BASEMAP, getNetworkFormBasemap } from '../../constants/basemaps.js'
 import { buildCellInfoPopupHtml, CELL_POPUP_OPTS } from '../../utils/cellPopup.js'
 import { escapeHtml } from '../../utils/escapeHtml.js'
 import { findJunctionById, junctionLatLng } from '../../utils/networkFormStats.js'
@@ -76,6 +79,39 @@ function junctionIcon(jtype, selected) {
   })
 }
 
+function cellSquareIcon(selected) {
+  const size = selected ? 16 : 12
+  return L.divIcon({
+    className: 'nf-junction-marker',
+    html: `<div class="nf-icon nf-icon-sq${selected ? ' nf-icon-selected' : ''}" style="width:${size}px;height:${size}px;background:${MARSHALL_CELL_FILL};box-shadow:0 0 0 1px ${MARSHALL_CELL_STROKE}"></div>`,
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+  })
+}
+
+function formatCellArea(areaM2) {
+  const n = Number(areaM2)
+  if (!Number.isFinite(n)) return '—'
+  return `${Math.round(n).toLocaleString('en-US')} m²`
+}
+
+function buildMarshallCellPopup(props) {
+  return buildCellInfoPopupHtml({
+    title: 'Structural cell',
+    primaryLabel: 'Cell',
+    primaryValue: `#${props?.cell_id ?? '—'}`,
+    badge: {
+      label: 'Marshall cell',
+      color: MARSHALL_CELL_FILL,
+      textColor: '#ffffff',
+    },
+    metrics: [
+      { label: 'Area', value: formatCellArea(props?.area_m2), bar: null },
+      { label: 'GN', value: props?.gn_name ?? '—', bar: null },
+    ],
+  })
+}
+
 function buildPopup(props) {
   const jtype = props?.jtype
   const color = NETWORK_FORM_ICONS[jtype]?.color ?? '#64748b'
@@ -121,12 +157,13 @@ function buildPopup(props) {
     if (umi != null || fsi != null) {
       metrics.push({
         label: 'UMI / FSI',
-        value: [
-          umi != null && Number.isFinite(Number(umi)) ? Number(umi).toFixed(3) : null,
-          fsi != null && Number.isFinite(Number(fsi)) ? `FSI ${Number(fsi).toFixed(2)}` : null,
-        ]
-          .filter(Boolean)
-          .join(' · ') || '—',
+        value:
+          [
+            umi != null && Number.isFinite(Number(umi)) ? Number(umi).toFixed(3) : null,
+            fsi != null && Number.isFinite(Number(fsi)) ? `FSI ${Number(fsi).toFixed(2)}` : null,
+          ]
+            .filter(Boolean)
+            .join(' · ') || '—',
         bar: null,
       })
     }
@@ -158,6 +195,27 @@ function FlyToJunction({ selectedJunctionId, junctions }) {
   return null
 }
 
+function OpenSelectedCellPopup({ selectedCellId, cells }) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (selectedCellId == null || !cells?.features) return
+    const feature = cells.features.find((f) => String(f.properties?.cell_id) === String(selectedCellId))
+    const lon = feature?.properties?.centroid_lon
+    const lat = feature?.properties?.centroid_lat
+    if (!feature || !Number.isFinite(Number(lon)) || !Number.isFinite(Number(lat))) return
+    const popup = L.popup({ ...CELL_POPUP_OPTS, autoPan: false })
+      .setLatLng([Number(lat), Number(lon)])
+      .setContent(buildMarshallCellPopup(feature.properties))
+    popup.openOn(map)
+    return () => {
+      map.closePopup(popup)
+    }
+  }, [selectedCellId, cells, map])
+
+  return null
+}
+
 function OpenSelectedPopup({ selectedJunctionId, junctions }) {
   const map = useMap()
 
@@ -166,9 +224,7 @@ function OpenSelectedPopup({ selectedJunctionId, junctions }) {
     const feature = findJunctionById(junctions, selectedJunctionId)
     const ll = junctionLatLng(feature)
     if (!ll || !feature) return
-    const popup = L.popup(CELL_POPUP_OPTS)
-      .setLatLng(ll)
-      .setContent(buildPopup(feature.properties))
+    const popup = L.popup(CELL_POPUP_OPTS).setLatLng(ll).setContent(buildPopup(feature.properties))
     popup.openOn(map)
     return () => {
       map.closePopup(popup)
@@ -178,7 +234,9 @@ function OpenSelectedPopup({ selectedJunctionId, junctions }) {
   return null
 }
 
-function FitBoundsToScope({ data, scopeKey, padding = [28, 28], maxZoom = 16 }) {
+const FIT_PADDING = [28, 28]
+
+function FitBoundsToScope({ data, scopeKey, maxZoom = 16 }) {
   const map = useMap()
 
   useEffect(() => {
@@ -186,8 +244,8 @@ function FitBoundsToScope({ data, scopeKey, padding = [28, 28], maxZoom = 16 }) 
     const layer = L.geoJSON(data)
     const bounds = layer.getBounds()
     if (!bounds.isValid()) return
-    map.fitBounds(bounds, { padding, maxZoom, animate: true })
-  }, [data, scopeKey, map, padding, maxZoom])
+    map.fitBounds(bounds, { padding: FIT_PADDING, maxZoom, animate: true })
+  }, [data, scopeKey, map, maxZoom])
 
   return null
 }
@@ -208,8 +266,11 @@ export default function NetworkFormMap({
   loading,
   selectedJunctionId,
   onSelectJunction,
+  marshallMode = false,
+  marshallCells = null,
 }) {
   const [basemapId, setBasemapId] = useState(DEFAULT_NETWORK_FORM_BASEMAP)
+  const [selectedCellId, setSelectedCellId] = useState(null)
   const basemap = useMemo(() => getNetworkFormBasemap(basemapId), [basemapId])
   const roadStyle = useMemo(() => roadStyleForBasemap(basemapId), [basemapId])
 
@@ -218,7 +279,20 @@ export default function NetworkFormMap({
   const showGn = Boolean(visibleLayers?.gnBoundary)
   const showCuldesacHex = Boolean(visibleLayers?.culdesacHex)
   const showCuldesacWalk = Boolean(visibleLayers?.culdesacWalk)
-  const showCuldesacUmi = Boolean(visibleLayers?.culdesacUmi)
+  const showCuldesacUmi = Boolean(visibleLayers?.culdesacUmi) && !marshallMode
+  const showMarshallCells = Boolean(marshallMode && visibleLayers?.[MARSHALL_LAYER_CELLS])
+
+  useEffect(() => {
+    if (selectedJunctionId != null) setSelectedCellId(null)
+  }, [selectedJunctionId])
+
+  useEffect(() => {
+    setSelectedCellId(null)
+  }, [selectedScope])
+
+  useEffect(() => {
+    if (!showMarshallCells) setSelectedCellId(null)
+  }, [showMarshallCells])
 
   const culdesacHexStyle = useMemo(
     () => (feature) => {
@@ -282,17 +356,15 @@ export default function NetworkFormMap({
     showGn && selectedScope !== NETWORK_FORM_SCOPE_ALL && allGnBoundary?.features?.length
 
   return (
-    <MapFullscreenShell
-      className="min-h-[320px]"
-      innerClassName="rounded-lg border border-surface-700"
-    >
+    <MapFullscreenShell className="min-h-[320px]" innerClassName="rounded-lg border border-surface-700">
       <NetworkFormMapLayerFab
         visibleLayers={visibleLayers}
         onToggle={onToggleLayer}
         basemapId={basemapId}
         onBasemapChange={setBasemapId}
+        marshallMode={marshallMode}
       />
-      <NetworkFormLegend counts={counts} visibleLayers={visibleLayers} />
+      <NetworkFormLegend counts={counts} visibleLayers={visibleLayers} marshallMode={marshallMode} />
 
       {loading && (
         <div className="absolute inset-0 z-[900] flex items-center justify-center bg-surface-950/40">
@@ -316,9 +388,7 @@ export default function NetworkFormMap({
           {...(basemap.maxZoom != null ? { maxZoom: basemap.maxZoom } : {})}
         />
 
-        {fitData && (
-          <FitBoundsToScope data={fitData} scopeKey={selectedScope} padding={[28, 28]} />
-        )}
+        {fitData && <FitBoundsToScope data={fitData} scopeKey={selectedScope} />}
 
         {showCuldesacHex && culdesacHex && (
           <GeoJSON
@@ -366,14 +436,8 @@ export default function NetworkFormMap({
             style={culdesacUmiStyle}
             onEachFeature={(feature, layer) => {
               const p = feature.properties || {}
-              const umi =
-                p.umi != null && Number.isFinite(Number(p.umi))
-                  ? Number(p.umi).toFixed(3)
-                  : '—'
-              const fsi =
-                p.FSI != null && Number.isFinite(Number(p.FSI))
-                  ? Number(p.FSI).toFixed(2)
-                  : '—'
+              const umi = p.umi != null && Number.isFinite(Number(p.umi)) ? Number(p.umi).toFixed(3) : '—'
+              const fsi = p.FSI != null && Number.isFinite(Number(p.FSI)) ? Number(p.FSI).toFixed(2) : '—'
               layer.bindTooltip(
                 escapeHtml(
                   `Hex #${p.hex_id ?? p.id} · ${p.culdesac_n ?? 0} cul-de-sacs · UMI ${umi} · FSI ${fsi}`,
@@ -385,20 +449,25 @@ export default function NetworkFormMap({
         )}
 
         {showMutedOthers && (
-          <GeoJSON
-            key={`gn-all-muted-${selectedScope}`}
-            data={allGnBoundary}
-            style={gnMutedStyle}
-          />
+          <GeoJSON key={`gn-all-muted-${selectedScope}`} data={allGnBoundary} style={gnMutedStyle} />
         )}
         {showGn && gnBoundary && (
           <GeoJSON key={`gn-scope-${selectedScope}`} data={gnBoundary} style={gnHighlightStyle} />
         )}
         {showRoads && streets && (
+          <GeoJSON key={`streets-${basemapId}-${selectedScope}`} data={streets} style={roadStyle} />
+        )}
+
+        {showMarshallCells && marshallCells && (
           <GeoJSON
-            key={`streets-${basemapId}-${selectedScope}`}
-            data={streets}
-            style={roadStyle}
+            key={`marshall-cells-${selectedScope}`}
+            data={marshallCells}
+            style={{
+              color: MARSHALL_CELL_STROKE,
+              weight: 1.25,
+              fillColor: MARSHALL_CELL_FILL,
+              fillOpacity: MARSHALL_CELL_FILL_OPACITY,
+            }}
           />
         )}
 
@@ -419,6 +488,30 @@ export default function NetworkFormMap({
           />
         )}
 
+        {showMarshallCells &&
+          (marshallCells?.features ?? []).map((feature) => {
+            const lon = feature.properties?.centroid_lon
+            const lat = feature.properties?.centroid_lat
+            if (!Number.isFinite(Number(lon)) || !Number.isFinite(Number(lat))) return null
+            const cellId = feature.properties?.cell_id
+            const gnName = feature.properties?.gn_name ?? selectedScope
+            const selected = String(cellId) === String(selectedCellId)
+            return (
+              <Marker
+                key={`cell-${gnName}-${cellId}`}
+                position={[Number(lat), Number(lon)]}
+                icon={cellSquareIcon(selected)}
+                zIndexOffset={selected ? 400 : 80}
+                eventHandlers={{
+                  click: () => {
+                    onSelectJunction?.(null)
+                    setSelectedCellId(cellId)
+                  },
+                }}
+              />
+            )
+          })}
+
         {markers.map((feature) => {
           const ll = junctionLatLng(feature)
           if (!ll) return null
@@ -430,9 +523,12 @@ export default function NetworkFormMap({
               key={`j-${id}`}
               position={ll}
               icon={junctionIcon(jtype, selected)}
-              zIndexOffset={selected ? 1000 : 0}
+              zIndexOffset={selected ? 1000 : 200}
               eventHandlers={{
-                click: () => onSelectJunction?.(id),
+                click: () => {
+                  setSelectedCellId(null)
+                  onSelectJunction?.(id)
+                },
               }}
             />
           )
@@ -440,6 +536,7 @@ export default function NetworkFormMap({
 
         <FlyToJunction selectedJunctionId={selectedJunctionId} junctions={junctions} />
         <OpenSelectedPopup selectedJunctionId={selectedJunctionId} junctions={junctions} />
+        <OpenSelectedCellPopup selectedCellId={selectedCellId} cells={marshallCells} />
 
         {selectedJunctionId != null &&
           (() => {

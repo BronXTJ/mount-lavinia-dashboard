@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Layers, X } from 'lucide-react'
 import L from 'leaflet'
+import { MARSHALL_CELL_FILL, MARSHALL_LAYER_CELLS } from '../../constants/marshallMorphology.js'
 import {
   NETWORK_FORM_FAB_CONTEXT_LAYERS,
   NETWORK_FORM_FAB_JUNCTION_LAYERS,
@@ -41,11 +42,18 @@ function LayerRow({ layer, checked, onToggle }) {
 }
 
 /** Network Form map FAB — basemap chips + junction/context toggles. */
+const MARSHALL_CELL_LAYER = {
+  id: MARSHALL_LAYER_CELLS,
+  label: 'Structural cells',
+  dot: MARSHALL_CELL_FILL,
+}
+
 export default function NetworkFormMapLayerFab({
   visibleLayers,
   onToggle,
   basemapId,
   onBasemapChange,
+  marshallMode = false,
 }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
@@ -135,6 +143,13 @@ export default function NetworkFormMapLayerFab({
               Junctions
             </p>
             <div className="py-1">
+              {marshallMode && (
+                <LayerRow
+                  layer={MARSHALL_CELL_LAYER}
+                  checked={Boolean(visibleLayers?.[MARSHALL_CELL_LAYER.id])}
+                  onToggle={onToggle}
+                />
+              )}
               {NETWORK_FORM_FAB_JUNCTION_LAYERS.map((layer) => (
                 <LayerRow
                   key={layer.id}
@@ -153,7 +168,10 @@ export default function NetworkFormMapLayerFab({
               Context
             </p>
             <div className="pb-1">
-              {NETWORK_FORM_FAB_CONTEXT_LAYERS.map((layer) => (
+              {NETWORK_FORM_FAB_CONTEXT_LAYERS.filter(
+                (layer) =>
+                  !marshallMode || !['culdesacHex', 'culdesacWalk', 'culdesacUmi'].includes(layer.id),
+              ).map((layer) => (
                 <LayerRow
                   key={layer.id}
                   layer={layer}

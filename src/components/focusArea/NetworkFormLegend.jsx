@@ -1,3 +1,4 @@
+import { MARSHALL_CELL_FILL } from '../../constants/marshallMorphology.js'
 import {
   CULDESAC_HEX_COUNT_STOPS,
   CULDESAC_UMI_STOPS,
@@ -24,20 +25,10 @@ function Symbol({ jtype }) {
     )
   }
   if (jtype === 'three_way') {
-    return (
-      <span
-        className="inline-block h-2.5 w-2.5"
-        style={{ backgroundColor: color }}
-        aria-hidden
-      />
-    )
+    return <span className="inline-block h-2.5 w-2.5" style={{ backgroundColor: color }} aria-hidden />
   }
   return (
-    <span
-      className="inline-block h-2.5 w-2.5 rounded-full"
-      style={{ backgroundColor: color }}
-      aria-hidden
-    />
+    <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} aria-hidden />
   )
 }
 
@@ -57,21 +48,42 @@ const TIER_LABELS = {
 }
 
 /** Bottom-left dark legend for Network Form junction icons. */
-export default function NetworkFormLegend({ counts, visibleLayers }) {
+export default function NetworkFormLegend({ counts, visibleLayers, marshallMode = false }) {
   const rows = [
     { id: 'four_way', label: '4-way' },
     { id: 'three_way', label: '3-way' },
     { id: 'culdesac', label: 'Cul-de-sac' },
   ].filter((r) => visibleLayers?.[r.id] !== false)
 
-  const showHex = Boolean(visibleLayers?.culdesacHex)
-  const showWalk = Boolean(visibleLayers?.culdesacWalk)
-  const showUmi = Boolean(visibleLayers?.culdesacUmi)
+  const showHex = Boolean(visibleLayers?.culdesacHex) && !marshallMode
+  const showWalk = Boolean(visibleLayers?.culdesacWalk) && !marshallMode
+  const showUmi = Boolean(visibleLayers?.culdesacUmi) && !marshallMode
+  const showCells = Boolean(marshallMode && visibleLayers?.marshall_cells)
 
-  if (rows.length === 0 && !showHex && !showWalk && !showUmi) return null
+  if (rows.length === 0 && !showHex && !showWalk && !showUmi && !showCells) return null
 
   return (
-    <div className="pointer-events-none absolute bottom-6 left-3 z-[1000] w-52 rounded-lg border border-surface-700 bg-surface-900/95 p-3 shadow-card backdrop-blur">
+    <div
+      className={`pointer-events-none absolute left-3 z-[1000] w-52 rounded-lg border border-surface-700 bg-surface-900/95 p-3 shadow-card backdrop-blur ${
+        marshallMode ? 'bottom-10 max-h-[40vh] overflow-y-auto' : 'bottom-6'
+      }`}
+    >
+      {showCells && (
+        <div className="mb-3 border-b border-surface-700/80 pb-2.5">
+          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.08em] text-surface-300">
+            Marshall structure
+          </p>
+          <div className="flex items-center gap-2 text-xs text-surface-100">
+            <span
+              className="inline-block h-2.5 w-2.5 shrink-0"
+              style={{ backgroundColor: MARSHALL_CELL_FILL }}
+              aria-hidden
+            />
+            <span className="flex-1">Structural cell</span>
+            <span className="font-mono text-surface-300">{counts?.marshall_cells ?? 0}</span>
+          </div>
+        </div>
+      )}
       {rows.length > 0 && (
         <>
           <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.08em] text-surface-300">
@@ -112,11 +124,7 @@ export default function NetworkFormLegend({ counts, visibleLayers }) {
       )}
 
       {showWalk && (
-        <div
-          className={
-            rows.length > 0 || showHex ? 'mt-3 border-t border-surface-700/80 pt-2.5' : ''
-          }
-        >
+        <div className={rows.length > 0 || showHex ? 'mt-3 border-t border-surface-700/80 pt-2.5' : ''}>
           <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.08em] text-surface-300">
             Walk access tier
           </p>
@@ -138,14 +146,10 @@ export default function NetworkFormLegend({ counts, visibleLayers }) {
       {showUmi && (
         <div
           className={
-            rows.length > 0 || showHex || showWalk
-              ? 'mt-3 border-t border-surface-700/80 pt-2.5'
-              : ''
+            rows.length > 0 || showHex || showWalk ? 'mt-3 border-t border-surface-700/80 pt-2.5' : ''
           }
         >
-          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.08em] text-surface-300">
-            UMI
-          </p>
+          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.08em] text-surface-300">UMI</p>
           <ul className="space-y-1.5">
             {CULDESAC_UMI_STOPS.map((stop) => (
               <li key={stop.label} className="flex items-center gap-2 text-xs text-surface-100">
