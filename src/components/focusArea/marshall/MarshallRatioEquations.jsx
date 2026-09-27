@@ -1,6 +1,6 @@
 function StackedFraction({ numerator, denominator }) {
   return (
-    <span className="mx-0.5 inline-flex min-w-[2.2em] flex-col items-stretch align-middle text-center leading-none">
+    <span className="inline-flex min-w-[2.2em] flex-col items-stretch text-center leading-none">
       <span className="px-1 pb-0.5">{numerator}</span>
       <span className="border-t border-current" aria-hidden />
       <span className="px-1 pt-0.5">{denominator}</span>
@@ -10,7 +10,7 @@ function StackedFraction({ numerator, denominator }) {
 
 function RatioEquation({ label, numerator, denominator }) {
   return (
-    <span className="inline-flex items-center gap-1.5">
+    <span className="flex min-w-0 items-center justify-center gap-1.5 rounded-md border border-surface-600 bg-surface-900/40 px-1.5 py-2 text-center">
       <span>{label}</span>
       <span aria-hidden>=</span>
       <StackedFraction numerator={numerator} denominator={denominator} />
@@ -18,18 +18,26 @@ function RatioEquation({ label, numerator, denominator }) {
   )
 }
 
+function EquationRow({ children }) {
+  return (
+    <span className="grid grid-cols-2 gap-2 font-serif text-[0.95em] tracking-wide">
+      {children}
+    </span>
+  )
+}
+
 export function MarshallJunctionEquations() {
   return (
-    <span className="inline-flex flex-wrap items-center gap-x-5 gap-y-2 font-serif text-[1.05em] tracking-wide">
+    <EquationRow>
       <RatioEquation label="T-ratio" numerator={<var>T</var>} denominator={<span><var>T</var> + <var>X</var></span>} />
       <RatioEquation label="X-ratio" numerator={<var>X</var>} denominator={<span><var>T</var> + <var>X</var></span>} />
-    </span>
+    </EquationRow>
   )
 }
 
 export function MarshallStructureEquations() {
   return (
-    <span className="inline-flex flex-wrap items-center gap-x-5 gap-y-2 font-serif text-[1.05em] tracking-wide">
+    <EquationRow>
       <RatioEquation
         label="Cell-ratio"
         numerator="Cells"
@@ -40,6 +48,6 @@ export function MarshallStructureEquations() {
         numerator="Culs"
         denominator={<span>Cells + Culs</span>}
       />
-    </span>
+    </EquationRow>
   )
 }

@@ -20,7 +20,7 @@ function ScopeChip({ active, label, disabled, title, onClick }) {
       disabled={disabled}
       title={title}
       onClick={onClick}
-      className="rounded-full border px-2.5 py-1 text-[11px] transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+      className="w-full rounded-full border px-2 py-1 text-center text-[11px] transition-colors disabled:cursor-not-allowed disabled:opacity-50"
       style={{
         borderColor: active ? '#00b4d8' : 'rgba(71,85,105,0.8)',
         backgroundColor: active ? 'rgba(0,180,216,0.12)' : 'transparent',
@@ -54,15 +54,15 @@ export default function MarshallMorphologyOverviewPanel({
         />
       </div>
 
-      <div className="flex flex-wrap gap-1.5">
-        <ScopeChip label="All" disabled title="Marshall morphology is shown for one GN division at a time." />
-        {NETWORK_FORM_GN_NAMES.map((name) => (
-          <ScopeChip
-            key={name}
-            active={name === selectedScope}
-            label={name}
-            onClick={() => onSelectScope?.(name)}
-          />
+      <div className="grid grid-cols-6 gap-1.5">
+        {NETWORK_FORM_GN_NAMES.map((name, index) => (
+          <div key={name} className={index < 3 ? 'col-span-2' : 'col-span-3'}>
+            <ScopeChip
+              active={name === selectedScope}
+              label={name}
+              onClick={() => onSelectScope?.(name)}
+            />
+          </div>
         ))}
       </div>
 
