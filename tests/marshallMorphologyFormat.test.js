@@ -3,6 +3,9 @@ import scopesDoc from '../public/data/network-form/marshall/marshall_scopes.json
 import {
   formatStoredPercent,
   marshallChartPoints,
+  marshallMatrixDomainMax,
+  marshallMatrixTicks,
+  marshallPlotCoord,
   marshallTableRows,
   matrixPoint,
 } from '../src/utils/marshallMorphologyFormat.js'
@@ -73,5 +76,14 @@ describe('marshallMorphologyFormat', () => {
   it('returns null when metrics are missing', () => {
     expect(matrixPoint(null)).toBeNull()
     expect(marshallTableRows({})).toBeNull()
+  })
+
+  it('maps plot coords for compact 0.5 domain vs full 1 domain', () => {
+    expect(marshallPlotCoord(0.1, 0.5)).toBe(0.2)
+    expect(marshallPlotCoord(0.1, 1)).toBe(0.1)
+    expect(marshallMatrixDomainMax('compact')).toBe(0.5)
+    expect(marshallMatrixDomainMax('expanded')).toBe(1)
+    expect(marshallMatrixTicks(0.5)).toEqual([0, 0.1, 0.2, 0.3, 0.4, 0.5])
+    expect(marshallMatrixTicks(1)).toEqual([0, 0.25, 0.5, 0.75, 1])
   })
 })

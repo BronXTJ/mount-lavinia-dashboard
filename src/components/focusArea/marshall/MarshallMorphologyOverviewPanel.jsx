@@ -112,7 +112,11 @@ export default function MarshallMorphologyOverviewPanel({
             </button>
           </div>
           <div className="min-h-0 flex-1 overflow-hidden">
-            <MarshallMatrixChart scopes={scopes} selectedName={selectedScope} />
+            <MarshallMatrixChart
+              scopes={scopes}
+              selectedName={selectedScope}
+              onSelectScope={onSelectScope}
+            />
           </div>
           <div
             role="note"
@@ -185,6 +189,7 @@ export default function MarshallMorphologyOverviewPanel({
         onClose={() => setExpanded(false)}
         scopes={scopes}
         selectedName={selectedScope}
+        onSelectScope={onSelectScope}
       />
     </div>
   )
