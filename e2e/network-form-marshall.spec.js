@@ -1,16 +1,22 @@
 import { test, expect } from '@playwright/test'
 
 test('Marshall morphology shows the stored matrix', async ({ page }) => {
+  test.setTimeout(120_000)
+
   const pageErrors = []
   page.on('pageerror', (err) => pageErrors.push(String(err)))
 
-  await page.goto('focus-area?sub=network-form', { waitUntil: 'domcontentloaded' })
-  await page.getByRole('tab', { name: 'Marshall Morphology' }).click()
+  await page.goto('focus-area?sub=network-form', { waitUntil: 'load' })
+  await expect(page.getByRole('tab', { name: 'Overview' })).toBeVisible()
+
+  const marshallTab = page.getByRole('tab', { name: 'Marshall Morphology' })
+  await marshallTab.scrollIntoViewIfNeeded()
+  await marshallTab.click()
   await expect(page.getByTestId('marshall-matrix')).toBeVisible()
   await expect(page.getByTestId('marshall-matrix-figure')).toBeVisible()
   await expect(page.getByTestId('marshall-counts-table')).toBeVisible()
-  await expect(page.getByTestId('marshall-counts-table')).toContainText('108')
-  await expect(page.getByTestId('marshall-study-area')).toContainText('379')
+  await expect(page.getByTestId('marshall-counts-table')).toContainText('111')
+  await expect(page.getByTestId('marshall-study-area')).toContainText('382')
   await expect(page.getByTestId('marshall-uncertainty')).toContainText('excluded from ratio calculations')
   await expect(page.getByTestId('marshall-uncertainty')).toContainText('1 uncertain case')
   await expect(page.getByTestId('marshall-uncertainty')).toContainText('Cell')

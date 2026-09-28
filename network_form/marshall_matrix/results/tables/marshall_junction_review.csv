@@ -4,8 +4,8 @@ J0014,Mount Lavinia,79.866232,6.830371,T,3,near GN boundary; an arm may be missi
 J0016,Mount Lavinia,79.863651,6.830508,T,3,
 J0021,Mount Lavinia,79.866964,6.830713,T,3,
 J0028,Mount Lavinia,79.86516,6.83143,T,3,
-J0044,Mount Lavinia,79.867335,6.832562,X,4,
-J0058,Mount Lavinia,79.866376,6.834133,X,4,
+J0044,Mount Lavinia,79.867335,6.832562,T,3,Site review: confirmed Marshall T-junction
+J0058,Mount Lavinia,79.866376,6.834133,T,3,Site review: confirmed Marshall T-junction (K0030)
 J0065,Mount Lavinia,79.867319,6.83509,X,4,
 J0071,Mount Lavinia,79.865721,6.835271,X,4,
 J0089,Mount Lavinia,79.86484,6.83864,X,4,
@@ -21,3 +21,4 @@ J0002,Mount Lavinia,79.863611,6.829912,ENDPOINT,1,boundary endpoint B0021
 J0003,Mount Lavinia,79.864792,6.83008,ENDPOINT,1,boundary endpoint B0013
 J0004,Mount Lavinia,79.864953,6.830095,ENDPOINT,1,boundary endpoint B0012
 J0005,Mount Lavinia,79.86505,6.830114,ENDPOINT,1,boundary endpoint B0024
+J0092,Mount Lavinia,79.867485,6.838976,T,3,Site review: confirmed Marshall T-junction
