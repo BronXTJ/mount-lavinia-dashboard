@@ -159,6 +159,14 @@
   "uncertainty": {
     "junctions": 3,
     "cells": 1,
-    "cul_de_sacs": 2
+    "cul_de_sacs": 2,
+    "excluded_cases": [
+      { "kind": "junction", "id": "J0342 / C0135" },
+      { "kind": "junction", "id": "J0425 / C0130" },
+      { "kind": "junction", "id": "J0468 / C0257" },
+      { "kind": "cell", "id": "C0053" },
+      { "kind": "cul-de-sac", "id": "K0290" },
+      { "kind": "cul-de-sac", "id": "K0294" }
+    ]
   }
 }
