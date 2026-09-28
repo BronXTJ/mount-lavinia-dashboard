@@ -29,7 +29,7 @@ export const MARSHALL_INFO_POINTS = [
 ]
 
 export const MARSHALL_MATRIX_INFO = [
-  'Compact matrix axes are shown from 0 to 0.5 on X and Cell so the five GN dots are easier to compare; Expand shows the full 0–1 Marshall scale. Positions use the same stored ratios in both views.',
+  'Compact view: bottom (X) and left (Cell) axes run 0–0.5 for legibility; top (T) and right (Cul) are complementary and sum to 1 with bottom/left on the same grid lines. Expand shows the full 0–1 Marshall scale. Stored dot positions are unchanged in both views.',
   'Each colored dot is one GN division. Its position uses the stored Marshall ratios for that GN; the dashboard does not recompute them.',
   'Horizontal axis: the bottom scale is X-ratio (X-junctions as a share of T + X). The top scale is T-ratio and runs in the opposite direction. T-ratio + X-ratio = 1.',
   'Vertical axis: the left scale is Cell-ratio (Marshall cells as a share of cells + cul-de-sacs). The right scale is Cul-ratio and is complementary. Cell-ratio + Cul-ratio = 1.',

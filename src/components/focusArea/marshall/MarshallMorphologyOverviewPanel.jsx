@@ -111,13 +111,6 @@ export default function MarshallMorphologyOverviewPanel({
               Expand
             </button>
           </div>
-          <p
-            className="mb-1.5 text-[10px] leading-snug text-surface-500"
-            data-testid="marshall-matrix-axis-note"
-          >
-            Compact axes: X and Cell 0–0.5 for legibility. Top (T) and right (Cul) are complementary (sum
-            to 1 with bottom/left). Use Expand for full 0–1.
-          </p>
           <div className="min-h-0 flex-1 overflow-hidden">
             <MarshallMatrixChart
               scopes={scopes}
