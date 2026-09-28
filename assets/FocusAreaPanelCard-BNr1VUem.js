@@ -1,0 +1,1 @@
+import{s as e}from"./index-D2rVP9LC.js";var t=e();function n({children:e,className:n=``}){return(0,t.jsx)(`div`,{className:`rounded-lg border border-surface-700 bg-surface-800 p-4 shadow-card ${n}`,children:e})}export{n as t};
