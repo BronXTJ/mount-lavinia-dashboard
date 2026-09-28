@@ -43,6 +43,7 @@ function ModeButton({ active, label, onClick, grow = false }) {
 export default function NetworkFormView() {
   const [visibleLayers, setVisibleLayers] = useState(DEFAULT_NETWORK_FORM_VISIBLE)
   const [selectedJunctionId, setSelectedJunctionId] = useState(null)
+  const [excludedCaseFocus, setExcludedCaseFocus] = useState(null)
   const [selectedScope, setSelectedScope] = useState(DEFAULT_NETWORK_FORM_SCOPE)
   const [networkFormMode, setNetworkFormMode] = useState(NETWORK_FORM_MODE_OVERVIEW)
   const marshallMode = networkFormMode === NETWORK_FORM_MODE_MARSHALL
@@ -78,11 +79,13 @@ export default function NetworkFormView() {
   function handleSelectScope(scope) {
     setSelectedScope(scope)
     setSelectedJunctionId(null)
+    setExcludedCaseFocus(null)
   }
 
   function handleMode(mode) {
     setNetworkFormMode(mode)
     setSelectedJunctionId(null)
+    setExcludedCaseFocus(null)
     if (mode === NETWORK_FORM_MODE_MARSHALL) {
       setSelectedScope((prev) =>
         prev === NETWORK_FORM_SCOPE_ALL || !NETWORK_FORM_GN_NAMES.includes(prev) ? MARSHALL_GN_NAME : prev,
@@ -168,7 +171,11 @@ export default function NetworkFormView() {
             counts={marshallMode ? marshallCounts : counts}
             loading={marshallMode ? marshall.loading : loading}
             selectedJunctionId={selectedJunctionId}
-            onSelectJunction={setSelectedJunctionId}
+            onSelectJunction={(id) => {
+              setExcludedCaseFocus(null)
+              setSelectedJunctionId(id)
+            }}
+            flyToLatLng={marshallMode ? excludedCaseFocus : null}
             marshallMode={marshallMode}
             marshallCells={marshall.cells}
           />
@@ -189,6 +196,10 @@ export default function NetworkFormView() {
             uncertainty={marshall.uncertainty}
             loading={marshall.loading}
             error={marshall.error}
+            onFocusExcludedCase={(focus) => {
+              setSelectedJunctionId(null)
+              setExcludedCaseFocus(focus)
+            }}
           />
         ) : (
           <NetworkFormDetailPanel

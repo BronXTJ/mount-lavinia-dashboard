@@ -73,6 +73,7 @@ export default function MarshallMorphologyDetailPanel({
   uncertainty,
   loading,
   error,
+  onFocusExcludedCase,
 }) {
   const counts = metrics?.counts
   const ratios = metrics?.ratios
@@ -211,7 +212,10 @@ export default function MarshallMorphologyDetailPanel({
             </div>
           </FocusAreaPanelCard>
 
-          <MarshallDataQualityPanel uncertainty={uncertainty} />
+          <MarshallDataQualityPanel
+            uncertainty={uncertainty}
+            onFocusExcludedCase={onFocusExcludedCase}
+          />
         </>
       )}
     </div>

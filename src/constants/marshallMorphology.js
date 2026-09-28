@@ -1,5 +1,7 @@
 /** Network Form — Marshall morphology (Mount Lavinia GN, Marshall 2005). */
 
+import { NETWORK_FORM_ICONS } from './networkForm.js'
+
 export const NETWORK_FORM_MODE_OVERVIEW = 'overview'
 export const NETWORK_FORM_MODE_MARSHALL = 'marshall'
 
@@ -8,6 +10,13 @@ export const MARSHALL_GN_PCODE = 'LK1131005'
 
 export const MARSHALL_CELL_FILL = '#22c55e'
 export const MARSHALL_CELL_STROKE = '#16a34a'
+
+/** Legend-aligned colors for excluded uncertainty cases (data quality panel + map focus). */
+export const MARSHALL_EXCLUDED_KIND_COLORS = {
+  junction: NETWORK_FORM_ICONS.three_way.color,
+  cell: MARSHALL_CELL_FILL,
+  'cul-de-sac': NETWORK_FORM_ICONS.culdesac.color,
+}
 export const MARSHALL_CELL_SELECTED_STROKE = '#86efac'
 export const MARSHALL_CELL_FILL_OPACITY = 0.28
 

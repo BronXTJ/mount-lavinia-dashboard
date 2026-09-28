@@ -161,12 +161,48 @@
     "cells": 1,
     "cul_de_sacs": 2,
     "excluded_cases": [
-      { "kind": "junction", "id": "J0342 / C0135" },
-      { "kind": "junction", "id": "J0425 / C0130" },
-      { "kind": "junction", "id": "J0468 / C0257" },
-      { "kind": "cell", "id": "C0053" },
-      { "kind": "cul-de-sac", "id": "K0290" },
-      { "kind": "cul-de-sac", "id": "K0294" }
+      {
+        "kind": "junction",
+        "id": "J0342 / C0135",
+        "primary_id": "J0342",
+        "lat": 6.844431,
+        "lng": 79.875023
+      },
+      {
+        "kind": "junction",
+        "id": "J0425 / C0130",
+        "primary_id": "J0425",
+        "lat": 6.847827,
+        "lng": 79.868865
+      },
+      {
+        "kind": "junction",
+        "id": "J0468 / C0257",
+        "primary_id": "J0468",
+        "lat": 6.837918,
+        "lng": 79.873054
+      },
+      {
+        "kind": "cell",
+        "id": "C0053",
+        "primary_id": "C0053",
+        "lat": 6.8443753,
+        "lng": 79.8639222
+      },
+      {
+        "kind": "cul-de-sac",
+        "id": "K0290",
+        "primary_id": "K0290",
+        "lat": 6.8432648,
+        "lng": 79.8711231
+      },
+      {
+        "kind": "cul-de-sac",
+        "id": "K0294",
+        "primary_id": "K0294",
+        "lat": 6.8281151,
+        "lng": 79.8706345
+      }
     ]
   }
 }

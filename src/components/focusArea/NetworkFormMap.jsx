@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { GeoJSON, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
+import { CircleMarker, GeoJSON, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import MapFullscreenShell from '../MapFullscreenShell.jsx'
 import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
@@ -28,6 +28,7 @@ import {
   MARSHALL_CELL_FILL_OPACITY,
   MARSHALL_CELL_SELECTED_STROKE,
   MARSHALL_CELL_STROKE,
+  MARSHALL_EXCLUDED_KIND_COLORS,
   MARSHALL_LAYER_CELLS,
 } from '../../constants/marshallMorphology.js'
 import { DEFAULT_NETWORK_FORM_BASEMAP, getNetworkFormBasemap } from '../../constants/basemaps.js'
@@ -212,6 +213,20 @@ function FlyToJunction({ selectedJunctionId, junctions }) {
   return null
 }
 
+function FlyToLatLng({ flyToLatLng }) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (!flyToLatLng) return
+    const lat = Number(flyToLatLng.lat)
+    const lng = Number(flyToLatLng.lng)
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return
+    map.flyTo([lat, lng], NETWORK_FORM_SELECTED_ZOOM, { duration: 0.55 })
+  }, [flyToLatLng, map])
+
+  return null
+}
+
 function OpenSelectedCellPopup({ selectedCellId, cells }) {
   const map = useMap()
 
@@ -283,6 +298,7 @@ export default function NetworkFormMap({
   loading,
   selectedJunctionId,
   onSelectJunction,
+  flyToLatLng = null,
   marshallMode = false,
   marshallCells = null,
 }) {
@@ -578,8 +594,25 @@ export default function NetworkFormMap({
         })}
 
         <FlyToJunction selectedJunctionId={selectedJunctionId} junctions={junctions} />
+        <FlyToLatLng flyToLatLng={flyToLatLng} />
         <OpenSelectedPopup selectedJunctionId={selectedJunctionId} junctions={junctions} />
         <OpenSelectedCellPopup selectedCellId={selectedCellId} cells={marshallCells} />
+
+        {flyToLatLng &&
+          Number.isFinite(Number(flyToLatLng.lat)) &&
+          Number.isFinite(Number(flyToLatLng.lng)) && (
+            <CircleMarker
+              center={[Number(flyToLatLng.lat), Number(flyToLatLng.lng)]}
+              radius={10}
+              pathOptions={{
+                color: MARSHALL_EXCLUDED_KIND_COLORS[flyToLatLng.kind] ?? '#fda4af',
+                fillColor: '#fda4af',
+                fillOpacity: 0.25,
+                weight: 2,
+              }}
+              interactive={false}
+            />
+          )}
 
         {selectedJunctionId != null &&
           (() => {

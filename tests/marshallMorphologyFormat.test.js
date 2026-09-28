@@ -55,6 +55,19 @@ describe('marshallMorphologyFormat', () => {
     expect(scopesDoc.uncertainty.cells).toBe(1)
     expect(scopesDoc.uncertainty.cul_de_sacs).toBe(2)
     expect(scopesDoc.uncertainty.excluded_cases).toHaveLength(6)
+    for (const row of scopesDoc.uncertainty.excluded_cases) {
+      expect(row).toMatchObject({
+        kind: expect.any(String),
+        id: expect.any(String),
+        primary_id: expect.any(String),
+        lat: expect.any(Number),
+        lng: expect.any(Number),
+      })
+      expect(row.lat).toBeGreaterThan(6)
+      expect(row.lat).toBeLessThan(7)
+      expect(row.lng).toBeGreaterThan(79)
+      expect(row.lng).toBeLessThan(80)
+    }
   })
 
   it('returns null when metrics are missing', () => {
