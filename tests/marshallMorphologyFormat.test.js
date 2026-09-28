@@ -51,7 +51,10 @@ describe('marshallMorphologyFormat', () => {
     })
     expect(marshallChartPoints([{ gn_name: 'Empty', ratios: {}, matrix: {} }])).toEqual([])
     expect(scopesDoc.study_area.counts.n_T).toBe(376)
-    expect(scopesDoc.uncertainty).toEqual({ junctions: 3, cells: 1, cul_de_sacs: 2 })
+    expect(scopesDoc.uncertainty.junctions).toBe(3)
+    expect(scopesDoc.uncertainty.cells).toBe(1)
+    expect(scopesDoc.uncertainty.cul_de_sacs).toBe(2)
+    expect(scopesDoc.uncertainty.excluded_cases).toHaveLength(6)
   })
 
   it('returns null when metrics are missing', () => {

@@ -1,5 +1,5 @@
-import { CircleAlert } from 'lucide-react'
 import FocusAreaPanelCard from '../FocusAreaPanelCard.jsx'
+import MarshallDataQualityPanel from './MarshallDataQualityPanel.jsx'
 import MetricInfoButton from '../MetricInfoButton.jsx'
 import { formatStoredCount, formatStoredPercent } from '../../../utils/marshallMorphologyFormat.js'
 import { NETWORK_FORM_ICONS } from '../../../constants/networkForm.js'
@@ -44,25 +44,6 @@ function StatTiles({ items }) {
   )
 }
 
-function formatUncertaintyFootnote(uncertainty) {
-  const junctions = uncertainty?.junctions ?? 0
-  const cells = uncertainty?.cells ?? 0
-  const culs = uncertainty?.cul_de_sacs ?? 0
-  const total = junctions + cells + culs
-  if (!total) {
-    return 'Uncertain cases were excluded from the ratios.'
-  }
-  const junctionPart =
-    junctions > 0
-      ? `${junctions} junction crossing${junctions === 1 ? '' : 's'}`
-      : null
-  const cellPart = cells > 0 ? `${cells} cell${cells === 1 ? '' : 's'}` : null
-  const culPart = culs > 0 ? `${culs} cul-de-sac${culs === 1 ? '' : 's'}` : null
-  const detail = [junctionPart, cellPart, culPart].filter(Boolean).join(', ')
-  const detailWithAnd = detail.replace(/, ([^,]+)$/, ', and $1')
-  return `${total} uncertain case${total === 1 ? '' : 's'} were excluded from the ratios — ${detailWithAnd}.`
-}
-
 function NetworkFormReferenceTile({ color, label, value }) {
   return (
     <li
@@ -97,7 +78,6 @@ export default function MarshallMorphologyDetailPanel({
   const ratios = metrics?.ratios
   const comparison = metrics?.comparison_network_form
   const gnName = metrics?.gn_name ?? '—'
-  const uncertaintyNote = formatUncertaintyFootnote(uncertainty)
 
   return (
     <div className="flex flex-col gap-3" data-testid="marshall-counts">
@@ -231,18 +211,7 @@ export default function MarshallMorphologyDetailPanel({
             </div>
           </FocusAreaPanelCard>
 
-          <div
-            role="note"
-            data-testid="marshall-uncertainty"
-            aria-label={`Data note: ${uncertaintyNote}`}
-            className="shrink-0 rounded-md border border-rose-400/50 border-l-4 border-l-rose-400 bg-rose-500/12 px-2.5 py-2"
-          >
-            <div className="mb-1 flex items-center gap-1.5">
-              <CircleAlert size={14} className="shrink-0 text-rose-300" aria-hidden />
-              <p className="text-[10px] font-semibold uppercase tracking-wide text-rose-200">Data note</p>
-            </div>
-            <p className="text-xs font-medium leading-snug text-surface-50">{uncertaintyNote}</p>
-          </div>
+          <MarshallDataQualityPanel uncertainty={uncertainty} />
         </>
       )}
     </div>

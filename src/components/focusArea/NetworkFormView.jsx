@@ -112,7 +112,7 @@ export default function NetworkFormView() {
         }
       >
         <div
-          className={marshallMode ? 'mb-2 flex shrink-0 flex-row gap-2' : 'mb-4 flex flex-col gap-2'}
+          className={marshallMode ? 'mb-5 flex shrink-0 flex-row gap-2' : 'mb-4 flex flex-col gap-2'}
           role="tablist"
           aria-label="Network Form analysis"
         >

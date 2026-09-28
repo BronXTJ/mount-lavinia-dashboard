@@ -44,8 +44,8 @@ export default function MarshallMorphologyOverviewPanel({
   const gnName = metrics?.gn_name ?? selectedScope
 
   return (
-    <div className="flex flex-col gap-2 pb-2">
-      <div className="flex items-center gap-2 border-l-4 border-primary-500 pl-3">
+    <div className="flex flex-col gap-3 pb-2">
+      <div className="mb-3 flex items-center gap-2 border-l-4 border-primary-500 pl-3">
         <h2 className="font-display text-lg font-semibold text-surface-50">Marshall Morphology</h2>
         <MetricInfoButton
           title="Marshall Morphology"
@@ -121,10 +121,7 @@ export default function MarshallMorphologyOverviewPanel({
             className="mt-2 shrink-0 rounded-md border border-primary-500/45 border-l-4 border-l-primary-500 bg-primary-500/10 px-2.5 py-2"
           >
             <p className="text-[10px] font-semibold uppercase tracking-wide text-primary-300">Key pattern</p>
-            <p
-              className="line-clamp-1 text-xs font-medium leading-snug text-surface-50"
-              title={MARSHALL_INTERPRETATION}
-            >
+            <p className="line-clamp-2 break-words text-xs font-medium leading-snug text-surface-50">
               {MARSHALL_INTERPRETATION}
             </p>
           </div>
