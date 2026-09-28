@@ -77,12 +77,13 @@ export const MARSHALL_UNCERTAINTY_DETAIL = [
 export const MARSHALL_INTERPRETATION =
   'Low X · low Cell · five-GN cluster (T-tree), with variation within that range.'
 
+/** GN-only matrix/legend colors; not junction typology or Marshall cell greens on the map. */
 export const MARSHALL_GN_COLORS = {
-  'Mount Lavinia': '#38bdf8',
-  'Kawdana West': '#f59e0b',
+  'Mount Lavinia': '#8b9cf7',
+  'Kawdana West': '#c4a574',
   Watarappala: '#a78bfa',
-  Wathumulla: '#34d399',
-  Wedikanda: '#fb7185',
+  Wathumulla: '#94a89a',
+  Wedikanda: '#f0a8b8',
 }
 
 /** Default map layers while Marshall morphology is active. */
