@@ -1,0 +1,1 @@
+import{s as e}from"./index-ByMMbuc5.js";import{t}from"./KPICard-xZoo-2SB.js";var n=e();function r({items:e}){return(0,n.jsx)(`div`,{className:`grid grid-cols-2 gap-3`,children:e.map(e=>(0,n.jsx)(t,{...e},e.label))})}export{r as t};
