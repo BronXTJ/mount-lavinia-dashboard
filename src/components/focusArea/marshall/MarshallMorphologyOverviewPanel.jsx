@@ -114,9 +114,20 @@ export default function MarshallMorphologyOverviewPanel({
           <div className="min-h-0 flex-1 overflow-hidden">
             <MarshallMatrixChart scopes={scopes} selectedName={selectedScope} />
           </div>
-          <p className="mt-1.5 shrink-0 text-[11px] leading-snug text-surface-400">
-            {MARSHALL_INTERPRETATION}
-          </p>
+          <div
+            role="note"
+            data-testid="marshall-interpretation"
+            aria-label={`Key pattern: ${MARSHALL_INTERPRETATION}`}
+            className="mt-2 shrink-0 rounded-md border border-primary-500/45 border-l-4 border-l-primary-500 bg-primary-500/10 px-2.5 py-2"
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-primary-300">Key pattern</p>
+            <p
+              className="line-clamp-1 text-xs font-medium leading-snug text-surface-50"
+              title={MARSHALL_INTERPRETATION}
+            >
+              {MARSHALL_INTERPRETATION}
+            </p>
+          </div>
         </FocusAreaPanelCard>
 
         <FocusAreaPanelCard className="shrink-0 !p-3">

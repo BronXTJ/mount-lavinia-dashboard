@@ -1,3 +1,4 @@
+import { CircleAlert } from 'lucide-react'
 import FocusAreaPanelCard from '../FocusAreaPanelCard.jsx'
 import MetricInfoButton from '../MetricInfoButton.jsx'
 import { formatStoredCount, formatStoredPercent } from '../../../utils/marshallMorphologyFormat.js'
@@ -96,6 +97,7 @@ export default function MarshallMorphologyDetailPanel({
   const ratios = metrics?.ratios
   const comparison = metrics?.comparison_network_form
   const gnName = metrics?.gn_name ?? '—'
+  const uncertaintyNote = formatUncertaintyFootnote(uncertainty)
 
   return (
     <div className="flex flex-col gap-3" data-testid="marshall-counts">
@@ -223,15 +225,24 @@ export default function MarshallMorphologyDetailPanel({
                 <MarshallStructureEquations key="c" />,
               ]}
             />
-            <div className="space-y-3 text-sm text-surface-100">
+            <div className="space-y-1.5 text-surface-100">
               <MarshallJunctionEquations />
               <MarshallStructureEquations />
             </div>
           </FocusAreaPanelCard>
 
-          <p className="shrink-0 text-[11px] leading-snug text-surface-400" data-testid="marshall-uncertainty">
-            {formatUncertaintyFootnote(uncertainty)}
-          </p>
+          <div
+            role="note"
+            data-testid="marshall-uncertainty"
+            aria-label={`Data note: ${uncertaintyNote}`}
+            className="shrink-0 rounded-md border border-rose-400/50 border-l-4 border-l-rose-400 bg-rose-500/12 px-2.5 py-2"
+          >
+            <div className="mb-1 flex items-center gap-1.5">
+              <CircleAlert size={14} className="shrink-0 text-rose-300" aria-hidden />
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-rose-200">Data note</p>
+            </div>
+            <p className="text-xs font-medium leading-snug text-surface-50">{uncertaintyNote}</p>
+          </div>
         </>
       )}
     </div>
