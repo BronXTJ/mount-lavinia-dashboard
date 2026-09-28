@@ -25,15 +25,15 @@ describe('marshallMorphologyFormat', () => {
   })
 
   it('formats stored percents and table rows from the published file', () => {
-    expect(formatStoredPercent(metrics.ratios.T_ratio)).toBe('92%')
-    expect(formatStoredPercent(metrics.ratios.X_ratio)).toBe('8%')
+    expect(formatStoredPercent(metrics.ratios.T_ratio)).toBe('93%')
+    expect(formatStoredPercent(metrics.ratios.X_ratio)).toBe('7%')
     expect(formatStoredPercent(metrics.ratios.Cell_ratio)).toBe('25%')
     expect(formatStoredPercent(metrics.ratios.Cul_ratio)).toBe('75%')
     expect(formatStoredPercent(null)).toBe('—')
 
     const rows = marshallTableRows(metrics)
-    expect(rows.map((r) => r.value)).toEqual(['112', '10', '63', '21', '92%', '8%', '75%', '25%'])
-    expect(metrics.counts.n_T + metrics.counts.n_X).toBe(122)
+    expect(rows.map((r) => r.value)).toEqual(['113', '8', '63', '21', '93%', '7%', '75%', '25%'])
+    expect(metrics.counts.n_T + metrics.counts.n_X).toBe(121)
     expect(metrics.ratios.T_ratio + metrics.ratios.X_ratio).toBeCloseTo(1, 12)
     expect(metrics.ratios.Cell_ratio + metrics.ratios.Cul_ratio).toBeCloseTo(1, 12)
   })
@@ -53,7 +53,7 @@ describe('marshallMorphologyFormat', () => {
       y: metrics.matrix.y_cell_ratio,
     })
     expect(marshallChartPoints([{ gn_name: 'Empty', ratios: {}, matrix: {} }])).toEqual([])
-    expect(scopesDoc.study_area.counts.n_T).toBe(383)
+    expect(scopesDoc.study_area.counts.n_T).toBe(384)
     expect(scopesDoc.uncertainty.junctions).toBe(0)
     expect(scopesDoc.uncertainty.cells).toBe(1)
     expect(scopesDoc.uncertainty.cul_de_sacs).toBe(0)

@@ -2,6 +2,7 @@ node_id,GN,previous_class,final_class,reason,confidence
 J0014,Mount Lavinia,T,CONFIRMED_T,Site review: clear three-way Marshall T-junction (K0017 spur); not a clip artefact,high
 J0079,Mount Lavinia,UNCERTAIN,ENDPOINT / NOT_JUNCTION,D001: parallel partner 1498946138 removed from the arm count; only 2 distinct approaches remain after the review exclusion,high
 J0080,Mount Lavinia,UNCERTAIN,ENDPOINT / NOT_JUNCTION,D001: parallel partner 1498946138 removed from the arm count; only 2 distinct approaches remain after the review exclusion,high
+J0117,Mount Lavinia,X,ENDPOINT / NOT_JUNCTION,Site review: not a Marshall four-way crossing—remove from X counts,high
 J0123,Mount Lavinia,UNCERTAIN,ENDPOINT / NOT_JUNCTION,D002: degree-2 bend after removing the parallel carriageway; not a junction,high
 J0178,Mount Lavinia,T,CONFIRMED_T,three distinct approaches remain after ignoring segments that only run to a GN-boundary endpoint,high
 J0184,Mount Lavinia,T,CONFIRMED_T,three distinct approaches remain after ignoring segments that only run to a GN-boundary endpoint,high
