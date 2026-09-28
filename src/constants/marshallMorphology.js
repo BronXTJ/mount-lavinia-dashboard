@@ -80,10 +80,10 @@ export const MARSHALL_INTERPRETATION =
 /** GN-only matrix/legend colors; not junction typology or Marshall cell greens on the map. */
 export const MARSHALL_GN_COLORS = {
   'Mount Lavinia': '#8b9cf7',
-  'Kawdana West': '#c4a574',
-  Watarappala: '#a78bfa',
-  Wathumulla: '#94a89a',
-  Wedikanda: '#f0a8b8',
+  'Kawdana West': '#e3d85d',
+  Watarappala: '#0cf7e4',
+  Wathumulla: '#bf6ffc',
+  Wedikanda: '#8199fc',
 }
 
 /** Default map layers while Marshall morphology is active. */
