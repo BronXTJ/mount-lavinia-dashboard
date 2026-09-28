@@ -17,62 +17,50 @@ export default function MarshallMatrixPointCard({ metrics, onClose }) {
   const xRatio = matrix.x_ratio ?? ratios.X_ratio
   const cellRatio = matrix.y_cell_ratio ?? ratios.Cell_ratio
 
+  const countsLine = [
+    `T ${formatStoredCount(counts.n_T)}`,
+    `X ${formatStoredCount(counts.n_X)}`,
+    `Cells ${formatStoredCount(counts.n_cell_marshall)}`,
+    `Culs ${formatStoredCount(counts.n_cul_marshall)}`,
+  ].join(' · ')
+
   return (
     <div
       role="dialog"
       aria-label={`${name} Marshall matrix details`}
       data-testid="marshall-matrix-point-popup"
-      className="z-10 w-[min(16rem,88vw)] rounded-md border border-surface-600 bg-surface-800/95 p-2.5 shadow-lg backdrop-blur-sm"
+      className="max-w-[10.5rem] rounded-md border border-surface-600 bg-surface-800/95 p-2 shadow-lg backdrop-blur-sm"
       onClick={(event) => event.stopPropagation()}
     >
-      <div className="mb-2 flex items-start justify-between gap-2">
-        <div className="flex min-w-0 items-center gap-1.5">
+      <div className="mb-1 flex items-start justify-between gap-1.5">
+        <div className="flex min-w-0 items-center gap-1">
           <span
-            className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
+            className="inline-block h-2 w-2 shrink-0 rounded-full"
             style={{ backgroundColor: color }}
             aria-hidden
           />
-          <h4 className="truncate font-display text-sm font-semibold text-surface-50">{name}</h4>
+          <h4 className="truncate font-display text-[11px] font-semibold leading-tight text-surface-50">
+            {name}
+          </h4>
         </div>
         <button
           type="button"
           onClick={onClose}
-          className="shrink-0 rounded border border-surface-600 p-0.5 text-surface-300 hover:bg-surface-700"
+          className="shrink-0 rounded p-0.5 text-surface-400 hover:bg-surface-700 hover:text-surface-200"
           aria-label="Close"
         >
-          <X size={14} aria-hidden />
+          <X size={12} aria-hidden />
         </button>
       </div>
-      <dl className="space-y-1 text-[11px] text-surface-200">
-        <div className="flex justify-between gap-2 border-b border-surface-700/80 pb-1">
-          <dt className="text-surface-400">Matrix position</dt>
-          <dd className="tabular-nums text-right">
-            X {formatStoredPercent(xRatio)} · Cell {formatStoredPercent(cellRatio)}
-          </dd>
-        </div>
-        <div className="flex justify-between gap-2">
-          <dt className="text-surface-400">T-ratio / Cul-ratio</dt>
-          <dd className="tabular-nums text-right">
-            {formatStoredPercent(ratios.T_ratio)} / {formatStoredPercent(ratios.Cul_ratio)}
-          </dd>
-        </div>
-        <div className="flex justify-between gap-2">
-          <dt className="text-surface-400">T-junctions</dt>
-          <dd className="tabular-nums">{formatStoredCount(counts.n_T)}</dd>
-        </div>
-        <div className="flex justify-between gap-2">
-          <dt className="text-surface-400">X-junctions</dt>
-          <dd className="tabular-nums">{formatStoredCount(counts.n_X)}</dd>
-        </div>
-        <div className="flex justify-between gap-2">
-          <dt className="text-surface-400">Marshall cells</dt>
-          <dd className="tabular-nums">{formatStoredCount(counts.n_cell_marshall)}</dd>
-        </div>
-        <div className="flex justify-between gap-2">
-          <dt className="text-surface-400">Marshall cul-de-sacs</dt>
-          <dd className="tabular-nums">{formatStoredCount(counts.n_cul_marshall)}</dd>
-        </div>
-      </dl>
+      <div className="space-y-0.5 text-[10px] leading-tight text-surface-200">
+        <p className="tabular-nums text-surface-100">
+          X {formatStoredPercent(xRatio)} · Cell {formatStoredPercent(cellRatio)}
+        </p>
+        <p className="tabular-nums text-surface-300">
+          T {formatStoredPercent(ratios.T_ratio)} · Cul {formatStoredPercent(ratios.Cul_ratio)}
+        </p>
+        <p className="flex flex-wrap gap-x-1 tabular-nums text-surface-400">{countsLine}</p>
+      </div>
     </div>
   )
 }

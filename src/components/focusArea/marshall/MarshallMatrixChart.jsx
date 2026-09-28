@@ -6,10 +6,22 @@ import {
   marshallMatrixTicks,
   marshallPlotCoord,
 } from '../../../utils/marshallMorphologyFormat.js'
-import MarshallMatrixPointCard from './MarshallMatrixPointCard.jsx'
+import MarshallMatrixPointPopover from './MarshallMatrixPointPopover.jsx'
 
 function formatTick(value) {
   return value.toFixed(2)
+}
+
+function anchorFromEvent(event) {
+  if (event?.clientX != null && event?.clientY != null) {
+    return { x: event.clientX, y: event.clientY }
+  }
+  const target = event?.currentTarget
+  if (target && typeof target.getBoundingClientRect === 'function') {
+    const rect = target.getBoundingClientRect()
+    return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
+  }
+  return null
 }
 
 /**
@@ -35,6 +47,7 @@ export default function MarshallMatrixChart({
   }, [scopes])
 
   const [popupName, setPopupName] = useState(null)
+  const [popupAnchor, setPopupAnchor] = useState(null)
 
   const width = expanded ? 720 : 520
   const height = expanded ? 560 : 360
@@ -51,28 +64,14 @@ export default function MarshallMatrixChart({
   )
 
   const popupMetrics = popupName ? scopeByName.get(popupName) : null
-  const popupPoint = popupName ? points.find((p) => p.name === popupName) : null
-
-  const popupStyle = useMemo(() => {
-    if (!popupPoint) return null
-    const cx = xOf(popupPoint.x)
-    const cy = yOf(popupPoint.y)
-    const leftPct = (cx / width) * 100
-    const topPct = (cy / height) * 100
-    const placeBelow = cy < height * 0.45
-    return {
-      left: `${leftPct}%`,
-      top: `${topPct}%`,
-      transform: placeBelow
-        ? 'translate(-50%, 12px)'
-        : 'translate(-50%, calc(-100% - 12px))',
-    }
-  }, [popupPoint, xOf, yOf, width, height])
 
   useEffect(() => {
     if (!popupName) return undefined
     function onKeyDown(event) {
-      if (event.key === 'Escape') setPopupName(null)
+      if (event.key === 'Escape') {
+        setPopupName(null)
+        setPopupAnchor(null)
+      }
     }
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
@@ -81,18 +80,26 @@ export default function MarshallMatrixChart({
   useEffect(() => {
     if (selectedName && popupName && selectedName !== popupName) {
       setPopupName(null)
+      setPopupAnchor(null)
     }
   }, [selectedName, popupName])
 
-  function handleSelectPoint(name) {
+  function closePopup() {
+    setPopupName(null)
+    setPopupAnchor(null)
+  }
+
+  function handleSelectPoint(name, event) {
+    const anchor = anchorFromEvent(event)
     setPopupName(name)
+    setPopupAnchor(anchor)
     onSelectScope?.(name)
   }
 
   function handlePointKeyDown(event, name) {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault()
-      handleSelectPoint(name)
+      handleSelectPoint(name, event)
     }
   }
 
@@ -109,7 +116,7 @@ export default function MarshallMatrixChart({
     >
       <div
         className={`relative min-h-0 flex-1 ${popupName ? 'cursor-default' : ''}`}
-        onClick={() => popupName && setPopupName(null)}
+        onClick={() => popupName && closePopup()}
         role="presentation"
       >
         <svg
@@ -215,7 +222,7 @@ export default function MarshallMatrixChart({
                   aria-label={label}
                   onClick={(event) => {
                     event.stopPropagation()
-                    handleSelectPoint(point.name)
+                    handleSelectPoint(point.name, event)
                   }}
                   onKeyDown={(event) => {
                     event.stopPropagation()
@@ -236,14 +243,12 @@ export default function MarshallMatrixChart({
             )
           })}
         </svg>
-        {popupMetrics && popupStyle && (
-          <div className="pointer-events-none absolute inset-0">
-            <div className="pointer-events-auto absolute" style={popupStyle}>
-              <MarshallMatrixPointCard metrics={popupMetrics} onClose={() => setPopupName(null)} />
-            </div>
-          </div>
-        )}
       </div>
+      <MarshallMatrixPointPopover
+        anchor={popupAnchor}
+        metrics={popupMetrics}
+        onClose={closePopup}
+      />
       <ul className={legendListClass} aria-label="GN divisions in Marshall Matrix">
         {points.map((point) => {
           const selected = point.name === selectedName
