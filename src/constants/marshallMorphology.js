@@ -29,12 +29,14 @@ export const MARSHALL_INFO_POINTS = [
 ]
 
 export const MARSHALL_MATRIX_INFO = [
-  'Compact matrix axes are shown from 0 to 0.5 so the five GN dots are easier to compare; Expand shows the full 0–1 Marshall scale. Positions use the same stored ratios in both views.',
+  'Compact matrix axes are shown from 0 to 0.5 on X and Cell so the five GN dots are easier to compare; Expand shows the full 0–1 Marshall scale. Positions use the same stored ratios in both views.',
   'Each colored dot is one GN division. Its position uses the stored Marshall ratios for that GN; the dashboard does not recompute them.',
   'Horizontal axis: the bottom scale is X-ratio (X-junctions as a share of T + X). The top scale is T-ratio and runs in the opposite direction. T-ratio + X-ratio = 1.',
   'Vertical axis: the left scale is Cell-ratio (Marshall cells as a share of cells + cul-de-sacs). The right scale is Cul-ratio and is complementary. Cell-ratio + Cul-ratio = 1.',
+  'At the plot corner where bottom-left reads 0.00 for X and Cell, the opposite scales read 1.00 for T and Cul—that is because T + X = 1 and Cell + Cul = 1 on the same grid lines. It describes the axis edge, not your GN dots. All five GNs sit at low X and low Cell (a few percent), not at 1.00.',
   'Read position: toward the bottom-left means lower X-ratio and lower Cell-ratio (more T-junction, tree-like structure, fewer enclosed cells). Toward the top-right means higher X and higher Cell. All five GNs in this study sit on the low X, low Cell side, with small differences between divisions.',
   'Corner labels T-tree, T-cell, X-tree, and X-cell name structural combinations at the corners. They are guides, not score categories or bins.',
+  'Click a GN dot to open a summary card with that division’s stored ratios and counts. Press Escape or click outside to dismiss.',
   'All five Network Form GN divisions appear as dots. The study-area total is not plotted as a point.',
   'The highlighted dot matches the GN you selected above the map. Scroll the left panel to GN Comparison for the same counts and percentages in a table.',
   'For the ratio formulas (T-ratio, X-ratio, Cell-ratio, Cul-ratio), see the Definitions card on the right.',

@@ -8,6 +8,7 @@ test('Marshall morphology shows the stored matrix', async ({ page }) => {
   await page.getByRole('tab', { name: 'Marshall Morphology' }).click()
   await expect(page.getByTestId('marshall-matrix')).toBeVisible()
   await expect(page.getByTestId('marshall-matrix-figure')).toBeVisible()
+  await expect(page.getByTestId('marshall-matrix-axis-note')).toContainText('0–0.5')
   await expect(page.getByTestId('marshall-counts-table')).toBeVisible()
   await expect(page.getByTestId('marshall-counts-table')).toContainText('108')
   await expect(page.getByTestId('marshall-study-area')).toContainText('376')
