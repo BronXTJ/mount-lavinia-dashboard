@@ -1,0 +1,29 @@
+node_id,GN,previous_class,final_class,reason,confidence
+J0014,Mount Lavinia,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0079,Mount Lavinia,UNCERTAIN,ENDPOINT / NOT_JUNCTION,D001: parallel partner 1498946138 removed from the arm count; only 2 distinct approaches remain after the review exclusion,high
+J0080,Mount Lavinia,UNCERTAIN,ENDPOINT / NOT_JUNCTION,D001: parallel partner 1498946138 removed from the arm count; only 2 distinct approaches remain after the review exclusion,high
+J0123,Mount Lavinia,UNCERTAIN,ENDPOINT / NOT_JUNCTION,D002: degree-2 bend after removing the parallel carriageway; not a junction,high
+J0178,Mount Lavinia,T,CONFIRMED_T,three distinct approaches remain after ignoring segments that only run to a GN-boundary endpoint,high
+J0184,Mount Lavinia,T,CONFIRMED_T,three distinct approaches remain after ignoring segments that only run to a GN-boundary endpoint,high
+J0230,Kawdana West,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0235,Kawdana West,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0342,Kawdana West,UNCERTAIN,ENDPOINT / NOT_JUNCTION,Site review: private road start and cul-de-sac road end at C0135—not a Marshall junction or X crossing,high
+J0395,Kawdana West,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0417,Kawdana West,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0423,Kawdana West,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0425,Kawdana West,UNCERTAIN,CONFIRMED_T,Site review: clear three-way Marshall T-junction at C0130,high
+J0450,Watarappala,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0468,Watarappala,UNCERTAIN,CONFIRMED_T,Site review: clear three-way Marshall T-junction at C0257,high
+J0513,Watarappala,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0518,Watarappala,T,CONFIRMED_T,three distinct approaches remain after ignoring segments that only run to a GN-boundary endpoint,high
+J0616,Wathumulla,T,CONFIRMED_T,three distinct approaches remain after ignoring segments that only run to a GN-boundary endpoint,high
+J0617,Wathumulla,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0620,Wathumulla,UNCERTAIN,CONFIRMED_T,Site review: clear three-way Marshall T-junction at C0340 (K0294),high
+J0683,Wathumulla,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0717,Wathumulla,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0780,Wedikanda,T,CONFIRMED_T,three distinct approaches remain after ignoring segments that only run to a GN-boundary endpoint,high
+J0797,Wedikanda,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0810,Wedikanda,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0866,Wedikanda,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0914,Wedikanda,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
+J0972,Wedikanda,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high

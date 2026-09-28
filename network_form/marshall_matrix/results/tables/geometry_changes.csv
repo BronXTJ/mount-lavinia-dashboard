@@ -1,0 +1,72 @@
+original_feature,osm_id,change,reason
+11-0,46897992,flagged,osm id not found in roads_primary; bridge and layer unknown
+12-0,46897994,flagged,osm id not found in roads_primary; bridge and layer unknown
+29-0,46898251,flagged,osm id not found in roads_primary; bridge and layer unknown
+49-0,48999732,flagged,osm id not found in roads_primary; bridge and layer unknown
+53-0,49001549,flagged,osm id not found in roads_primary; bridge and layer unknown
+54-0,49001550,flagged,osm id not found in roads_primary; bridge and layer unknown
+55-0,50071260,flagged,osm id not found in roads_primary; bridge and layer unknown
+128-0,102650970,flagged,osm id not found in roads_primary; bridge and layer unknown
+131-0,102651364,flagged,osm id not found in roads_primary; bridge and layer unknown
+134-0,109077754,flagged,osm id not found in roads_primary; bridge and layer unknown
+141-0,109077764,flagged,osm id not found in roads_primary; bridge and layer unknown
+165-0,109081954,flagged,osm id not found in roads_primary; bridge and layer unknown
+167-0,109081957,flagged,osm id not found in roads_primary; bridge and layer unknown
+261-0,189324619,flagged,osm id not found in roads_primary; bridge and layer unknown
+275-0,360023725,flagged,osm id not found in roads_primary; bridge and layer unknown
+283-0,374052843,flagged,osm id not found in roads_primary; bridge and layer unknown
+284-0,374052844,flagged,osm id not found in roads_primary; bridge and layer unknown
+293-0,374052890,flagged,osm id not found in roads_primary; bridge and layer unknown
+294-0,374052891,flagged,osm id not found in roads_primary; bridge and layer unknown
+322-0,374060118,flagged,osm id not found in roads_primary; bridge and layer unknown
+323-0,374060119,flagged,osm id not found in roads_primary; bridge and layer unknown
+323-1,374060119,flagged,osm id not found in roads_primary; bridge and layer unknown
+325-0,374060121,flagged,osm id not found in roads_primary; bridge and layer unknown
+331-0,375037991,flagged,osm id not found in roads_primary; bridge and layer unknown
+345-0,375197805,flagged,osm id not found in roads_primary; bridge and layer unknown
+379-0,376559449,flagged,osm id not found in roads_primary; bridge and layer unknown
+381-0,376559451,flagged,osm id not found in roads_primary; bridge and layer unknown
+385-0,376559459,flagged,osm id not found in roads_primary; bridge and layer unknown
+391-0,376559468,flagged,osm id not found in roads_primary; bridge and layer unknown
+418-0,376599218,flagged,osm id not found in roads_primary; bridge and layer unknown
+432-0,376599247,flagged,osm id not found in roads_primary; bridge and layer unknown
+450-0,376602345,flagged,osm id not found in roads_primary; bridge and layer unknown
+480-0,376603435,flagged,osm id not found in roads_primary; bridge and layer unknown
+489-0,376995597,flagged,osm id not found in roads_primary; bridge and layer unknown
+492-0,390612755,flagged,osm id not found in roads_primary; bridge and layer unknown
+502-0,487431108,flagged,osm id not found in roads_primary; bridge and layer unknown
+503-0,487431109,flagged,osm id not found in roads_primary; bridge and layer unknown
+507-0,509572132,flagged,osm id not found in roads_primary; bridge and layer unknown
+508-0,509572133,flagged,osm id not found in roads_primary; bridge and layer unknown
+540-0,509577297,flagged,osm id not found in roads_primary; bridge and layer unknown
+582-0,532086485,flagged,osm id not found in roads_primary; bridge and layer unknown
+638-0,582070362,flagged,osm id not found in roads_primary; bridge and layer unknown
+638-1,582070362,flagged,osm id not found in roads_primary; bridge and layer unknown
+639-0,582070363,flagged,osm id not found in roads_primary; bridge and layer unknown
+647-0,586399590,flagged,osm id not found in roads_primary; bridge and layer unknown
+693-0,709353785,flagged,osm id not found in roads_primary; bridge and layer unknown
+696-0,758636098,flagged,osm id not found in roads_primary; bridge and layer unknown
+746-0,1084636078,flagged,osm id not found in roads_primary; bridge and layer unknown
+747-0,1084636079,flagged,osm id not found in roads_primary; bridge and layer unknown
+748-0,1084636080,flagged,osm id not found in roads_primary; bridge and layer unknown
+750-0,1085199450,flagged,osm id not found in roads_primary; bridge and layer unknown
+757-0,1095303374,flagged,osm id not found in roads_primary; bridge and layer unknown
+768-0,1103798297,flagged,osm id not found in roads_primary; bridge and layer unknown
+769-0,1103798298,flagged,osm id not found in roads_primary; bridge and layer unknown
+776-0,1117772327,flagged,osm id not found in roads_primary; bridge and layer unknown
+777-0,1117772328,flagged,osm id not found in roads_primary; bridge and layer unknown
+806-0,1152327509,flagged,osm id not found in roads_primary; bridge and layer unknown
+844-0,1239656363,flagged,osm id not found in roads_primary; bridge and layer unknown
+845-0,1239656364,flagged,osm id not found in roads_primary; bridge and layer unknown
+846-0,1239656365,flagged,osm id not found in roads_primary; bridge and layer unknown
+848-0,1241719079,flagged,osm id not found in roads_primary; bridge and layer unknown
+849-0,1241719099,flagged,osm id not found in roads_primary; bridge and layer unknown
+856-0,1265752045,flagged,osm id not found in roads_primary; bridge and layer unknown
+866-0,1269259154,flagged,osm id not found in roads_primary; bridge and layer unknown
+871-0,1269276836,flagged,osm id not found in roads_primary; bridge and layer unknown
+892-0,1300455393,flagged,osm id not found in roads_primary; bridge and layer unknown
+510-0,509573362,kept_short_fragment,length under 0.5 m inside Kawdana West; not deleted
+507-0,509572132,kept_short_fragment,length under 0.5 m inside Watarappala; not deleted
+543-0,509577300,kept_short_fragment,length under 0.5 m inside Watarappala; not deleted
+671-0,610544136,kept_short_fragment,length under 0.5 m inside Watarappala; not deleted
+581-0,532086484,kept_short_fragment,length under 0.5 m inside Wathumulla; not deleted

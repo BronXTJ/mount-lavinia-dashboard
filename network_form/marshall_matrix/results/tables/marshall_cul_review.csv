@@ -1,0 +1,221 @@
+cul_id,GN,street_segment_id,classification,reason
+K0001,Mount Lavinia,S0155,NOT_A_CUL,GN boundary endpoint created by clipping
+K0002,Mount Lavinia,S0155,NOT_A_CUL,GN boundary endpoint created by clipping
+K0003,Mount Lavinia,S0117,NOT_A_CUL,GN boundary endpoint created by clipping
+K0004,Mount Lavinia,S0117,NOT_A_CUL,GN boundary endpoint created by clipping
+K0005,Mount Lavinia,S0163,NOT_A_CUL,GN boundary endpoint created by clipping
+K0006,Mount Lavinia,S0118,NOT_A_CUL,GN boundary endpoint created by clipping
+K0007,Mount Lavinia,S0116,NOT_A_CUL,GN boundary endpoint created by clipping
+K0008,Mount Lavinia,S0235,NOT_A_CUL,GN boundary endpoint created by clipping
+K0009,Mount Lavinia,S0118,NOT_A_CUL,GN boundary endpoint created by clipping
+K0010,Mount Lavinia,S0156,NOT_A_CUL,GN boundary endpoint created by clipping
+K0011,Mount Lavinia,S0115,NOT_A_CUL,GN boundary endpoint created by clipping
+K0012,Mount Lavinia,S0114,NOT_A_CUL,GN boundary endpoint created by clipping
+K0013,Mount Lavinia,S0119,NOT_A_CUL,GN boundary endpoint created by clipping
+K0014,Mount Lavinia,S0113,NOT_A_CUL,GN boundary endpoint created by clipping
+K0015,Mount Lavinia,S0112,NOT_A_CUL,GN boundary endpoint created by clipping
+K0016,Mount Lavinia,S0160,NOT_A_CUL,GN boundary endpoint created by clipping
+K0018,Mount Lavinia,S0111,NOT_A_CUL,GN boundary endpoint created by clipping
+K0019,Mount Lavinia,S0079,NOT_A_CUL,GN boundary endpoint created by clipping
+K0025,Mount Lavinia,S0006,NOT_A_CUL,GN boundary endpoint created by clipping
+K0032,Mount Lavinia,S0121,NOT_A_CUL,GN boundary endpoint created by clipping
+K0038,Mount Lavinia,S0185,NOT_A_CUL,GN boundary endpoint created by clipping
+K0042,Mount Lavinia,S0062,NOT_A_CUL,GN boundary endpoint created by clipping
+K0052,Mount Lavinia,S0242,NOT_A_CUL,GN boundary endpoint created by clipping
+K0076,Mount Lavinia,S0120,NOT_A_CUL,GN boundary endpoint created by clipping
+K0083,Mount Lavinia,S0018,NOT_A_CUL,GN boundary endpoint created by clipping
+K0091,Mount Lavinia,S0143,NOT_A_CUL,GN boundary endpoint created by clipping
+K0092,Mount Lavinia,S0104,NOT_A_CUL,GN boundary endpoint created by clipping
+K0093,Kawdana West,S0397,NOT_A_CUL,GN boundary endpoint created by clipping
+K0094,Kawdana West,S0392,NOT_A_CUL,GN boundary endpoint created by clipping
+K0095,Kawdana West,S0395,NOT_A_CUL,GN boundary endpoint created by clipping
+K0096,Kawdana West,S0391,NOT_A_CUL,GN boundary endpoint created by clipping
+K0099,Kawdana West,S0390,NOT_A_CUL,GN boundary endpoint created by clipping
+K0100,Kawdana West,S0389,NOT_A_CUL,GN boundary endpoint created by clipping
+K0101,Kawdana West,S0389,NOT_A_CUL,GN boundary endpoint created by clipping
+K0102,Kawdana West,S0311,NOT_A_CUL,GN boundary endpoint created by clipping
+K0103,Kawdana West,S0396,NOT_A_CUL,GN boundary endpoint created by clipping
+K0106,Kawdana West,S0388,NOT_A_CUL,GN boundary endpoint created by clipping
+K0109,Kawdana West,S0388,NOT_A_CUL,GN boundary endpoint created by clipping
+K0110,Kawdana West,S0398,NOT_A_CUL,GN boundary endpoint created by clipping
+K0114,Kawdana West,S0298,NOT_A_CUL,GN boundary endpoint created by clipping
+K0115,Kawdana West,S0403,NOT_A_CUL,GN boundary endpoint created by clipping
+K0116,Kawdana West,S0286,NOT_A_CUL,GN boundary endpoint created by clipping
+K0117,Kawdana West,S0286,NOT_A_CUL,GN boundary endpoint created by clipping
+K0119,Kawdana West,S0401,NOT_A_CUL,GN boundary endpoint created by clipping
+K0120,Kawdana West,S0406,NOT_A_CUL,GN boundary endpoint created by clipping
+K0122,Kawdana West,S0300,NOT_A_CUL,GN boundary endpoint created by clipping
+K0124,Kawdana West,S0315,NOT_A_CUL,GN boundary endpoint created by clipping
+K0125,Kawdana West,S0272,NOT_A_CUL,GN boundary endpoint created by clipping
+K0126,Kawdana West,S0356,NOT_A_CUL,GN boundary endpoint created by clipping
+K0127,Kawdana West,S0399,NOT_A_CUL,GN boundary endpoint created by clipping
+K0129,Kawdana West,S0355,NOT_A_CUL,GN boundary endpoint created by clipping
+K0131,Kawdana West,S0400,NOT_A_CUL,GN boundary endpoint created by clipping
+K0133,Kawdana West,S0377,NOT_A_CUL,GN boundary endpoint created by clipping
+K0134,Kawdana West,S0301,NOT_A_CUL,GN boundary endpoint created by clipping
+K0136,Kawdana West,S0376,NOT_A_CUL,GN boundary endpoint created by clipping
+K0138,Kawdana West,S0339,NOT_A_CUL,GN boundary endpoint created by clipping
+K0139,Kawdana West,S0430,NOT_A_CUL,GN boundary endpoint created by clipping
+K0144,Kawdana West,S0431,NOT_A_CUL,GN boundary endpoint created by clipping
+K0149,Kawdana West,S0287,NOT_A_CUL,GN boundary endpoint created by clipping
+K0152,Kawdana West,S0287,NOT_A_CUL,GN boundary endpoint created by clipping
+K0158,Kawdana West,S0269,NOT_A_CUL,GN boundary endpoint created by clipping
+K0161,Kawdana West,S0384,NOT_A_CUL,GN boundary endpoint created by clipping
+K0167,Kawdana West,S0341,NOT_A_CUL,GN boundary endpoint created by clipping
+K0170,Kawdana West,S0299,NOT_A_CUL,GN boundary endpoint created by clipping
+K0171,Kawdana West,S0261,NOT_A_CUL,GN boundary endpoint created by clipping
+K0174,Kawdana West,S0347,NOT_A_CUL,GN boundary endpoint created by clipping
+K0175,Kawdana West,S0331,NOT_A_CUL,GN boundary endpoint created by clipping
+K0176,Kawdana West,S0417,NOT_A_CUL,GN boundary endpoint created by clipping
+K0177,Kawdana West,S0285,NOT_A_CUL,GN boundary endpoint created by clipping
+K0183,Kawdana West,S0260,NOT_A_CUL,GN boundary endpoint created by clipping
+K0184,Kawdana West,S0259,NOT_A_CUL,GN boundary endpoint created by clipping
+K0195,Kawdana West,S0288,NOT_A_CUL,GN boundary endpoint created by clipping
+K0196,Kawdana West,S0251,NOT_A_CUL,GN boundary endpoint created by clipping
+K0197,Kawdana West,S0254,NOT_A_CUL,GN boundary endpoint created by clipping
+K0198,Kawdana West,S0253,NOT_A_CUL,GN boundary endpoint created by clipping
+K0199,Kawdana West,S0255,NOT_A_CUL,GN boundary endpoint created by clipping
+K0200,Kawdana West,S0365,NOT_A_CUL,GN boundary endpoint created by clipping
+K0201,Kawdana West,S0378,NOT_A_CUL,GN boundary endpoint created by clipping
+K0202,Kawdana West,S0256,NOT_A_CUL,GN boundary endpoint created by clipping
+K0203,Kawdana West,S0316,NOT_A_CUL,GN boundary endpoint created by clipping
+K0204,Kawdana West,S0258,NOT_A_CUL,GN boundary endpoint created by clipping
+K0205,Watarappala,S0618,NOT_A_CUL,GN boundary endpoint created by clipping
+K0206,Watarappala,S0525,NOT_A_CUL,GN boundary endpoint created by clipping
+K0207,Watarappala,S0568,NOT_A_CUL,GN boundary endpoint created by clipping
+K0208,Watarappala,S0522,NOT_A_CUL,GN boundary endpoint created by clipping
+K0210,Watarappala,S0489,NOT_A_CUL,GN boundary endpoint created by clipping
+K0211,Watarappala,S0569,NOT_A_CUL,GN boundary endpoint created by clipping
+K0212,Watarappala,S0581,NOT_A_CUL,GN boundary endpoint created by clipping
+K0213,Watarappala,S0570,NOT_A_CUL,GN boundary endpoint created by clipping
+K0214,Watarappala,S0571,NOT_A_CUL,GN boundary endpoint created by clipping
+K0215,Watarappala,S0572,NOT_A_CUL,GN boundary endpoint created by clipping
+K0216,Watarappala,S0571,NOT_A_CUL,GN boundary endpoint created by clipping
+K0217,Watarappala,S0573,NOT_A_CUL,GN boundary endpoint created by clipping
+K0219,Watarappala,S0498,NOT_A_CUL,GN boundary endpoint created by clipping
+K0220,Watarappala,S0497,NOT_A_CUL,GN boundary endpoint created by clipping
+K0224,Watarappala,S0494,NOT_A_CUL,GN boundary endpoint created by clipping
+K0226,Watarappala,S0493,NOT_A_CUL,GN boundary endpoint created by clipping
+K0228,Watarappala,S0493,NOT_A_CUL,GN boundary endpoint created by clipping
+K0229,Watarappala,S0584,NOT_A_CUL,GN boundary endpoint created by clipping
+K0233,Watarappala,S0583,NOT_A_CUL,GN boundary endpoint created by clipping
+K0236,Watarappala,S0582,NOT_A_CUL,GN boundary endpoint created by clipping
+K0237,Watarappala,S0440,NOT_A_CUL,GN boundary endpoint created by clipping
+K0239,Watarappala,S0591,NOT_A_CUL,GN boundary endpoint created by clipping
+K0244,Watarappala,S0536,NOT_A_CUL,GN boundary endpoint created by clipping
+K0245,Watarappala,S0550,NOT_A_CUL,GN boundary endpoint created by clipping
+K0247,Watarappala,S0551,NOT_A_CUL,GN boundary endpoint created by clipping
+K0266,Watarappala,S0594,NOT_A_CUL,GN boundary endpoint created by clipping
+K0268,Watarappala,S0555,NOT_A_CUL,GN boundary endpoint created by clipping
+K0274,Watarappala,S0451,NOT_A_CUL,GN boundary endpoint created by clipping
+K0275,Watarappala,S0564,NOT_A_CUL,GN boundary endpoint created by clipping
+K0277,Watarappala,S0442,NOT_A_CUL,GN boundary endpoint created by clipping
+K0278,Watarappala,S0443,NOT_A_CUL,GN boundary endpoint created by clipping
+K0279,Watarappala,S0563,NOT_A_CUL,GN boundary endpoint created by clipping
+K0280,Watarappala,S0468,NOT_A_CUL,GN boundary endpoint created by clipping
+K0281,Watarappala,S0441,NOT_A_CUL,GN boundary endpoint created by clipping
+K0282,Watarappala,S0512,NOT_A_CUL,GN boundary endpoint created by clipping
+K0283,Watarappala,S0466,NOT_A_CUL,GN boundary endpoint created by clipping
+K0284,Watarappala,S0556,NOT_A_CUL,GN boundary endpoint created by clipping
+K0286,Watarappala,S0511,NOT_A_CUL,GN boundary endpoint created by clipping
+K0287,Watarappala,S0560,NOT_A_CUL,GN boundary endpoint created by clipping
+K0288,Watarappala,S0515,NOT_A_CUL,GN boundary endpoint created by clipping
+K0289,Watarappala,S0514,NOT_A_CUL,GN boundary endpoint created by clipping
+K0290,Watarappala,S0513|S0509,NOT_A_CUL,Site review: three-way T-junction (J0611)—not a Marshall cul-de-sac
+K0291,Wathumulla,S0760,NOT_A_CUL,GN boundary endpoint created by clipping
+K0292,Wathumulla,S0678,NOT_A_CUL,GN boundary endpoint created by clipping
+K0293,Wathumulla,S0752,NOT_A_CUL,GN boundary endpoint created by clipping
+K0294,Wathumulla,S0752,NOT_A_CUL,Site review: three-way T-junction (J0620)—not a Marshall cul-de-sac
+K0295,Wathumulla,S0748,NOT_A_CUL,GN boundary endpoint created by clipping
+K0296,Wathumulla,S0675,NOT_A_CUL,GN boundary endpoint created by clipping
+K0297,Wathumulla,S0674,NOT_A_CUL,GN boundary endpoint created by clipping
+K0299,Wathumulla,S0685,NOT_A_CUL,GN boundary endpoint created by clipping
+K0301,Wathumulla,S0713,NOT_A_CUL,GN boundary endpoint created by clipping
+K0305,Wathumulla,S0671,NOT_A_CUL,GN boundary endpoint created by clipping
+K0309,Wathumulla,S0735,NOT_A_CUL,GN boundary endpoint created by clipping
+K0310,Wathumulla,S0735,NOT_A_CUL,GN boundary endpoint created by clipping
+K0311,Wathumulla,S0734,NOT_A_CUL,GN boundary endpoint created by clipping
+K0312,Wathumulla,S0734,NOT_A_CUL,GN boundary endpoint created by clipping
+K0315,Wathumulla,S0733,NOT_A_CUL,GN boundary endpoint created by clipping
+K0318,Wathumulla,S0761,NOT_A_CUL,GN boundary endpoint created by clipping
+K0321,Wathumulla,S0733,NOT_A_CUL,GN boundary endpoint created by clipping
+K0322,Wathumulla,S0732,NOT_A_CUL,GN boundary endpoint created by clipping
+K0324,Wathumulla,S0657,NOT_A_CUL,GN boundary endpoint created by clipping
+K0325,Wathumulla,S0621,NOT_A_CUL,GN boundary endpoint created by clipping
+K0327,Wathumulla,S0737,NOT_A_CUL,GN boundary endpoint created by clipping
+K0328,Wathumulla,S0658,NOT_A_CUL,GN boundary endpoint created by clipping
+K0330,Wathumulla,S0659,NOT_A_CUL,GN boundary endpoint created by clipping
+K0331,Wathumulla,S0660,NOT_A_CUL,GN boundary endpoint created by clipping
+K0339,Wathumulla,S0689,NOT_A_CUL,GN boundary endpoint created by clipping
+K0342,Wathumulla,S0655,NOT_A_CUL,GN boundary endpoint created by clipping
+K0344,Wathumulla,S0662,NOT_A_CUL,GN boundary endpoint created by clipping
+K0345,Wathumulla,S0707,NOT_A_CUL,GN boundary endpoint created by clipping
+K0346,Wathumulla,S0663,NOT_A_CUL,GN boundary endpoint created by clipping
+K0349,Wathumulla,S0663,NOT_A_CUL,GN boundary endpoint created by clipping
+K0350,Wathumulla,S0700,NOT_A_CUL,GN boundary endpoint created by clipping
+K0357,Wathumulla,S0721,NOT_A_CUL,GN boundary endpoint created by clipping
+K0361,Wathumulla,S0762,NOT_A_CUL,GN boundary endpoint created by clipping
+K0362,Wathumulla,S0703,NOT_A_CUL,GN boundary endpoint created by clipping
+K0363,Wathumulla,S0717,NOT_A_CUL,GN boundary endpoint created by clipping
+K0364,Wathumulla,S0702,NOT_A_CUL,GN boundary endpoint created by clipping
+K0365,Wathumulla,S0631,NOT_A_CUL,GN boundary endpoint created by clipping
+K0366,Wathumulla,S0717,NOT_A_CUL,GN boundary endpoint created by clipping
+K0367,Wathumulla,S0718,NOT_A_CUL,GN boundary endpoint created by clipping
+K0368,Wathumulla,S0719,NOT_A_CUL,GN boundary endpoint created by clipping
+K0369,Wathumulla,S0719,NOT_A_CUL,GN boundary endpoint created by clipping
+K0370,Wathumulla,S0718,NOT_A_CUL,GN boundary endpoint created by clipping
+K0371,Wathumulla,S0622,NOT_A_CUL,GN boundary endpoint created by clipping
+K0372,Wathumulla,S0720,NOT_A_CUL,GN boundary endpoint created by clipping
+K0373,Wathumulla,S0720,NOT_A_CUL,GN boundary endpoint created by clipping
+K0374,Wedikanda,S0940,NOT_A_CUL,GN boundary endpoint created by clipping
+K0375,Wedikanda,S0766,NOT_A_CUL,GN boundary endpoint created by clipping
+K0376,Wedikanda,S0909,NOT_A_CUL,GN boundary endpoint created by clipping
+K0377,Wedikanda,S0855,NOT_A_CUL,GN boundary endpoint created by clipping
+K0378,Wedikanda,S0885,NOT_A_CUL,GN boundary endpoint created by clipping
+K0381,Wedikanda,S0846,NOT_A_CUL,GN boundary endpoint created by clipping
+K0384,Wedikanda,S0847,NOT_A_CUL,GN boundary endpoint created by clipping
+K0385,Wedikanda,S0890,NOT_A_CUL,GN boundary endpoint created by clipping
+K0387,Wedikanda,S0932,NOT_A_CUL,GN boundary endpoint created by clipping
+K0389,Wedikanda,S0853,NOT_A_CUL,GN boundary endpoint created by clipping
+K0392,Wedikanda,S0854,NOT_A_CUL,GN boundary endpoint created by clipping
+K0393,Wedikanda,S0823,NOT_A_CUL,GN boundary endpoint created by clipping
+K0395,Wedikanda,S0822,NOT_A_CUL,GN boundary endpoint created by clipping
+K0402,Wedikanda,S0821,NOT_A_CUL,GN boundary endpoint created by clipping
+K0403,Wedikanda,S0894,NOT_A_CUL,GN boundary endpoint created by clipping
+K0405,Wedikanda,S0900,NOT_A_CUL,GN boundary endpoint created by clipping
+K0406,Wedikanda,S0820,NOT_A_CUL,GN boundary endpoint created by clipping
+K0409,Wedikanda,S0820,NOT_A_CUL,GN boundary endpoint created by clipping
+K0412,Wedikanda,S0819,NOT_A_CUL,GN boundary endpoint created by clipping
+K0415,Wedikanda,S0818,NOT_A_CUL,GN boundary endpoint created by clipping
+K0416,Wedikanda,S0817,NOT_A_CUL,GN boundary endpoint created by clipping
+K0418,Wedikanda,S0842,NOT_A_CUL,GN boundary endpoint created by clipping
+K0419,Wedikanda,S0816,NOT_A_CUL,GN boundary endpoint created by clipping
+K0421,Wedikanda,S0882,NOT_A_CUL,GN boundary endpoint created by clipping
+K0424,Wedikanda,S0815,NOT_A_CUL,GN boundary endpoint created by clipping
+K0425,Wedikanda,S0815,NOT_A_CUL,GN boundary endpoint created by clipping
+K0426,Wedikanda,S0824,NOT_A_CUL,GN boundary endpoint created by clipping
+K0432,Wedikanda,S0814,NOT_A_CUL,GN boundary endpoint created by clipping
+K0435,Wedikanda,S0959,NOT_A_CUL,GN boundary endpoint created by clipping
+K0436,Wedikanda,S0947,NOT_A_CUL,GN boundary endpoint created by clipping
+K0437,Wedikanda,S0947,NOT_A_CUL,GN boundary endpoint created by clipping
+K0438,Wedikanda,S0948,NOT_A_CUL,GN boundary endpoint created by clipping
+K0439,Wedikanda,S0949,NOT_A_CUL,GN boundary endpoint created by clipping
+K0449,Wedikanda,S0927,NOT_A_CUL,GN boundary endpoint created by clipping
+K0458,Wedikanda,S0835,NOT_A_CUL,GN boundary endpoint created by clipping
+K0463,Wedikanda,S0836,NOT_A_CUL,GN boundary endpoint created by clipping
+K0464,Wedikanda,S0795,NOT_A_CUL,GN boundary endpoint created by clipping
+K0465,Wedikanda,S0794,NOT_A_CUL,GN boundary endpoint created by clipping
+K0466,Wedikanda,S0862,NOT_A_CUL,GN boundary endpoint created by clipping
+K0467,Wedikanda,S0795,NOT_A_CUL,GN boundary endpoint created by clipping
+K0468,Wedikanda,S0793,NOT_A_CUL,GN boundary endpoint created by clipping
+K0469,Wedikanda,S0961,NOT_A_CUL,GN boundary endpoint created by clipping
+K0470,Wedikanda,S0796,NOT_A_CUL,GN boundary endpoint created by clipping
+K0471,Wedikanda,S0836,NOT_A_CUL,GN boundary endpoint created by clipping
+K0472,Wedikanda,S0792,NOT_A_CUL,GN boundary endpoint created by clipping
+K0473,Wedikanda,S0791,NOT_A_CUL,GN boundary endpoint created by clipping
+K0474,Wedikanda,S0975,NOT_A_CUL,GN boundary endpoint created by clipping
+K0475,Wedikanda,S0796,NOT_A_CUL,GN boundary endpoint created by clipping
+K0476,Wedikanda,S0790,NOT_A_CUL,GN boundary endpoint created by clipping
+K0477,Wedikanda,S0790,NOT_A_CUL,GN boundary endpoint created by clipping
+K0478,Wedikanda,S0858,NOT_A_CUL,GN boundary endpoint created by clipping
+K0479,Wedikanda,S0789,NOT_A_CUL,GN boundary endpoint created by clipping

@@ -1,0 +1,6 @@
+candidate_id,GN,classification,reason,area_m2
+C0002,Mount Lavinia,NOT_A_CELL,gap between carriageways of one divided road (D001),53927.81
+C0003,Mount Lavinia,NOT_A_CELL,gap between carriageways of one divided road (D002),45404.96
+C0024,Mount Lavinia,NOT_A_CELL,not a closed block of connected street segments,600.71
+C0025,Mount Lavinia,NOT_A_CELL,gap between carriageways of one divided road (D002),212.32
+C0053,Wedikanda,UNCERTAIN,parallel streets (D017); may be a real block or a divided road,4294.13

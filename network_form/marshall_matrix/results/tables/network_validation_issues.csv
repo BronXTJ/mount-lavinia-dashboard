@@ -1,0 +1,11 @@
+issue_id,kind,gn_name,detail
+C0130,unknown_crossing,Kawdana West,"one or both osm ids are absent from roads_primary, so bridge status is unknown"
+C0135,unknown_crossing,Kawdana West,"one or both osm ids are absent from roads_primary, so bridge status is unknown"
+C0257,unknown_crossing,Watarappala,"one or both osm ids are absent from roads_primary, so bridge status is unknown"
+C0340,unknown_crossing,Wathumulla,"one or both osm ids are absent from roads_primary, so bridge status is unknown"
+D001,dual_carriageway,Mount Lavinia,48701240|1498946138: parallel lines could close a thin artificial cell or add junctions if treated as one street
+D002,dual_carriageway,Mount Lavinia,48701240|687500136: parallel lines could close a thin artificial cell or add junctions if treated as one street
+snap-53757733-161752890,different_name_snap,Wathumulla,1.0 m snap merges Huludagoda Road|Templers Road (osm 53757733 and 161752890)
+snap-48701240-771540706,different_name_snap,Wedikanda,1.0 m snap merges Galle Road|St. Rita's Road (osm 48701240 and 771540706)
+snap-98371179-771540706,different_name_snap,Wedikanda,1.0 m snap merges Sri Indrajhothi Road|St. Rita's Road (osm 98371179 and 771540706)
+snap-98371179-131347944,different_name_snap,Wedikanda,1.0 m snap merges Sri Indrajhothi Road|Sri Dharmarama Road (osm 98371179 and 131347944)

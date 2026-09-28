@@ -1,0 +1,23 @@
+junction_id,GN,x,y,classification,degree,reason
+J0010,Mount Lavinia,79.865677,6.830221,T,3,
+J0014,Mount Lavinia,79.866232,6.830371,T,3,near GN boundary; an arm may be missing because of clipping
+J0016,Mount Lavinia,79.863651,6.830508,T,3,
+J0021,Mount Lavinia,79.866964,6.830713,T,3,
+J0028,Mount Lavinia,79.86516,6.83143,T,3,
+J0044,Mount Lavinia,79.867335,6.832562,X,4,
+J0058,Mount Lavinia,79.866376,6.834133,X,4,
+J0065,Mount Lavinia,79.867319,6.83509,X,4,
+J0071,Mount Lavinia,79.865721,6.835271,X,4,
+J0089,Mount Lavinia,79.86484,6.83864,X,4,
+J0079,Mount Lavinia,79.867334,6.836077,UNCERTAIN,3,incident to both roads in dual-carriageway D001; not forced into T or X
+J0080,Mount Lavinia,79.867338,6.836224,UNCERTAIN,3,incident to both roads in dual-carriageway D001; not forced into T or X
+J0123,Mount Lavinia,79.86695,6.841654,UNCERTAIN,2,incident to both roads in dual-carriageway D002; not forced into T or X
+J0342,Kawdana West,79.875023,6.844431,ENDPOINT,0,Site review: private road start and cul-de-sac end at C0135—not a junction crossing
+J0425,Kawdana West,79.868865,6.847827,T,3,Site review: confirmed Marshall T-junction at C0130
+J0468,Watarappala,79.873054,6.837918,T,3,Site review: confirmed Marshall T-junction at C0257
+J0620,Wathumulla,79.870634,6.828115,T,3,Site review: confirmed Marshall T-junction at C0340 (K0294)
+J0001,Mount Lavinia,79.863691,6.829502,ENDPOINT,1,boundary endpoint B0020
+J0002,Mount Lavinia,79.863611,6.829912,ENDPOINT,1,boundary endpoint B0021
+J0003,Mount Lavinia,79.864792,6.83008,ENDPOINT,1,boundary endpoint B0013
+J0004,Mount Lavinia,79.864953,6.830095,ENDPOINT,1,boundary endpoint B0012
+J0005,Mount Lavinia,79.86505,6.830114,ENDPOINT,1,boundary endpoint B0024

@@ -1,0 +1,18 @@
+case_id,gn_name,location,road_ids,names,interpretation,potential_problem,treatment,confidence,separation_m,overlap_m
+D001,Mount Lavinia,"6.83615, 79.86734",48701240|1498946138,Galle Road|,possible opposite carriageways,parallel lines could close a thin artificial cell or add junctions if treated as one street,manual_review,high,2.75,94.44
+D002,Mount Lavinia,"6.84148, 79.86700",48701240|687500136,Galle Road|Hotel Road,possible opposite carriageways,parallel lines could close a thin artificial cell or add junctions if treated as one street,manual_review,high,5.1,38.68
+D003,Mount Lavinia,"6.84553, 79.86595",610541480|610541482,|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,22.56,56.55
+D004,Kawdana West,"6.84114, 79.87505",53263135|509574768,2nd Lane|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,21.1,39.85
+D005,Kawdana West,"6.84262, 79.86888",53263138|610544136,|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,16.37,37.96
+D006,Kawdana West,"6.84563, 79.86930",53263142|374060093,Pokuna Road|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,19.95,76.05
+D007,Kawdana West,"6.84710, 79.86795",374060098|374060099,|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,23.95,51.32
+D008,Kawdana West,"6.84364, 79.87093",374060102|374060109,|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,23.95,32.25
+D009,Watarappala,"6.84114, 79.87225",509575497|1442172536,Kawdana Broadway|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,21.93,74.88
+D010,Watarappala,"6.83729, 79.86788",509577294|1498946145,Sri Gunarathna Mawatha|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,14.48,83.7
+D011,Wathumulla,"6.83686, 79.87142",375197806|375197808,|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,15.59,35.49
+D012,Wathumulla,"6.82965, 79.86877",683039763|1059432235,Wijeratne Mawatha|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,16.13,59.97
+D013,Wathumulla,"6.82880, 79.86887",708584963|1122004539,|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,11.0,60.16
+D014,Wathumulla,"6.83685, 79.86799",709352853|1498946144,|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,18.98,56.27
+D015,Wedikanda,"6.82854, 79.86817",164720833|1095303381,|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,9.97,69.74
+D016,Wedikanda,"6.82341, 79.86575",376559472|773873294,|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,23.22,97.93
+D017,Wedikanda,"6.82069, 79.86630",376559509|522707535,|,parallel streets,parallel lines kept as separate edges; not collapsed,kept_separate,low,23.7,59.88

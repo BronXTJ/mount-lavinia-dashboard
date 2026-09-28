@@ -1,0 +1,9 @@
+check_id,result,detail
+A_T_degree_3_and_B_X_degree_4,pass,T/X with other degree: []
+C_degree2_not_TX,pass,degree-2 labelled T/X: []
+D_boundary_endpoints_not_TX,pass,boundary endpoints on T/X: []
+G_complex_not_forced_to_X,pass,degree>=5 labelled X: []
+F_unknown_crossings_flagged,pass,missing unknown ids: []
+H_dual_carriageway_not_TX,pass,T/X on D001/D002: []
+I_no_duplicate_junction_cells,pass,shared cells: []
+note,pass,"Auditable classification from the Marshall-ready graph. Not an error-free claim. No new snap was applied. Unknown crossings were not connected. Ratios, cells, and cul-de-sacs were not calculated."
