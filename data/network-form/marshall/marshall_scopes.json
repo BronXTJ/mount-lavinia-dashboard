@@ -5,20 +5,20 @@
       "gn_pcode": "LK1131005",
       "framework": "marshall_2005",
       "counts": {
-        "n_T": 111,
+        "n_T": 112,
         "n_X": 10,
         "n_cell_marshall": 21,
-        "n_cul_marshall": 64
+        "n_cul_marshall": 63
       },
       "ratios": {
-        "T_ratio": 0.9173553719,
-        "X_ratio": 0.0826446281,
-        "Cell_ratio": 0.2470588235,
-        "Cul_ratio": 0.7529411765
+        "T_ratio": 0.9180327869,
+        "X_ratio": 0.0819672131,
+        "Cell_ratio": 0.25,
+        "Cul_ratio": 0.75
       },
       "matrix": {
-        "x_ratio": 0.0826446281,
-        "y_cell_ratio": 0.2470588235
+        "x_ratio": 0.0819672131,
+        "y_cell_ratio": 0.25
       },
       "comparison_network_form": {
         "n_culdesac_dashboard": 65,
@@ -144,16 +144,16 @@
   "study_area": {
     "label": "Study area",
     "counts": {
-      "n_T": 382,
+      "n_T": 383,
       "n_X": 32,
       "n_cell_marshall": 51,
-      "n_cul_marshall": 258
+      "n_cul_marshall": 257
     },
     "ratios": {
-      "T_ratio": 0.922705314,
-      "X_ratio": 0.077294686,
-      "Cell_ratio": 0.1650485437,
-      "Cul_ratio": 0.8349514563
+      "T_ratio": 0.9228915663,
+      "X_ratio": 0.0771084337,
+      "Cell_ratio": 0.1655844156,
+      "Cul_ratio": 0.8344155844
     }
   },
   "uncertainty": {
