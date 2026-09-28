@@ -1,6 +1,6 @@
 junction_id,GN,x,y,classification,degree,reason
 J0010,Mount Lavinia,79.865677,6.830221,T,3,
-J0014,Mount Lavinia,79.866232,6.830371,T,3,near GN boundary; an arm may be missing because of clipping
+J0014,Mount Lavinia,79.866232,6.830371,T,3,Site review: confirmed Marshall T-junction (K0017)
 J0016,Mount Lavinia,79.863651,6.830508,T,3,
 J0021,Mount Lavinia,79.866964,6.830713,T,3,
 J0028,Mount Lavinia,79.86516,6.83143,T,3,
