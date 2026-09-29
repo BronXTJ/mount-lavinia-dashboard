@@ -75,17 +75,17 @@ export default function MapContextMenuCoordinates() {
       autoPan
       className="map-coords-popup"
     >
-      <div className="flex items-center gap-2 pr-1">
+      <div className="map-coords-popup__body flex items-center gap-1.5">
         <button
           type="button"
-          className="font-mono text-xs text-surface-100 hover:text-white"
+          className="map-coords-popup__coords font-mono text-xs select-all"
           onClick={() => void copyCoordinates(anchor.lat, anchor.lng)}
         >
           {label}
         </button>
         <button
           type="button"
-          className="flex h-7 w-7 shrink-0 items-center justify-center rounded border border-surface-600 bg-surface-800 text-surface-200 transition hover:bg-surface-700 hover:text-white"
+          className="map-coords-popup__copy flex h-7 w-7 shrink-0 items-center justify-center"
           aria-label="Copy coordinates"
           title="Copy coordinates"
           onClick={() => void copyCoordinates(anchor.lat, anchor.lng)}

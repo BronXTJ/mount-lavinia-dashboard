@@ -122,6 +122,61 @@ html {
   color: #e2e8f0;
 }
 
+/* Right-click coordinate copy chip (all maps) */
+.leaflet-popup.map-coords-popup .leaflet-popup-content-wrapper {
+  background: #141d2b;
+  color: #f1f5f9;
+  border: 1px solid rgba(0, 180, 216, 0.28);
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+  padding: 2px 4px;
+}
+.leaflet-popup.map-coords-popup .leaflet-popup-content {
+  margin: 8px 10px;
+  color: #f1f5f9;
+  line-height: 1.25;
+}
+.leaflet-popup.map-coords-popup .leaflet-popup-tip {
+  background: #141d2b;
+  border: 1px solid rgba(0, 180, 216, 0.28);
+  box-shadow: none;
+}
+.leaflet-popup.map-coords-popup .map-coords-popup__coords {
+  color: #f1f5f9;
+  border-radius: 6px;
+  padding: 4px 6px;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+.leaflet-popup.map-coords-popup .map-coords-popup__coords:hover {
+  background: rgba(51, 65, 85, 0.65);
+  color: #fff;
+}
+.leaflet-popup.map-coords-popup .map-coords-popup__coords:focus-visible {
+  outline: 2px solid rgba(0, 180, 216, 0.65);
+  outline-offset: 2px;
+}
+.leaflet-popup.map-coords-popup .map-coords-popup__copy {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+  border-radius: 6px;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+.leaflet-popup.map-coords-popup .map-coords-popup__copy:hover {
+  background: #334155;
+  border-color: #64748b;
+  color: #fff;
+}
+.leaflet-popup.map-coords-popup .map-coords-popup__copy:focus-visible {
+  outline: 2px solid rgba(0, 180, 216, 0.65);
+  outline-offset: 2px;
+}
+
 /* Minimal white chips for road name labels (Centrality + Network Form).
    Semi-transparent box + dark type for scannable contrast on dark tiles. */
 .leaflet-tooltip.centrality-road-label {
