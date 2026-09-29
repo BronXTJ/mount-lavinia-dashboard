@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Sidebar from './components/Sidebar.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
+import ClipboardToastProvider from './components/ClipboardToastProvider.jsx'
 import TabSuspenseFallback from './components/TabSuspenseFallback.jsx'
 import useMediaQuery from './hooks/useMediaQuery.js'
 
@@ -59,6 +60,7 @@ export default function App() {
   }, [sidebarWidth])
 
   return (
+    <ClipboardToastProvider>
     <div className="min-h-screen bg-surface-900 font-sans text-surface-50">
       {!isDesktop && mobileSidebarOpen && (
         <button
@@ -148,5 +150,6 @@ export default function App() {
         </ErrorBoundary>
       </main>
     </div>
+    </ClipboardToastProvider>
   )
 }

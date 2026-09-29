@@ -2,7 +2,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import { MousePointerClick } from 'lucide-react'
-import MapInvalidateOnResize from './MapInvalidateOnResize.jsx'
+import MapMapExtras from './MapMapExtras.jsx'
 import MapFullscreenShell from './MapFullscreenShell.jsx'
 import { findRoadFeature } from '../utils/roadNameMatch.js'
 import findGnAtPoint from '../utils/findGnAtPoint.js'
@@ -268,7 +268,7 @@ export default function FocusAreaMap({
   return (
     <MapFullscreenShell innerClassName="rounded-lg border border-surface-700">
       <MapContainer center={MAP_CENTER} zoom={MAP_ZOOM} className="h-full w-full" preferCanvas>
-        <MapInvalidateOnResize />
+        <MapMapExtras />
         <TileLayer
           key={basemap.id}
           attribution={basemap.attribution}

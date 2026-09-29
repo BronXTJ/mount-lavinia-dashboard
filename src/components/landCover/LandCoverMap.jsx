@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { GeoJSON, ImageOverlay, MapContainer, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
-import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import MapMapExtras from '../MapMapExtras.jsx'
 import MapFullscreenShell from '../MapFullscreenShell.jsx'
 import FitBoundsToGeoJson from '../focusArea/FitBoundsToGeoJson.jsx'
 import {
@@ -201,7 +201,7 @@ export default function LandCoverMap({
         preferCanvas
         scrollWheelZoom
       >
-        <MapInvalidateOnResize />
+        <MapMapExtras />
         <TileLayer
           key={basemap.id}
           attribution={basemap.attribution}

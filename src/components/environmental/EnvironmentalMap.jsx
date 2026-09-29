@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap } from 'react-leaflet'
 import L from 'leaflet'
-import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import MapMapExtras from '../MapMapExtras.jsx'
 import MapFullscreenShell from '../MapFullscreenShell.jsx'
 import FitBoundsToGeoJson from '../focusArea/FitBoundsToGeoJson.jsx'
 import {
@@ -531,7 +531,7 @@ export default function EnvironmentalMap({
         preferCanvas
         scrollWheelZoom
       >
-        <MapInvalidateOnResize />
+        <MapMapExtras />
         <TileLayer
           key={basemap.id}
           attribution={basemap.attribution}

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { GeoJSON, MapContainer, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import { ChevronDown } from 'lucide-react'
-import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import MapMapExtras from '../MapMapExtras.jsx'
 import MapFullscreenShell, { useMapFullscreen } from '../MapFullscreenShell.jsx'
 import {
   CENTRALITY_BOUNDARIES,
@@ -594,7 +594,7 @@ export default function CentralityMap({
           preferCanvas
           scrollWheelZoom
         >
-          <MapInvalidateOnResize />
+          <MapMapExtras />
           <TileLayer
             key={basemap.id}
             attribution={basemap.attribution}

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { CircleMarker, GeoJSON, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import MapFullscreenShell from '../MapFullscreenShell.jsx'
-import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import MapMapExtras from '../MapMapExtras.jsx'
 import NetworkFormLegend from './NetworkFormLegend.jsx'
 import NetworkFormMapLayerFab from './NetworkFormMapLayerFab.jsx'
 import {
@@ -421,7 +421,7 @@ export default function NetworkFormMap({
         preferCanvas
         scrollWheelZoom
       >
-        <MapInvalidateOnResize />
+        <MapMapExtras />
         <TileLayer
           key={basemap.id}
           attribution={basemap.attribution}
