@@ -5,5 +5,5 @@ D_boundary_endpoints_not_TX,pass,boundary endpoints on T/X: []
 G_complex_not_forced_to_X,pass,degree>=5 labelled X: []
 F_unknown_crossings_flagged,pass,missing unknown ids: []
 H_dual_carriageway_not_TX,pass,T/X on D001/D002: []
-I_no_duplicate_junction_cells,pass,shared cells: []
+I_no_duplicate_junction_cells,fail,"shared cells: ['J0342|J0343', 'J0426|J0427', 'J0470|J0471']"
 note,pass,"Auditable classification from the Marshall-ready graph. Not an error-free claim. No new snap was applied. Unknown crossings were not connected. Ratios, cells, and cul-de-sacs were not calculated."
