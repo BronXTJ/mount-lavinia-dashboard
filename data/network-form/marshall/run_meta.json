@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-09-27T01:59:58.497099+00:00",
+  "gn_name": "Mount Lavinia",
+  "gn_pcode": "LK1131005",
+  "gn_names": [
+    "Mount Lavinia",
+    "Kawdana West",
+    "Watarappala",
+    "Wathumulla",
+    "Wedikanda"
+  ],
+  "boundary": "public/data/network-form/gn5_divisions.geojson",
+  "streets": "public/data/network-form/roads_streets.geojson",
+  "crs_metric": "EPSG:3857",
+  "snap_m": 1.0,
+  "min_segment_m": 0.5,
+  "min_cell_area_m2": 100.0,
+  "min_cell_overlap": 0.5,
+  "boundary_cul_m": 1.0,
+  "degree_ge5_policy": "count_as_X",
+  "noding_method": "shapely.ops.unary_union",
+  "quadrant_tie": "T_ratio>=0.5 is T; Cell_ratio>=0.5 is cell",
+  "independent_clip": true,
+  "clipped_segments": 128,
+  "noded_parts": 250,
+  "png_written": true,
+  "figure": "figures/marshall_matrix_mount_lavinia.png",
+  "excludes": [
+    "space_syntax",
+    "integration",
+    "choice",
+    "depth",
+    "accessibility",
+    "hex_cells",
+    "gsi_fsi_osr"
+  ],
+  "methods": "scripts/network_form/METHODS_MARSHALL_ML_GN.md"
+}
