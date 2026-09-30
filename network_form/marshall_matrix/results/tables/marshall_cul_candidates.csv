@@ -15,7 +15,7 @@ K0013,Mount Lavinia,S0119,NOT_A_CUL,GN boundary endpoint created by clipping
 K0014,Mount Lavinia,S0113,NOT_A_CUL,GN boundary endpoint created by clipping
 K0015,Mount Lavinia,S0112,NOT_A_CUL,GN boundary endpoint created by clipping
 K0016,Mount Lavinia,S0160,NOT_A_CUL,GN boundary endpoint created by clipping
-K0017,Mount Lavinia,S0183,NOT_A_CUL,Site review: three-way T-junction (J0014)—not a Marshall cul-de-sac
+K0017,Mount Lavinia,S0183,GENUINE_CUL,Site review: Marshall cul-de-sac at field GPS (S0183 tip at J0020; J0014 is the joining T)
 K0018,Mount Lavinia,S0111,NOT_A_CUL,GN boundary endpoint created by clipping
 K0019,Mount Lavinia,S0079,NOT_A_CUL,GN boundary endpoint created by clipping
 K0020,Mount Lavinia,S0181,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"

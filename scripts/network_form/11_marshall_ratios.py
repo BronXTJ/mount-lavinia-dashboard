@@ -41,7 +41,7 @@ EXPECTED_TX = {
     "Wedikanda": (77, 7),
 }
 EXPECTED_STRUCTURE = {
-    "Mount Lavinia": (21, 63),
+    "Mount Lavinia": (21, 64),
     "Kawdana West": (5, 54),
     "Watarappala": (8, 44),
     "Wathumulla": (10, 38),

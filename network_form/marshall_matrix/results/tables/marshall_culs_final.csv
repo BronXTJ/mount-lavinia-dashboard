@@ -1,4 +1,5 @@
 cul_id,GN,street_segment_id,classification,reason
+K0017,Mount Lavinia,S0183,GENUINE_CUL,Site review: Marshall cul-de-sac at field GPS (S0183 tip at J0020; J0014 is the joining T)
 K0020,Mount Lavinia,S0181,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
 K0021,Mount Lavinia,S0231|S0230,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
 K0022,Mount Lavinia,S0195,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"

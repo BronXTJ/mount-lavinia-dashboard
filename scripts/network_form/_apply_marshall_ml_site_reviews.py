@@ -15,7 +15,7 @@ from pathlib import Path
 
 import geopandas as gpd
 import pandas as pd
-from shapely.geometry import Point
+from shapely.geometry import LineString, Point
 
 ROOT = Path(__file__).resolve().parents[2]
 JUNCTIONS = ROOT / "network_form/marshall_matrix/data/processed/marshall_junctions.gpkg"
@@ -47,6 +47,8 @@ J0383_LON, J0383_LAT = 79.871747, 6.845635
 J0317_LON, J0317_LAT = 79.875688, 6.843672
 J0309_LON, J0309_LAT = 79.875592, 6.843331
 J0272_LON, J0272_LAT = 79.876012, 6.842247
+# S0183 dead end — Marshall cul-de-sac tip at field GPS (J0020; joining T is J0014)
+K0017_LON, K0017_LAT = 79.865611, 6.830703
 
 JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0057": ("T", 3),
@@ -99,9 +101,16 @@ JUNCTION_GN: dict[str, str] = {
     "J0612": "Kawdana West",
 }
 
+CUL_GENUINE_PATCHES = {
+    "K0017": "Site review: Marshall cul-de-sac at field GPS (S0183 tip at J0020; J0014 is the joining T)",
+}
+
+CUL_GEOM: dict[str, tuple[float, float]] = {
+    "K0017": (K0017_LON, K0017_LAT),
+}
+
 CUL_PATCHES = {
     "K0030": "Site review: three-way T-junction (J0057)—S0125 connected to Galle; not a Marshall cul-de-sac",
-    "K0017": "Site review: three-way T-junction (J0014)—not a Marshall cul-de-sac",
     "K0005": "Site review: three-way T-junction (J0005)—Galle Road access; not a GN boundary artefact",
     "K0012": "Site review: three-way T-junction (J0012)—Galle Road access; not a GN boundary artefact",
     "K0172": "Site review: three-way T-junction (J0383)—not a Marshall cul-de-sac",
@@ -109,6 +118,14 @@ CUL_PATCHES = {
     "K0137": "Site review: three-way T-junction (J0309)—not a Marshall cul-de-sac",
     "K0112": "Site review: three-way T-junction (J0272)—not a Marshall cul-de-sac",
 }
+
+
+def snap_cul_tip(geom: LineString, lon: float, lat: float) -> LineString:
+    coords = list(geom.coords)
+    if len(coords) < 2:
+        raise RuntimeError("cul line must have at least two vertices")
+    coords[0] = (lon, lat)
+    return LineString(coords)
 
 
 def upsert_junction_review_rows() -> None:
@@ -182,6 +199,10 @@ def upsert_junction_review_rows() -> None:
         "degree": "3",
         "reason": "Site review: Galle Road three-way (was clip boundary endpoint on S0114)",
     }
+    if "J0014" in by_id:
+        by_id["J0014"]["reason"] = (
+            "Site review: Marshall T where S0183 meets through street (cul tip is K0017 at J0020 GPS)"
+        )
     by_id["J0034"] = {
         "junction_id": "J0034",
         "GN": "Mount Lavinia",
@@ -331,6 +352,21 @@ def patch_junctions_gpkg() -> None:
 
 def patch_culs_gpkg_and_csv() -> None:
     culs = gpd.read_file(CELLS, layer="cul_candidates")
+    for cul_id, reason in CUL_GENUINE_PATCHES.items():
+        mask = culs["cul_id"] == cul_id
+        if not mask.any():
+            raise RuntimeError(f"{cul_id} missing from cul_candidates")
+        culs.loc[mask, "classification"] = "GENUINE_CUL"
+        culs.loc[mask, "reason"] = reason
+    for cul_id, (lon, lat) in CUL_GEOM.items():
+        mask = culs["cul_id"] == cul_id
+        if not mask.any():
+            raise RuntimeError(f"{cul_id} missing from cul_candidates for CUL_GEOM")
+        idx = culs.index[mask][0]
+        geom = culs.at[idx, "geometry"]
+        if geom.geom_type != "LineString":
+            raise RuntimeError(f"{cul_id} geometry must be LineString for tip snap")
+        culs.at[idx, "geometry"] = snap_cul_tip(geom, lon, lat)
     for cul_id, reason in CUL_PATCHES.items():
         mask = culs["cul_id"] == cul_id
         if not mask.any():

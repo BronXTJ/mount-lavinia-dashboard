@@ -5,7 +5,7 @@
     "gn_area_km2": 1.1501,
     "inside_gn_only": true,
     "counts": {
-      "n_culdesac": 63,
+      "n_culdesac": 64,
       "n_three_way": 115,
       "n_four_way": 9,
       "n_bend": 0,
@@ -16,7 +16,7 @@
     "four_to_three_raw": "9 : 115",
     "four_way_share": 0.0726,
     "three_way_share": 0.9274,
-    "culdesac_per_km2": 54.78,
+    "culdesac_per_km2": 55.65,
     "culdesac_per_km_road": 3.59,
     "road_length_inside_gn_km": 18.089,
     "junction_spacing_m": {
@@ -260,7 +260,7 @@
     "gn_area_km2": 3.2898,
     "inside_gn_only": true,
     "counts": {
-      "n_culdesac": 253,
+      "n_culdesac": 254,
       "n_three_way": 404,
       "n_four_way": 31,
       "n_bend": 0,
@@ -271,7 +271,7 @@
     "four_to_three_raw": "31 : 404",
     "four_way_share": 0.0713,
     "three_way_share": 0.9287,
-    "culdesac_per_km2": 76.9,
+    "culdesac_per_km2": 77.21,
     "culdesac_per_km_road": 4.36,
     "road_length_inside_gn_km": 59.432,
     "junction_spacing_m": {
