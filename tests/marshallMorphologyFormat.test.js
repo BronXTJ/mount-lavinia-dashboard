@@ -25,15 +25,15 @@ describe('marshallMorphologyFormat', () => {
   })
 
   it('formats stored percents and table rows from the published file', () => {
-    expect(formatStoredPercent(metrics.ratios.T_ratio)).toBe('90%')
-    expect(formatStoredPercent(metrics.ratios.X_ratio)).toBe('10%')
+    expect(formatStoredPercent(metrics.ratios.T_ratio)).toBe('91%')
+    expect(formatStoredPercent(metrics.ratios.X_ratio)).toBe('9%')
     expect(formatStoredPercent(metrics.ratios.Cell_ratio)).toBe('24%')
     expect(formatStoredPercent(metrics.ratios.Cul_ratio)).toBe('76%')
     expect(formatStoredPercent(null)).toBe('—')
 
     const rows = marshallTableRows(metrics)
-    expect(rows.map((r) => r.value)).toEqual(['111', '13', '67', '21', '90%', '10%', '76%', '24%'])
-    expect(metrics.counts.n_T + metrics.counts.n_X).toBe(124)
+    expect(rows.map((r) => r.value)).toEqual(['111', '11', '67', '21', '91%', '9%', '76%', '24%'])
+    expect(metrics.counts.n_T + metrics.counts.n_X).toBe(122)
     expect(metrics.ratios.T_ratio + metrics.ratios.X_ratio).toBeCloseTo(1, 12)
     expect(metrics.ratios.Cell_ratio + metrics.ratios.Cul_ratio).toBeCloseTo(1, 12)
   })

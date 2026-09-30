@@ -30,7 +30,7 @@ MANIFESTS = [
     ROOT / "src" / "data" / "assetManifest.json",
     ROOT / "public" / "data" / "manifest.json",
 ]
-EXPECTED_ML = (111, 13, 21, 67)
+EXPECTED_ML = (111, 11, 21, 67)
 
 
 def as_number(text: str):

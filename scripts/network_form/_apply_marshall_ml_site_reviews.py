@@ -26,6 +26,9 @@ JUNCTION_REVIEW = TABLE / "marshall_junction_review.csv"
 REVIEW_FINAL = TABLE / "marshall_junction_review_final.csv"
 
 J0116_LON, J0116_LAT = 79.866938, 6.841286
+# Hotel × Galle D002 — renumbered X nodes after 08/10 (same corners as J0117 / J0058)
+J0118_LON, J0118_LAT = 79.8669483, 6.8412825
+J0119_LON, J0119_LAT = 79.86704, 6.841309
 # Must match S0125∩S0081 after scripts/network_form/_site_connect_s0125_galle.py
 J0057_LON, J0057_LAT = 79.86731174291111, 6.834063961259677
 J0984_LON, J0984_LAT = 79.867655, 6.830827
@@ -162,6 +165,19 @@ def upsert_junction_review_rows() -> None:
         "degree": "0",
         "reason": "Site review: not a Marshall four-way crossing—no map icon",
     }
+    for jid, lon, lat in [
+        ("J0118", J0118_LON, J0118_LAT),
+        ("J0119", J0119_LON, J0119_LAT),
+    ]:
+        by_id[jid] = {
+            "junction_id": jid,
+            "GN": "Mount Lavinia",
+            "x": f"{lon:.6f}",
+            "y": f"{lat:.6f}",
+            "classification": "ENDPOINT",
+            "degree": "0",
+            "reason": "Site review: not a Marshall four-way crossing—no map icon",
+        }
     by_id["J0057"] = {
         "junction_id": "J0057",
         "GN": "Mount Lavinia",
@@ -289,14 +305,15 @@ def ensure_review_final_j0117_j0058() -> None:
     for mistaken in ("J0269", "J0282"):
         by_id.pop(mistaken, None)
 
-    by_id["J0117"] = {
-        "node_id": "J0117",
+    not_junction_x = {
         "GN": "Mount Lavinia",
         "previous_class": "X",
         "final_class": "ENDPOINT / NOT_JUNCTION",
         "reason": "Site review: not a Marshall four-way crossing—remove from X counts",
         "confidence": "high",
     }
+    for node_id in ("J0117", "J0118", "J0119"):
+        by_id[node_id] = {"node_id": node_id, **not_junction_x}
     by_id["J0058"] = {
         "node_id": "J0058",
         "GN": "Mount Lavinia",
@@ -328,6 +345,8 @@ def ensure_review_final_j0117_j0058() -> None:
     for node_id, meta in [
         ("J0058", by_id["J0058"]),
         ("J0117", by_id["J0117"]),
+        ("J0118", by_id["J0118"]),
+        ("J0119", by_id["J0119"]),
         ("J0267", by_id["J0267"]),
         ("J0280", by_id["J0280"]),
     ]:

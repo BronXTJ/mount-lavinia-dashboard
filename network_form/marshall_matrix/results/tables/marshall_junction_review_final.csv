@@ -31,3 +31,5 @@ J0972,Wedikanda,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a G
 J0058,Mount Lavinia,X,ENDPOINT / NOT_JUNCTION,Spur bend after S0125 snap—not a Marshall four-way; Galle T is J0057,high
 J0267,Kawdana West,T,ENDPOINT / NOT_JUNCTION,Site review: not a Marshall junction—no map icon,high
 J0280,Kawdana West,T,ENDPOINT / NOT_JUNCTION,Site review: not a Marshall junction—no map icon,high
+J0118,Mount Lavinia,X,ENDPOINT / NOT_JUNCTION,Site review: not a Marshall four-way crossing—remove from X counts,high
+J0119,Mount Lavinia,X,ENDPOINT / NOT_JUNCTION,Site review: not a Marshall four-way crossing—remove from X counts,high
