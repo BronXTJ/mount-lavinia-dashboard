@@ -13,10 +13,10 @@ The figure uses the stored ratios in `marshall_ratios_by_gn.csv`. Those ratios a
 
 | GN | X_ratio | T_ratio | Cell_ratio | Cul_ratio |
 |---|---:|---:|---:|---:|
-| Mount Lavinia | 0.0725806452 | 0.9274193548 | 0.2470588235 | 0.7529411765 |
-| Kawdana West | 0.0602409639 | 0.9397590361 | 0.0847457627 | 0.9152542373 |
-| Watarappala | 0.0731707317 | 0.9268292683 | 0.1538461538 | 0.8461538462 |
+| Mount Lavinia | 0.1048387097 | 0.8951612903 | 0.2386363636 | 0.7613636364 |
+| Kawdana West | 0.0500000000 | 0.9500000000 | 0.0819672131 | 0.9180327869 |
+| Watarappala | 0.0975609756 | 0.9024390244 | 0.1538461538 | 0.8461538462 |
 | Wathumulla | 0.0666666667 | 0.9333333333 | 0.2083333333 | 0.7916666667 |
-| Wedikanda | 0.0833333333 | 0.9166666667 | 0.1147540984 | 0.8852459016 |
+| Wedikanda | 0.0722891566 | 0.9277108434 | 0.1147540984 | 0.8852459016 |
 
 No categorical label is assigned. All five points sit toward low X-ratio and low Cell-ratio, which is the T-tree corner of this layout. That is a description of position, not a threshold classification.

@@ -98,7 +98,9 @@ Written by `scripts/network_form/06_marshall_matrix_ml_gn.py` under `public/data
 
 ## Site review publish pipeline (Overview sync)
 
-After **new street geometry** (`_site_add_road_*`, `_site_connect_*`), rebuild topology before publish:
+- **Samudrasanna / quarry-strip cells:** OSM `way/50133642` via [`_site_add_samudrasanna_ml.py`](_site_add_samudrasanna_ml.py) (syncs `roads_streets.geojson` + GPKG; dedupes `streets` layer). Published cells **MC0003**, **MC0005**, **MC0006** enclose the Mount Lavinia blocks west of Galle (Hotel / Lilian / Old Quarry / Station).
+
+After **new street geometry** (`_site_add_road_*`, `_site_connect_*`, `_site_add_samudrasanna_ml.py`), rebuild topology before publish:
 
 ```text
 08_marshall_junctions.py → 10_marshall_cells_culs.py → _apply_marshall_ml_site_reviews.py → 11 … 15

@@ -30,7 +30,7 @@ MANIFESTS = [
     ROOT / "src" / "data" / "assetManifest.json",
     ROOT / "public" / "data" / "manifest.json",
 ]
-EXPECTED_ML = (115, 9, 21, 64)
+EXPECTED_ML = (111, 13, 21, 67)
 
 
 def as_number(text: str):
@@ -188,10 +188,10 @@ def uncertainty_block() -> dict:
             "lng": round(lng, 7),
         }
         excluded_cases.append(entry)
-    if counts != {"junctions": 0, "cells": 1, "cul_de_sacs": 0}:
+    if counts != {"junctions": 0, "cells": 0, "cul_de_sacs": 0}:
         raise RuntimeError(f"Unexpected uncertainty counts: {counts}")
-    if len(excluded_cases) != 1:
-        raise RuntimeError(f"Expected 1 excluded case, got {len(excluded_cases)}")
+    if len(excluded_cases) != 0:
+        raise RuntimeError(f"Expected 0 excluded cases, got {len(excluded_cases)}")
     return {**counts, "excluded_cases": excluded_cases}
 
 

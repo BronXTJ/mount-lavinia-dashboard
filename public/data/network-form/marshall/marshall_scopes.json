@@ -5,20 +5,20 @@
       "gn_pcode": "LK1131005",
       "framework": "marshall_2005",
       "counts": {
-        "n_T": 115,
-        "n_X": 9,
+        "n_T": 111,
+        "n_X": 13,
         "n_cell_marshall": 21,
-        "n_cul_marshall": 64
+        "n_cul_marshall": 67
       },
       "ratios": {
-        "T_ratio": 0.9274193548,
-        "X_ratio": 0.0725806452,
-        "Cell_ratio": 0.2470588235,
-        "Cul_ratio": 0.7529411765
+        "T_ratio": 0.8951612903,
+        "X_ratio": 0.1048387097,
+        "Cell_ratio": 0.2386363636,
+        "Cul_ratio": 0.7613636364
       },
       "matrix": {
-        "x_ratio": 0.0725806452,
-        "y_cell_ratio": 0.2470588235
+        "x_ratio": 0.1048387097,
+        "y_cell_ratio": 0.2386363636
       },
       "comparison_network_form": {
         "n_culdesac_dashboard": 65,
@@ -33,20 +33,20 @@
       "gn_pcode": "LK1131010",
       "framework": "marshall_2005",
       "counts": {
-        "n_T": 78,
-        "n_X": 5,
+        "n_T": 76,
+        "n_X": 4,
         "n_cell_marshall": 5,
-        "n_cul_marshall": 54
+        "n_cul_marshall": 56
       },
       "ratios": {
-        "T_ratio": 0.9397590361,
-        "X_ratio": 0.0602409639,
-        "Cell_ratio": 0.0847457627,
-        "Cul_ratio": 0.9152542373
+        "T_ratio": 0.95,
+        "X_ratio": 0.05,
+        "Cell_ratio": 0.0819672131,
+        "Cul_ratio": 0.9180327869
       },
       "matrix": {
-        "x_ratio": 0.0602409639,
-        "y_cell_ratio": 0.0847457627
+        "x_ratio": 0.05,
+        "y_cell_ratio": 0.0819672131
       },
       "comparison_network_form": {
         "n_culdesac_dashboard": 58,
@@ -61,19 +61,19 @@
       "gn_pcode": "LK1131015",
       "framework": "marshall_2005",
       "counts": {
-        "n_T": 76,
-        "n_X": 6,
+        "n_T": 74,
+        "n_X": 8,
         "n_cell_marshall": 8,
         "n_cul_marshall": 44
       },
       "ratios": {
-        "T_ratio": 0.9268292683,
-        "X_ratio": 0.0731707317,
+        "T_ratio": 0.9024390244,
+        "X_ratio": 0.0975609756,
         "Cell_ratio": 0.1538461538,
         "Cul_ratio": 0.8461538462
       },
       "matrix": {
-        "x_ratio": 0.0731707317,
+        "x_ratio": 0.0975609756,
         "y_cell_ratio": 0.1538461538
       },
       "comparison_network_form": {
@@ -118,18 +118,18 @@
       "framework": "marshall_2005",
       "counts": {
         "n_T": 77,
-        "n_X": 7,
+        "n_X": 6,
         "n_cell_marshall": 7,
         "n_cul_marshall": 54
       },
       "ratios": {
-        "T_ratio": 0.9166666667,
-        "X_ratio": 0.0833333333,
+        "T_ratio": 0.9277108434,
+        "X_ratio": 0.0722891566,
         "Cell_ratio": 0.1147540984,
         "Cul_ratio": 0.8852459016
       },
       "matrix": {
-        "x_ratio": 0.0833333333,
+        "x_ratio": 0.0722891566,
         "y_cell_ratio": 0.1147540984
       },
       "comparison_network_form": {
@@ -144,30 +144,22 @@
   "study_area": {
     "label": "Study area",
     "counts": {
-      "n_T": 402,
-      "n_X": 31,
+      "n_T": 394,
+      "n_X": 35,
       "n_cell_marshall": 51,
-      "n_cul_marshall": 254
+      "n_cul_marshall": 259
     },
     "ratios": {
-      "T_ratio": 0.9284064665,
-      "X_ratio": 0.0715935335,
-      "Cell_ratio": 0.1672131148,
-      "Cul_ratio": 0.8327868852
+      "T_ratio": 0.9184149184,
+      "X_ratio": 0.0815850816,
+      "Cell_ratio": 0.164516129,
+      "Cul_ratio": 0.835483871
     }
   },
   "uncertainty": {
     "junctions": 0,
-    "cells": 1,
+    "cells": 0,
     "cul_de_sacs": 0,
-    "excluded_cases": [
-      {
-        "kind": "cell",
-        "id": "C0053",
-        "primary_id": "C0053",
-        "lat": 6.8443753,
-        "lng": 79.8639222
-      }
-    ]
+    "excluded_cases": []
   }
 }

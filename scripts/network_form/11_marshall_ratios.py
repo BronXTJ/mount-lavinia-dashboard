@@ -34,21 +34,21 @@ GN_NAMES = [
     "Wedikanda",
 ]
 EXPECTED_TX = {
-    "Mount Lavinia": (115, 9),
-    "Kawdana West": (78, 5),
-    "Watarappala": (76, 6),
+    "Mount Lavinia": (111, 13),
+    "Kawdana West": (76, 4),
+    "Watarappala": (74, 8),
     "Wathumulla": (56, 4),
-    "Wedikanda": (77, 7),
+    "Wedikanda": (77, 6),
 }
 EXPECTED_STRUCTURE = {
-    "Mount Lavinia": (21, 64),
-    "Kawdana West": (5, 54),
+    "Mount Lavinia": (21, 67),
+    "Kawdana West": (5, 56),
     "Watarappala": (8, 44),
     "Wathumulla": (10, 38),
     "Wedikanda": (7, 54),
 }
 JUNCTION_UNCERTAIN: tuple[str, ...] = ()
-CELL_UNCERTAIN = ("C0053",)
+CELL_UNCERTAIN: tuple[str, ...] = ()
 CUL_UNCERTAIN: tuple[str, ...] = ()
 SUM_TOLERANCE = 1e-9
 
@@ -271,8 +271,9 @@ def main() -> None:
     structure = confirmed_structure()
     rows = ratio_rows(tx, structure)
     uncertainties = uncertainty_rows()
-    if len(uncertainties) != 1:
-        raise RuntimeError(f"Expected 1 uncertainty row, found {len(uncertainties)}")
+    expected_uncertain = len(JUNCTION_UNCERTAIN) + len(CELL_UNCERTAIN) + len(CUL_UNCERTAIN)
+    if len(uncertainties) != expected_uncertain:
+        raise RuntimeError(f"Expected {expected_uncertain} uncertainty row(s), found {len(uncertainties)}")
     write_csv(
         RATIOS_CSV,
         rows,
