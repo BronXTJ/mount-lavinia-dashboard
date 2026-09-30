@@ -47,6 +47,9 @@ J0383_LON, J0383_LAT = 79.871747, 6.845635
 J0317_LON, J0317_LAT = 79.875688, 6.843672
 J0309_LON, J0309_LAT = 79.875592, 6.843331
 J0272_LON, J0272_LAT = 79.876012, 6.842247
+# Kawdana West — remove Marshall T icons at site GPS (nearest published T: J0267, J0280)
+J0267_LON, J0267_LAT = 79.866820, 6.842219
+J0280_LON, J0280_LAT = 79.866726, 6.842564
 # S0183 dead end — Marshall cul-de-sac tip at field GPS (J0020; joining T is J0014)
 K0017_LON, K0017_LAT = 79.865611, 6.830703
 
@@ -257,6 +260,19 @@ def upsert_junction_review_rows() -> None:
             "degree": "3",
             "reason": f"Site review: Marshall three-way at site GPS ({cul_note})",
         }
+    for jid, lon, lat in [
+        ("J0267", J0267_LON, J0267_LAT),
+        ("J0280", J0280_LON, J0280_LAT),
+    ]:
+        by_id[jid] = {
+            "junction_id": jid,
+            "GN": "Kawdana West",
+            "x": f"{lon:.6f}",
+            "y": f"{lat:.6f}",
+            "classification": "ENDPOINT",
+            "degree": "0",
+            "reason": "Site review: not a Marshall junction—no map icon",
+        }
 
     out = list(by_id.values())
     out.sort(key=lambda r: r["junction_id"])
@@ -270,6 +286,8 @@ def ensure_review_final_j0117_j0058() -> None:
     rows = list(csv.DictReader(REVIEW_FINAL.open(encoding="utf-8")))
     fieldnames = rows[0].keys()
     by_id = {row["node_id"]: row for row in rows}
+    for mistaken in ("J0269", "J0282"):
+        by_id.pop(mistaken, None)
 
     by_id["J0117"] = {
         "node_id": "J0117",
@@ -287,6 +305,18 @@ def ensure_review_final_j0117_j0058() -> None:
         "reason": "Spur bend after S0125 snap—not a Marshall four-way; Galle T is J0057",
         "confidence": "high",
     }
+    for node_id, lon, lat in [
+        ("J0267", J0267_LON, J0267_LAT),
+        ("J0280", J0280_LON, J0280_LAT),
+    ]:
+        by_id[node_id] = {
+            "node_id": node_id,
+            "GN": "Kawdana West",
+            "previous_class": "T",
+            "final_class": "ENDPOINT / NOT_JUNCTION",
+            "reason": "Site review: not a Marshall junction—no map icon",
+            "confidence": "high",
+        }
 
     with REVIEW_FINAL.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
@@ -298,6 +328,8 @@ def ensure_review_final_j0117_j0058() -> None:
     for node_id, meta in [
         ("J0058", by_id["J0058"]),
         ("J0117", by_id["J0117"]),
+        ("J0267", by_id["J0267"]),
+        ("J0280", by_id["J0280"]),
     ]:
         jrow = junctions[junctions["junction_id"] == node_id]
         if jrow.empty:
@@ -311,7 +343,7 @@ def ensure_review_final_j0117_j0058() -> None:
                     [
                         {
                             "node_id": node_id,
-                            "GN": "Mount Lavinia",
+                            "GN": meta["GN"],
                             "previous_class": meta["previous_class"],
                             "final_class": meta["final_class"],
                             "reason": meta["reason"],
