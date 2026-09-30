@@ -6,11 +6,11 @@ J0004,Mount Lavinia,79.864953,6.830095,ENDPOINT,1,boundary endpoint B0012
 J0005,Mount Lavinia,79.86505,6.830114,ENDPOINT,1,boundary endpoint B0024
 J0010,Mount Lavinia,79.865677,6.830221,T,3,
 J0014,Mount Lavinia,79.866232,6.830371,T,3,Site review: confirmed Marshall T-junction (K0017)
-J0057,Mount Lavinia,79.867312,6.834073,T,3,Site review: S0125 spur connected to Galle Road—Marshall three-way (was false cul K0030)
 J0016,Mount Lavinia,79.863651,6.830508,T,3,
 J0021,Mount Lavinia,79.866964,6.830713,T,3,
 J0028,Mount Lavinia,79.86516,6.83143,T,3,
 J0044,Mount Lavinia,79.867335,6.832562,T,3,Site review: confirmed Marshall T-junction
+J0057,Mount Lavinia,79.867312,6.834073,T,3,Site review: S0125 spur connected to Galle Road—Marshall three-way (was false cul K0030)
 J0058,Mount Lavinia,79.866376,6.834133,X,4,Marshall X at spur bend (Galle T is J0057 after S0125 snap)
 J0065,Mount Lavinia,79.867319,6.83509,X,4,
 J0071,Mount Lavinia,79.865721,6.835271,X,4,
@@ -18,8 +18,8 @@ J0079,Mount Lavinia,79.867334,6.836077,UNCERTAIN,3,incident to both roads in dua
 J0080,Mount Lavinia,79.867338,6.836224,UNCERTAIN,3,incident to both roads in dual-carriageway D001; not forced into T or X
 J0089,Mount Lavinia,79.86484,6.83864,X,4,
 J0092,Mount Lavinia,79.867485,6.838976,T,3,Site review: confirmed Marshall T-junction
-J0116,Mount Lavinia,79.866948,6.841283,T,3,Site review: reclassified from misidentified four-way to Marshall T-junction
-J0117,Mount Lavinia,79.867040,6.841309,ENDPOINT,0,Site review: not a Marshall four-way crossing
+J0116,Mount Lavinia,79.866938,6.841286,T,3,Site review: reclassified from misidentified four-way to Marshall T-junction (Hotel × Galle)
+J0117,Mount Lavinia,79.867040,6.841309,ENDPOINT,0,Site review: not a Marshall four-way crossing—no map icon
 J0123,Mount Lavinia,79.86695,6.841654,UNCERTAIN,2,incident to both roads in dual-carriageway D002; not forced into T or X
 J0342,Kawdana West,79.875023,6.844431,ENDPOINT,0,Site review: private road start and cul-de-sac end at C0135—not a junction crossing
 J0425,Kawdana West,79.868865,6.847827,T,3,Site review: confirmed Marshall T-junction at C0130

@@ -182,12 +182,10 @@ def patch_culs_gpkg_and_csv() -> None:
 
 
 def main() -> None:
-    restore_review_csv()
-    append_junction_review_rows()
-    patch_junctions_gpkg()
-    patch_culs_gpkg_and_csv()
-    patch_review_final_j0058()
-    print("site review applied")
+    from _apply_marshall_ml_site_reviews import apply
+
+    apply()
+    print("site review applied (delegates to _apply_marshall_ml_site_reviews)")
 
 
 if __name__ == "__main__":
