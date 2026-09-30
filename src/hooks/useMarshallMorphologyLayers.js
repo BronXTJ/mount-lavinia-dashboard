@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { NETWORK_FORM_GN_NAMES, NETWORK_FORM_SCOPE_ALL } from '../constants/networkForm.js'
 import { marshallDataUrl } from '../constants/marshallMorphology.js'
 import { fetchJsonOrNull } from '../lib/dataClient.js'
 import { marshallChartPoints } from '../utils/marshallMorphologyFormat.js'
@@ -8,6 +9,23 @@ function featuresForGn(collection, gnName) {
   const features = collection.features.filter((feature) => feature?.properties?.gn_name === gnName)
   if (!features.length) return null
   return { type: 'FeatureCollection', features }
+}
+
+function matchesScope(gnName, scope) {
+  if (!gnName) return false
+  if (scope === NETWORK_FORM_SCOPE_ALL) return NETWORK_FORM_GN_NAMES.includes(gnName)
+  return gnName === scope
+}
+
+/** Junction + cul markers for map (single GN or all study GNs). */
+export function marshallMarkersForScope(junctions, culdesacs, scope) {
+  if (!junctions?.features?.length) return null
+  const junctionFeatures = junctions.features.filter((f) => matchesScope(f?.properties?.gn_name, scope))
+  const culFeatures = (culdesacs?.features ?? []).filter((f) =>
+    matchesScope(f?.properties?.gn_name, scope),
+  )
+  const features = [...junctionFeatures, ...culFeatures]
+  return features.length ? { type: 'FeatureCollection', features } : null
 }
 
 /**
@@ -75,12 +93,10 @@ export function useMarshallMorphologyLayers(enabled = false, selectedGn = null) 
 
   const chartPoints = useMemo(() => marshallChartPoints(scopes), [scopes])
 
-  const junctionsMarshall = useMemo(() => {
-    const junctionFeatures = featuresForGn(junctions, selectedGn)?.features ?? []
-    const culFeatures = featuresForGn(culdesacs, selectedGn)?.features ?? []
-    const features = [...junctionFeatures, ...culFeatures]
-    return features.length ? { type: 'FeatureCollection', features } : null
-  }, [junctions, culdesacs, selectedGn])
+  const junctionsMarshall = useMemo(
+    () => marshallMarkersForScope(junctions, culdesacs, selectedGn),
+    [junctions, culdesacs, selectedGn],
+  )
 
   const cellsForGn = useMemo(() => featuresForGn(cells, selectedGn), [cells, selectedGn])
 

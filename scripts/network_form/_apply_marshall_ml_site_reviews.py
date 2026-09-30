@@ -3,6 +3,9 @@
 
 Site review adjusts classification, review tables, and published junction icon positions only.
 Do not edit street segment geometry; ground linework stays in roads_marshall_ready / roads_streets.
+
+After apply, run Marshall publish 11–14 then 15_sync_network_form_overview_from_marshall.py
+so Network Form Overview map and metrics_by_scope stay aligned with Marshall Morphology.
 """
 
 from __future__ import annotations

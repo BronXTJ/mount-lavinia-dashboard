@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   DEFAULT_NETWORK_FORM_SCOPE,
   DEFAULT_NETWORK_FORM_VISIBLE,
@@ -13,6 +13,11 @@ import {
 } from '../../constants/marshallMorphology.js'
 import { useMarshallMorphologyLayers } from '../../hooks/useMarshallMorphologyLayers.js'
 import { useNetworkFormLayers } from '../../hooks/useNetworkFormLayers.js'
+import {
+  buildTypeShareZones,
+  countByJtype,
+  listCuldesacs,
+} from '../../utils/networkFormStats.js'
 import LayerLoadError from '../LayerLoadError.jsx'
 import NetworkFormDetailPanel from './NetworkFormDetailPanel.jsx'
 import NetworkFormMap from './NetworkFormMap.jsx'
@@ -70,7 +75,10 @@ export default function NetworkFormView() {
     error,
   } = useNetworkFormLayers(marshallMode ? marshallScope : selectedScope)
 
-  const marshall = useMarshallMorphologyLayers(marshallMode, marshallScope)
+  const marshall = useMarshallMorphologyLayers(
+    true,
+    marshallMode ? marshallScope : selectedScope,
+  )
 
   function handleToggleLayer(id, checked) {
     setVisibleLayers((prev) => ({ ...prev, [id]: checked }))
@@ -104,6 +112,21 @@ export default function NetworkFormView() {
         marshall_cells: marshall.metrics.counts?.n_cell_marshall ?? 0,
       }
     : counts
+
+  const overviewMarkerFeatures = marshall.junctionsMarshall?.features
+  const overviewCounts = useMemo(() => {
+    if (!overviewMarkerFeatures?.length) return counts
+    return countByJtype(overviewMarkerFeatures)
+  }, [overviewMarkerFeatures, counts])
+  const overviewTypeZones = useMemo(
+    () => buildTypeShareZones(overviewCounts),
+    [overviewCounts],
+  )
+  const overviewCuldesacRows = useMemo(() => {
+    if (!overviewMarkerFeatures?.length) return culdesacRows
+    return listCuldesacs(overviewMarkerFeatures)
+  }, [overviewMarkerFeatures, culdesacRows])
+  const mapJunctions = marshall.junctionsMarshall ?? junctions
 
   return (
     <>
@@ -145,9 +168,9 @@ export default function NetworkFormView() {
           <NetworkFormOverviewPanel
             metrics={metrics}
             findings={findings}
-            typeZones={typeZones}
-            counts={counts}
-            loading={loading}
+            typeZones={overviewTypeZones}
+            counts={overviewCounts}
+            loading={loading || marshall.loading}
             selectedScope={selectedScope}
             onSelectScope={handleSelectScope}
           />
@@ -155,7 +178,7 @@ export default function NetworkFormView() {
       </div>
 
       <div className="relative order-1 flex min-h-[360px] flex-col border-y border-surface-700 py-3 lg:order-2 lg:min-h-0 lg:border-x lg:border-y-0">
-        <LayerLoadError error={marshallMode ? marshall.error : error} />
+        <LayerLoadError error={marshallMode ? marshall.error : error ?? marshall.error} />
         <div className="min-h-0 flex-1">
           <NetworkFormMap
             visibleLayers={visibleLayers}
@@ -164,12 +187,12 @@ export default function NetworkFormView() {
             allGnBoundary={allGnBoundary}
             selectedScope={marshallMode ? marshallScope : selectedScope}
             streets={streets}
-            junctions={marshallMode ? marshall.junctionsMarshall : junctions}
+            junctions={mapJunctions}
             culdesacHex={marshallMode ? null : culdesacHex}
             culdesacHexWalk={marshallMode ? null : culdesacHexWalk}
             culdesacHexUmi={marshallMode ? null : culdesacHexUmi}
-            counts={marshallMode ? marshallCounts : counts}
-            loading={marshallMode ? marshall.loading : loading}
+            counts={marshallMode ? marshallCounts : overviewCounts}
+            loading={marshallMode ? marshall.loading : loading || marshall.loading}
             selectedJunctionId={selectedJunctionId}
             onSelectJunction={(id) => {
               setExcludedCaseFocus(null)
@@ -205,7 +228,7 @@ export default function NetworkFormView() {
           <NetworkFormDetailPanel
             findings={findings}
             metrics={metrics}
-            culdesacRows={culdesacRows}
+            culdesacRows={overviewCuldesacRows}
             culdesacDepthStats={culdesacDepthStats}
             culdesacSpatialSummary={culdesacSpatialSummary}
             culdesacWalkSummary={culdesacWalkSummary}
