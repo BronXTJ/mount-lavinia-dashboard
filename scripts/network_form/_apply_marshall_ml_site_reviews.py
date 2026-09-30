@@ -29,6 +29,9 @@ J0116_LON, J0116_LAT = 79.866938, 6.841286
 # Must match S0125∩S0081 after scripts/network_form/_site_connect_s0125_galle.py
 J0057_LON, J0057_LAT = 79.86731174291111, 6.834063961259677
 J0984_LON, J0984_LAT = 79.867655, 6.830827
+# Galle Road coast strip — clip boundary endpoints reclassified as Marshall T (site GPS)
+J0005_LON, J0005_LAT = 79.865045, 6.830105
+J0012_LON, J0012_LAT = 79.866089, 6.830294
 
 JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0057": ("T", 3),
@@ -36,12 +39,16 @@ JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0092": ("T", 3),
     "J0116": ("T", 3),
     "J0984": ("T", 3),
+    "J0005": ("T", 3),
+    "J0012": ("T", 3),
 }
 
 JUNCTION_GEOM: dict[str, tuple[float, float]] = {
     "J0116": (J0116_LON, J0116_LAT),
     "J0057": (J0057_LON, J0057_LAT),
     "J0984": (J0984_LON, J0984_LAT),
+    "J0005": (J0005_LON, J0005_LAT),
+    "J0012": (J0012_LON, J0012_LAT),
 }
 
 # Clip polygon had Wedikanda; college × Galle is Mount Lavinia for map scope and ratios.
@@ -52,6 +59,8 @@ JUNCTION_GN: dict[str, str] = {
 CUL_PATCHES = {
     "K0030": "Site review: three-way T-junction (J0057)—S0125 connected to Galle; not a Marshall cul-de-sac",
     "K0017": "Site review: three-way T-junction (J0014)—not a Marshall cul-de-sac",
+    "K0005": "Site review: three-way T-junction (J0005)—Galle Road access; not a GN boundary artefact",
+    "K0012": "Site review: three-way T-junction (J0012)—Galle Road access; not a GN boundary artefact",
 }
 
 
@@ -107,6 +116,24 @@ def upsert_junction_review_rows() -> None:
         "classification": "T",
         "degree": "3",
         "reason": "Site review: British College access × Galle Road (S0079)—Marshall three-way",
+    }
+    by_id["J0005"] = {
+        "junction_id": "J0005",
+        "GN": "Mount Lavinia",
+        "x": f"{J0005_LON:.6f}",
+        "y": f"{J0005_LAT:.6f}",
+        "classification": "T",
+        "degree": "3",
+        "reason": "Site review: Galle Road three-way (was clip boundary endpoint B0024)",
+    }
+    by_id["J0012"] = {
+        "junction_id": "J0012",
+        "GN": "Mount Lavinia",
+        "x": f"{J0012_LON:.6f}",
+        "y": f"{J0012_LAT:.6f}",
+        "classification": "T",
+        "degree": "3",
+        "reason": "Site review: Galle Road three-way (was clip boundary endpoint on S0114)",
     }
 
     out = list(by_id.values())
