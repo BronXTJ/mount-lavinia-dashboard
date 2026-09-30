@@ -35,7 +35,6 @@ export function marshallMarkersForScope(junctions, culdesacs, scope) {
 export function useMarshallMorphologyLayers(enabled = false, selectedGn = null) {
   const [scopes, setScopes] = useState([])
   const [studyArea, setStudyArea] = useState(null)
-  const [uncertainty, setUncertainty] = useState(null)
   const [junctions, setJunctions] = useState(null)
   const [culdesacs, setCuldesacs] = useState(null)
   const [cells, setCells] = useState(null)
@@ -60,7 +59,6 @@ export function useMarshallMorphologyLayers(enabled = false, selectedGn = null) 
       if (!Array.isArray(scopeList) || !scopeList.length) {
         setScopes([])
         setStudyArea(null)
-        setUncertainty(null)
         setJunctions(null)
         setCuldesacs(null)
         setCells(null)
@@ -70,7 +68,6 @@ export function useMarshallMorphologyLayers(enabled = false, selectedGn = null) 
       }
       setScopes(scopeList)
       setStudyArea(met.study_area ?? null)
-      setUncertainty(met.uncertainty ?? null)
       setJunctions(junctionFc)
       setCuldesacs(culFc)
       setCells(cellFc)
@@ -104,7 +101,6 @@ export function useMarshallMorphologyLayers(enabled = false, selectedGn = null) 
     metrics,
     scopes,
     studyArea,
-    uncertainty,
     chartPoints,
     cells: cellsForGn,
     junctionsMarshall,

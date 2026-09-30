@@ -1,5 +1,4 @@
 import FocusAreaPanelCard from '../FocusAreaPanelCard.jsx'
-import MarshallDataQualityPanel from './MarshallDataQualityPanel.jsx'
 import MetricInfoButton from '../MetricInfoButton.jsx'
 import { formatStoredCount, formatStoredPercent } from '../../../utils/marshallMorphologyFormat.js'
 import { NETWORK_FORM_ICONS } from '../../../constants/networkForm.js'
@@ -67,14 +66,7 @@ function NetworkFormReferenceTile({ color, label, value }) {
   )
 }
 
-export default function MarshallMorphologyDetailPanel({
-  metrics,
-  studyArea,
-  uncertainty,
-  loading,
-  error,
-  onFocusExcludedCase,
-}) {
+export default function MarshallMorphologyDetailPanel({ metrics, studyArea, loading, error }) {
   const counts = metrics?.counts
   const ratios = metrics?.ratios
   const comparison = metrics?.comparison_network_form
@@ -211,11 +203,6 @@ export default function MarshallMorphologyDetailPanel({
               <MarshallStructureEquations />
             </div>
           </FocusAreaPanelCard>
-
-          <MarshallDataQualityPanel
-            uncertainty={uncertainty}
-            onFocusExcludedCase={onFocusExcludedCase}
-          />
         </>
       )}
     </div>

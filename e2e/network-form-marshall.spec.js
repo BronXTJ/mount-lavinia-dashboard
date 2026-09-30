@@ -18,12 +18,7 @@ test('Marshall morphology shows the stored matrix', async ({ page }) => {
   await expect(page.getByTestId('marshall-counts-table')).toContainText('115')
   await expect(page.getByTestId('marshall-counts-table')).toContainText('9')
   await expect(page.getByTestId('marshall-study-area')).toContainText('404')
-  await expect(page.getByTestId('marshall-uncertainty')).toContainText('excluded from ratio calculations')
-  await expect(page.getByTestId('marshall-uncertainty')).toContainText('1 uncertain case')
-  await expect(page.getByTestId('marshall-uncertainty')).toContainText('Cell')
-  await expect(page.getByTestId('marshall-uncertainty')).not.toContainText('Cul-de-sacs')
-  await expect(page.getByTestId('marshall-uncertainty')).not.toContainText('Junction crossings')
-  await expect(page.getByTestId('marshall-uncertainty')).toContainText('Data quality')
+  await expect(page.getByTestId('marshall-uncertainty')).toHaveCount(0)
   await expect(page.getByText('Pattern:')).toHaveCount(0)
 
   await page
