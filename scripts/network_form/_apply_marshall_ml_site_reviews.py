@@ -25,17 +25,25 @@ REVIEW_FINAL = TABLE / "marshall_junction_review_final.csv"
 J0116_LON, J0116_LAT = 79.866938, 6.841286
 # Must match S0125∩S0081 after scripts/network_form/_site_connect_s0125_galle.py
 J0057_LON, J0057_LAT = 79.86731174291111, 6.834063961259677
+J0984_LON, J0984_LAT = 79.867655, 6.830827
 
 JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0057": ("T", 3),
     "J0044": ("T", 3),
     "J0092": ("T", 3),
     "J0116": ("T", 3),
+    "J0984": ("T", 3),
 }
 
 JUNCTION_GEOM: dict[str, tuple[float, float]] = {
     "J0116": (J0116_LON, J0116_LAT),
     "J0057": (J0057_LON, J0057_LAT),
+    "J0984": (J0984_LON, J0984_LAT),
+}
+
+# Clip polygon had Wedikanda; college × Galle is Mount Lavinia for map scope and ratios.
+JUNCTION_GN: dict[str, str] = {
+    "J0984": "Mount Lavinia",
 }
 
 CUL_PATCHES = {
@@ -88,6 +96,15 @@ def upsert_junction_review_rows() -> None:
         by_id["J0058"]["classification"] = "X"
         by_id["J0058"]["degree"] = "4"
         by_id["J0058"]["reason"] = "Marshall X at spur bend (Galle T is J0057 after S0125 snap)"
+    by_id["J0984"] = {
+        "junction_id": "J0984",
+        "GN": "Mount Lavinia",
+        "x": f"{J0984_LON:.6f}",
+        "y": f"{J0984_LAT:.6f}",
+        "classification": "T",
+        "degree": "3",
+        "reason": "Site review: British College access × Galle Road (S0079)—Marshall three-way",
+    }
 
     out = list(by_id.values())
     out.sort(key=lambda r: r["junction_id"])
@@ -172,6 +189,10 @@ def patch_junctions_gpkg() -> None:
         mask = junctions["junction_id"] == jid
         if mask.any():
             junctions.loc[mask, "geometry"] = Point(lon, lat)
+    for jid, gn in JUNCTION_GN.items():
+        mask = junctions["junction_id"] == jid
+        if mask.any():
+            junctions.loc[mask, "GN"] = gn
     if JUNCTIONS.exists():
         JUNCTIONS.unlink()
     junctions.to_file(JUNCTIONS, layer="junctions", driver="GPKG", engine="pyogrio")

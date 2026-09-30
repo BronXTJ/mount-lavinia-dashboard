@@ -32,8 +32,8 @@ describe('marshallMorphologyFormat', () => {
     expect(formatStoredPercent(null)).toBe('—')
 
     const rows = marshallTableRows(metrics)
-    expect(rows.map((r) => r.value)).toEqual(['113', '8', '63', '21', '93%', '7%', '75%', '25%'])
-    expect(metrics.counts.n_T + metrics.counts.n_X).toBe(121)
+    expect(rows.map((r) => r.value)).toEqual(['114', '8', '63', '21', '93%', '7%', '75%', '25%'])
+    expect(metrics.counts.n_T + metrics.counts.n_X).toBe(122)
     expect(metrics.ratios.T_ratio + metrics.ratios.X_ratio).toBeCloseTo(1, 12)
     expect(metrics.ratios.Cell_ratio + metrics.ratios.Cul_ratio).toBeCloseTo(1, 12)
   })
@@ -53,7 +53,7 @@ describe('marshallMorphologyFormat', () => {
       y: metrics.matrix.y_cell_ratio,
     })
     expect(marshallChartPoints([{ gn_name: 'Empty', ratios: {}, matrix: {} }])).toEqual([])
-    expect(scopesDoc.study_area.counts.n_T).toBe(392)
+    expect(scopesDoc.study_area.counts.n_T).toBe(393)
     expect(scopesDoc.uncertainty.junctions).toBe(0)
     expect(scopesDoc.uncertainty.cells).toBe(1)
     expect(scopesDoc.uncertainty.cul_de_sacs).toBe(0)
