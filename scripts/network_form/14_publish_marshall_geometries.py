@@ -33,7 +33,7 @@ GN_NAMES = [
     "Wedikanda",
 ]
 EXPECTED_TX = {
-    "Mount Lavinia": (116, 8),
+    "Mount Lavinia": (115, 9),
     "Kawdana West": (70, 3),
     "Watarappala": (76, 8),
     "Wathumulla": (56, 4),
@@ -71,8 +71,8 @@ def assert_counts(found: dict[str, tuple[int, int]], expected: dict[str, tuple[i
     if found != expected:
         raise RuntimeError(f"{label} counts {found} do not match {expected}")
     total = tuple(sum(pair[i] for pair in found.values()) for i in (0, 1))
-    if label == "junction" and total != (395, 30):
-        raise RuntimeError(f"Study-area junctions {total} are not 395 and 30")
+    if label == "junction" and total != (394, 31):
+        raise RuntimeError(f"Study-area junctions {total} are not 394 and 31")
     if label == "structure" and total != (51, 257):
         raise RuntimeError(f"Study-area structure {total} is not 51 cells and 257 cul-de-sacs")
 

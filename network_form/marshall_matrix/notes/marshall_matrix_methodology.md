@@ -13,7 +13,7 @@ The figure uses the stored ratios in `marshall_ratios_by_gn.csv`. Those ratios a
 
 | GN | X_ratio | T_ratio | Cell_ratio | Cul_ratio |
 |---|---:|---:|---:|---:|
-| Mount Lavinia | 0.0661157025 | 0.9338842975 | 0.2500000000 | 0.7500000000 |
+| Mount Lavinia | 0.0725806452 | 0.9274193548 | 0.2500000000 | 0.7500000000 |
 | Kawdana West | 0.0410958904 | 0.9589041096 | 0.0793650794 | 0.9206349206 |
 | Watarappala | 0.0952380952 | 0.9047619048 | 0.1538461538 | 0.8461538462 |
 | Wathumulla | 0.0666666667 | 0.9333333333 | 0.2083333333 | 0.7916666667 |

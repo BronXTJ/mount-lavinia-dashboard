@@ -32,6 +32,7 @@ J0984_LON, J0984_LAT = 79.867655, 6.830827
 # Galle Road coast strip — clip boundary endpoints reclassified as Marshall T (site GPS)
 J0005_LON, J0005_LAT = 79.865045, 6.830105
 J0012_LON, J0012_LAT = 79.866089, 6.830294
+J0034_LON, J0034_LAT = 79.867387, 6.831640
 
 JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0057": ("T", 3),
@@ -41,6 +42,7 @@ JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0984": ("T", 3),
     "J0005": ("T", 3),
     "J0012": ("T", 3),
+    "J0034": ("X", 4),
 }
 
 JUNCTION_GEOM: dict[str, tuple[float, float]] = {
@@ -49,6 +51,7 @@ JUNCTION_GEOM: dict[str, tuple[float, float]] = {
     "J0984": (J0984_LON, J0984_LAT),
     "J0005": (J0005_LON, J0005_LAT),
     "J0012": (J0012_LON, J0012_LAT),
+    "J0034": (J0034_LON, J0034_LAT),
 }
 
 # Clip polygon had Wedikanda; college × Galle is Mount Lavinia for map scope and ratios.
@@ -134,6 +137,15 @@ def upsert_junction_review_rows() -> None:
         "classification": "T",
         "degree": "3",
         "reason": "Site review: Galle Road three-way (was clip boundary endpoint on S0114)",
+    }
+    by_id["J0034"] = {
+        "junction_id": "J0034",
+        "GN": "Mount Lavinia",
+        "x": f"{J0034_LON:.6f}",
+        "y": f"{J0034_LAT:.6f}",
+        "classification": "X",
+        "degree": "4",
+        "reason": "Site review: Marshall four-way crossing (was misclassified three-way T)",
     }
 
     out = list(by_id.values())
