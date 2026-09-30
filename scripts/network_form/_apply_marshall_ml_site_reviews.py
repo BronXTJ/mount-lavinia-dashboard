@@ -36,6 +36,17 @@ J0034_LON, J0034_LAT = 79.867387, 6.831640
 # Kawdana West × Watarappala boundary — Marshall four-way at site GPS (nearest X: J0600 / J0612)
 J0600_LON, J0600_LAT = 79.869572, 6.842433
 J0612_LON, J0612_LAT = 79.870501, 6.842867
+# Kawdana West residential grid — Marshall three-way at site GPS (was degree-1 endpoint)
+J0270_LON, J0270_LAT = 79.868757, 6.842374
+J0274_LON, J0274_LAT = 79.868910, 6.842398
+J0305_LON, J0305_LAT = 79.871022, 6.843205
+J0375_LON, J0375_LAT = 79.872264, 6.845317
+J0298_LON, J0298_LAT = 79.875760, 6.842932
+J0384_LON, J0384_LAT = 79.871403, 6.845974
+J0383_LON, J0383_LAT = 79.871747, 6.845635
+J0317_LON, J0317_LAT = 79.875688, 6.843672
+J0309_LON, J0309_LAT = 79.875592, 6.843331
+J0272_LON, J0272_LAT = 79.875860, 6.842468
 
 JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0057": ("T", 3),
@@ -48,6 +59,16 @@ JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0034": ("X", 4),
     "J0600": ("X", 4),
     "J0612": ("X", 4),
+    "J0270": ("T", 3),
+    "J0274": ("T", 3),
+    "J0305": ("T", 3),
+    "J0375": ("T", 3),
+    "J0298": ("T", 3),
+    "J0384": ("T", 3),
+    "J0383": ("T", 3),
+    "J0317": ("T", 3),
+    "J0309": ("T", 3),
+    "J0272": ("T", 3),
 }
 
 JUNCTION_GEOM: dict[str, tuple[float, float]] = {
@@ -59,6 +80,16 @@ JUNCTION_GEOM: dict[str, tuple[float, float]] = {
     "J0034": (J0034_LON, J0034_LAT),
     "J0600": (J0600_LON, J0600_LAT),
     "J0612": (J0612_LON, J0612_LAT),
+    "J0270": (J0270_LON, J0270_LAT),
+    "J0274": (J0274_LON, J0274_LAT),
+    "J0305": (J0305_LON, J0305_LAT),
+    "J0375": (J0375_LON, J0375_LAT),
+    "J0298": (J0298_LON, J0298_LAT),
+    "J0384": (J0384_LON, J0384_LAT),
+    "J0383": (J0383_LON, J0383_LAT),
+    "J0317": (J0317_LON, J0317_LAT),
+    "J0309": (J0309_LON, J0309_LAT),
+    "J0272": (J0272_LON, J0272_LAT),
 }
 
 # Clip polygon had Wedikanda; college × Galle is Mount Lavinia for map scope and ratios.
@@ -73,6 +104,10 @@ CUL_PATCHES = {
     "K0017": "Site review: three-way T-junction (J0014)—not a Marshall cul-de-sac",
     "K0005": "Site review: three-way T-junction (J0005)—Galle Road access; not a GN boundary artefact",
     "K0012": "Site review: three-way T-junction (J0012)—Galle Road access; not a GN boundary artefact",
+    "K0172": "Site review: three-way T-junction (J0383)—not a Marshall cul-de-sac",
+    "K0143": "Site review: three-way T-junction (J0317)—not a Marshall cul-de-sac",
+    "K0137": "Site review: three-way T-junction (J0309)—not a Marshall cul-de-sac",
+    "K0112": "Site review: three-way T-junction (J0272)—not a Marshall cul-de-sac",
 }
 
 
@@ -174,6 +209,33 @@ def upsert_junction_review_rows() -> None:
         "degree": "4",
         "reason": "Site review: Marshall four-way at GN boundary (nearest node to site GPS point B)",
     }
+    for jid, lon, lat in [
+        ("J0270", J0270_LON, J0270_LAT),
+        ("J0274", J0274_LON, J0274_LAT),
+        ("J0305", J0305_LON, J0305_LAT),
+        ("J0375", J0375_LON, J0375_LAT),
+        ("J0298", J0298_LON, J0298_LAT),
+        ("J0384", J0384_LON, J0384_LAT),
+        ("J0383", J0383_LON, J0383_LAT),
+        ("J0317", J0317_LON, J0317_LAT),
+        ("J0309", J0309_LON, J0309_LAT),
+        ("J0272", J0272_LON, J0272_LAT),
+    ]:
+        cul_note = {
+            "J0383": "was false cul K0172",
+            "J0317": "was false cul K0143",
+            "J0309": "was false cul K0137",
+            "J0272": "was false cul K0112",
+        }.get(jid, "was misclassified degree-1 endpoint")
+        by_id[jid] = {
+            "junction_id": jid,
+            "GN": "Kawdana West",
+            "x": f"{lon:.6f}",
+            "y": f"{lat:.6f}",
+            "classification": "T",
+            "degree": "3",
+            "reason": f"Site review: Marshall three-way at site GPS ({cul_note})",
+        }
 
     out = list(by_id.values())
     out.sort(key=lambda r: r["junction_id"])

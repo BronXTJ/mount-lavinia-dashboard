@@ -53,7 +53,7 @@ describe('marshallMorphologyFormat', () => {
       y: metrics.matrix.y_cell_ratio,
     })
     expect(marshallChartPoints([{ gn_name: 'Empty', ratios: {}, matrix: {} }])).toEqual([])
-    expect(scopesDoc.study_area.counts.n_T).toBe(394)
+    expect(scopesDoc.study_area.counts.n_T).toBe(404)
     expect(scopesDoc.uncertainty.junctions).toBe(0)
     expect(scopesDoc.uncertainty.cells).toBe(1)
     expect(scopesDoc.uncertainty.cul_de_sacs).toBe(0)

@@ -34,14 +34,14 @@ GN_NAMES = [
 ]
 EXPECTED_TX = {
     "Mount Lavinia": (115, 9),
-    "Kawdana West": (70, 5),
+    "Kawdana West": (80, 5),
     "Watarappala": (76, 6),
     "Wathumulla": (56, 4),
     "Wedikanda": (77, 7),
 }
 EXPECTED_STRUCTURE = {
     "Mount Lavinia": (21, 63),
-    "Kawdana West": (5, 58),
+    "Kawdana West": (5, 54),
     "Watarappala": (8, 44),
     "Wathumulla": (10, 38),
     "Wedikanda": (7, 54),
@@ -71,10 +71,10 @@ def assert_counts(found: dict[str, tuple[int, int]], expected: dict[str, tuple[i
     if found != expected:
         raise RuntimeError(f"{label} counts {found} do not match {expected}")
     total = tuple(sum(pair[i] for pair in found.values()) for i in (0, 1))
-    if label == "junction" and total != (394, 31):
-        raise RuntimeError(f"Study-area junctions {total} are not 394 and 31")
-    if label == "structure" and total != (51, 257):
-        raise RuntimeError(f"Study-area structure {total} is not 51 cells and 257 cul-de-sacs")
+    if label == "junction" and total != (404, 31):
+        raise RuntimeError(f"Study-area junctions {total} are not 404 and 31")
+    if label == "structure" and total != (51, 253):
+        raise RuntimeError(f"Study-area structure {total} is not 51 cells and 253 cul-de-sacs")
 
 
 def dead_end_points(lines: gpd.GeoDataFrame, junctions: gpd.GeoDataFrame) -> gpd.GeoSeries:

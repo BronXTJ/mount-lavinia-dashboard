@@ -23,7 +23,17 @@ J0092,Mount Lavinia,79.867485,6.838976,T,3,Site review: confirmed Marshall T-jun
 J0116,Mount Lavinia,79.866938,6.841286,T,3,Site review: reclassified from misidentified four-way to Marshall T-junction (Hotel × Galle)
 J0117,Mount Lavinia,79.867040,6.841309,ENDPOINT,0,Site review: not a Marshall four-way crossing—no map icon
 J0123,Mount Lavinia,79.86695,6.841654,UNCERTAIN,2,incident to both roads in dual-carriageway D002; not forced into T or X
+J0270,Kawdana West,79.868757,6.842374,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
+J0272,Kawdana West,79.875860,6.842468,T,3,Site review: Marshall three-way at site GPS (was false cul K0112)
+J0274,Kawdana West,79.868910,6.842398,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
+J0298,Kawdana West,79.875760,6.842932,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
+J0305,Kawdana West,79.871022,6.843205,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
+J0309,Kawdana West,79.875592,6.843331,T,3,Site review: Marshall three-way at site GPS (was false cul K0137)
+J0317,Kawdana West,79.875688,6.843672,T,3,Site review: Marshall three-way at site GPS (was false cul K0143)
 J0342,Kawdana West,79.875023,6.844431,ENDPOINT,0,Site review: private road start and cul-de-sac end at C0135—not a junction crossing
+J0375,Kawdana West,79.872264,6.845317,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
+J0383,Kawdana West,79.871747,6.845635,T,3,Site review: Marshall three-way at site GPS (was false cul K0172)
+J0384,Kawdana West,79.871403,6.845974,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
 J0425,Kawdana West,79.868865,6.847827,T,3,Site review: confirmed Marshall T-junction at C0130
 J0468,Watarappala,79.873054,6.837918,T,3,Site review: confirmed Marshall T-junction at C0257
 J0600,Kawdana West,79.869572,6.842433,X,4,Site review: Marshall four-way at GN boundary (nearest node to site GPS point A)
