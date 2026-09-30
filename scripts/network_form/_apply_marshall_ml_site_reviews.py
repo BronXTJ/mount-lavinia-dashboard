@@ -46,7 +46,7 @@ J0384_LON, J0384_LAT = 79.871403, 6.845974
 J0383_LON, J0383_LAT = 79.871747, 6.845635
 J0317_LON, J0317_LAT = 79.875688, 6.843672
 J0309_LON, J0309_LAT = 79.875592, 6.843331
-J0272_LON, J0272_LAT = 79.875860, 6.842468
+J0272_LON, J0272_LAT = 79.876012, 6.842247
 
 JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0057": ("T", 3),
@@ -309,21 +309,21 @@ def ensure_review_final_j0117_j0058() -> None:
 
 
 def patch_junctions_gpkg() -> None:
-    junctions = gpd.read_file(JUNCTIONS, layer="junctions")
+    junctions = gpd.read_file(JUNCTIONS, layer="junctions").reset_index(drop=True)
     for jid, (klass, degree) in JUNCTION_PATCHES.items():
-        mask = junctions["junction_id"] == jid
-        if not mask.any():
+        idx = junctions.index[junctions["junction_id"] == jid]
+        if idx.empty:
             raise RuntimeError(f"Missing junction {jid}")
-        junctions.loc[mask, "classification"] = klass
-        junctions.loc[mask, "degree"] = degree
+        junctions.loc[idx, "classification"] = klass
+        junctions.loc[idx, "degree"] = degree
     for jid, (lon, lat) in JUNCTION_GEOM.items():
-        mask = junctions["junction_id"] == jid
-        if mask.any():
-            junctions.loc[mask, "geometry"] = Point(lon, lat)
+        idx = junctions.index[junctions["junction_id"] == jid]
+        if not idx.empty:
+            junctions.loc[idx, "geometry"] = Point(lon, lat)
     for jid, gn in JUNCTION_GN.items():
-        mask = junctions["junction_id"] == jid
-        if mask.any():
-            junctions.loc[mask, "GN"] = gn
+        idx = junctions.index[junctions["junction_id"] == jid]
+        if not idx.empty:
+            junctions.loc[idx, "GN"] = gn
     if JUNCTIONS.exists():
         JUNCTIONS.unlink()
     junctions.to_file(JUNCTIONS, layer="junctions", driver="GPKG", engine="pyogrio")
