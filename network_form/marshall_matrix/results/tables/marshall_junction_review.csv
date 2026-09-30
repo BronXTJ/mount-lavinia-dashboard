@@ -26,5 +26,7 @@ J0123,Mount Lavinia,79.86695,6.841654,UNCERTAIN,2,incident to both roads in dual
 J0342,Kawdana West,79.875023,6.844431,ENDPOINT,0,Site review: private road start and cul-de-sac end at C0135—not a junction crossing
 J0425,Kawdana West,79.868865,6.847827,T,3,Site review: confirmed Marshall T-junction at C0130
 J0468,Watarappala,79.873054,6.837918,T,3,Site review: confirmed Marshall T-junction at C0257
+J0600,Kawdana West,79.869572,6.842433,X,4,Site review: Marshall four-way at GN boundary (nearest node to site GPS point A)
+J0612,Kawdana West,79.870501,6.842867,X,4,Site review: Marshall four-way at GN boundary (nearest node to site GPS point B)
 J0620,Wathumulla,79.870634,6.828115,T,3,Site review: confirmed Marshall T-junction at C0340 (K0294)
 J0984,Mount Lavinia,79.867655,6.830827,T,3,Site review: British College access × Galle Road (S0079)—Marshall three-way

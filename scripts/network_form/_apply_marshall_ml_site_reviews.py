@@ -33,6 +33,9 @@ J0984_LON, J0984_LAT = 79.867655, 6.830827
 J0005_LON, J0005_LAT = 79.865045, 6.830105
 J0012_LON, J0012_LAT = 79.866089, 6.830294
 J0034_LON, J0034_LAT = 79.867387, 6.831640
+# Kawdana West × Watarappala boundary — Marshall four-way at site GPS (nearest X: J0600 / J0612)
+J0600_LON, J0600_LAT = 79.869572, 6.842433
+J0612_LON, J0612_LAT = 79.870501, 6.842867
 
 JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0057": ("T", 3),
@@ -43,6 +46,8 @@ JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0005": ("T", 3),
     "J0012": ("T", 3),
     "J0034": ("X", 4),
+    "J0600": ("X", 4),
+    "J0612": ("X", 4),
 }
 
 JUNCTION_GEOM: dict[str, tuple[float, float]] = {
@@ -52,11 +57,15 @@ JUNCTION_GEOM: dict[str, tuple[float, float]] = {
     "J0005": (J0005_LON, J0005_LAT),
     "J0012": (J0012_LON, J0012_LAT),
     "J0034": (J0034_LON, J0034_LAT),
+    "J0600": (J0600_LON, J0600_LAT),
+    "J0612": (J0612_LON, J0612_LAT),
 }
 
 # Clip polygon had Wedikanda; college × Galle is Mount Lavinia for map scope and ratios.
 JUNCTION_GN: dict[str, str] = {
     "J0984": "Mount Lavinia",
+    "J0600": "Kawdana West",
+    "J0612": "Kawdana West",
 }
 
 CUL_PATCHES = {
@@ -146,6 +155,24 @@ def upsert_junction_review_rows() -> None:
         "classification": "X",
         "degree": "4",
         "reason": "Site review: Marshall four-way crossing (was misclassified three-way T)",
+    }
+    by_id["J0600"] = {
+        "junction_id": "J0600",
+        "GN": "Kawdana West",
+        "x": f"{J0600_LON:.6f}",
+        "y": f"{J0600_LAT:.6f}",
+        "classification": "X",
+        "degree": "4",
+        "reason": "Site review: Marshall four-way at GN boundary (nearest node to site GPS point A)",
+    }
+    by_id["J0612"] = {
+        "junction_id": "J0612",
+        "GN": "Kawdana West",
+        "x": f"{J0612_LON:.6f}",
+        "y": f"{J0612_LAT:.6f}",
+        "classification": "X",
+        "degree": "4",
+        "reason": "Site review: Marshall four-way at GN boundary (nearest node to site GPS point B)",
     }
 
     out = list(by_id.values())

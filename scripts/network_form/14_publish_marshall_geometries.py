@@ -34,8 +34,8 @@ GN_NAMES = [
 ]
 EXPECTED_TX = {
     "Mount Lavinia": (115, 9),
-    "Kawdana West": (70, 3),
-    "Watarappala": (76, 8),
+    "Kawdana West": (70, 5),
+    "Watarappala": (76, 6),
     "Wathumulla": (56, 4),
     "Wedikanda": (77, 7),
 }
