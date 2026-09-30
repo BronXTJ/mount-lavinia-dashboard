@@ -18,6 +18,9 @@ export const NETWORK_FORM_SCOPE_ALL = 'all'
 /** Default left-panel selection. */
 export const DEFAULT_NETWORK_FORM_SCOPE = 'Mount Lavinia'
 
+/** Network Form sub-tab and typology panel title (sidebar remains "Network Form"). */
+export const STREET_TYPOLOGY_TAB_LABEL = 'Street Typology'
+
 export const NETWORK_FORM_ICONS = {
   four_way: {
     id: 'four_way',

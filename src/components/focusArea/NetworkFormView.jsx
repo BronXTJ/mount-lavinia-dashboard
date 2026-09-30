@@ -4,6 +4,7 @@ import {
   DEFAULT_NETWORK_FORM_VISIBLE,
   NETWORK_FORM_GN_NAMES,
   NETWORK_FORM_SCOPE_ALL,
+  STREET_TYPOLOGY_TAB_LABEL,
 } from '../../constants/networkForm.js'
 import {
   DEFAULT_MARSHALL_VISIBLE,
@@ -140,11 +141,11 @@ export default function NetworkFormView() {
         <div
           className={marshallMode ? 'mb-5 flex shrink-0 flex-row gap-2' : 'mb-4 flex flex-col gap-2'}
           role="tablist"
-          aria-label="Network Form analysis"
+          aria-label="Street Typology and Marshall Morphology"
         >
           <ModeButton
             active={!marshallMode}
-            label="Overview"
+            label={STREET_TYPOLOGY_TAB_LABEL}
             grow={marshallMode}
             onClick={() => handleMode(NETWORK_FORM_MODE_OVERVIEW)}
           />

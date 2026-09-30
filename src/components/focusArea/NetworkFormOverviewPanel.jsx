@@ -3,6 +3,7 @@ import useChartAnimation from '../../hooks/useChartAnimation.js'
 import {
   NETWORK_FORM_GN_NAMES,
   NETWORK_FORM_SCOPE_ALL,
+  STREET_TYPOLOGY_TAB_LABEL,
   networkFormScopeLabel,
 } from '../../constants/networkForm.js'
 import FocusAreaPanelCard from './FocusAreaPanelCard.jsx'
@@ -163,14 +164,16 @@ export default function NetworkFormOverviewPanel({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2 border-l-4 border-primary-500 pl-3">
-        <h2 className="font-display text-lg font-semibold text-surface-50">Network Form</h2>
+        <h2 className="font-display text-lg font-semibold text-surface-50">
+          {STREET_TYPOLOGY_TAB_LABEL}
+        </h2>
         <MetricInfoButton
-          title="Network Form"
-          ariaLabel="What does Network Form show?"
+          title={STREET_TYPOLOGY_TAB_LABEL}
+          ariaLabel="What does Street Typology show?"
           points={[
-            'Shows how street junctions connect: 4-way (more open), 3-way (T-junctions), or cul-de-sac (dead-ends) across the five GN study area.',
-            'Pick All GN Divisions or one GN below — the map, counts, and findings follow that choice.',
-            'Many 3-way junctions and dead-ends mean a tree-like neighbourhood that is harder to cut through than a grid.',
+            'Classifies the local street network as 4-way (more permeable), 3-way (T-junctions), or cul-de-sac (dead-ends) across the five GN study area.',
+            'Choose All GN Divisions or one GN below — map, counts, spacing, and key findings follow that scope.',
+            'A 3-way and cul-de-sac–heavy mix means a tree-like neighbourhood that is harder to cut through than a grid; use the right panel for cul-de-sac stub depth and optional overlays.',
           ]}
         />
       </div>
@@ -197,7 +200,7 @@ export default function NetworkFormOverviewPanel({
       </FocusAreaPanelCard>
 
       {loading && (
-        <p className="text-center text-xs text-surface-300">Loading network form data…</p>
+        <p className="text-center text-xs text-surface-300">Loading street typology…</p>
       )}
 
       <p className="text-[11px] text-surface-400">

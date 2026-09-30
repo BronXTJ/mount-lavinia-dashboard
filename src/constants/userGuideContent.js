@@ -98,6 +98,7 @@ export const USER_GUIDE_SECTIONS = [
     title: 'Network Form',
     icon: 'Waypoints',
     bullets: [
+      'Switch between Street Typology (GN junction and cul-de-sac counts, NF1–NF3) and Marshall Morphology (Marshall matrix and cells).',
       'Classifies junctions as 4-way (permeable), 3-way (tree-like), or cul-de-sac (dead-end) from street topology across the five GN study area.',
       'Cul-de-sac stub length and depth class (short <50 m / medium 50–150 m / long >150 m) come from Phase 1 depth attributes.',
       'Use the scope selector to view All GNs or one GN division; the map fits to that boundary.',

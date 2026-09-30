@@ -7,7 +7,7 @@ test('Marshall morphology shows the stored matrix', async ({ page }) => {
   page.on('pageerror', (err) => pageErrors.push(String(err)))
 
   await page.goto('focus-area?sub=network-form', { waitUntil: 'load' })
-  await expect(page.getByRole('tab', { name: 'Overview' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Street Typology' })).toBeVisible()
 
   const marshallTab = page.getByRole('tab', { name: 'Marshall Morphology' })
   await marshallTab.scrollIntoViewIfNeeded()
