@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
+import MarshallGnScopeChips from './MarshallGnScopeChips.jsx'
 import MarshallMatrixChart from './MarshallMatrixChart.jsx'
 
 export default function MarshallMatrixExpandModal({
@@ -55,7 +56,13 @@ export default function MarshallMatrixExpandModal({
             <X size={16} />
           </button>
         </div>
-        <div className="flex min-h-0 flex-1 flex-col">
+        <MarshallGnScopeChips
+          className="mb-3 shrink-0"
+          selectedScope={selectedName}
+          onSelectScope={onSelectScope}
+          testId="marshall-expand-gn-chips"
+        />
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
           <MarshallMatrixChart
             size="expanded"
             scopes={scopes}

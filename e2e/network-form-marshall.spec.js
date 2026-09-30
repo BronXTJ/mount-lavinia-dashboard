@@ -33,3 +33,31 @@ test('Marshall morphology shows the stored matrix', async ({ page }) => {
 
   expect(pageErrors).toEqual([])
 })
+
+test('Marshall expanded matrix modal lists and selects GN divisions', async ({ page }) => {
+  test.setTimeout(120_000)
+
+  await page.goto('focus-area?sub=network-form', { waitUntil: 'load' })
+  await page.getByRole('tab', { name: 'Marshall Morphology' }).click()
+  await expect(page.getByTestId('marshall-matrix')).toBeVisible()
+
+  await page.getByRole('button', { name: 'Expand Marshall morphology matrix' }).click()
+  const dialog = page.getByRole('dialog', { name: 'Marshall morphology matrix' })
+  await expect(dialog).toBeVisible()
+
+  const chips = dialog.getByTestId('marshall-expand-gn-chips')
+  await expect(chips).toBeVisible()
+  for (const name of [
+    'Mount Lavinia',
+    'Kawdana West',
+    'Watarappala',
+    'Wathumulla',
+    'Wedikanda',
+  ]) {
+    await expect(chips.getByRole('button', { name, exact: true })).toBeVisible()
+  }
+
+  await chips.getByRole('button', { name: 'Watarappala', exact: true }).click()
+  await expect(chips.getByRole('button', { name: 'Watarappala', pressed: true })).toBeVisible()
+  await expect(page.getByText('Structural pattern for')).toContainText('Watarappala')
+})
