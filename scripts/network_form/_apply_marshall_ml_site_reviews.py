@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Idempotent Mount Lavinia Marshall site-review overlays (junctions, culs, review CSVs)."""
+"""Idempotent Mount Lavinia Marshall site-review overlays (junctions, culs, review CSVs).
+
+Site review adjusts classification, review tables, and published junction icon positions only.
+Do not edit street segment geometry; ground linework stays in roads_marshall_ready / roads_streets.
+"""
 
 from __future__ import annotations
 
@@ -30,6 +34,7 @@ JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
 
 JUNCTION_GEOM: dict[str, tuple[float, float]] = {
     "J0116": (J0116_LON, J0116_LAT),
+    "J0057": (J0057_LON, J0057_LAT),
 }
 
 CUL_PATCHES = {
