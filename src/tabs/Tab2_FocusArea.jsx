@@ -20,11 +20,16 @@ export default function Tab2_FocusArea({ activeSection = 'centrality' }) {
   const section = VIEWS[activeSection] ? activeSection : 'centrality'
   const ActiveView = VIEWS[section] ?? CentralityAnalysisView
   const isCentrality = section === 'centrality'
+  const isNetworkForm = section === 'network-form'
 
   return (
     <div className="flex min-h-screen flex-col lg:h-screen">
       <Suspense fallback={<TabSuspenseFallback />}>
         {isCentrality ? (
+          <div className="flex min-h-0 flex-1 flex-col lg:overflow-hidden">
+            <ActiveView />
+          </div>
+        ) : isNetworkForm ? (
           <div className="flex min-h-0 flex-1 flex-col lg:overflow-hidden">
             <ActiveView />
           </div>

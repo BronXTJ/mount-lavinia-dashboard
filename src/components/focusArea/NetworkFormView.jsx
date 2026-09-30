@@ -4,6 +4,8 @@ import {
   DEFAULT_NETWORK_FORM_VISIBLE,
   NETWORK_FORM_GN_NAMES,
   NETWORK_FORM_SCOPE_ALL,
+  NETWORK_FORM_GRID_CLASS,
+  STREET_TYPOLOGY_GRID_CLASS,
   STREET_TYPOLOGY_TAB_LABEL,
 } from '../../constants/networkForm.js'
 import {
@@ -45,7 +47,7 @@ function ModeButton({ active, label, onClick, grow = false }) {
   )
 }
 
-/** Focus Area — Network Form (junction typology) 35/40/25 layout. */
+/** Focus Area — Network Form: Street Typology 31.5/41/27.5; Marshall 35/40/25. */
 export default function NetworkFormView() {
   const [visibleLayers, setVisibleLayers] = useState(DEFAULT_NETWORK_FORM_VISIBLE)
   const [selectedJunctionId, setSelectedJunctionId] = useState(null)
@@ -128,9 +130,10 @@ export default function NetworkFormView() {
     return listCuldesacs(overviewMarkerFeatures)
   }, [overviewMarkerFeatures, culdesacRows])
   const mapJunctions = marshall.junctionsMarshall ?? junctions
+  const gridLayoutClass = marshallMode ? NETWORK_FORM_GRID_CLASS : STREET_TYPOLOGY_GRID_CLASS
 
   return (
-    <>
+    <div className={`grid min-h-0 flex-1 grid-cols-1 lg:overflow-hidden ${gridLayoutClass}`}>
       <div
         className={
           marshallMode
@@ -240,6 +243,6 @@ export default function NetworkFormView() {
           />
         )}
       </div>
-    </>
+    </div>
   )
 }
