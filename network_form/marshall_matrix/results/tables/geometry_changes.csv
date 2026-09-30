@@ -70,3 +70,5 @@ original_feature,osm_id,change,reason
 543-0,509577300,kept_short_fragment,length under 0.5 m inside Watarappala; not deleted
 671-0,610544136,kept_short_fragment,length under 0.5 m inside Watarappala; not deleted
 581-0,532086484,kept_short_fragment,length under 0.5 m inside Wathumulla; not deleted
+S0125,site_review,move_endpoint,"Galle spur tip 79.86728210,6.83401860 -> 79.86731174,6.83406396 (T on Galle S0081)"
+S0081,site_review,insert_vertex,"node spur connection at 79.86731174,6.83406396"

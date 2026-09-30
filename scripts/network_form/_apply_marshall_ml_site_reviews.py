@@ -23,7 +23,8 @@ JUNCTION_REVIEW = TABLE / "marshall_junction_review.csv"
 REVIEW_FINAL = TABLE / "marshall_junction_review_final.csv"
 
 J0116_LON, J0116_LAT = 79.866938, 6.841286
-J0057_LON, J0057_LAT = 79.86731183808924, 6.834073156930607
+# Must match S0125∩S0081 after scripts/network_form/_site_connect_s0125_galle.py
+J0057_LON, J0057_LAT = 79.86731174291111, 6.834063961259677
 
 JUNCTION_PATCHES: dict[str, tuple[str, int]] = {
     "J0057": ("T", 3),
