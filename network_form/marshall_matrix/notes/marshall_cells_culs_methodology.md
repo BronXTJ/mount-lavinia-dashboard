@@ -34,22 +34,22 @@ Candidates are degree-1 ends of the ready graph. Node identity is the existing 0
 
 | GN | candidates | genuine | uncertain | rejected |
 |---|---:|---:|---:|---:|
-| Mount Lavinia | 25 | 21 | 0 | 4 |
-| Kawdana West | 5 | 5 | 0 | 0 |
-| Watarappala | 8 | 8 | 0 | 0 |
-| Wathumulla | 10 | 10 | 0 | 0 |
-| Wedikanda | 8 | 7 | 1 | 0 |
-| TOTAL | 56 | 51 | 1 | 4 |
+| Mount Lavinia | 0 | 0 | 0 | 0 |
+| Kawdana West | 0 | 0 | 0 | 0 |
+| Watarappala | 0 | 0 | 0 | 0 |
+| Wathumulla | 0 | 0 | 0 | 0 |
+| Wedikanda | 0 | 0 | 0 | 0 |
+| TOTAL | 0 | 0 | 0 | 0 |
 
 ### Cul-de-sacs
 
 | GN | candidates | genuine | uncertain | rejected |
 |---|---:|---:|---:|---:|
-| Mount Lavinia | 92 | 65 | 0 | 27 |
-| Kawdana West | 112 | 58 | 0 | 54 |
-| Watarappala | 86 | 44 | 1 | 41 |
-| Wathumulla | 83 | 38 | 1 | 44 |
-| Wedikanda | 106 | 54 | 0 | 52 |
-| TOTAL | 479 | 259 | 2 | 218 |
+| Mount Lavinia | 94 | 2 | 65 | 27 |
+| Kawdana West | 112 | 0 | 58 | 54 |
+| Watarappala | 86 | 0 | 45 | 41 |
+| Wathumulla | 83 | 0 | 39 | 44 |
+| Wedikanda | 106 | 0 | 54 | 52 |
+| TOTAL | 481 | 2 | 261 | 218 |
 
 These counts are a review of the ready street faces and dead ends. They are not a claim that every cell or cul-de-sac is error-free.

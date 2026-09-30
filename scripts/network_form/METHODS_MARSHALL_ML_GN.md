@@ -98,7 +98,13 @@ Written by `scripts/network_form/06_marshall_matrix_ml_gn.py` under `public/data
 
 ## Site review publish pipeline (Overview sync)
 
-After geometry or site-review overlays (`_site_connect_*`, `_apply_marshall_ml_site_reviews.py`):
+After **new street geometry** (`_site_add_road_*`, `_site_connect_*`), rebuild topology before publish:
+
+```text
+08_marshall_junctions.py → 10_marshall_cells_culs.py → _apply_marshall_ml_site_reviews.py → 11 … 15
+```
+
+After classification-only site-review overlays (`_apply_marshall_ml_site_reviews.py` alone):
 
 ```text
 11_marshall_ratios.py → 12 → 13 → 14_publish_marshall_geometries.py → 15_sync_network_form_overview_from_marshall.py

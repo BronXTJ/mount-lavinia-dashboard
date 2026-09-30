@@ -72,3 +72,4 @@ original_feature,osm_id,change,reason
 581-0,532086484,kept_short_fragment,length under 0.5 m inside Wathumulla; not deleted
 S0125,site_review,move_endpoint,"Galle spur tip 79.86728210,6.83401860 -> 79.86731174,6.83406396 (T on Galle S0081)"
 S0081,site_review,insert_vertex,"node spur connection at 79.86731174,6.83406396"
+S0976,site_review,add_segment,"8636 link 79.86376900,6.83162500 -> 79.86364000,6.83056000 (120.3 m, Mount Lavinia)"

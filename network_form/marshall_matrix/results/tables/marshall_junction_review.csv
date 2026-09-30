@@ -8,35 +8,47 @@ J0010,Mount Lavinia,79.865677,6.830221,T,3,
 J0012,Mount Lavinia,79.866089,6.830294,T,3,Site review: Galle Road three-way (was clip boundary endpoint on S0114)
 J0014,Mount Lavinia,79.866232,6.830371,T,3,Site review: Marshall T where S0183 meets through street (cul tip is K0017 at J0020 GPS)
 J0016,Mount Lavinia,79.863651,6.830508,T,3,
-J0021,Mount Lavinia,79.866964,6.830713,T,3,
-J0028,Mount Lavinia,79.86516,6.83143,T,3,
+J0022,Mount Lavinia,79.866964,6.830713,T,3,
+J0029,Mount Lavinia,79.86516,6.83143,T,3,
 J0034,Mount Lavinia,79.867472,6.831598,X,4,Site review: Marshall four-way at field GPS (C0068 Galle crossing; repositioned from prior pin)
-J0044,Mount Lavinia,79.867335,6.832562,T,3,Site review: confirmed Marshall T-junction
+J0046,Mount Lavinia,79.867335,6.832562,X,4,
 J0057,Mount Lavinia,79.867312,6.834064,T,3,Site review: S0125 spur connected to Galle Road—Marshall three-way (was false cul K0030)
-J0058,Mount Lavinia,79.866376,6.834133,X,4,Marshall X at spur bend (Galle T is J0057 after S0125 snap)
-J0065,Mount Lavinia,79.867319,6.83509,X,4,
-J0071,Mount Lavinia,79.865721,6.835271,X,4,
-J0079,Mount Lavinia,79.867334,6.836077,UNCERTAIN,3,incident to both roads in dual-carriageway D001; not forced into T or X
-J0080,Mount Lavinia,79.867338,6.836224,UNCERTAIN,3,incident to both roads in dual-carriageway D001; not forced into T or X
-J0089,Mount Lavinia,79.86484,6.83864,X,4,
-J0092,Mount Lavinia,79.867485,6.838976,T,3,Site review: confirmed Marshall T-junction
+J0060,Mount Lavinia,79.866376,6.834133,X,4,
+J0067,Mount Lavinia,79.867319,6.83509,X,4,
+J0073,Mount Lavinia,79.865721,6.835271,X,4,
+J0081,Mount Lavinia,79.867334,6.836077,UNCERTAIN,3,incident to both roads in dual-carriageway D001; not forced into T or X
+J0082,Mount Lavinia,79.867338,6.836224,UNCERTAIN,3,incident to both roads in dual-carriageway D001; not forced into T or X
+J0091,Mount Lavinia,79.86484,6.83864,X,4,
 J0116,Mount Lavinia,79.866938,6.841286,T,3,Site review: reclassified from misidentified four-way to Marshall T-junction (Hotel × Galle)
 J0117,Mount Lavinia,79.867040,6.841309,ENDPOINT,0,Site review: not a Marshall four-way crossing—no map icon
-J0123,Mount Lavinia,79.86695,6.841654,UNCERTAIN,2,incident to both roads in dual-carriageway D002; not forced into T or X
+J0125,Mount Lavinia,79.86695,6.841654,UNCERTAIN,2,incident to both roads in dual-carriageway D002; not forced into T or X
+J0267,Kawdana West,79.866820,6.842219,ENDPOINT,0,Site review: not a Marshall junction—no map icon
+J0269,Kawdana West,79.866820,6.842219,ENDPOINT,0,Site review: not a Marshall junction—no map icon
 J0270,Kawdana West,79.868757,6.842374,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
 J0272,Kawdana West,79.876012,6.842247,T,3,Site review: Marshall three-way at site GPS (was false cul K0112)
 J0274,Kawdana West,79.868910,6.842398,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
+J0280,Kawdana West,79.866726,6.842564,ENDPOINT,0,Site review: not a Marshall junction—no map icon
+J0282,Kawdana West,79.866726,6.842564,ENDPOINT,0,Site review: not a Marshall junction—no map icon
 J0298,Kawdana West,79.875760,6.842932,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
 J0305,Kawdana West,79.871022,6.843205,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
 J0309,Kawdana West,79.875592,6.843331,T,3,Site review: Marshall three-way at site GPS (was false cul K0137)
 J0317,Kawdana West,79.875688,6.843672,T,3,Site review: Marshall three-way at site GPS (was false cul K0143)
-J0342,Kawdana West,79.875023,6.844431,ENDPOINT,0,Site review: private road start and cul-de-sac end at C0135—not a junction crossing
+J0344,Kawdana West,79.875023,6.844431,UNCERTAIN,0,C0135 unknown crossing between osm 29010346 and 374060119; roads were not connected
+J0345,Kawdana West,79.875023,6.844431,UNCERTAIN,0,C0135 unknown crossing between osm 29010346 and 374060119; roads were not connected
+J0346,Kawdana West,79.875023,6.844431,UNCERTAIN,0,C0135 unknown crossing between osm 29010346 and 374060119; roads were not connected
+J0347,Kawdana West,79.875023,6.844431,UNCERTAIN,0,C0135 unknown crossing between osm 29010346 and 374060119; roads were not connected
 J0375,Kawdana West,79.872264,6.845317,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
 J0383,Kawdana West,79.871747,6.845635,T,3,Site review: Marshall three-way at site GPS (was false cul K0172)
 J0384,Kawdana West,79.871403,6.845974,T,3,Site review: Marshall three-way at site GPS (was misclassified degree-1 endpoint)
-J0425,Kawdana West,79.868865,6.847827,T,3,Site review: confirmed Marshall T-junction at C0130
-J0468,Watarappala,79.873054,6.837918,T,3,Site review: confirmed Marshall T-junction at C0257
+J0430,Kawdana West,79.868865,6.847827,UNCERTAIN,0,C0130 unknown crossing between osm 29010346 and 390612755; roads were not connected
+J0431,Kawdana West,79.868865,6.847827,UNCERTAIN,0,C0130 unknown crossing between osm 29010346 and 390612755; roads were not connected
+J0432,Kawdana West,79.868865,6.847827,UNCERTAIN,0,C0130 unknown crossing between osm 29010346 and 390612755; roads were not connected
+J0433,Kawdana West,79.868865,6.847827,UNCERTAIN,0,C0130 unknown crossing between osm 29010346 and 390612755; roads were not connected
+J0476,Watarappala,79.873054,6.837918,UNCERTAIN,0,C0257 unknown crossing between osm 53757732 and 509572132; roads were not connected
+J0477,Watarappala,79.873054,6.837918,UNCERTAIN,0,C0257 unknown crossing between osm 53757732 and 509572132; roads were not connected
+J0478,Watarappala,79.873054,6.837918,UNCERTAIN,0,C0257 unknown crossing between osm 53757732 and 509572132; roads were not connected
+J0479,Watarappala,79.873054,6.837918,UNCERTAIN,0,C0257 unknown crossing between osm 53757732 and 509572132; roads were not connected
 J0600,Kawdana West,79.869572,6.842433,X,4,Site review: Marshall four-way at GN boundary (nearest node to site GPS point A)
 J0612,Kawdana West,79.870501,6.842867,X,4,Site review: Marshall four-way at GN boundary (nearest node to site GPS point B)
-J0620,Wathumulla,79.870634,6.828115,T,3,Site review: confirmed Marshall T-junction at C0340 (K0294)
+J0631,Wathumulla,79.870634,6.828115,UNCERTAIN,1,C0340 unknown crossing between osm 109081953 and 1269276836; roads were not connected
 J0984,Mount Lavinia,79.867655,6.830827,T,3,Site review: British College access × Galle Road (S0079)—Marshall three-way

@@ -29,3 +29,5 @@ J0866,Wedikanda,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a G
 J0914,Wedikanda,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
 J0972,Wedikanda,T,ENDPOINT / NOT_JUNCTION,dropping segments that only run to a GN-boundary endpoint leaves fewer than three approaches; the clip created the extra arm,high
 J0058,Mount Lavinia,X,ENDPOINT / NOT_JUNCTION,Spur bend after S0125 snap—not a Marshall four-way; Galle T is J0057,high
+J0267,Kawdana West,T,ENDPOINT / NOT_JUNCTION,Site review: not a Marshall junction—no map icon,high
+J0280,Kawdana West,T,ENDPOINT / NOT_JUNCTION,Site review: not a Marshall junction—no map icon,high
