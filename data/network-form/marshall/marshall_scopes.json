@@ -5,19 +5,19 @@
       "gn_pcode": "LK1131005",
       "framework": "marshall_2005",
       "counts": {
-        "n_T": 116,
-        "n_X": 8,
+        "n_T": 115,
+        "n_X": 9,
         "n_cell_marshall": 21,
         "n_cul_marshall": 63
       },
       "ratios": {
-        "T_ratio": 0.935483871,
-        "X_ratio": 0.064516129,
+        "T_ratio": 0.9274193548,
+        "X_ratio": 0.0725806452,
         "Cell_ratio": 0.25,
         "Cul_ratio": 0.75
       },
       "matrix": {
-        "x_ratio": 0.064516129,
+        "x_ratio": 0.0725806452,
         "y_cell_ratio": 0.25
       },
       "comparison_network_form": {
@@ -144,14 +144,14 @@
   "study_area": {
     "label": "Study area",
     "counts": {
-      "n_T": 395,
-      "n_X": 30,
+      "n_T": 394,
+      "n_X": 31,
       "n_cell_marshall": 51,
       "n_cul_marshall": 257
     },
     "ratios": {
-      "T_ratio": 0.9294117647,
-      "X_ratio": 0.0705882353,
+      "T_ratio": 0.9270588235,
+      "X_ratio": 0.0729411765,
       "Cell_ratio": 0.1655844156,
       "Cul_ratio": 0.8344155844
     }
