@@ -32,7 +32,7 @@ J0984_LON, J0984_LAT = 79.867655, 6.830827
 # Galle Road coast strip — clip boundary endpoints reclassified as Marshall T (site GPS)
 J0005_LON, J0005_LAT = 79.865045, 6.830105
 J0012_LON, J0012_LAT = 79.866089, 6.830294
-J0034_LON, J0034_LAT = 79.867387, 6.831640
+J0034_LON, J0034_LAT = 79.867472, 6.831598
 # Kawdana West × Watarappala boundary — Marshall four-way at site GPS (nearest X: J0600 / J0612)
 J0600_LON, J0600_LAT = 79.869572, 6.842433
 J0612_LON, J0612_LAT = 79.870501, 6.842867
@@ -189,7 +189,7 @@ def upsert_junction_review_rows() -> None:
         "y": f"{J0034_LAT:.6f}",
         "classification": "X",
         "degree": "4",
-        "reason": "Site review: Marshall four-way crossing (was misclassified three-way T)",
+        "reason": "Site review: Marshall four-way at field GPS (C0068 Galle crossing; repositioned from prior pin)",
     }
     by_id["J0600"] = {
         "junction_id": "J0600",
