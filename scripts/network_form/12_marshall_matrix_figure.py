@@ -180,7 +180,7 @@ The figure uses the stored ratios in `marshall_ratios_by_gn.csv`. Those ratios a
 
 1. The horizontal position is X-ratio. T-ratio is the complementary scale on the top, because T-ratio + X-ratio = 1. The vertical position is Cell-ratio. Cul-ratio is the complementary scale on the right, because Cell-ratio + Cul-ratio = 1.
 2. The ratios come from confirmed classifications only.
-3. One uncertain case is excluded from those ratios: cell C0053 (no junction or cul-de-sac uncertainties after site review).
+3. One candidate (C0054, Wedikanda) was uncertain after Phase 0 review and excluded from initial ratios. Resolved in Phase 4 as GENUINE_CELL (MC0052); see marshall_ratios_methodology.md Phase 4 section. No junction or cul-de-sac uncertainties remain.
 4. The five GN divisions are plotted individually. The summed study-area row is not a point.
 5. The matrix describes street-network morphology: T/X structure on the junction dimension, and cell/cul structure on the network dimension. The corner names T-tree, T-cell, X-tree, and X-cell mark those conceptual combinations. They are not bins, and no point is given a category.
 6. The analysis does not incorporate accessibility, land use, density, or Space Syntax.

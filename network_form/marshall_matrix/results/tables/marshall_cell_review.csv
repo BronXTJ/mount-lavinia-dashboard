@@ -4,4 +4,4 @@ C0003,Mount Lavinia,NOT_A_CELL,"gap between carriageways of one divided road (D0
 C0024,Mount Lavinia,NOT_A_CELL,not a closed block of connected street segments,600.71
 C0025,Mount Lavinia,NOT_A_CELL,"gap between carriageways of one divided road (D002, D002, D002, D002)",212.32
 C0026,Mount Lavinia,NOT_A_CELL,duplicated or overlapping road geometry,0.0
-C0054,Wedikanda,UNCERTAIN,"parallel streets (D017, D017, D017, D017); may be a real block or a divided road",4294.13
+C0054,Wedikanda,GENUINE_CELL,"D017 treatment=kept_separate separation=23.7m; two separate parallel streets enclosing a genuine block",4294.13

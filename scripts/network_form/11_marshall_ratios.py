@@ -45,7 +45,7 @@ EXPECTED_STRUCTURE = {
     "Kawdana West": (5, 56),
     "Watarappala": (8, 44),
     "Wathumulla": (10, 38),
-    "Wedikanda": (7, 54),
+    "Wedikanda": (8, 54),
 }
 JUNCTION_UNCERTAIN: tuple[str, ...] = ()
 CELL_UNCERTAIN: tuple[str, ...] = ()
