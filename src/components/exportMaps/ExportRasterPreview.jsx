@@ -4,7 +4,7 @@ import { fromArrayBuffer } from 'geotiff'
 import proj4 from 'proj4'
 import { getCartoDarkTileUrl } from '../../constants/basemaps.js'
 import { CENTRALITY_MAP_CENTER, CENTRALITY_MAP_ZOOM } from '../../constants/centrality.js'
-import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import MapMapExtras from '../MapMapExtras.jsx'
 
 const PREVIEW_MAX_EDGE = 768
 
@@ -248,7 +248,7 @@ export default function ExportRasterPreview({ url, itemId }) {
           className="h-full min-h-[48vh] w-full"
           scrollWheelZoom
         >
-          <MapInvalidateOnResize />
+          <MapMapExtras />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
             url={getCartoDarkTileUrl()}

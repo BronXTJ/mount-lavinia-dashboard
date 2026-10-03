@@ -1,0 +1,457 @@
+crossing_id,gn_name,osm_id_1,osm_id_2,bridge_status,layer_status,connection_status,treatment,reason,lon,lat
+C0001,Mount Lavinia,15242147,153609095,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8642335,6.833460399999999
+C0002,Mount Lavinia,15242147,98371180,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.86257870000001,6.8332384
+C0003,Mount Lavinia,15242147,46898237,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8637951,6.8333763
+C0004,Mount Lavinia,15242147,53757725,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86474599999997,6.833872500000001
+C0005,Mount Lavinia,15242147,609390205,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8653497,6.835043999999999
+C0006,Mount Lavinia,15242148,153609095,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86442009999999,6.832409399999999
+C0007,Mount Lavinia,15242148,15242149,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86468,6.8323897
+C0008,Mount Lavinia,15242148,109078667,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86674819999999,6.832531
+C0009,Mount Lavinia,15242148,589745461,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8660832,6.832467599999999
+C0010,Mount Lavinia,15242148,53757726,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86656099999999,6.8325255
+C0011,Mount Lavinia,15242148,589745466,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8656153,6.8324416
+C0012,Mount Lavinia,15242148,48701240,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86733519999997,6.8325615
+C0013,Mount Lavinia,15242149,109078670,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86373929999998,6.8315788999999985
+C0014,Mount Lavinia,15242149,98371180,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.86257870000001,6.8332384
+C0015,Mount Lavinia,15242149,49000457,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8643586,6.831661
+C0016,Mount Lavinia,15242151,98371180,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.86231769999999,6.833197699999998
+C0017,Mount Lavinia,29010346,48701240,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86599,6.847517099999999
+C0018,Mount Lavinia,46897989,46898204,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8645299,6.8410697
+C0019,Mount Lavinia,46897991,48701240,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8668886,6.841843599999997
+C0020,Mount Lavinia,46898066,46898204,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8641564,6.842459
+C0021,Mount Lavinia,46898066,307836015,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86477669999996,6.842526000000001
+C0022,Mount Lavinia,46898066,610241584,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86355829999997,6.8423899
+C0023,Mount Lavinia,46898066,1344525778,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8656102,6.8426333
+C0024,Mount Lavinia,46898066,48701240,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8665992,6.8427545
+C0025,Mount Lavinia,46898081,46898204,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8645065,6.841171800000001
+C0026,Mount Lavinia,46898097,46898204,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86446969999997,6.8417086
+C0027,Mount Lavinia,46898128,48701240,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86648299999999,6.843167599999998
+C0028,Mount Lavinia,46898160,524651612,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8647678,6.8393068
+C0029,Mount Lavinia,46898160,46898174,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86469929999998,6.8397891
+C0030,Mount Lavinia,46898160,1184390888,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.864636,6.840202
+C0031,Mount Lavinia,46898160,46898186,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86460439999999,6.840449399999999
+C0032,Mount Lavinia,46898160,46898239,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86484019999999,6.8386396
+C0033,Mount Lavinia,46898160,1498946147,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86477959999999,6.8390924
+C0034,Mount Lavinia,46898160,164733360,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86465599999997,6.840045000000001
+C0035,Mount Lavinia,46898160,46898227,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86458809999998,6.8407113
+C0036,Mount Lavinia,46898204,524651610,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8644885,6.841391599999999
+C0037,Mount Lavinia,46898204,46898227,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86458809999998,6.8407113
+C0038,Mount Lavinia,46898206,46898224,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86514509999998,6.836018799999998
+C0039,Mount Lavinia,46898206,376599211,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8649122,6.838105399999999
+C0040,Mount Lavinia,46898206,1105724009,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.865243,6.8354107
+C0041,Mount Lavinia,46898206,1498946140,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8649194,6.838027699999999
+C0042,Mount Lavinia,46898206,46898239,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86484019999999,6.8386396
+C0043,Mount Lavinia,46898225,1498946142,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8663071,6.835199000000001
+C0044,Mount Lavinia,46898227,687500142,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86693249999999,6.8410269999999995
+C0045,Mount Lavinia,46898236,46898237,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86366949999997,6.835030100000001
+C0046,Mount Lavinia,46898236,376599231,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86305379999997,6.834945199999999
+C0047,Mount Lavinia,46898236,1105724008,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8639451,6.8350643
+C0048,Mount Lavinia,46898239,1245413693,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8639229,6.838518599999998
+C0049,Mount Lavinia,46898239,687500142,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8666888,6.838899699999998
+C0050,Mount Lavinia,46898239,48701240,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86748509999997,6.838976300000001
+C0051,Mount Lavinia,46940573,109078669,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86435499999997,6.844406099999999
+C0052,Mount Lavinia,46940573,189316086,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86314879999999,6.844320300000001
+C0053,Mount Lavinia,46940573,524651609,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86392219999999,6.844375299999999
+C0054,Mount Lavinia,46940573,524651607,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86340170000001,6.8443379
+C0055,Mount Lavinia,46940573,189316082,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8637884,6.8443658
+C0056,Mount Lavinia,46940573,610541478,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8640583,6.844384999999999
+C0057,Mount Lavinia,46940573,48701240,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8662967,6.8444842999999995
+C0058,Mount Lavinia,46940573,1075934333,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86561679999997,6.844468299999998
+C0059,Mount Lavinia,46940573,610541483,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86516569999998,6.844457599999997
+C0060,Mount Lavinia,46940578,189316080,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8640384,6.846798999999997
+C0061,Mount Lavinia,46940578,189316084,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86460169999998,6.846867499999999
+C0062,Mount Lavinia,46940578,109077762,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86353310000001,6.8467439999999975
+C0063,Mount Lavinia,46940578,189316083,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86314279999998,6.846681899999999
+C0064,Mount Lavinia,46940578,48701240,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86602769999999,6.847001099999998
+C0065,Mount Lavinia,46940578,530462045,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8653353,6.846945500000001
+C0066,Mount Lavinia,46940578,109077775,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8650388,6.8469104
+C0067,Mount Lavinia,48701240,109077773,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86608690000001,6.8464234999999976
+C0068,Mount Lavinia,48701240,49000457,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86747399999997,6.8315998
+C0069,Mount Lavinia,48701240,53757724,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86731919999998,6.8350896
+C0070,Mount Lavinia,48701240,164732215,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86731919999998,6.8350896
+C0071,Mount Lavinia,48701240,1498946138,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8673337,6.8360769
+C0072,Mount Lavinia,48701240,1498946138,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86733829999999,6.8362241
+C0073,Mount Lavinia,48701240,509577294,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8674111,6.8373401000000005
+C0074,Mount Lavinia,48701240,532086604,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86703999999999,6.8413086
+C0075,Mount Lavinia,48701240,1201003164,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86703999999999,6.8413086
+C0076,Mount Lavinia,48701240,687500136,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8669503,6.841654099999999
+C0077,Mount Lavinia,48701240,610544391,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8668215,6.842064899999999
+C0078,Mount Lavinia,48701240,610544137,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8663799,6.8436448
+C0079,Mount Lavinia,48701240,189316085,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8663407,6.843972
+C0080,Mount Lavinia,48701240,610541480,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86619879999999,6.8455321
+C0081,Mount Lavinia,48701240,610541482,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8662176,6.845330599999999
+C0082,Mount Lavinia,48701240,109077756,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8659689,6.848074399999999
+C0083,Mount Lavinia,48701240,53755647,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8661875,6.845576799999998
+C0084,Mount Lavinia,48701240,189316081,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8659672,6.848741699999998
+C0085,Mount Lavinia,48701240,109077768,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86595839999997,6.8493938
+C0086,Mount Lavinia,49000457,963694988,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86473959999996,6.8314642999999995
+C0087,Mount Lavinia,49000457,375190503,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86676379999997,6.8315804999999985
+C0088,Mount Lavinia,49000457,524651613,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8661233,6.8315497999999995
+C0089,Mount Lavinia,49000457,109078667,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8671891,6.831590399999998
+C0090,Mount Lavinia,49000457,164732217,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86515949999998,6.8314303999999995
+C0091,Mount Lavinia,50133642,164720832,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8669637,6.830713099999997
+C0092,Mount Lavinia,50133642,376599230,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86623149999998,6.830371400000001
+C0093,Mount Lavinia,50133642,1095303373,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8656775,6.830220599999999
+C0094,Mount Lavinia,50133642,109078670,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8636511,6.8305083
+C0095,Mount Lavinia,53757726,53757728,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86637609999998,6.8341327
+C0096,Mount Lavinia,53757728,532086472,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86574619999999,6.8342560999999975
+C0097,Mount Lavinia,109077756,109077775,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86474049999998,6.848030699999999
+C0098,Mount Lavinia,109077758,524651605,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8635743,6.847955599999998
+C0099,Mount Lavinia,109077759,189316087,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8640668,6.845236499999997
+C0100,Mount Lavinia,109077762,189316087,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86363619999999,6.845245099999998
+C0101,Mount Lavinia,109077762,109077773,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86363159999998,6.8456943
+C0102,Mount Lavinia,109077762,524651606,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86363509999998,6.8453403
+C0103,Mount Lavinia,109077762,610541477,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86360569999998,6.8461586999999975
+C0104,Mount Lavinia,109077763,109077777,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8640595,6.848638500000001
+C0105,Mount Lavinia,109077763,374052846,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8640595,6.848638500000001
+C0106,Mount Lavinia,109077767,189316087,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8649227,6.845245
+C0107,Mount Lavinia,109077767,109077773,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86495069999997,6.845745599999999
+C0108,Mount Lavinia,109077774,109077775,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8647904,6.847580999999998
+C0109,Mount Lavinia,109078668,109078669,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8644122,6.843660299999998
+C0110,Mount Lavinia,109078668,189316086,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8632049,6.8435938
+C0111,Mount Lavinia,153609095,1104877250,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86429489999999,6.8331145
+C0112,Mount Lavinia,164732215,1498946141,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8667546,6.8351135
+C0113,Mount Lavinia,164733360,164733361,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8655866,6.8401534999999996
+C0114,Mount Lavinia,164733360,687500142,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86690979999999,6.840286800000001
+C0115,Mount Lavinia,189316080,610541477,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8640929,6.8462249
+C0116,Mount Lavinia,189316081,524651604,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86549869999999,6.8487737
+C0117,Mount Lavinia,189316083,674475978,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86305979999999,6.8473121999999975
+C0118,Mount Lavinia,524651606,610541476,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8630527,6.845339499999997
+C0119,Mount Lavinia,524651610,524651611,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86493479999997,6.8415361
+C0120,Mount Lavinia,610541478,610541479,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8640278,6.8447527
+C0121,Mount Lavinia,610541483,1123505273,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8651549,6.844766199999998
+C0122,Mount Lavinia,610544391,1075934338,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8664023,6.842007099999999
+C0123,Mount Lavinia,610544391,1075934337,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8666962,6.8420476
+C0124,Mount Lavinia,687500142,1498946146,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8667817,6.839333300000001
+C0125,Kawdana West,29010346,375037995,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8665816,6.8475984999999975
+C0126,Kawdana West,29010346,375037992,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8668537,6.8476705
+C0127,Kawdana West,29010346,374060099,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8676835,6.8476394
+C0128,Kawdana West,29010346,53263142,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8683043,6.847738199999999
+C0129,Kawdana West,29010346,1245202007,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8688303,6.847821099999997
+C0130,Kawdana West,29010346,390612755,None|None,0|0,unknown,do_not_connect,"one or both osm ids are absent from roads_primary, so bridge status is unknown",79.86886499999999,6.8478266
+C0131,Kawdana West,29010346,1084636076,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87087369999998,6.8464852
+C0132,Kawdana West,29010346,53263132,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87408349999998,6.844669599999999
+C0133,Kawdana West,29010346,375198566,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.874694,6.844506099999999
+C0134,Kawdana West,29010346,139428859,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87483179999998,6.844471099999999
+C0135,Kawdana West,29010346,374060119,None|None,0|0,unknown,do_not_connect,"one or both osm ids are absent from roads_primary, so bridge status is unknown",79.8750225,6.844430599999998
+C0136,Kawdana West,29010346,375198567,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8748931,6.844457999999998
+C0137,Kawdana West,29010346,139428988,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87379619999997,6.844749300000001
+C0138,Kawdana West,29010346,139435964,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8732037,6.844912499999998
+C0139,Kawdana West,29010346,53755655,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87253909999998,6.8451447000000005
+C0140,Kawdana West,29010346,756378342,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8728686,6.8450225
+C0141,Kawdana West,29010346,50366707,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87253909999998,6.8451447000000005
+C0142,Kawdana West,46898059,1412794466,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86786959999999,6.842993899999999
+C0143,Kawdana West,46898059,46940574,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86968879999998,6.843182900000001
+C0144,Kawdana West,46898059,50133381,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.866677,6.8427175
+C0145,Kawdana West,46940574,46940575,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8692604,6.8442535
+C0146,Kawdana West,46940575,1075937844,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86709569999996,6.8446229999999995
+C0147,Kawdana West,46940575,50133381,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86634909999998,6.844649899999999
+C0148,Kawdana West,46940575,53755647,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8692604,6.8442535
+C0149,Kawdana West,46940575,374060102,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86991219999997,6.8448287
+C0150,Kawdana West,46940575,1075934332,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86917389999999,6.8442400999999995
+C0151,Kawdana West,46940575,374060100,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86965709999997,6.844539199999996
+C0152,Kawdana West,46940575,1075934335,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86764859999998,6.844475299999999
+C0153,Kawdana West,46940575,374060105,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87008279999999,6.844997099999999
+C0154,Kawdana West,46940575,53263143,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8698028,6.8447027
+C0155,Kawdana West,46940575,374060093,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86988389999999,6.8447928
+C0156,Kawdana West,46940575,53263142,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8701434,6.845050199999999
+C0157,Kawdana West,46940575,53263141,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8707529,6.845543300000001
+C0158,Kawdana West,50133381,1331912971,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8668498,6.842231899999999
+C0159,Kawdana West,50133381,1075934336,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8667501,6.842516400000001
+C0160,Kawdana West,50133381,53755649,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8664919,6.843358
+C0161,Kawdana West,50133381,53755648,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86640319999997,6.843982800000001
+C0162,Kawdana West,50133381,1075934339,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86638879999997,6.844204199999999
+C0163,Kawdana West,50133381,53755647,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.866253,6.845580299999999
+C0164,Kawdana West,50133381,374060092,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8661745,6.8462418000000005
+C0165,Kawdana West,50133381,139978974,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8661167,6.846841
+C0166,Kawdana West,50366705,198045255,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8701002,6.8425541999999995
+C0167,Kawdana West,53263128,53263132,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87381019999997,6.843206999999998
+C0168,Kawdana West,53263129,139435962,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8737414,6.842822799999998
+C0169,Kawdana West,53263130,53263132,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87393599999997,6.8436325
+C0170,Kawdana West,53263133,509573362,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87436499999998,6.8398735
+C0171,Kawdana West,53263133,1347576879,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8739633,6.840328999999999
+C0172,Kawdana West,53263133,1390987442,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8734814,6.8409058
+C0173,Kawdana West,53263133,1442172529,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8732491,6.841155799999999
+C0174,Kawdana West,53263133,139435962,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87292439999999,6.8415053
+C0175,Kawdana West,53263135,139435962,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.873486,6.842155399999999
+C0176,Kawdana West,53263135,1299982675,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87458279999997,6.841423500000001
+C0177,Kawdana West,53263135,1347576881,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87435939999999,6.841522199999998
+C0178,Kawdana West,53263136,139435962,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8736335,6.8424617
+C0179,Kawdana West,53263142,376602342,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8686239,6.8463696
+C0180,Kawdana West,53263143,53755647,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8678199,6.845458299999999
+C0181,Kawdana West,53755641,509575505,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8726288,6.8426161
+C0182,Kawdana West,53755642,509575499,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.87189949999997,6.842578299999998
+C0183,Kawdana West,53755644,375198564,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8732733,6.843039199999998
+C0184,Kawdana West,53755644,375198565,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8730271,6.843177599999999
+C0185,Kawdana West,53755647,1075934334,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8673278,6.845592699999999
+C0186,Kawdana West,53755647,375037996,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8667293,6.845600899999998
+C0187,Kawdana West,53755647,473146226,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86679839999998,6.8456024000000015
+C0188,Kawdana West,53755655,610544135,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87142239999997,6.843533700000001
+C0189,Kawdana West,53755655,374060104,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8717012,6.8438491
+C0190,Kawdana West,53755655,374060108,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8719812,6.8441408
+C0191,Kawdana West,53755655,374060107,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8722233,6.844369200000001
+C0192,Kawdana West,53755655,374060102,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8712232,6.843324499999998
+C0193,Kawdana West,139435962,509575498,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.87288979999998,6.8414778
+C0194,Kawdana West,139978969,509575501,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.8716923,6.8427902000000005
+C0195,Kawdana West,139978974,1075937841,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86669419999998,6.846787399999998
+C0196,Kawdana West,139978974,1075937843,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8665728,6.846798599999999
+C0197,Kawdana West,139978974,1075937842,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86643539999999,6.846811399999999
+C0198,Kawdana West,374060094,374060097,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8673967,6.8460825
+C0199,Kawdana West,374060094,374060096,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8672053,6.8461460999999995
+C0200,Kawdana West,374060094,376602342,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86790459999999,6.846492099999999
+C0201,Kawdana West,374060102,374060103,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8706358,6.8439608
+C0202,Kawdana West,374060105,1084636077,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8704992,6.844588099999998
+C0203,Kawdana West,509573362,509574766,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87516249999999,6.8404498
+C0204,Kawdana West,509573362,509575496,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.87431989999999,6.8398399
+C0205,Kawdana West,509575504,509575505,yes|None,1|0,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.87223969999998,6.842237299999999
+C0206,Kawdana West,509575507,509575509,yes|None,1|0,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.8724053,6.842047299999996
+C0207,Watarappala,24463120,50133381,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86733599999997,6.840589799999998
+C0208,Watarappala,24463120,50366702,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87031999999999,6.839691499999997
+C0209,Watarappala,24463120,374060113,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86932989999998,6.8405341
+C0210,Watarappala,24463120,1442172534,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8690926,6.840545999999999
+C0211,Watarappala,24463120,1331912972,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8685572,6.840572999999999
+C0212,Watarappala,24463120,53263139,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8681487,6.840585899999999
+C0213,Watarappala,24463120,1442172526,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8701403,6.840121199999999
+C0214,Watarappala,24463120,1442172527,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8699344,6.8406003
+C0215,Watarappala,24463120,46940577,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8696315,6.840553499999998
+C0216,Watarappala,46898239,50133381,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86755410000002,6.838958599999999
+C0217,Watarappala,46940576,50133381,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86693280000001,6.841950899999998
+C0218,Watarappala,46940576,53263139,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86791050000001,6.8421529
+C0219,Watarappala,46940576,374060112,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8686635,6.842302799999998
+C0220,Watarappala,46940576,374060111,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8691995,6.8423868
+C0221,Watarappala,46940576,610544136,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8687604,6.8423713
+C0222,Watarappala,46940576,53263138,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86891129999998,6.842389499999997
+C0223,Watarappala,46940577,685326249,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86960319999999,6.8415384999999995
+C0224,Watarappala,50133381,509577294,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8674931,6.837332999999998
+C0225,Watarappala,50133381,1498946145,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8675099,6.837474499999998
+C0226,Watarappala,50133381,509577299,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86754549999999,6.838246699999999
+C0227,Watarappala,50133381,1374129188,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86755679999999,6.8385850999999995
+C0228,Watarappala,50133381,50366702,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86751309999998,6.8395909
+C0229,Watarappala,50133381,1498946139,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8674241,6.840173599999998
+C0230,Watarappala,50133381,1201003164,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86712419999999,6.8413360999999995
+C0231,Watarappala,50366702,375197814,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8691742,6.839460199999999
+C0232,Watarappala,50366702,487431106,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8684207,6.8395752000000005
+C0233,Watarappala,50366702,487431107,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86992869999997,6.8395684
+C0234,Watarappala,50366702,140008104,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8712354,6.839938899999999
+C0235,Watarappala,50366705,509575500,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8701763,6.842352
+C0236,Watarappala,53263139,1075934331,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86796149999999,6.841882400000001
+C0237,Watarappala,53263140,1442172533,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87275559999999,6.839377899999999
+C0238,Watarappala,53755646,53757731,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.869526,6.838629499999998
+C0239,Watarappala,53755646,532086477,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87059069999997,6.838844999999999
+C0240,Watarappala,53755646,375197811,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8697701,6.8386965
+C0241,Watarappala,53755646,375197815,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86928259999999,6.8385634999999985
+C0242,Watarappala,53755646,375197816,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8706434,6.8388809
+C0243,Watarappala,53755646,140008104,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87159289999997,6.8391954
+C0244,Watarappala,53755646,376599229,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87139399999997,6.839142899999999
+C0245,Watarappala,53755646,1430215280,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8719546,6.839226899999997
+C0246,Watarappala,53755646,984099925,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8724041,6.839291800000001
+C0247,Watarappala,53755650,53755652,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87113889999998,6.8423076
+C0248,Watarappala,53755650,509575501,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.87165079999998,6.842754
+C0249,Watarappala,53755652,509575500,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8713368,6.842076399999999
+C0250,Watarappala,53755652,1442172530,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8716481,6.8417419
+C0251,Watarappala,53755652,509575503,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8716866,6.8417074999999965
+C0252,Watarappala,53755655,198045257,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.8711985,6.8433178
+C0253,Watarappala,53757715,509577294,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86941309999997,6.8370785000000005
+C0254,Watarappala,53757731,509577294,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8699912,6.8368751
+C0255,Watarappala,53757731,375197809,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8698975,6.837176799999999
+C0256,Watarappala,53757731,375197810,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86970059999999,6.837757699999998
+C0257,Watarappala,53757732,509572132,None|None,0|0,unknown,do_not_connect,"one or both osm ids are absent from roads_primary, so bridge status is unknown",79.8730538,6.8379185
+C0258,Watarappala,53757732,375197802,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8723884,6.8374346
+C0259,Watarappala,53757732,509572131,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8726772,6.837592099999998
+C0260,Watarappala,53757732,1442172532,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8725633,6.837529999999997
+C0261,Watarappala,53757732,375197806,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8713478,6.837055599999998
+C0262,Watarappala,53757732,532086479,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8718587,6.8371978
+C0263,Watarappala,53757732,375197804,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87142199999998,6.8370674
+C0264,Watarappala,53757732,509577296,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8718587,6.8371978
+C0265,Watarappala,140008101,509575500,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87061489999999,6.842234899999999
+C0266,Watarappala,140008102,198045255,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87051029999999,6.8428548
+C0267,Watarappala,140008104,1442172535,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8705742,6.8412706
+C0268,Watarappala,140008104,1442172540,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87038919999999,6.8417456
+C0269,Watarappala,140008104,1433950538,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8712354,6.839938899999999
+C0270,Watarappala,140008104,375197817,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87086229999997,6.840584299999998
+C0271,Watarappala,198045255,374060110,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87051029999999,6.8428548
+C0272,Watarappala,198045255,374060109,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87103219999997,6.843199199999999
+C0273,Watarappala,198045255,198045257,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.87112980000002,6.843270099999998
+C0274,Watarappala,375197802,509577296,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8717757,6.8378476
+C0275,Watarappala,375197802,1430215279,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8719801,6.8378849
+C0276,Watarappala,375197804,532086477,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87129989999997,6.837986499999999
+C0277,Watarappala,375197807,509577294,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8705711,6.836930800000001
+C0278,Watarappala,375197807,375197808,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8712133,6.836973400000001
+C0279,Watarappala,375197817,375197818,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87125479999997,6.8408174
+C0280,Watarappala,375198560,509575495,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8739214,6.8395579
+C0281,Watarappala,375198561,509575497,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8728091,6.8414332
+C0282,Watarappala,375198561,509575495,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87419439999996,6.839748700000001
+C0283,Watarappala,375198561,375198562,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8731903,6.841056399999998
+C0284,Watarappala,375198563,509575507,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.8723257,6.841975499999999
+C0285,Watarappala,375198563,509575503,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87179479999999,6.841802799999997
+C0286,Watarappala,376599222,532086477,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8707124,6.8381208
+C0287,Watarappala,376599229,480680110,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8715987,6.838351100000001
+C0288,Watarappala,480680110,532086483,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8732132,6.838594099999999
+C0289,Watarappala,509575495,1239656366,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87388989999997,6.839533399999998
+C0290,Watarappala,509575495,509577300,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8739214,6.8395579
+C0291,Watarappala,509575495,509575496,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.8742139,6.839762699999999
+C0292,Watarappala,509575497,1442172536,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8717257,6.8410667
+C0293,Watarappala,509575497,509575498,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.8728403,6.841434200000001
+C0294,Watarappala,509575497,1442172528,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8728091,6.8414332
+C0295,Watarappala,509575499,509575500,yes|None,1|0,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.87185779999999,6.8425418
+C0296,Watarappala,509575503,509575504,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.87216949999998,6.842168799999996
+C0297,Watarappala,509577294,1498946136,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8701982,6.8368614
+C0298,Watarappala,532086477,1442172531,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8706866,6.838349599999999
+C0299,Watarappala,983042772,1430215281,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8724193,6.840774799999997
+C0300,Watarappala,983042772,1442172537,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8729107,6.8398817
+C0301,Watarappala,983042772,1442172538,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8726517,6.840352399999998
+C0302,Watarappala,983042772,1442172539,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8725318,6.8405702999999995
+C0303,Watarappala,1430215280,1434146076,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8720323,6.8387722
+C0304,Wathumulla,15242148,50133381,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86740529999999,6.8325652
+C0305,Wathumulla,50133381,152625511,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86754609999998,6.8316031
+C0306,Wathumulla,50133381,53758198,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8673802,6.832901299999997
+C0307,Wathumulla,50133381,53757724,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86738629999998,6.835103199999999
+C0308,Wathumulla,50133381,709352852,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86740820000001,6.8362342
+C0309,Wathumulla,50133381,1498946144,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8674418,6.836712699999996
+C0310,Wathumulla,50133381,709352853,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8674529,6.8368702
+C0311,Wathumulla,53757715,53757724,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86954879999999,6.8354401000000005
+C0312,Wathumulla,53757715,1498946143,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86953789999997,6.835759499999999
+C0313,Wathumulla,53757716,53757723,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86898909999998,6.834187200000001
+C0314,Wathumulla,53757717,53757723,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8691301,6.833604299999997
+C0315,Wathumulla,53757718,161752890,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8690082,6.830871299999997
+C0316,Wathumulla,53757718,53757719,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86895539999999,6.831964299999999
+C0317,Wathumulla,53757718,53758198,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8689779,6.832897600000001
+C0318,Wathumulla,53757719,53758235,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87079989999997,6.832495799999998
+C0319,Wathumulla,53757719,153203865,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8705109,6.832181900000002
+C0320,Wathumulla,53757719,532086487,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86973269999999,6.831987099999999
+C0321,Wathumulla,53757719,532086473,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87094099999997,6.8327139
+C0322,Wathumulla,53757720,532086473,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8706079,6.8330568
+C0323,Wathumulla,53757721,53757722,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87051909999998,6.833769799999997
+C0324,Wathumulla,53757723,53758198,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86931409999998,6.8330283
+C0325,Wathumulla,53757723,376599209,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86919979999999,6.833416999999999
+C0326,Wathumulla,53757723,1498946137,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86887469999999,6.835045199999997
+C0327,Wathumulla,53757723,53757724,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86886309999997,6.8353855999999995
+C0328,Wathumulla,53757724,532086475,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87004419999997,6.835362699999999
+C0329,Wathumulla,53757724,1285824074,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8680752,6.835239800000001
+C0330,Wathumulla,53757724,509577298,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86923989999997,6.835399299999999
+C0331,Wathumulla,53757733,161752890,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87276869999998,6.831790299999996
+C0332,Wathumulla,53757733,376599243,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87281959999999,6.832285400000001
+C0333,Wathumulla,53757733,532086484,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87271639999997,6.833168200000001
+C0334,Wathumulla,53757733,376599245,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87256529999999,6.834236400000001
+C0335,Wathumulla,53757733,153203866,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87249869999997,6.8348337999999975
+C0336,Wathumulla,53758234,53758235,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8712856,6.831760499999997
+C0337,Wathumulla,53758235,161752890,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87147719999997,6.831364299999997
+C0338,Wathumulla,109081942,376599980,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87259429999997,6.828669299999999
+C0339,Wathumulla,109081942,1269276833,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87283869999997,6.8286781
+C0340,Wathumulla,109081953,1269276836,None|None,0|0,unknown,do_not_connect,"one or both osm ids are absent from roads_primary, so bridge status is unknown",79.8706345,6.828115099999999
+C0341,Wathumulla,109081953,1095303375,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8701471,6.8280768999999975
+C0342,Wathumulla,109081953,1095303376,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8696244,6.8280858
+C0343,Wathumulla,109081953,1269276837,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87082399999997,6.8281902
+C0344,Wathumulla,109081955,161752890,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8721609,6.8316457
+C0345,Wathumulla,109081963,151459497,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8702052,6.8301576
+C0346,Wathumulla,109081963,159538121,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86999279999999,6.830102700000001
+C0347,Wathumulla,109081963,152625667,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8710385,6.830506899999997
+C0348,Wathumulla,109081963,161752890,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86978069999999,6.831036499999999
+C0349,Wathumulla,109081963,161752890,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8709881,6.831243499999999
+C0350,Wathumulla,153203865,161752890,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8707403,6.831213999999999
+C0351,Wathumulla,161752890,586399589,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86908999999997,6.830879299999998
+C0352,Wathumulla,161752890,583228373,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8726866,6.831784
+C0353,Wathumulla,375197800,376995600,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8713458,6.835052400000001
+C0354,Wathumulla,376599217,376599245,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8719334,6.834111799999999
+C0355,Wathumulla,376599245,509577293,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87204949999999,6.834147399999998
+C0356,Wathumulla,532086486,673645255,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87167119999998,6.8327142
+C0357,Wathumulla,683039763,1489954396,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8682332,6.8294429
+C0358,Wathumulla,708584963,1489954396,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86849480000001,6.828793599999999
+C0359,Wathumulla,708584965,1489954396,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86834539999997,6.8291703
+C0360,Wathumulla,1059432235,1489954396,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86817909999999,6.8295733
+C0361,Wathumulla,1095303375,1269276834,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.87018289999999,6.8284366
+C0362,Wathumulla,1122004539,1489954396,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86855489999999,6.8286519
+C0363,Wedikanda,46967633,98371175,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8642668,6.8265095
+C0364,Wedikanda,46967633,376559467,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86500919999999,6.826612399999998
+C0365,Wedikanda,46967633,533272780,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8639099,6.826465899999998
+C0366,Wedikanda,46967633,376603423,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8642668,6.8265095
+C0367,Wedikanda,46967633,376559506,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86658939999998,6.8270561
+C0368,Wedikanda,46967633,376603432,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86698849999999,6.826905999999999
+C0369,Wedikanda,46967633,1095303372,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86653189999997,6.827073499999997
+C0370,Wedikanda,46967633,376603420,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86603509999999,6.827145200000002
+C0371,Wedikanda,46967633,376603398,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8658192,6.827003799999999
+C0372,Wedikanda,48701240,50133644,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8686614,6.828184099999997
+C0373,Wedikanda,48701240,771540706,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8690421,6.8271946
+C0374,Wedikanda,48701240,1095303380,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86900089999999,6.827303099999998
+C0375,Wedikanda,48701240,1095303379,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86893349999997,6.8274688
+C0376,Wedikanda,48701240,532086492,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86872249999999,6.828030699999999
+C0377,Wedikanda,48701240,1095303381,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8684506,6.828707499999998
+C0378,Wedikanda,48701240,164720833,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86848689999998,6.8286227
+C0379,Wedikanda,48701240,1095794280,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8681164,6.8295393
+C0380,Wedikanda,48701240,708584964,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86800879999998,6.829816499999998
+C0381,Wedikanda,48701240,164720831,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86790249999999,6.8301039999999995
+C0382,Wedikanda,48701240,1489954397,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8677658,6.830481699999999
+C0383,Wedikanda,48701240,50133642,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8676598,6.830829699999999
+C0384,Wedikanda,50133642,109078665,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8660885,6.8302850999999976
+C0385,Wedikanda,50133642,164732217,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8650494,6.8301038
+C0386,Wedikanda,50133644,376603423,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86395449999998,6.827960199999998
+C0387,Wedikanda,50133644,109078665,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8663303,6.828188399999999
+C0388,Wedikanda,50133644,773873295,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86817779999997,6.8280428
+C0389,Wedikanda,50133644,777797988,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8679714,6.8280355
+C0390,Wedikanda,98371175,1269259145,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86547539999998,6.8205591
+C0391,Wedikanda,98371175,376559478,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8655047,6.8204836
+C0392,Wedikanda,98371175,541015101,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86538809999999,6.8207835999999995
+C0393,Wedikanda,98371175,1269259144,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8652922,6.8210335
+C0394,Wedikanda,98371175,522704102,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86478699999998,6.8225316
+C0395,Wedikanda,98371175,376559515,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8652612,6.821114199999999
+C0396,Wedikanda,98371175,376559447,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8650173,6.821773499999998
+C0397,Wedikanda,98371175,98371207,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8646149,6.824782
+C0398,Wedikanda,98371175,1269259148,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86465769999998,6.8240834999999995
+C0399,Wedikanda,98371175,533272781,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86457819999997,6.824902500000001
+C0400,Wedikanda,98371175,533274596,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8644958,6.8252258999999995
+C0401,Wedikanda,98371175,533274595,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8644958,6.8252258999999995
+C0402,Wedikanda,98371179,771540706,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8678365,6.826903
+C0403,Wedikanda,98371179,109081951,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.868263,6.8248085
+C0404,Wedikanda,98371179,376603437,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86849449999997,6.8241704
+C0405,Wedikanda,98371179,577200882,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86963509999998,6.8225477
+C0406,Wedikanda,98371179,131347944,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8702143,6.8218861
+C0407,Wedikanda,98371207,376599990,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8665063,6.8248315
+C0408,Wedikanda,98371207,376559461,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8671525,6.8251016
+C0409,Wedikanda,98371207,1421715911,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86759939999999,6.8253292
+C0410,Wedikanda,98371207,1421715912,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8678075,6.8254796
+C0411,Wedikanda,109078665,777797987,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86632160000002,6.828566599999999
+C0412,Wedikanda,109078665,164732216,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8662417,6.8287979000000005
+C0413,Wedikanda,109078665,109078670,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86607539999997,6.829174500000001
+C0414,Wedikanda,109078670,777797986,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86456729999998,6.8289412
+C0415,Wedikanda,109078670,777797985,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86371299999999,6.829398699999997
+C0416,Wedikanda,109081946,541015102,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8660338,6.819787300000001
+C0417,Wedikanda,109081946,522705070,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8662705,6.819865199999999
+C0418,Wedikanda,109081946,376559462,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8660338,6.819787300000001
+C0419,Wedikanda,109081946,376559509,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8665148,6.8199468
+C0420,Wedikanda,109081946,522707535,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8666865,6.8200094
+C0421,Wedikanda,131347944,131347946,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.86726499999997,6.8202366
+C0422,Wedikanda,131347944,376603404,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8675452,6.8204348
+C0423,Wedikanda,131347944,376603406,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8677482,6.820598800000001
+C0424,Wedikanda,131347944,376603440,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86728769999999,6.8202521
+C0425,Wedikanda,131347944,376603416,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8683054,6.8212341
+C0426,Wedikanda,131347944,376603418,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8681379,6.8210872
+C0427,Wedikanda,131347944,541015094,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8688074,6.821524800000001
+C0428,Wedikanda,131347944,376603417,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86844179999999,6.821375299999999
+C0429,Wedikanda,131347944,541015096,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.868629,6.8214716
+C0430,Wedikanda,131347944,541015097,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86926059999999,6.821644099999999
+C0431,Wedikanda,164720831,164720832,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8670796,6.8299404
+C0432,Wedikanda,164720833,777797988,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8678584,6.828449199999999
+C0433,Wedikanda,164720833,1095303856,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8678584,6.828449199999999
+C0434,Wedikanda,376559447,376603412,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8657011,6.8220603
+C0435,Wedikanda,376559447,541015099,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8669433,6.822463299999999
+C0436,Wedikanda,376559450,1269259148,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8648966,6.8240094
+C0437,Wedikanda,376559462,376559478,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86574139999998,6.8205665
+C0438,Wedikanda,376559462,376559515,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86554029999999,6.8212222
+C0439,Wedikanda,376559469,376559506,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86657759999997,6.8262538
+C0440,Wedikanda,376559509,376559515,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86611869999999,6.8214317
+C0441,Wedikanda,376603397,522704099,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86706079999999,6.823022499999999
+C0442,Wedikanda,376603407,376603410,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.8673116,6.821863999999998
+C0443,Wedikanda,376603410,376603440,yes|None,1|0,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.86729259999998,6.8218154
+C0444,Wedikanda,376603423,376603434,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8640351,6.827071
+C0445,Wedikanda,376603426,771540705,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86743529999998,6.8268769
+C0446,Wedikanda,376603429,1269259153,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8681967,6.823130299999998
+C0447,Wedikanda,376603430,541015099,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8677329,6.822267
+C0448,Wedikanda,376603437,773873296,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86772169999998,6.823728299999998
+C0449,Wedikanda,522704097,522704098,None|yes,0|1,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.8671897,6.823029499999998
+C0450,Wedikanda,522704098,522704099,yes|None,1|0,connected,allow_approach,"bridge-tagged way meets another way only at a shared endpoint, so the landing stays connected; not an interior grade-separated crossing",79.8671132,6.823032199999998
+C0451,Wedikanda,522704099,532086489,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86706079999999,6.823022499999999
+C0452,Wedikanda,522704100,522704102,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.865223,6.822686899999997
+C0453,Wedikanda,522704100,773873294,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8651493,6.823070699999999
+C0454,Wedikanda,522704102,532086488,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86519949999999,6.822677099999996
+C0455,Wedikanda,522707535,1269259152,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.86658559999996,6.8206105
+C0456,Wedikanda,541015095,541015096,None|None,0|0,connected,split,"both ways matched, neither is a bridge, and both are on the same layer",79.8679837,6.822191799999999

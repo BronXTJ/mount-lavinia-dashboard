@@ -8,7 +8,7 @@ import {
   Tooltip,
   useMap,
 } from 'react-leaflet'
-import MapInvalidateOnResize from '../../../components/MapInvalidateOnResize.jsx'
+import MapMapExtras from '../../../components/MapMapExtras.jsx'
 import MapFullscreenShell, { useMapFullscreen } from '../../../components/MapFullscreenShell.jsx'
 import { getCartoDarkTileUrl } from '../../../constants/basemaps.js'
 import { escapeHtml } from '../../../utils/escapeHtml.js'
@@ -143,7 +143,7 @@ export default function JunctionMap({
         className="h-full w-full"
         scrollWheelZoom
       >
-        <MapInvalidateOnResize />
+        <MapMapExtras />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
           url={getCartoDarkTileUrl()}

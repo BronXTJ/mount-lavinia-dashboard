@@ -1,0 +1,31 @@
+gn_name,tolerance_m,components,endpoint_merges,junctions_degree_ge3,different_name_merges,polygonize_faces,illegal_layer_or_bridge_merges,component_fall_fraction,selected
+Mount Lavinia,0.0,7,0,125,0,25,0,,
+Kawdana West,0.0,25,0,76,0,5,0,,
+Watarappala,0.0,6,0,87,0,8,0,,
+Wathumulla,0.0,19,0,63,0,10,0,,
+Wedikanda,0.0,17,0,89,0,8,0,,
+TOTAL,0.0,74,0,440,0,56,0,,no
+Mount Lavinia,0.25,7,0,125,0,25,0,0.0,
+Kawdana West,0.25,25,0,76,0,5,0,0.0,
+Watarappala,0.25,6,1,87,0,8,0,0.0,
+Wathumulla,0.25,19,0,63,0,10,0,0.0,
+Wedikanda,0.25,17,0,89,0,8,0,0.0,
+TOTAL,0.25,74,1,440,0,56,0,0.0,no
+Mount Lavinia,0.5,7,0,125,0,25,0,0.0,
+Kawdana West,0.5,25,1,76,0,5,0,0.0,
+Watarappala,0.5,6,4,87,0,8,0,0.0,
+Wathumulla,0.5,19,2,63,1,10,0,0.0,
+Wedikanda,0.5,17,2,89,0,8,0,0.0,
+TOTAL,0.5,74,9,440,1,56,0,0.0,no
+Mount Lavinia,1.0,7,0,125,0,25,0,0.0,
+Kawdana West,1.0,25,4,76,0,5,0,0.0,
+Watarappala,1.0,6,7,88,0,8,0,0.0,
+Wathumulla,1.0,19,2,63,1,10,0,0.0,
+Wedikanda,1.0,17,9,89,4,8,0,0.0,
+TOTAL,1.0,74,22,441,5,56,0,0.0,yes
+Mount Lavinia,2.0,7,5,125,1,25,0,0.0,
+Kawdana West,2.0,24,8,76,1,5,0,0.04,
+Watarappala,2.0,6,15,88,0,8,0,0.0,
+Wathumulla,2.0,19,7,63,1,10,0,0.0,
+Wedikanda,2.0,17,12,90,5,8,0,0.0,
+TOTAL,2.0,73,47,442,8,56,0,0.0135,no

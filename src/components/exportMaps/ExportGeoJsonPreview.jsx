@@ -5,7 +5,7 @@ import { getCartoDarkTileUrl } from '../../constants/basemaps.js'
 import { CENTRALITY_MAP_CENTER, CENTRALITY_MAP_ZOOM } from '../../constants/centrality.js'
 import { buildExportGeoJsonStyler } from '../../utils/exportGeoJsonStyle.js'
 import FitBoundsToGeoJson from '../focusArea/FitBoundsToGeoJson.jsx'
-import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import MapMapExtras from '../MapMapExtras.jsx'
 import { fetchJson } from '../../lib/dataClient.js'
 
 export default function ExportGeoJsonPreview({ url, itemId }) {
@@ -68,7 +68,7 @@ export default function ExportGeoJsonPreview({ url, itemId }) {
           className="h-full min-h-[48vh] w-full"
           scrollWheelZoom
         >
-          <MapInvalidateOnResize />
+          <MapMapExtras />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
             url={getCartoDarkTileUrl()}

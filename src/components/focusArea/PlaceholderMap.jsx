@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer } from 'react-leaflet'
-import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import MapMapExtras from '../MapMapExtras.jsx'
 import { getCartoDarkTileUrl } from '../../constants/basemaps.js'
 import { CENTRALITY_MAP_CENTER, CENTRALITY_MAP_ZOOM } from '../../constants/centrality.js'
 
@@ -13,7 +13,7 @@ export default function PlaceholderMap({ message }) {
         className="h-full w-full"
         scrollWheelZoom
       >
-        <MapInvalidateOnResize />
+        <MapMapExtras />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
           url={getCartoDarkTileUrl()}

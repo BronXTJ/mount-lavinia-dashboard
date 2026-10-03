@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import { CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap } from 'react-leaflet'
 import L from 'leaflet'
-import MapInvalidateOnResize from '../MapInvalidateOnResize.jsx'
+import MapMapExtras from '../MapMapExtras.jsx'
 import MapFullscreenShell from '../MapFullscreenShell.jsx'
 import {
   DENSITY_BUFFER_COLOR,
@@ -395,7 +395,7 @@ export default function DensityMap({
           preferCanvas
           scrollWheelZoom
         >
-        <MapInvalidateOnResize />
+        <MapMapExtras />
         {boundary && <FitBoundsToGeoJson data={boundary} />}
         <TileLayer
           key={basemap.id}

@@ -1,0 +1,482 @@
+cul_id,GN,street_segment_id,classification,reason
+K0001,Mount Lavinia,S0155,NOT_A_CUL,GN boundary endpoint created by clipping
+K0002,Mount Lavinia,S0155,NOT_A_CUL,GN boundary endpoint created by clipping
+K0003,Mount Lavinia,S0117,NOT_A_CUL,GN boundary endpoint created by clipping
+K0004,Mount Lavinia,S0117,NOT_A_CUL,GN boundary endpoint created by clipping
+K0005,Mount Lavinia,S0163,NOT_A_CUL,Site review: three-way T-junction (J0005)—Galle Road access; not a GN boundary artefact
+K0006,Mount Lavinia,S0118,NOT_A_CUL,GN boundary endpoint created by clipping
+K0007,Mount Lavinia,S0116|S0979,NOT_A_CUL,GN boundary endpoint created by clipping
+K0008,Mount Lavinia,S0235,NOT_A_CUL,GN boundary endpoint created by clipping
+K0009,Mount Lavinia,S0118,NOT_A_CUL,GN boundary endpoint created by clipping
+K0010,Mount Lavinia,S0156,NOT_A_CUL,GN boundary endpoint created by clipping
+K0011,Mount Lavinia,S0115|S0979,NOT_A_CUL,GN boundary endpoint created by clipping
+K0012,Mount Lavinia,S0114|S0978,NOT_A_CUL,Site review: three-way T-junction (J0012)—Galle Road access; not a GN boundary artefact
+K0013,Mount Lavinia,S0119,NOT_A_CUL,GN boundary endpoint created by clipping
+K0014,Mount Lavinia,S0113|S0978,NOT_A_CUL,GN boundary endpoint created by clipping
+K0015,Mount Lavinia,S0976,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0016,Mount Lavinia,S0112|S0977,NOT_A_CUL,GN boundary endpoint created by clipping
+K0017,Mount Lavinia,S0160,GENUINE_CUL,Site review: Marshall cul-de-sac at field GPS (S0183 tip at J0020; J0014 is the joining T)
+K0018,Mount Lavinia,S0183,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0019,Mount Lavinia,S0111|S0977,NOT_A_CUL,GN boundary endpoint created by clipping
+K0020,Mount Lavinia,S0079,NOT_A_CUL,GN boundary endpoint created by clipping
+K0021,Mount Lavinia,S0181,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0022,Mount Lavinia,S0231|S0230,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0023,Mount Lavinia,S0195,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0024,Mount Lavinia,S0976,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0025,Mount Lavinia,S0200,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0026,Mount Lavinia,S0013,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0027,Mount Lavinia,S0006,NOT_A_CUL,GN boundary endpoint created by clipping
+K0028,Mount Lavinia,S0201,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0029,Mount Lavinia,S0236,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0030,Mount Lavinia,S0017|S0127,NOT_A_CUL,Site review: three-way T-junction (J0057)—S0125 connected to Galle; not a Marshall cul-de-sac
+K0031,Mount Lavinia,S0184,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0032,Mount Lavinia,S0125,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0033,Mount Lavinia,S0053,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0034,Mount Lavinia,S0121,NOT_A_CUL,GN boundary endpoint created by clipping
+K0035,Mount Lavinia,S0238,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0036,Mount Lavinia,S0237,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0037,Mount Lavinia,S0247,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0038,Mount Lavinia,S0248,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0039,Mount Lavinia,S0048,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0040,Mount Lavinia,S0185,NOT_A_CUL,GN boundary endpoint created by clipping
+K0041,Mount Lavinia,S0182,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0042,Mount Lavinia,S0246,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0043,Mount Lavinia,S0058,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0044,Mount Lavinia,S0062,NOT_A_CUL,GN boundary endpoint created by clipping
+K0045,Mount Lavinia,S0249,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0046,Mount Lavinia,S0250,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0047,Mount Lavinia,S0166,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0048,Mount Lavinia,S0036,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0049,Mount Lavinia,S0241,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0050,Mount Lavinia,S0037,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0051,Mount Lavinia,S0051,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0052,Mount Lavinia,S0167,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0053,Mount Lavinia,S0026,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0054,Mount Lavinia,S0242,NOT_A_CUL,GN boundary endpoint created by clipping
+K0055,Mount Lavinia,S0191,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0056,Mount Lavinia,S0027,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0057,Mount Lavinia,S0020,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0058,Mount Lavinia,S0193,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0059,Mount Lavinia,S0240|S0203,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0060,Mount Lavinia,S0222,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0061,Mount Lavinia,S0179,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0062,Mount Lavinia,S0244,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0063,Mount Lavinia,S0234,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0064,Mount Lavinia,S0233,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0065,Mount Lavinia,S0021,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0066,Mount Lavinia,S0028,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0067,Mount Lavinia,S0153,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0068,Mount Lavinia,S0219,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0069,Mount Lavinia,S0151,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0070,Mount Lavinia,S0175,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0071,Mount Lavinia,S0190,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0072,Mount Lavinia,S0232,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0073,Mount Lavinia,S0063,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0074,Mount Lavinia,S0189,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0075,Mount Lavinia,S0171,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0076,Mount Lavinia,S0239,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0077,Mount Lavinia,S0215|S0214,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0078,Mount Lavinia,S0120,NOT_A_CUL,GN boundary endpoint created by clipping
+K0079,Mount Lavinia,S0208,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0080,Mount Lavinia,S0174,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0081,Mount Lavinia,S0196,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0082,Mount Lavinia,S0223,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0083,Mount Lavinia,S0146,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0084,Mount Lavinia,S0172,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0085,Mount Lavinia,S0018,NOT_A_CUL,GN boundary endpoint created by clipping
+K0086,Mount Lavinia,S0187,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0087,Mount Lavinia,S0132,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0088,Mount Lavinia,S0186,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0089,Mount Lavinia,S0139,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0090,Mount Lavinia,S0180,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0091,Mount Lavinia,S0140,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0092,Mount Lavinia,S0169,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0093,Mount Lavinia,S0143,NOT_A_CUL,GN boundary endpoint created by clipping
+K0094,Mount Lavinia,S0104,NOT_A_CUL,GN boundary endpoint created by clipping
+K0095,Kawdana West,S0397,NOT_A_CUL,GN boundary endpoint created by clipping
+K0096,Kawdana West,S0392,NOT_A_CUL,GN boundary endpoint created by clipping
+K0097,Kawdana West,S0395,NOT_A_CUL,GN boundary endpoint created by clipping
+K0098,Kawdana West,S0391,NOT_A_CUL,GN boundary endpoint created by clipping
+K0099,Kawdana West,S0424,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0100,Kawdana West,S0395,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0101,Kawdana West,S0390,NOT_A_CUL,GN boundary endpoint created by clipping
+K0102,Kawdana West,S0389,NOT_A_CUL,GN boundary endpoint created by clipping
+K0103,Kawdana West,S0389,NOT_A_CUL,GN boundary endpoint created by clipping
+K0104,Kawdana West,S0311,NOT_A_CUL,GN boundary endpoint created by clipping
+K0105,Kawdana West,S0396,NOT_A_CUL,GN boundary endpoint created by clipping
+K0106,Kawdana West,S0396,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0107,Kawdana West,S0421,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0108,Kawdana West,S0388,NOT_A_CUL,GN boundary endpoint created by clipping
+K0109,Kawdana West,S0426,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0110,Kawdana West,S0394,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0111,Kawdana West,S0388,NOT_A_CUL,GN boundary endpoint created by clipping
+K0112,Kawdana West,S0398,NOT_A_CUL,Site review: three-way T-junction (J0272)—not a Marshall cul-de-sac
+K0113,Kawdana West,S0429,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0114,Kawdana West,S0300,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0115,Kawdana West,S0425,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0116,Kawdana West,S0298,NOT_A_CUL,GN boundary endpoint created by clipping
+K0117,Kawdana West,S0403,NOT_A_CUL,GN boundary endpoint created by clipping
+K0118,Kawdana West,S0286,NOT_A_CUL,GN boundary endpoint created by clipping
+K0119,Kawdana West,S0286,NOT_A_CUL,GN boundary endpoint created by clipping
+K0120,Kawdana West,S0314,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0121,Kawdana West,S0401,NOT_A_CUL,GN boundary endpoint created by clipping
+K0122,Kawdana West,S0406,NOT_A_CUL,GN boundary endpoint created by clipping
+K0123,Kawdana West,S0302,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0124,Kawdana West,S0300,NOT_A_CUL,GN boundary endpoint created by clipping
+K0125,Kawdana West,S0381,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0126,Kawdana West,S0315,NOT_A_CUL,GN boundary endpoint created by clipping
+K0127,Kawdana West,S0272,NOT_A_CUL,GN boundary endpoint created by clipping
+K0128,Kawdana West,S0356,NOT_A_CUL,GN boundary endpoint created by clipping
+K0129,Kawdana West,S0399,NOT_A_CUL,GN boundary endpoint created by clipping
+K0130,Kawdana West,S0428|S0427,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0131,Kawdana West,S0355,NOT_A_CUL,GN boundary endpoint created by clipping
+K0132,Kawdana West,S0406,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0133,Kawdana West,S0400,NOT_A_CUL,GN boundary endpoint created by clipping
+K0134,Kawdana West,S0315,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0135,Kawdana West,S0377,NOT_A_CUL,GN boundary endpoint created by clipping
+K0136,Kawdana West,S0301,NOT_A_CUL,GN boundary endpoint created by clipping
+K0137,Kawdana West,S0377,NOT_A_CUL,Site review: three-way T-junction (J0309)—not a Marshall cul-de-sac
+K0138,Kawdana West,S0376,NOT_A_CUL,GN boundary endpoint created by clipping
+K0139,Kawdana West,S0430,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0140,Kawdana West,S0339,NOT_A_CUL,GN boundary endpoint created by clipping
+K0141,Kawdana West,S0430,NOT_A_CUL,GN boundary endpoint created by clipping
+K0142,Kawdana West,S0348,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0143,Kawdana West,S0376,NOT_A_CUL,Site review: three-way T-junction (J0317)—not a Marshall cul-de-sac
+K0144,Kawdana West,S0382,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0145,Kawdana West,S0431,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0146,Kawdana West,S0431,NOT_A_CUL,GN boundary endpoint created by clipping
+K0147,Kawdana West,S0333,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0148,Kawdana West,S0370,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0149,Kawdana West,S0303,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0150,Kawdana West,S0332,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0151,Kawdana West,S0287,NOT_A_CUL,GN boundary endpoint created by clipping
+K0152,Kawdana West,S0405,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0153,Kawdana West,S0408,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0154,Kawdana West,S0287,NOT_A_CUL,GN boundary endpoint created by clipping
+K0155,Kawdana West,S0371,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0156,Kawdana West,S0367,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0157,Kawdana West,S0383,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0158,Kawdana West,S0412,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0159,Kawdana West,S0416,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0160,Kawdana West,S0269,NOT_A_CUL,GN boundary endpoint created by clipping
+K0161,Kawdana West,S0375,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0162,Kawdana West,S0340,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0163,Kawdana West,S0384,NOT_A_CUL,GN boundary endpoint created by clipping
+K0164,Kawdana West,S0374,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0165,Kawdana West,S0373,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0166,Kawdana West,S0407,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0167,Kawdana West,S0419,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0168,Kawdana West,S0410,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0169,Kawdana West,S0341,NOT_A_CUL,GN boundary endpoint created by clipping
+K0170,Kawdana West,S0409,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0171,Kawdana West,S0347,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0172,Kawdana West,S0299,NOT_A_CUL,Site review: three-way T-junction (J0383)—not a Marshall cul-de-sac
+K0173,Kawdana West,S0261,NOT_A_CUL,GN boundary endpoint created by clipping
+K0174,Kawdana West,S0417,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0175,Kawdana West,S0380,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0176,Kawdana West,S0347,NOT_A_CUL,GN boundary endpoint created by clipping
+K0177,Kawdana West,S0331,NOT_A_CUL,GN boundary endpoint created by clipping
+K0178,Kawdana West,S0417,NOT_A_CUL,GN boundary endpoint created by clipping
+K0179,Kawdana West,S0285,NOT_A_CUL,GN boundary endpoint created by clipping
+K0180,Kawdana West,S0358,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0181,Kawdana West,S0357,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0182,Kawdana West,S0418,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0183,Kawdana West,S0364,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0184,Kawdana West,S0363,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0185,Kawdana West,S0260,NOT_A_CUL,GN boundary endpoint created by clipping
+K0186,Kawdana West,S0259,NOT_A_CUL,GN boundary endpoint created by clipping
+K0187,Kawdana West,S0362,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0188,Kawdana West,S0386,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0189,Kawdana West,S0351,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0190,Kawdana West,S0365,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0191,Kawdana West,S0413,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0192,Kawdana West,S0415,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0193,Kawdana West,S0414,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0194,Kawdana West,S0366,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0195,Kawdana West,S0379,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0196,Kawdana West,S0420,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0197,Kawdana West,S0288,NOT_A_CUL,GN boundary endpoint created by clipping
+K0198,Kawdana West,S0251,NOT_A_CUL,GN boundary endpoint created by clipping
+K0199,Kawdana West,S0254,NOT_A_CUL,GN boundary endpoint created by clipping
+K0200,Kawdana West,S0253,NOT_A_CUL,GN boundary endpoint created by clipping
+K0201,Kawdana West,S0255,NOT_A_CUL,GN boundary endpoint created by clipping
+K0202,Kawdana West,S0365,NOT_A_CUL,GN boundary endpoint created by clipping
+K0203,Kawdana West,S0378,NOT_A_CUL,GN boundary endpoint created by clipping
+K0204,Kawdana West,S0256,NOT_A_CUL,GN boundary endpoint created by clipping
+K0205,Kawdana West,S0316,NOT_A_CUL,GN boundary endpoint created by clipping
+K0206,Kawdana West,S0258,NOT_A_CUL,GN boundary endpoint created by clipping
+K0207,Watarappala,S0618,NOT_A_CUL,GN boundary endpoint created by clipping
+K0208,Watarappala,S0525,NOT_A_CUL,GN boundary endpoint created by clipping
+K0209,Watarappala,S0568,NOT_A_CUL,GN boundary endpoint created by clipping
+K0210,Watarappala,S0522,NOT_A_CUL,GN boundary endpoint created by clipping
+K0211,Watarappala,S0565,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0212,Watarappala,S0489,NOT_A_CUL,GN boundary endpoint created by clipping
+K0213,Watarappala,S0569,NOT_A_CUL,GN boundary endpoint created by clipping
+K0214,Watarappala,S0581,NOT_A_CUL,GN boundary endpoint created by clipping
+K0215,Watarappala,S0570,NOT_A_CUL,GN boundary endpoint created by clipping
+K0216,Watarappala,S0571,NOT_A_CUL,GN boundary endpoint created by clipping
+K0217,Watarappala,S0572,NOT_A_CUL,GN boundary endpoint created by clipping
+K0218,Watarappala,S0571,NOT_A_CUL,GN boundary endpoint created by clipping
+K0219,Watarappala,S0573,NOT_A_CUL,GN boundary endpoint created by clipping
+K0220,Watarappala,S0620,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0221,Watarappala,S0498,NOT_A_CUL,GN boundary endpoint created by clipping
+K0222,Watarappala,S0497,NOT_A_CUL,GN boundary endpoint created by clipping
+K0223,Watarappala,S0526,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0224,Watarappala,S0597,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0225,Watarappala,S0541,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0226,Watarappala,S0494,NOT_A_CUL,GN boundary endpoint created by clipping
+K0227,Watarappala,S0527,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0228,Watarappala,S0493,NOT_A_CUL,GN boundary endpoint created by clipping
+K0229,Watarappala,S0609,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0230,Watarappala,S0493,NOT_A_CUL,GN boundary endpoint created by clipping
+K0231,Watarappala,S0584,NOT_A_CUL,GN boundary endpoint created by clipping
+K0232,Watarappala,S0528,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0233,Watarappala,S0608,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0234,Watarappala,S0599,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0235,Watarappala,S0583,NOT_A_CUL,GN boundary endpoint created by clipping
+K0236,Watarappala,S0602,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0237,Watarappala,S0603,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0238,Watarappala,S0582,NOT_A_CUL,GN boundary endpoint created by clipping
+K0239,Watarappala,S0440,NOT_A_CUL,GN boundary endpoint created by clipping
+K0240,Watarappala,S0530,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0241,Watarappala,S0591,NOT_A_CUL,GN boundary endpoint created by clipping
+K0242,Watarappala,S0529,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0243,Watarappala,S0596,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0244,Watarappala,S0531,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0245,Watarappala,S0546,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0246,Watarappala,S0536,NOT_A_CUL,GN boundary endpoint created by clipping
+K0247,Watarappala,S0550,NOT_A_CUL,GN boundary endpoint created by clipping
+K0248,Watarappala,S0545,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0249,Watarappala,S0551,NOT_A_CUL,GN boundary endpoint created by clipping
+K0250,Watarappala,S0610,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0251,Watarappala,S0518,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0252,Watarappala,S0614,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0253,Watarappala,S0601,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0254,Watarappala,S0619,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0255,Watarappala,S0604,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0256,Watarappala,S0592,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0257,Watarappala,S0615,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0258,Watarappala,S0535,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0259,Watarappala,S0600,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0260,Watarappala,S0605,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0261,Watarappala,S0616,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0262,Watarappala,S0611,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0263,Watarappala,S0586,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0264,Watarappala,S0539,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0265,Watarappala,S0612,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0266,Watarappala,S0534,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0267,Watarappala,S0595,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0268,Watarappala,S0594,NOT_A_CUL,GN boundary endpoint created by clipping
+K0269,Watarappala,S0613,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0270,Watarappala,S0555,NOT_A_CUL,GN boundary endpoint created by clipping
+K0271,Watarappala,S0617,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0272,Watarappala,S0607,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0273,Watarappala,S0484,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0274,Watarappala,S0606,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0275,Watarappala,S0593,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0276,Watarappala,S0451,NOT_A_CUL,GN boundary endpoint created by clipping
+K0277,Watarappala,S0564,NOT_A_CUL,GN boundary endpoint created by clipping
+K0278,Watarappala,S0516,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0279,Watarappala,S0442,NOT_A_CUL,GN boundary endpoint created by clipping
+K0280,Watarappala,S0443,NOT_A_CUL,GN boundary endpoint created by clipping
+K0281,Watarappala,S0563,NOT_A_CUL,GN boundary endpoint created by clipping
+K0282,Watarappala,S0468,NOT_A_CUL,GN boundary endpoint created by clipping
+K0283,Watarappala,S0441,NOT_A_CUL,GN boundary endpoint created by clipping
+K0284,Watarappala,S0512,NOT_A_CUL,GN boundary endpoint created by clipping
+K0285,Watarappala,S0466,NOT_A_CUL,GN boundary endpoint created by clipping
+K0286,Watarappala,S0556,NOT_A_CUL,GN boundary endpoint created by clipping
+K0287,Watarappala,S0503,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0288,Watarappala,S0511,NOT_A_CUL,GN boundary endpoint created by clipping
+K0289,Watarappala,S0560,NOT_A_CUL,GN boundary endpoint created by clipping
+K0290,Watarappala,S0515,NOT_A_CUL,GN boundary endpoint created by clipping
+K0291,Watarappala,S0514,NOT_A_CUL,GN boundary endpoint created by clipping
+K0292,Watarappala,S0513|S0509,UNCERTAIN,"bridge-tagged approach, not a confirmed dead-end street"
+K0293,Wathumulla,S0760,NOT_A_CUL,GN boundary endpoint created by clipping
+K0294,Wathumulla,S0678,NOT_A_CUL,GN boundary endpoint created by clipping
+K0295,Wathumulla,S0752,NOT_A_CUL,GN boundary endpoint created by clipping
+K0296,Wathumulla,S0752,UNCERTAIN,"unconnected crossing C0340, not a confirmed dead-end street"
+K0297,Wathumulla,S0748,NOT_A_CUL,GN boundary endpoint created by clipping
+K0298,Wathumulla,S0675,NOT_A_CUL,GN boundary endpoint created by clipping
+K0299,Wathumulla,S0674,NOT_A_CUL,GN boundary endpoint created by clipping
+K0300,Wathumulla,S0744,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0301,Wathumulla,S0685,NOT_A_CUL,GN boundary endpoint created by clipping
+K0302,Wathumulla,S0746,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0303,Wathumulla,S0713,NOT_A_CUL,GN boundary endpoint created by clipping
+K0304,Wathumulla,S0751,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0305,Wathumulla,S0753,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0306,Wathumulla,S0749,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0307,Wathumulla,S0671,NOT_A_CUL,GN boundary endpoint created by clipping
+K0308,Wathumulla,S0739,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0309,Wathumulla,S0750,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0310,Wathumulla,S0740,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0311,Wathumulla,S0735,NOT_A_CUL,GN boundary endpoint created by clipping
+K0312,Wathumulla,S0735,NOT_A_CUL,GN boundary endpoint created by clipping
+K0313,Wathumulla,S0734,NOT_A_CUL,GN boundary endpoint created by clipping
+K0314,Wathumulla,S0734,NOT_A_CUL,GN boundary endpoint created by clipping
+K0315,Wathumulla,S0743,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0316,Wathumulla,S0738,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0317,Wathumulla,S0733,NOT_A_CUL,GN boundary endpoint created by clipping
+K0318,Wathumulla,S0687,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0319,Wathumulla,S0736,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0320,Wathumulla,S0761,NOT_A_CUL,GN boundary endpoint created by clipping
+K0321,Wathumulla,S0670,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0322,Wathumulla,S0686,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0323,Wathumulla,S0733,NOT_A_CUL,GN boundary endpoint created by clipping
+K0324,Wathumulla,S0732,NOT_A_CUL,GN boundary endpoint created by clipping
+K0325,Wathumulla,S0709,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0326,Wathumulla,S0657,NOT_A_CUL,GN boundary endpoint created by clipping
+K0327,Wathumulla,S0621,NOT_A_CUL,GN boundary endpoint created by clipping
+K0328,Wathumulla,S0708|S0729,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0329,Wathumulla,S0737,NOT_A_CUL,GN boundary endpoint created by clipping
+K0330,Wathumulla,S0658,NOT_A_CUL,GN boundary endpoint created by clipping
+K0331,Wathumulla,S0704,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0332,Wathumulla,S0659,NOT_A_CUL,GN boundary endpoint created by clipping
+K0333,Wathumulla,S0660,NOT_A_CUL,GN boundary endpoint created by clipping
+K0334,Wathumulla,S0633,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0335,Wathumulla,S0706,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0336,Wathumulla,S0643,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0337,Wathumulla,S0710,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0338,Wathumulla,S0641,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0339,Wathumulla,S0716,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0340,Wathumulla,S0715,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0341,Wathumulla,S0689,NOT_A_CUL,GN boundary endpoint created by clipping
+K0342,Wathumulla,S0701,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0343,Wathumulla,S0763,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0344,Wathumulla,S0655,NOT_A_CUL,GN boundary endpoint created by clipping
+K0345,Wathumulla,S0707,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0346,Wathumulla,S0662,NOT_A_CUL,GN boundary endpoint created by clipping
+K0347,Wathumulla,S0707,NOT_A_CUL,GN boundary endpoint created by clipping
+K0348,Wathumulla,S0663,NOT_A_CUL,GN boundary endpoint created by clipping
+K0349,Wathumulla,S0754,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0350,Wathumulla,S0764,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0351,Wathumulla,S0663,NOT_A_CUL,GN boundary endpoint created by clipping
+K0352,Wathumulla,S0700,NOT_A_CUL,GN boundary endpoint created by clipping
+K0353,Wathumulla,S0722,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0354,Wathumulla,S0741,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0355,Wathumulla,S0705|S0649,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0356,Wathumulla,S0721,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0357,Wathumulla,S0703,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0358,Wathumulla,S0762,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0359,Wathumulla,S0721,NOT_A_CUL,GN boundary endpoint created by clipping
+K0360,Wathumulla,S0765,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0361,Wathumulla,S0702,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0362,Wathumulla,S0742,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0363,Wathumulla,S0762,NOT_A_CUL,GN boundary endpoint created by clipping
+K0364,Wathumulla,S0703,NOT_A_CUL,GN boundary endpoint created by clipping
+K0365,Wathumulla,S0717,NOT_A_CUL,GN boundary endpoint created by clipping
+K0366,Wathumulla,S0702,NOT_A_CUL,GN boundary endpoint created by clipping
+K0367,Wathumulla,S0631,NOT_A_CUL,GN boundary endpoint created by clipping
+K0368,Wathumulla,S0717,NOT_A_CUL,GN boundary endpoint created by clipping
+K0369,Wathumulla,S0718,NOT_A_CUL,GN boundary endpoint created by clipping
+K0370,Wathumulla,S0719,NOT_A_CUL,GN boundary endpoint created by clipping
+K0371,Wathumulla,S0719,NOT_A_CUL,GN boundary endpoint created by clipping
+K0372,Wathumulla,S0718,NOT_A_CUL,GN boundary endpoint created by clipping
+K0373,Wathumulla,S0622,NOT_A_CUL,GN boundary endpoint created by clipping
+K0374,Wathumulla,S0720,NOT_A_CUL,GN boundary endpoint created by clipping
+K0375,Wathumulla,S0720,NOT_A_CUL,GN boundary endpoint created by clipping
+K0376,Wedikanda,S0940,NOT_A_CUL,GN boundary endpoint created by clipping
+K0377,Wedikanda,S0766,NOT_A_CUL,GN boundary endpoint created by clipping
+K0378,Wedikanda,S0909,NOT_A_CUL,GN boundary endpoint created by clipping
+K0379,Wedikanda,S0855,NOT_A_CUL,GN boundary endpoint created by clipping
+K0380,Wedikanda,S0885,NOT_A_CUL,GN boundary endpoint created by clipping
+K0381,Wedikanda,S0968,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0382,Wedikanda,S0939,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0383,Wedikanda,S0846,NOT_A_CUL,GN boundary endpoint created by clipping
+K0384,Wedikanda,S0967,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0385,Wedikanda,S0887,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0386,Wedikanda,S0847,NOT_A_CUL,GN boundary endpoint created by clipping
+K0387,Wedikanda,S0890,NOT_A_CUL,GN boundary endpoint created by clipping
+K0388,Wedikanda,S0971,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0389,Wedikanda,S0932,NOT_A_CUL,GN boundary endpoint created by clipping
+K0390,Wedikanda,S0892,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0391,Wedikanda,S0853,NOT_A_CUL,GN boundary endpoint created by clipping
+K0392,Wedikanda,S0891,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0393,Wedikanda,S0938|S0889,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0394,Wedikanda,S0854,NOT_A_CUL,GN boundary endpoint created by clipping
+K0395,Wedikanda,S0823,NOT_A_CUL,GN boundary endpoint created by clipping
+K0396,Wedikanda,S0934,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0397,Wedikanda,S0822,NOT_A_CUL,GN boundary endpoint created by clipping
+K0398,Wedikanda,S0936,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0399,Wedikanda,S0941,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0400,Wedikanda,S0933,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0401,Wedikanda,S0972,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0402,Wedikanda,S0895|S0925,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0403,Wedikanda,S0884|S0894,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0404,Wedikanda,S0821,NOT_A_CUL,GN boundary endpoint created by clipping
+K0405,Wedikanda,S0894,NOT_A_CUL,GN boundary endpoint created by clipping
+K0406,Wedikanda,S0951,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0407,Wedikanda,S0900,NOT_A_CUL,GN boundary endpoint created by clipping
+K0408,Wedikanda,S0820,NOT_A_CUL,GN boundary endpoint created by clipping
+K0409,Wedikanda,S0906,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0410,Wedikanda,S0953,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0411,Wedikanda,S0820,NOT_A_CUL,GN boundary endpoint created by clipping
+K0412,Wedikanda,S0970,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0413,Wedikanda,S0950,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0414,Wedikanda,S0819,NOT_A_CUL,GN boundary endpoint created by clipping
+K0415,Wedikanda,S0881,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0416,Wedikanda,S0866,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0417,Wedikanda,S0818,NOT_A_CUL,GN boundary endpoint created by clipping
+K0418,Wedikanda,S0817,NOT_A_CUL,GN boundary endpoint created by clipping
+K0419,Wedikanda,S0929,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0420,Wedikanda,S0842,NOT_A_CUL,GN boundary endpoint created by clipping
+K0421,Wedikanda,S0816,NOT_A_CUL,GN boundary endpoint created by clipping
+K0422,Wedikanda,S0931,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0423,Wedikanda,S0882,NOT_A_CUL,GN boundary endpoint created by clipping
+K0424,Wedikanda,S0930,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0425,Wedikanda,S0870,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0426,Wedikanda,S0815,NOT_A_CUL,GN boundary endpoint created by clipping
+K0427,Wedikanda,S0815,NOT_A_CUL,GN boundary endpoint created by clipping
+K0428,Wedikanda,S0824,NOT_A_CUL,GN boundary endpoint created by clipping
+K0429,Wedikanda,S0867,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0430,Wedikanda,S0973,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0431,Wedikanda,S0876,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0432,Wedikanda,S0974,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0433,Wedikanda,S0928,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0434,Wedikanda,S0814,NOT_A_CUL,GN boundary endpoint created by clipping
+K0435,Wedikanda,S0871,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0436,Wedikanda,S0767,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0437,Wedikanda,S0959,NOT_A_CUL,GN boundary endpoint created by clipping
+K0438,Wedikanda,S0947,NOT_A_CUL,GN boundary endpoint created by clipping
+K0439,Wedikanda,S0947,NOT_A_CUL,GN boundary endpoint created by clipping
+K0440,Wedikanda,S0948,NOT_A_CUL,GN boundary endpoint created by clipping
+K0441,Wedikanda,S0949,NOT_A_CUL,GN boundary endpoint created by clipping
+K0442,Wedikanda,S0904,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0443,Wedikanda,S0898,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0444,Wedikanda,S0960,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0445,Wedikanda,S0903,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0446,Wedikanda,S0883,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0447,Wedikanda,S0959,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0448,Wedikanda,S0893,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0449,Wedikanda,S0952,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0450,Wedikanda,S0801,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0451,Wedikanda,S0927,NOT_A_CUL,GN boundary endpoint created by clipping
+K0452,Wedikanda,S0860,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0453,Wedikanda,S0964,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0454,Wedikanda,S0957,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0455,Wedikanda,S0956,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0456,Wedikanda,S0965,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0457,Wedikanda,S0861,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0458,Wedikanda,S0954,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0459,Wedikanda,S0966,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0460,Wedikanda,S0835,NOT_A_CUL,GN boundary endpoint created by clipping
+K0461,Wedikanda,S0924|S0961,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0462,Wedikanda,S0942,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0463,Wedikanda,S0955,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0464,Wedikanda,S0857,GENUINE_CUL,"internal degree-1 street end, not a boundary endpoint"
+K0465,Wedikanda,S0836,NOT_A_CUL,GN boundary endpoint created by clipping
+K0466,Wedikanda,S0795,NOT_A_CUL,GN boundary endpoint created by clipping
+K0467,Wedikanda,S0794,NOT_A_CUL,GN boundary endpoint created by clipping
+K0468,Wedikanda,S0862,NOT_A_CUL,GN boundary endpoint created by clipping
+K0469,Wedikanda,S0795,NOT_A_CUL,GN boundary endpoint created by clipping
+K0470,Wedikanda,S0793,NOT_A_CUL,GN boundary endpoint created by clipping
+K0471,Wedikanda,S0961,NOT_A_CUL,GN boundary endpoint created by clipping
+K0472,Wedikanda,S0796,NOT_A_CUL,GN boundary endpoint created by clipping
+K0473,Wedikanda,S0836,NOT_A_CUL,GN boundary endpoint created by clipping
+K0474,Wedikanda,S0792,NOT_A_CUL,GN boundary endpoint created by clipping
+K0475,Wedikanda,S0791,NOT_A_CUL,GN boundary endpoint created by clipping
+K0476,Wedikanda,S0975,NOT_A_CUL,GN boundary endpoint created by clipping
+K0477,Wedikanda,S0796,NOT_A_CUL,GN boundary endpoint created by clipping
+K0478,Wedikanda,S0790,NOT_A_CUL,GN boundary endpoint created by clipping
+K0479,Wedikanda,S0790,NOT_A_CUL,GN boundary endpoint created by clipping
+K0480,Wedikanda,S0858,NOT_A_CUL,GN boundary endpoint created by clipping
+K0481,Wedikanda,S0789,NOT_A_CUL,GN boundary endpoint created by clipping

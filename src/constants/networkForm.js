@@ -18,6 +18,15 @@ export const NETWORK_FORM_SCOPE_ALL = 'all'
 /** Default left-panel selection. */
 export const DEFAULT_NETWORK_FORM_SCOPE = 'Mount Lavinia'
 
+/** Network Form sub-tab and typology panel title (sidebar remains "Network Form"). */
+export const STREET_TYPOLOGY_TAB_LABEL = 'Street Typology'
+
+/** Three-column layout: left / map / right (Marshall Morphology and default). */
+export const NETWORK_FORM_GRID_CLASS = 'lg:grid-cols-[35%_40%_25%]'
+
+/** Street Typology tab: left −10%, right +10% vs default side columns. */
+export const STREET_TYPOLOGY_GRID_CLASS = 'lg:grid-cols-[31.5%_41%_27.5%]'
+
 export const NETWORK_FORM_ICONS = {
   four_way: {
     id: 'four_way',

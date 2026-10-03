@@ -1,0 +1,167 @@
+import { useState } from 'react'
+import { Maximize2 } from 'lucide-react'
+import {
+  MARSHALL_GN_COLORS,
+  MARSHALL_INFO_POINTS,
+  MARSHALL_INTERPRETATION,
+  MARSHALL_MATRIX_INFO,
+} from '../../../constants/marshallMorphology.js'
+import { formatStoredCount, formatStoredPercent } from '../../../utils/marshallMorphologyFormat.js'
+import FocusAreaPanelCard from '../FocusAreaPanelCard.jsx'
+import MetricInfoButton from '../MetricInfoButton.jsx'
+import MarshallGnScopeChips from './MarshallGnScopeChips.jsx'
+import MarshallMatrixChart from './MarshallMatrixChart.jsx'
+import MarshallMatrixExpandModal from './MarshallMatrixExpandModal.jsx'
+
+export default function MarshallMorphologyOverviewPanel({
+  metrics,
+  scopes = [],
+  selectedScope,
+  onSelectScope,
+  loading,
+  error,
+}) {
+  const [expanded, setExpanded] = useState(false)
+  const gnName = metrics?.gn_name ?? selectedScope
+
+  return (
+    <div className="flex flex-col gap-3 pb-2">
+      <div className="mb-3 flex items-center gap-2 border-l-4 border-primary-500 pl-3">
+        <h2 className="font-display text-lg font-semibold text-surface-50">Marshall Morphology</h2>
+        <MetricInfoButton
+          title="Marshall Morphology"
+          ariaLabel="What does Marshall Morphology show?"
+          points={MARSHALL_INFO_POINTS}
+        />
+      </div>
+
+      <MarshallGnScopeChips selectedScope={selectedScope} onSelectScope={onSelectScope} />
+
+      <p className="text-[11px] text-surface-400">
+        Structural pattern for <span className="font-semibold text-surface-200">{gnName}</span> GN
+      </p>
+
+      {loading && (
+        <div
+          className="flex min-h-[160px] items-center justify-center rounded-lg border border-surface-700 bg-surface-800 text-xs text-surface-300"
+          data-testid="marshall-loading"
+        >
+          Loading Marshall Morphology…
+        </div>
+      )}
+
+      {error && !loading && (
+        <p className="text-xs text-rose-300" data-testid="marshall-error">
+          Marshall Morphology data is not available.
+        </p>
+      )}
+
+      {!loading && !error && (
+        <>
+        <FocusAreaPanelCard className="marshall-matrix-frame flex min-h-[min(52vh,32rem)] flex-col !p-3">
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-1.5">
+              <h3 className="min-w-0 truncate font-display text-sm font-semibold text-surface-100">
+                Marshall morphology matrix
+              </h3>
+              <MetricInfoButton
+                title="Marshall morphology matrix"
+                ariaLabel="How do I read the Marshall morphology matrix?"
+                points={MARSHALL_MATRIX_INFO}
+                dialogSize="wide"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              disabled={!metrics}
+              className="inline-flex shrink-0 items-center gap-1 rounded-md border border-surface-600 px-2 py-1 text-[11px] text-surface-200 hover:bg-surface-700 disabled:opacity-40"
+              aria-label="Expand Marshall morphology matrix"
+            >
+              <Maximize2 size={12} aria-hidden />
+              Expand
+            </button>
+          </div>
+          <div className="min-h-0 flex-1 overflow-hidden">
+            <MarshallMatrixChart
+              scopes={scopes}
+              selectedName={selectedScope}
+              onSelectScope={onSelectScope}
+            />
+          </div>
+          <div
+            role="note"
+            data-testid="marshall-interpretation"
+            aria-label={`Key pattern: ${MARSHALL_INTERPRETATION}`}
+            className="mt-2 shrink-0 rounded-md border border-primary-500/45 border-l-4 border-l-primary-500 bg-primary-500/10 px-2.5 py-2"
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-primary-300">Key pattern</p>
+            <p className="line-clamp-2 break-words text-xs font-medium leading-snug text-surface-50">
+              {MARSHALL_INTERPRETATION}
+            </p>
+          </div>
+        </FocusAreaPanelCard>
+
+        <FocusAreaPanelCard className="shrink-0 !p-3">
+          <h3 className="mb-2 font-display text-sm font-semibold text-surface-100">GN Comparison</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-[11px] text-surface-200" data-testid="marshall-gn-table">
+              <thead>
+                <tr className="text-surface-400">
+                  <th className="py-1 pr-2 font-medium">GN</th>
+                  <th className="py-1 pr-2 font-medium">T</th>
+                  <th className="py-1 pr-2 font-medium">X</th>
+                  <th className="py-1 pr-2 font-medium">Cells</th>
+                  <th className="py-1 pr-2 font-medium">Culs</th>
+                  <th className="py-1 pr-2 font-medium">T-ratio</th>
+                  <th className="py-1 font-medium">Cell-ratio</th>
+                </tr>
+              </thead>
+              <tbody>
+                {scopes.map((scope) => {
+                  const selected = scope.gn_name === selectedScope
+                  return (
+                    <tr
+                      key={scope.gn_name}
+                      className={selected ? 'bg-surface-900/70 text-surface-50' : 'text-surface-300'}
+                    >
+                      <td className="py-1 pr-2">
+                        <span className="inline-flex items-center gap-1.5">
+                          <span
+                            className="inline-block h-2 w-2 rounded-full"
+                            style={{ backgroundColor: MARSHALL_GN_COLORS[scope.gn_name] }}
+                            aria-hidden
+                          />
+                          {scope.gn_name}
+                        </span>
+                      </td>
+                      <td className="py-1 pr-2 tabular-nums">{formatStoredCount(scope.counts?.n_T)}</td>
+                      <td className="py-1 pr-2 tabular-nums">{formatStoredCount(scope.counts?.n_X)}</td>
+                      <td className="py-1 pr-2 tabular-nums">
+                        {formatStoredCount(scope.counts?.n_cell_marshall)}
+                      </td>
+                      <td className="py-1 pr-2 tabular-nums">
+                        {formatStoredCount(scope.counts?.n_cul_marshall)}
+                      </td>
+                      <td className="py-1 pr-2 tabular-nums">{formatStoredPercent(scope.ratios?.T_ratio)}</td>
+                      <td className="py-1 tabular-nums">{formatStoredPercent(scope.ratios?.Cell_ratio)}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </FocusAreaPanelCard>
+        </>
+      )}
+
+      <MarshallMatrixExpandModal
+        open={expanded}
+        onClose={() => setExpanded(false)}
+        scopes={scopes}
+        selectedName={selectedScope}
+        onSelectScope={onSelectScope}
+      />
+    </div>
+  )
+}

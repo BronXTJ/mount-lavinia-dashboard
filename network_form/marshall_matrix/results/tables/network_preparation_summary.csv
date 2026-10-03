@@ -1,0 +1,17 @@
+metric,value
+generated_at,2026-09-27T03:38:03.094736+00:00
+features_before,545
+length_before_m,68712.22596050889
+fringe_parts,168
+fringe_length_m,9279.991000760143
+clipped_segments,560
+clipped_length_m,59432.23495974888
+final_segments,975
+final_length_m,59424.91199999997
+connected,452
+not_connected,0
+unknown,4
+boundary_endpoints,218
+unresolved,10
+snap_m,1.0
+snap_confidence,defensible
