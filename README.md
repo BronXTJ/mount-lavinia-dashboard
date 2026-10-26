@@ -1,92 +1,116 @@
+<div align="center">
+
+<!-- TODO: add docs/assets/banner.png -->
+
 # 🏙️ Mount Lavinia Urban Analytics Dashboard
 
-Interactive web dashboard for spatial and urban analysis along the **Galle Road corridor**, Mount Lavinia, Sri Lanka.
+**Maps, KPIs, and planning evidence for the Galle Road corridor in Mount Lavinia, Sri Lanka, in one browser tab.**
 
-The study area covers **five Grama Niladhari (GN) divisions**: Mount Lavinia, Kawdana West, Watarappala, Wathumulla, and Wedikanda.
+[![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)](package.json)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](vite.config.js)
+[![Leaflet](https://img.shields.io/badge/Leaflet-1.9-199900?logo=leaflet&logoColor=white)](package.json)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?logo=tailwindcss&logoColor=white)](tailwind.config.js)
+[![CI](https://github.com/BronXTJ/mount-lavinia-dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/BronXTJ/mount-lavinia-dashboard/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-🌐 **Live demo:** [https://bronxtj.github.io/mount-lavinia-dashboard/](https://bronxtj.github.io/mount-lavinia-dashboard/)
+[**Live demo**](https://bronxtj.github.io/mount-lavinia-dashboard/) · [**Architecture**](ARCHITECTURE.md) · [**Runbook**](docs/RUNBOOK.md) · [**Changelog**](CHANGELOG.md)
 
----
-
-## 📌 About
-
-This dashboard brings **maps, KPIs, charts, and planning evidence** into one place for the coastal Galle Road corridor. It supports studio work, presentations, and evidence-based discussion of **problems and potentials** in Mount Lavinia.
-
-- 📈 Baseline demographics, housing, and land use
-- 🕸️ Network centrality, density, and urban maturation
-- 🚶 Walk accessibility and street-network form
-- 🚗 Movement and pedestrian behaviour
-- 🌿 Land-cover change (Landsat + Sentinel-2)
-- 🌡️ Modelled thermal comfort (UTCI), urban heat, and sky view factor
-- 🔗 Integrated synthesis and issues / opportunities framing
-- ☁️ **Live weather & air quality** on the Overview map via [Open-Meteo](https://open-meteo.com/)
-
-Plain-language **info panels** are available throughout the app (look for the teal **ⓘ** buttons). An in-app **User Guide** lives at the bottom of the sidebar.
+</div>
 
 ---
 
-## 🧭 Dashboard sections
+## Contents
 
-| Section | What you'll find |
-|--------|-------------------|
-| **Overview** | KPIs, GN selection, population structure, land-use mix, interactive map, live Open-Meteo |
-| **Focus Area · Centrality** | Closeness & betweenness at 500 / 2000 / 3000 / 5000 m; street colouring; What-if sketch & option compare |
-| **Focus Area · Density** | Hex-grid FSI, GSI, OSR, typology, and land-use mix |
-| **Focus Area · Urban Maturation** | UMI, Shannon entropy, accessibility, and related hex metrics |
-| **Focus Area · Walk Accessibility** | Access score, access tier, and walk-time by destination group |
-| **Focus Area · Network Form** | 4-way / 3-way / cul-de-sac typology, stub depth, GN scope |
-| **Movement & Behaviour** | Junction volumes, pedestrian flows, vehicle mix, day & time filters |
-| **Land Cover Change** | Landsat 30 m epochs (~2000 / ~2015 / ~2025) plus Sentinel-2 10 m per-GN metrics |
-| **Environmental Analysis** | 10 m grid UTCI / UHI / air temp / Tmrt / shadow / SVF with map-linked panels |
-| **Synthesis** | Story spine, relationships graph, finding catalog (F · WA · NF · LC · MB) |
-| **Issues & Potentials** | Network view, SWOT, PESTEL, SFA-style assessment |
-| **Export Maps** | Preview & download maps, GeoJSON, and rasters for Overview, Centrality, Density, Urban Maturation, and Environmental |
-
-🗺️ **Maps:** Use the floating layer button (FAB) to toggle layers. Switch **Streets** or **Satellite** on most maps (Network Form uses **Dark** + Streets; Land Cover defaults to Satellite). Click a GN, hex, street, or junction to inspect values. Enlarge maps with the fullscreen control.
-
-🔎 **Key Findings** chips on analysis tabs jump straight into Synthesis.
-
-📱 **Responsive layout:** Below 1024px width, map-heavy views **stack vertically** (map first). Navigation uses a **mobile overlay sidebar**.
+- [Why](#-why)
+- [Highlights](#-highlights)
+- [Screenshots](#️-screenshots)
+- [How it works](#-how-it-works)
+- [Architecture](#️-architecture)
+- [Getting started](#-getting-started)
+- [Testing](#-testing)
+- [Repository layout](#️-repository-layout)
+- [Data and sources](#️-data-and-sources)
+- [Documentation](#-documentation)
+- [Limitations](#-limitations)
+- [Author](#-author)
+- [Licence](#-licence)
 
 ---
 
-## ✏️ What-if (Centrality)
+## 🧭 Why
 
-On **Focus Area → Centrality**, switch to **What-if** to sketch proposed street links and compare options against the baseline network.
+Studio evidence for the Galle Road corridor usually sits across QGIS projects, spreadsheets, and slides. This dashboard puts it on one page. The study area is five Grama Niladhari (GN) divisions: Mount Lavinia, Kawdana West, Watarappala, Wathumulla, and Wedikanda. It supports studio work, presentations, and discussion of problems and potentials.
 
-Live closeness / betweenness recompute needs a **local sDNA worker**. GitHub Pages cannot host sDNA; the hosted demo can still open What-if and (in Chrome, after **Connect**) talk to a worker at `http://127.0.0.1:8787`.
+---
 
-```bash
-pip install -r scripts/what-if/api/requirements.txt
-npm run what-if:worker
+## ✨ Highlights
+
+| | Section | What it shows |
+|---|---|---|
+| 📈 | **Overview** | KPIs, GN selection, population structure, land-use mix, map, live weather and air quality from Open-Meteo |
+| 🕸️ | **Focus Area · Centrality** | Closeness and betweenness at 500 / 2000 / 3000 / 5000 m; What-if sketch and option compare |
+| 🏢 | **Focus Area · Density** | Hex-grid FSI, GSI, OSR, typology, land-use mix |
+| 🌱 | **Focus Area · Urban Maturation** | UMI, Shannon entropy, accessibility |
+| 🚶 | **Focus Area · Walk Accessibility** | Access score, tier, walk time by destination group |
+| 🛣️ | **Focus Area · Network Form** | 4-way / 3-way / cul-de-sac typology, stub depth |
+| 🚗 | **Movement & Behaviour** | Junction volumes, pedestrian flows, vehicle mix, day and time filters |
+| 🌿 | **Land Cover Change** | Landsat 30 m (~2000 / ~2015 / ~2025) and Sentinel-2 10 m per-GN metrics |
+| 🌡️ | **Environmental** | 10 m grid UTCI, UHI, air temperature, Tmrt, shadow, sky view factor |
+| 🔗 | **Synthesis** | Story spine, relationships graph, finding catalogue |
+| ⚖️ | **Issues & Potentials** | SWOT, PESTEL, SFA-style assessment |
+| 🗺️ | **Export Maps** | Download maps, GeoJSON, and rasters |
+| 🧩 | **Land Use** | The route exists; charts are a placeholder ("coming soon") |
+
+Teal **ⓘ** buttons open plain-language notes. A User Guide sits at the bottom of the sidebar. Below 1024 px width, map views stack vertically and the sidebar becomes an overlay.
+
+---
+
+## 🖼️ Screenshots
+
+<!-- TODO: add captured images to docs/screenshots/ (overview, centrality, environmental, land cover, synthesis) -->
+
+---
+
+## 🔁 How it works
+
+```mermaid
+flowchart LR
+  src["json_files/ (Excel + QGIS exports)"] --> prep["npm run prepare-data"]
+  prep --> data["public/data/ + src/data/"]
+  prep --> man["manifest.json (?v=hash)"]
+  data --> app["React SPA on GitHub Pages"]
+  meteo["Open-Meteo (no key)"] --> app
+  app -. "What-if, optional" .-> worker["Local sDNA worker 127.0.0.1:8787"]
 ```
 
-Then open Centrality → What-if, connect the worker, and draw a link. Without the worker, you can export proposed GeoJSON for offline runs.
-
-Details: [`scripts/what-if/README.md`](scripts/what-if/README.md).
+The browser only reads prepared JSON, GeoJSON, and rasters. Analysis is done offline. What-if is the exception: it needs a local sDNA worker.
 
 ---
 
-## 🛠️ Tech stack
+## 🏗️ Architecture
 
-| Layer | Tools |
-|-------|--------|
-| UI | **React 19**, **Vite 8**, **Tailwind CSS**, **Lucide** |
-| Routing | **React Router** |
-| Maps | **Leaflet**, **react-leaflet**, **GeoTIFF** |
-| Charts | **Recharts**, **D3** |
-| Data | **GeoJSON** + prepared JSON (runtime) |
+| Layer | Technology |
+|---|---|
+| UI | React 19, Vite 8, Tailwind CSS 3, Lucide |
+| Routing | React Router 7, lazy-loaded tabs, error boundaries |
+| Maps | Leaflet, react-leaflet, geotiff |
+| Charts | Recharts, D3 |
+| Data client | `src/lib/dataClient.js` (cache, dedupe, abort, `?v=` hash) |
+| What-if worker | Python FastAPI + sDNA, pairing token, 10-minute timeout |
+
+More detail: [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 ---
 
 ## 🚀 Getting started
 
-### Prerequisites
+### Use it online
 
-- **Node.js** 18+ (LTS recommended)
-- **npm**
+Open <https://bronxtj.github.io/mount-lavinia-dashboard/>.
 
-### Install & run locally
+### Run from a clone
+
+Node.js 22 is what CI uses.
 
 ```bash
 git clone https://github.com/BronXTJ/mount-lavinia-dashboard.git
@@ -97,100 +121,126 @@ npm run dev
 
 Open the URL from the terminal (usually `http://localhost:5173/mount-lavinia-dashboard/`).
 
-### 🔄 Regenerate web data (optional)
+Optional variables (copy [`.env.example`](.env.example) to `.env.local`):
 
-If you update sources under `json_files/` (Excel + QGIS exports):
+| Variable | Purpose |
+|---|---|
+| `VITE_CARTO_API_KEY` | CARTO dark basemap key, baked in at build time |
+| `VITE_WHAT_IF_WORKER_TOKEN` | Pre-fills the What-if worker pairing token |
+
+### What-if worker (optional)
 
 ```bash
-npm run prepare-data
+pip install -r scripts/what-if/api/requirements.txt
+npm run what-if:worker
 ```
 
-Outputs go to `src/data/` and `public/data/`. Focus Area, Land Cover, and Environmental tabs need the prepared layers in `public/data/`. The script also writes `public/data/manifest.json` and `src/data/assetManifest.json` so the app can cache-bust layer URLs. To refresh hashes without regenerating layers:
+Open Centrality → What-if, then **Connect**. Without the worker you can still export proposed links as GeoJSON. Details: [`scripts/what-if/README.md`](scripts/what-if/README.md).
+
+### Regenerate data (optional)
 
 ```bash
-npm run data:manifest
+npm run prepare-data   # json_files/ → src/data/ + public/data/ + manifest
+npm run data:manifest  # refresh hashes only
 ```
 
-### 📦 Production build
+### Build and deploy
 
 ```bash
 npm run build
 npm run preview
+npm run deploy         # gh-pages branch (the live path)
 ```
 
-### 🚢 Deploy to GitHub Pages
-
-```bash
-npm run deploy
-```
-
-Uses `gh-pages` and `base: '/mount-lavinia-dashboard/'` in `vite.config.js`. This is still the live deploy path. An Actions workflow exists (`.github/workflows/deploy.yml`) but Pages should stay on the `gh-pages` branch until you switch it on purpose — see `docs/PHASE4_DECISIONS.md`.
+> [!NOTE]
+> `.github/workflows/deploy.yml` exists, but Pages is served from the `gh-pages` branch. See [`docs/PHASE4_DECISIONS.md`](docs/PHASE4_DECISIONS.md).
 
 ---
 
-## 📁 Project structure
+## 🧪 Testing
 
-```
+| Command | What it covers |
+|---|---|
+| `npm run lint` | ESLint (React, hooks, jsx-a11y) |
+| `npm test` | Vitest unit tests |
+| `npm run test:e2e` | Playwright route smoke tests with golden screenshots |
+| `npm run format:check` | Prettier |
+
+CI ([`ci.yml`](.github/workflows/ci.yml)) runs lint, test, and build on Ubuntu, and the Playwright suite on Windows, both with Node.js 22.
+
+---
+
+## 🗂️ Repository layout
+
+```text
 mount-lavinia-dashboard/
-├── public/data/              # GeoJSON, rasters, and summaries served to the browser
-├── public/exports/           # Static map images for Export Maps
+├── public/data/        GeoJSON, rasters, summaries served to the browser
+├── public/exports/     Static map images for Export Maps
 ├── src/
-│   ├── components/           # Maps, panels, synthesis, issues, land cover, environmental UI
-│   ├── tabs/                 # Main route pages
-│   ├── features/             # Movement & behaviour module
-│   ├── hooks/                # Data loading & UI helpers
-│   ├── data/                 # JSON from prepare-data
-│   └── constants/            # Layers, metrics, copy
-├── scripts/
-│   ├── prepare-data.mjs      # GIS / Excel → web-friendly pipeline
-│   └── what-if/              # Local sDNA worker for Centrality What-if
-└── json_files/               # Source GIS & Excel (when included in your clone)
+│   ├── tabs/           One file per route
+│   ├── components/     Maps, panels, synthesis, issues, land cover, environmental
+│   ├── features/       Movement & behaviour module
+│   ├── hooks/          Layer loaders
+│   ├── lib/            dataClient
+│   ├── constants/      Layers, ramps, copy
+│   └── data/           JSON from prepare-data
+├── scripts/            prepare-data, manifest, What-if worker
+├── e2e/  tests/        Playwright and Vitest
+├── docs/               RUNBOOK, PHASE4_DECISIONS
+└── json_files/         Source GIS and Excel (partly local-only)
 ```
-
-📂 **`Social_media_analysis/`** (if present locally) is a **separate assignment** and is not in the GitHub repo.
 
 ---
 
-## 🗄️ Data & external APIs
+## 🗄️ Data and sources
 
 | Source | Role |
-|--------|------|
-| Studio GIS + `chalani database.xlsx` | Demographics, boundaries, land use (`npm run prepare-data`) |
+|---|---|
+| Studio GIS + `chalani database.xlsx` | Demographics, boundaries, land use |
 | `public/data/` | Precomputed centrality, density, maturation, walk access, network form, land cover, environmental grids |
-| [Open-Meteo Forecast](https://open-meteo.com/) | Live temperature, humidity, wind, precipitation, UV, feels-like (Overview) |
-| [Open-Meteo Air Quality](https://open-meteo.com/en/docs/air-quality-api) | Live US AQI and PM2.5 (Overview) |
-| OpenStreetMap / Esri World Imagery | Streets and satellite basemaps |
+| [Open-Meteo](https://open-meteo.com/) forecast and air quality | Live weather, US AQI, PM2.5 on Overview |
+| OpenStreetMap, Esri World Imagery, CARTO | Basemaps |
 
-No API key is required for Open-Meteo client requests from the browser.
+> [!IMPORTANT]
+> Landsat 30 m corridor percentages and Sentinel-2 10 m per-GN percentages are different products; do not mix them. On Sentinel-2 cards, Green is a subset of Soft. GeoJSON exports are WGS 84; the shadow raster is SLD99 (EPSG:5235).
 
-🌿 **Land cover:** Corridor-wide Landsat 30 m percentages and per-GN Sentinel-2 10 m percentages are different products — do not mix them. Green is a subset of Soft on the Sentinel-2 cards; do not add those two together.
+---
 
-📐 **Export CRS:** GeoJSON downloads are WGS 84. Most rasters are WGS 84; the shadow aggregated raster is SLD99 (EPSG:5235). Centrality export maps include closeness and betweenness at 500, 1000, 2000, 3000, 4000, and 5000 m.
+## 📚 Documentation
+
+| Document | Description |
+|---|---|
+| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Runtime shape, data flow, routes |
+| [`docs/RUNBOOK.md`](docs/RUNBOOK.md) | What-if token, deploy paths |
+| [`docs/PHASE4_DECISIONS.md`](docs/PHASE4_DECISIONS.md) | What shipped and what is deferred |
+| [`CHANGELOG.md`](CHANGELOG.md) | 0.1.0 and Unreleased |
+
+---
+
+## ⚠️ Limitations
+
+- **Land Use** is a placeholder page.
+- **What-if recompute** needs a local sDNA worker. GitHub Pages cannot host it.
+- **Analysis is precomputed.** The dashboard does not re-run GIS models in the browser.
+- **Some source data is local-only** (part of `json_files/`, condominium inventory, research folders) and is not published.
+- The thermal grid is about 9.7 MB, so the Environmental tab can be slow on first load.
+- Unknown routes are served via a `404.html` copy of `index.html`: deep links work but return HTTP 404.
 
 ---
 
 ## 👤 Author
 
-**Thanuja Senarathne**
+**Thanuja Lakshan Senarathne**, BSc (Hons) Urban Informatics & Planning, University of Moratuwa
+[@BronXTJ](https://github.com/BronXTJ) · [LinkedIn](https://www.linkedin.com/in/thanuja-senarathne-1122a828b) · [Email](mailto:thanujals1781@gmail.com)
 
-Undergraduate — BSc (Hons) in Urban Informatics & Planning, University of Moratuwa
-
-- 🐙 GitHub: [@BronXTJ](https://github.com/BronXTJ)
-- 💼 LinkedIn: [thanuja-senarathne](https://www.linkedin.com/in/thanuja-senarathne-1122a828b)
-- ✉️ Email: [thanujals1781@gmail.com](mailto:thanujals1781@gmail.com)
-
-### ✏️ Development note
-
-The information architecture was **sketched on paper first**, then implemented in **[Cursor](https://cursor.com/)** with AI-assisted coding (e.g. Composer, Claude Sonnet/Opus, Grok). **Design choices, data interpretation, testing, and final code** are the author's responsibility.
+The information architecture was sketched on paper first, then built in [Cursor](https://cursor.com/) with AI-assisted coding. Design choices, data interpretation, testing, and final code are the author's responsibility.
 
 ---
 
-## ⚖️ License & reuse
+## 📜 Licence
 
-Academic / studio project. If you reuse code or ideas, please **credit the author** and confirm you have rights to any underlying spatial datasets.
+Code is released under the [MIT License](LICENSE). Copyright (c) 2026 Thanuja Lakshan Senarathne.
 
----
+Spatial datasets, studio GIS and Excel sources, OpenStreetMap (ODbL), Esri, CARTO, and Open-Meteo keep their owners' terms. Confirm you have rights to any underlying data before reuse.
 
-<p align="center">
-  <sub>Mount Lavinia · Galle Road Corridor · Sri Lanka 🇱🇰</sub>
-</p>
+<div align="center"><sub>Mount Lavinia · Galle Road Corridor · Sri Lanka 🇱🇰</sub></div>
